@@ -18,6 +18,23 @@
 *.Rhistory
 Thumbs.db
 
+------------------------------------
+# Aced install directory & other build dirs
+#------------------------------------
+Makefile
+Testing/
+installed/
+install_manifest.txt
+main/Makefile
+main/**/Makefile
+main/cpp/stride
+main/python/pystride/stride
+main/python/stride.py
+main/resources/data_zip
+test/**/Makefile
+test/cpp/btester/btester
+test/cpp/gtester/gtester
+
 #------------------------------------
 # Local make config & build directory
 #------------------------------------
