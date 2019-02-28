@@ -16,4 +16,3 @@ We are team 'Aced'. The members are:
 * [Igor Schittekat](https://www.github.com/IgorSchittekat)
 
 We have a site available [here](https://kasperengelen.github.io/stride/)
-
