@@ -20,10 +20,10 @@
 
 #include "SimBuilder.h"
 
+#include "contact/ContactType.h"
 #include "contact/InfectorMap.h"
 #include "disease/DiseaseSeeder.h"
 #include "disease/HealthSeeder.h"
-#include "pool/ContactPoolType.h"
 #include "pop/SurveySeeder.h"
 #include "sim/Sim.h"
 #include "util/FileSys.h"
@@ -35,24 +35,24 @@ namespace stride {
 using namespace boost::property_tree;
 using namespace std;
 using namespace util;
-using namespace ContactPoolType;
+using namespace ContactType;
 
-SimBuilder::SimBuilder(const ptree& configPt) : m_config_pt(configPt) {}
+SimBuilder::SimBuilder(const ptree& configPt) : m_config(configPt) {}
 
 shared_ptr<Sim> SimBuilder::Build(shared_ptr<Sim> sim, shared_ptr<Population> pop)
 {
         // --------------------------------------------------------------
         // Read config info and setup random number manager
         // --------------------------------------------------------------
-        sim->m_config_pt                     = m_config_pt;
+        sim->m_config                     = m_config;
         sim->m_population                    = std::move(pop);
-        sim->m_track_index_case              = m_config_pt.get<bool>("run.track_index_case");
-        sim->m_adaptive_symptomatic_behavior = m_config_pt.get<bool>("run.adaptive_symptomatic_behavior", true);
-        sim->m_num_threads                   = m_config_pt.get<unsigned int>("run.num_threads");
-        sim->m_calendar                      = make_shared<Calendar>(m_config_pt);
-        sim->m_contact_log_mode = ContactLogMode::ToMode(m_config_pt.get<string>("run.contact_log_level", "None"));
+        sim->m_track_index_case              = m_config.get<bool>("run.track_index_case");
+        sim->m_adaptive_symptomatic_behavior = m_config.get<bool>("run.adaptive_symptomatic_behavior", true);
+        sim->m_num_threads                   = m_config.get<unsigned int>("run.num_threads");
+        sim->m_calendar                      = make_shared<Calendar>(m_config);
+        sim->m_contact_log_mode = ContactLogMode::ToMode(m_config.get<string>("run.contact_log_level", "None"));
         sim->m_rn_manager.Initialize(
-            RnMan::Info{m_config_pt.get<string>("run.rng_seed", "1,2,3,4"), "", sim->m_num_threads});
+            RnMan::Info{m_config.get<string>("run.rng_seed", "1,2,3,4"), "", sim->m_num_threads});
 
         // --------------------------------------------------------------
         // Contact handlers, each with generator bound to different
@@ -77,12 +77,12 @@ shared_ptr<Sim> SimBuilder::Build(shared_ptr<Sim> sim, shared_ptr<Population> po
         // Initialize the transmission profile (fixes rates).
         // --------------------------------------------------------------
         const auto diseasePt = ReadDiseasePtree();
-        sim->m_transmission_profile.Initialize(m_config_pt, diseasePt);
+        sim->m_transmission_profile.Initialize(m_config, diseasePt);
 
         // --------------------------------------------------------------
         // Initialize the public health agency (fixes detection probability).
         // --------------------------------------------------------------
-        const double detection_probability = m_config_pt.get<double>("run.case_detection_probability", 0.0);
+        const double detection_probability = m_config.get<double>("run.case_detection_probability", 0.0);
         sim->m_public_health_agency.Initialize(detection_probability);
 
         // --------------------------------------------------------------
@@ -93,12 +93,12 @@ shared_ptr<Sim> SimBuilder::Build(shared_ptr<Sim> sim, shared_ptr<Population> po
         // --------------------------------------------------------------
         // Seed population with immunity/vaccination/infection.
         // --------------------------------------------------------------
-        DiseaseSeeder(m_config_pt, sim->m_rn_manager).Seed(sim->m_population);
+        DiseaseSeeder(m_config, sim->m_rn_manager).Seed(sim->m_population);
 
         // --------------------------------------------------------------
         // Seed population with survey participants.
         // --------------------------------------------------------------
-        SurveySeeder(m_config_pt, sim->m_rn_manager).Seed(sim->m_population);
+        SurveySeeder(m_config, sim->m_rn_manager).Seed(sim->m_population);
 
         // --------------------------------------------------------------
         // Done.
@@ -108,15 +108,15 @@ shared_ptr<Sim> SimBuilder::Build(shared_ptr<Sim> sim, shared_ptr<Population> po
 
 ptree SimBuilder::ReadAgeContactPtree()
 {
-        const auto fn = m_config_pt.get<string>("run.age_contact_matrix_file", "contact_matrix.xml");
-        const auto fp = m_config_pt.get<bool>("run.use_install_dirs") ? FileSys::GetDataDir() /= fn : filesys::path(fn);
+        const auto fn = m_config.get<string>("run.age_contact_matrix_file", "contact_matrix.xml");
+        const auto fp = m_config.get<bool>("run.use_install_dirs") ? FileSys::GetDataDir() /= fn : filesys::path(fn);
         return FileSys::ReadPtreeFile(fp);
 }
 
 ptree SimBuilder::ReadDiseasePtree()
 {
-        const auto fn = m_config_pt.get<string>("run.disease_config_file");
-        const auto fp = m_config_pt.get<bool>("run.use_install_dirs") ? FileSys::GetDataDir() /= fn : filesys::path(fn);
+        const auto fn = m_config.get<string>("run.disease_config_file");
+        const auto fp = m_config.get<bool>("run.use_install_dirs") ? FileSys::GetDataDir() /= fn : filesys::path(fn);
         return FileSys::ReadPtreeFile(fp);
 }
 

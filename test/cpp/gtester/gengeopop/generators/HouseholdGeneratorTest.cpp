@@ -13,16 +13,19 @@
  *  Copyright 2018, Jan Broeckhove and Bistromatics group.
  */
 
-#include "gengeopop/generators/HouseholdGenerator.h"
+#include "geopop/generators/HouseholdGenerator.h"
 #include "../../createlogger.h"
-#include "gengeopop/Household.h"
-#include "gengeopop/Location.h"
+#include "geopop/GeoGrid.h"
+#include "geopop/GeoGridConfig.h"
+#include "geopop/Household.h"
+#include "geopop/Location.h"
+#include "pop/Population.h"
 #include "util/RnMan.h"
 
 #include <gtest/gtest.h>
 
 using namespace std;
-using namespace gengeopop;
+using namespace geopop;
 using namespace stride;
 using namespace stride::util;
 

@@ -19,12 +19,12 @@
 # Copy scripts to the bin folder.
 #================================================================================================
 INSTALL(FILES
-		measlesStochasticity.py
-		measlesStochasticityPlots.py
-		runmeasles.py
-		graphutil.py
-	DESTINATION ${BIN_INSTALL_LOCATION}
-	PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_WRITE GROUP_READ
-)
+        measlesClusteringER.py
+        measlesClusteringERPostProcessing.py
+        measlesClustering.py
+        measlesClusteringPostProcessing.py
+    DESTINATION ${BIN_INSTALL_LOCATION}
+    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_WRITE GROUP_READ
+    )
 
 #################################################################################################

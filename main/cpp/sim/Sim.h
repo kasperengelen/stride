@@ -26,7 +26,6 @@
 #include "contact/InfectorExec.h"
 #include "contact/TransmissionProfile.h"
 #include "disease/PublicHealthAgency.h"
-#include "util/RnMan.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <string>
@@ -35,6 +34,10 @@ namespace stride {
 
 class Calendar;
 class Population;
+
+namespace util {
+class RnMan;
+}
 
 /**
  * Simulator can time step and reveal some of the key data.
@@ -71,7 +74,7 @@ public:
         /// Get the Sim configuration for the given attribute.
         std::string GetConfigValue(const std::string& attribute) const
         {
-                return m_config_pt.get<std::string>(attribute);
+                return m_config.get<std::string>(attribute);
         }
 
         /// Get the stored transmission rate.
@@ -88,22 +91,25 @@ private:
         friend class SimBuilder;
 
 private:
-        boost::property_tree::ptree m_config_pt;                     ///< Configuration property tree
+        boost::property_tree::ptree m_config;                        ///< Configuration property tree
         ContactLogMode::Id          m_contact_log_mode;              ///< Specifies contact/transmission logging mode.
         unsigned int                m_num_threads;                   ///< The number of (OpenMP) threads.
         bool                        m_track_index_case;              ///< General simulation or tracking index case.
         bool                        m_adaptive_symptomatic_behavior; ///< Should symptomatic cases stay home?
 
-        std::shared_ptr<Calendar>    m_calendar;         ///< Management of calendar.
-        AgeContactProfiles           m_contact_profiles; ///< Contact profiles w.r.t age.
-        std::vector<ContactHandler>  m_handlers;         ///< Contact handlers (rng & rates).
-        InfectorExec*                m_infector;         ///< Executes contacts/transmission loops in contact pool.
-        std::shared_ptr<Population>  m_population;       ///< Pointer to the Population.
-        util::RnMan&                 m_rn_manager;       ///< Random number generation management.
-        std::shared_ptr<util::RnMan> m_rn_manager_ptr =
-            nullptr; ///< Used when created from the Python environment to keep it from being destructed.
+        std::shared_ptr<Calendar>   m_calendar;         ///< Management of calendar.
+        AgeContactProfiles          m_contact_profiles; ///< Contact profiles w.r.t age.
+        std::vector<ContactHandler> m_handlers;         ///< Contact handlers (rng & rates).
+        InfectorExec*               m_infector;         ///< Executes contacts/transmission loops in contact pool.
+        std::shared_ptr<Population> m_population;       ///< Pointer to the Population.
+        util::RnMan&                m_rn_manager;       ///< Random number generation management.
+
         TransmissionProfile m_transmission_profile; ///< Profile of disease.
         PublicHealthAgency  m_public_health_agency; ///< Agency to implement reactive strategies.
+
+private:
+        ///< Used when created from the Python environment to prevent it from being destructed.
+        std::shared_ptr<util::RnMan> m_rn_manager_ptr = nullptr;
 };
 
 } // namespace stride

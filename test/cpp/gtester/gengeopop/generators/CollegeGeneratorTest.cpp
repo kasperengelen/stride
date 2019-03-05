@@ -13,17 +13,20 @@
  *  Copyright 2018, Jan Broeckhove and Bistromatics group.
  */
 
-#include "gengeopop/generators/CollegeGenerator.h"
+#include "geopop/generators/CollegeGenerator.h"
 #include "../../createlogger.h"
-#include "gengeopop/College.h"
-#include "gengeopop/Location.h"
-#include "gengeopop/generators/K12SchoolGenerator.h"
+#include "geopop/College.h"
+#include "geopop/GeoGrid.h"
+#include "geopop/GeoGridConfig.h"
+#include "geopop/Location.h"
+#include "geopop/generators/K12SchoolGenerator.h"
+#include "pop/Population.h"
 #include "util/RnMan.h"
 
 #include <gtest/gtest.h>
 
 using namespace std;
-using namespace gengeopop;
+using namespace geopop;
 using namespace stride;
 using namespace stride::util;
 
