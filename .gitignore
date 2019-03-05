@@ -18,7 +18,7 @@
 *.Rhistory
 Thumbs.db
 
-------------------------------------
+#------------------------------------
 # Aced install directory & other build dirs
 #------------------------------------
 Makefile
