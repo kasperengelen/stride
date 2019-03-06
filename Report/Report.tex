@@ -88,23 +88,21 @@ In order to make assumptions about the population's immunity level, we look at t
 
 
 \subsection{Estimating $R_{0}$}
-Placeholder
+Now that we have a relatively decent estimate for the immunity level of the population, we can do an analogous exercise to estimate $R_0$. For this data, we fixed the immunity level to 70.5\%. Figure \ref{R0EstPlot} (a) shows the plot for each possible $R_0$ in the range $[12, 18]$ (average over 20 simulations). It's clear that the best candidates are 14, 15 or potentially 16. When we plot a more detailed plot for just those valued (average over 30 different simulations), it seems 15 is the best estimate for $R_0$.
 
-\begin{table}
-\caption{Table captions should be placed above the
-tables.}\label{tab1}
-\begin{tabular}{|l|l|l|}
-\hline
-Heading level &  Example & Font size and style\\
-\hline
-Title (centered) &  {\Large\bfseries Lecture Notes} & 14 point, bold\\
-1st-level heading &  {\large\bfseries 1 Introduction} & 12 point, bold\\
-2nd-level heading & {\bfseries 2.1 Printing Area} & 10 point, bold\\
-3rd-level heading & {\bfseries Run-in Heading in Bold.} Text follows & 10 point, bold\\
-4th-level heading & {\itshape Lowest Level Heading.} Text follows & 10 point, italic\\
-\hline
-\end{tabular}
-\end{table}
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{R0_all_20runs.eps}
+		\caption{Overview of all potential $R_0$'s.} 	
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{R0_detail_30runs.eps}
+		\caption{More detailed look at $R_0$ candidates.} 
+	\end{subfigure}
+	\label{R0EstPlot}
+	\caption{Plots for various values for $R_0$}
+\end{figure}
 
 
 \noindent Displayed equations are centered and set on a separate
@@ -126,24 +124,5 @@ propositions, and corollaries are styled the same way.
 Proofs, examples, and remarks have the initial word in italics,
 while the following text appears in normal font.
 \end{proof}
-For citations of references, we prefer the use of square brackets
-and consecutive numbers. Citations using labels or the author/year
-convention are also acceptable. The following bibliography provides
-a sample reference list with entries for journal
-articles~\cite{ref_article1}, an LNCS chapter~\cite{ref_lncs1}, a
-book~\cite{ref_book1}, proceedings without editors~\cite{ref_proc1},
-and a homepage~\cite{ref_url1}. Multiple citations are grouped
-\cite{ref_article1,ref_lncs1,ref_book1},
-\cite{ref_article1,ref_book1,ref_proc1,ref_url1}.
-%
-% ---- Bibliography ----
-%
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
-% \bibliographystyle{splncs04}
-% \bibliography{mybibliography}
-%
-\begin{thebibliography}{8}
-\end{thebibliography}
+
 \end{document}
