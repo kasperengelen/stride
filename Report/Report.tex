@@ -5,6 +5,10 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -43,7 +47,23 @@ This document reports our findings regarding the final dissertation. The section
 %
 \section{Simulation}
 \subsection{Stochastic Variation}
-The first topic we consider is stochastic variation. Since the simulation uses a pseudo-random number generator, it's useful to inspect the influence of this stochasticity on the results of the simulation. Using the Stan tool which is provided with Stride, we collected data on 100 simulations with an identical configuration file. The only difference between executions is the RNG seed. When plotting the results, it becomes apparent that the amount of new cases per day follows a normal distribution. For the data we collected, we calculated a  mean of 33.33 new cases per day, and a variance of 1196.99. Looking at the plot for the cumulative cases per day, two 'categories' can be distinguished:  'outbreak' scenarios and 'extinction' scenarios. These cases are quite evenly spread, which explains the high variance for new cases per day. In the former, the curve has a sigmoid shape, indicating that the disease succesfully spread among the population. The latter scenario corresponds to the curves that are almost constant and are bounded by a value well under the population size. In these cases, the disease did not manage to spread, resulting in only a few infected people at the end of the simulation. This is likely explained by the initial infectation: if the first person to be infected is sufficiently isolated (either socially or by being surrounded by people who are immune), the disease doesn't have a chance to spread.
+The first topic we consider is stochastic variation. Since the simulation uses a pseudo-random number generator, it's useful to inspect the influence of this stochasticity on the results of the simulation. Using the Stan tool which is provided with Stride, we collected data on 100 simulations with an identical configuration file. The only difference between executions is the RNG seed. When plotting the results, it becomes apparent that the amount of new cases per day follows a normal distribution. For the data we collected, we calculated a  mean of 33.33 new cases per day, and a variance of 1196.99. Looking at the plot for the cumulative cases per day, two 'categories' can be distinguished:  'outbreak' scenarios and 'extinction' scenarios. These cases are quite evenly spread, which explains the high variance for new cases per day. In the former, the curve has a sigmoid shape, indicating that the disease succesfully spread among the population. The latter scenario corresponds to the curves that are almost constant and are bounded by a value well under the population size. In these cases, the disease did not manage to spread, resulting in only a few infected people at the end of the simulation. This is likely explained by the initial infectation: if the first person to be infected is sufficiently isolated (either socially or by being surrounded by people who are immune), the disease doesn't have a chance to spread.\\
+Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases plot the 'extinction' senario is clearly visible at the bottom. The plot for new cases per day is very jagged, which can also be explained by the stochastic nature of the simulation.
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\linewidth]{cases_cum.eps}
+		\caption{Cumulative cases per day.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\linewidth]{cases_per_day.eps}
+		\caption{New cases per day.}
+	\end{subfigure}
+	\label{casesPlots}
+	\caption{Plots using different seeds}
+\end{figure}
+
 
 \subsection{Extinction Threshold}
 As discussed previously, it might be the case that only very few people become infected over the course of a simulation. This is referred to as extinction. There is a clear distinction between outbreaks and extinctions, so in this subsection we attempt to find an \emph{extinction threshold}.
@@ -51,14 +71,21 @@ As discussed previously, it might be the case that only very few people become i
 \paragraph{}
 Figure \ref{ETHist} gives the frequencies of the amount of infected people at the end of the simulations. The distinction between outbreaks and extinctions is quite clear from this histogram. There is one peak on the lower end of the x-axis, and there is a cluster on the higher-end.
 
-\begin{figure}
+\begin{figure}[!h]
 \includegraphics[width=\textwidth]{Hist.eps}
 \caption{Histogram showing the total amount of cases.} 
 \label{ETHist}
 \end{figure}
 
 \subsection{Immunity Level}
-Placeholder
+In order to make assumptions about the population's immunity level, we look at the simulated results for different values. Upon experimentation, it becomes apparent the immunity level is approximately 70\% of the population. Figure \ref{immLvlPlot} shows the average new cases per day for different immunity levels. The reference curve is also included. This plot was generated by taking the average of new cases per day over 20 simulations per immunity level. Using PyStride to simulate outbreaks, we narrowed down the immunity $I$ level to \( 70.5 \leq I \leq 71.75 \).
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{ImmLvl.eps}
+\caption{New cases per day for different immunity levels.} 
+\label{immLvlPlot}
+\end{figure}
+
 
 \subsection{Estimating $R_{0}$}
 Placeholder
