@@ -6,7 +6,7 @@ import sys
 
 from pystride.Event import Event, EventType
 from pystride.PyController import PyController
-from pystride.stride.pystride import ToId, ToString, NumOfTypes
+from pystride.stride.pystride import ToId, ToString, NumOfTypes, Id_College
 
 def vaccinate(simulator, event):
     if event.timestep == 7:
@@ -15,14 +15,12 @@ def vaccinate(simulator, event):
        
         tot_count = 0
         tot_student_count = 0        
-
-        appel = ToString(2)
-        print(appel)
-
         for pIndex in range(pop.size()):
             # No idea if this works
             person = pop[pIndex]          
-            poolId = 2
+            poolID = pop[pIndex].getPoolID(Id_College)
+            print(poolID)
+            if poolID
 
             if person.GetAge() >= 18 and person.GetAge() <= 26:
                 tot_count += 1
