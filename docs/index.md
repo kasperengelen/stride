@@ -5,6 +5,9 @@
 This page serves as overview for the final project of the Computer Science bachelor. 
 As the project progresses, more data will become available here. Contact info is available at the bottom of the page.
 
+### Progress
+[Simulation assignments](https://kasperengelen.github.io/stride/simulation)
+
 ### Contact
 
 
