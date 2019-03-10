@@ -17,14 +17,14 @@ do
 done 
 
 # immunity rate
-for i in 
+for i in 0.2 0.4 0.6 0.8 0.99
 do
         ./bin/stride -c run_generate_default.xml -o immunity_rate=$i
         gprof ./bin/stride gmon.out > gprof/immunity_bench_$i.txt
 done 
 
 # seeding rate
-for i in 
+for i in 0.02 0.002 0.0002 0.00002
 do
         ./bin/stride -c run_generate_default.xml -o seeding_rate=$i
         gprof ./bin/stride gmon.out > gprof/seeding_bench_$i.txt
