@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+\begin{document}
+
+\section{Performance profiling}
+Using GProf, we will look at the performance in different scenarios. By varying parameters, we try to see which parts of the code they have an influence on, and which parts take up the most time. 
+\\
+For the first 4 parameters
+\begin{itemize}
+	\item amount of days
+	\item population size
+	\item immunity rate
+	\item seeding rate
+\end{itemize}
+the actual sorting and analyzing of the population takes up most of the time.
+
+\subsection{Number of days}
+By increasing the number of days to be simulated, the total execution time gets longer as well. This should be expected as more days means more times simulating what goes on in a day.
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Number of days & Time \\\hline
+		50  & 00:00:04 \\\hline
+    	100 & 00:00:09 \\\hline
+    	150 & 00:00:14 \\\hline
+    	200	& 00:00:18 \\\hline
+    	500 & 00:00:38 \\
+    	\hline
+	\end{tabular}
+	\caption{Number of days}
+\end{table}
+
+\subsection{Population size}
+Generating a new population depends on the given size, which was expected. The generation however is very fast.
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Population size & Time \\\hline
+	    10000  & 00:00:00:421 \\\hline
+	    50000  & 00:00:00:816 \\\hline
+	    100000 & 00:00:01:332 \\\hline
+ 	    200000 & 00:00:02:249 \\\hline
+ 	    500000 & 00:00:04:926 \\
+    	\hline
+	\end{tabular}
+	\caption{Population size}
+\end{table}
+
+\subsection{Immunity rate}
+Varying the immunity rate does not seem to affect the total execution time.
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Immunity rate & Time \\\hline
+    	0.2  & 00:00:05:817 \\\hline
+    	0.4  & 00:00:05:750 \\\hline
+    	0.6  & 00:00:05:643 \\\hline
+    	0.8  & 00:00:05:580 \\\hline
+    	0.99 & 00:00:05:648 \\
+    	\hline
+	\end{tabular}
+	\caption{Immunity rate}
+\end{table}
+
+\subsection{Seeding rate}
+A bigger seeding rate slightly increases the time of the execution. This happens as more people have to be initially infected.
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Seeding rate & Time \\\hline
+    	0.02 	& 00:00:06:599 \\\hline
+    	0.002 	& 00:00:05:589 \\\hline
+    	0.0002 	& 00:00:05:134 \\\hline
+  		0.00002 & 00:00:04:865 \\
+    	\hline
+	\end{tabular}
+	\caption{seeding rate}
+\end{table}
+
+\subsection{Contact log mode}
+The mode of the contact log has a very large impact on the execution time. Logging every contact between people takes a long time.\\
+At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person.\\
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Contact log mode & Time \\\hline
+   		All 			& 00:26:48:251 \\\hline
+   		Transmissions 	& 00:00:06:730 \\\hline
+   		Susceptibles 	& 00:27:06:444 \\\hline
+   		None 			& 00:00:05:824 \\
+    	\hline
+	\end{tabular}
+	\caption{Contact log mode}
+\end{table}
+
+\end{document}
