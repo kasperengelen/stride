@@ -1,3 +1,5 @@
 # Simulation assignment
 
-PLACEHOLDER - The data, scripts and report related to the simulation assignments will be added here
+This page contains all the information regarding the first part of the dissertation. 
+
+[The report]()
