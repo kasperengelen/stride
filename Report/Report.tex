@@ -29,9 +29,6 @@
 		Dawid Miroyan\and
 		Igor Schittekat}
 %
-%\authorrunning{F. Author et al.}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
 %
 \institute{University of Antwerp}
 %
@@ -109,8 +106,8 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 \subsection{Influence of demography}
 
 \subsection{Vaccinating on campus}
-By vaccinating the students, quickly after infected individuals appear in the population, we want to test whether so called 'catch-up' campaigns have noticeable impact on an outbreak. \\
-We do this by simulating scenarios where all students are either vaccinated on day 7 or not vaccinated at all. When looking at figure \ref{VaccinePlot}, the amount of new cases is the same in both scenarios on day 5 and 6. As the students are not vaccinated in both scenarios, some of them become infected and can spread the disease further. Starting from day 7, where in one of the scenarios the susceptible students are vaccinated, the amount of new cases is lower than when not vaccinating.
+By vaccinating the students, quickly after infected individuals appear in the population, we want to test whether so called 'catch-up' campaigns have a noticeable impact on an outbreak. \\
+For these simulations, we generated a population where 60\% of people between the age of 18 and 26 attend high education. We then simulate scenarios where all students are either vaccinated on day 7 or not vaccinated at all. When looking at figure \ref{VaccinePlot}, the amount of new cases is the same in both scenarios on day 5 and 6. As the students are not vaccinated in both scenarios, some of them become infected and can spread the disease. Starting from day 7, where in one of the scenarios the susceptible students are vaccinated, the amount of new cases is lower than when not vaccinating.
 
 \begin{figure}[h!]
 	\centering
@@ -126,24 +123,7 @@ We do this by simulating scenarios where all students are either vaccinated on d
 	\caption{Plots showing the impact of vaccinating students}
 \end{figure}
 
-\noindent Displayed equations are centered and set on a separate
-line.
-\begin{equation}
-x + y = z
-\end{equation}
-
-\begin{theorem}
-This is a sample theorem. The run-in heading is set in bold, while
-the following text appears in italics. Definitions, lemmas,
-propositions, and corollaries are styled the same way.
-\end{theorem}
-%
-% the environments 'definition', 'lemma', 'proposition', 'corollary',
-% 'remark', and 'example' are defined in the LLNCS documentclass as well.
-%
-\begin{proof}
-Proofs, examples, and remarks have the initial word in italics,
-while the following text appears in normal font.
-\end{proof}
+\subsection{Commuting to work}
+Another factor that is interesting to examine is the impact of commuting on disease spread. 
 
 \end{document}
