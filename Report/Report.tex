@@ -60,8 +60,8 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 		\includegraphics[width=\linewidth]{cases_per_day.eps}
 		\caption{New cases per day.}
 	\end{subfigure}
-	\label{casesPlots}
 	\caption{Plots using different seeds}
+	\label{casesPlots}
 \end{figure}
 
 
@@ -72,9 +72,9 @@ As discussed previously, it might be the case that only very few people become i
 Figure \ref{ETHist} gives the frequencies of the amount of infected people at the end of the simulations. The distinction between outbreaks and extinctions is quite clear from this histogram. There is one peak on the lower end of the x-axis, and there is a cluster on the higher-end.
 
 \begin{figure}[!h]
-\includegraphics[width=\textwidth]{Hist.eps}
-\caption{Histogram showing the total amount of cases.} 
-\label{ETHist}
+	\includegraphics[width=\textwidth]{Hist.eps}
+	\caption{Histogram showing the total amount of cases.} 
+	\label{ETHist}
 \end{figure}
 
 \subsection{Immunity Level}
@@ -104,6 +104,27 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 	\caption{Plots for various values for $R_0$}
 \end{figure}
 
+\section{Population generation}
+
+\subsection{Influence of demography}
+
+\subsection{Vaccinating on campus}
+By vaccinating the students, quickly after infected individuals appear in the population, we want to test whether so called 'catch-up' campaigns have noticeable impact on an outbreak. \\
+We do this by simulating scenarios where all students are either vaccinated on day 7 or not vaccinated at all. When looking at figure \ref{VaccinePlot}, the amount of new cases is the same in both scenarios on day 5 and 6. As the students are not vaccinated in both scenarios, some of them become infected and can spread the disease further. Starting from day 7, where in one of the scenarios the susceptible students are vaccinated, the amount of new cases is lower than when not vaccinating.
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{vaccinating_cases_cum_20runs.eps}
+		\caption{Cumulative cases per day} 
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{vaccinating_cases_per_day_20runs.eps}
+		\caption{New cases per day.} 
+	\end{subfigure}
+	\label{VaccinePlot}
+	\caption{Plots showing the impact of vaccinating students}
+\end{figure}
 
 \noindent Displayed equations are centered and set on a separate
 line.

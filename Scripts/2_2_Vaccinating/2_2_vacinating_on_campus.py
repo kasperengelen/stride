@@ -38,6 +38,7 @@ def plotNewCases(outputPrefix, iterations):
     """
         Plot new cases per day.
     """
+    fig = plt.figure()
     days = range(0, 50)
     for v in [False, True]:
         totalNewCases = [0]*50
@@ -65,15 +66,18 @@ def plotNewCases(outputPrefix, iterations):
         averageCasesPerDay = [i/iterations for i in totalNewCases]
         plt.plot(days, averageCasesPerDay)
         
+    
     plt.xlabel("Simulation day")
     plt.ylabel("New cases per day")
     plt.legend(["Students are vaccinated", "Students are not vaccinated"])
-    plt.show()
+    fig.savefig(os.path.join(outputPrefix, 'vaccinating_cases_per_day_{}runs.eps'.format(iterations)))
+
 
 def plotCumulativeCases(outputPrefix, iterations):
     """
         Plot cumulative cases per day.
     """
+    fig = plt.figure()
     days = range(0, 50)
     for v in [False, True]:
         totalNewCases = [0]*50
@@ -99,10 +103,11 @@ def plotCumulativeCases(outputPrefix, iterations):
         averageCasesPerDay = [i/iterations for i in totalNewCases]
         plt.plot(days, averageCasesPerDay)
         
+    
     plt.xlabel("Simulation day")
     plt.ylabel("Cumulative cases per day")
     plt.legend(["Students are vaccinated", "Students are not vaccinated"])
-    plt.show()
+    fig.savefig(os.path.join(outputPrefix, 'vaccinating_cases_cum_{}runs.eps'.format(iterations)))
 
 def runSimulation(outputPrefix, v, iteration, rng_seed):
     # Set up simulator
@@ -132,7 +137,7 @@ def runSimulation(outputPrefix, v, iteration, rng_seed):
     control.control()
 
 def main():
-    outputPrefix = "2-2"
+    outputPrefix = os.path.join("2-2", str(random.randint(0, 10000000)))
     iterations = 20
     MassVaccinate = [[False]*iterations, [True]*iterations]
     # Run simulations
@@ -145,6 +150,8 @@ def main():
     # Post-processing
     plotNewCases(outputPrefix, iterations)
     plotCumulativeCases(outputPrefix, iterations)
+    print("Simulation files stored in {}".format(outputPrefix))
+
 
 if __name__=="__main__":
     main()
