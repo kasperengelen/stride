@@ -6,14 +6,14 @@ This page serves as overview for the final project of the Computer Science bache
 As the project progresses, more data will become available here. Contact info is available at the bottom of the page.
 
 ### Progress
-[Simulation assignments](https://kasperengelen.github.io/stride/simulation)
+[Simulation assignments](https://kasperengelen.github.io/stride/simulation) (deadline: 10/03)
 
 ### Contact
 
 
 * Jonathan Meyer (Contact person)
 
-  ![alt text][pic_jonathan]
+  ![jonathanIcon][pic_jonathan]
   * [GitHub](https://www.github.com/MeyerJon)
   * Mail: Jonathan.Meyer@student.uantwerpen.be
 
