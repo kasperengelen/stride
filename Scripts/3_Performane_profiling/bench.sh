@@ -31,8 +31,8 @@ do
 done 
 
 # contact log mode
-for i in All Transmission Susceptible None
+for i in All Transmissions Susceptibles None
 do
-        ./bin/stride -c run_generate_default.xml -o contact_log_mode=$i
+        ./bin/stride -c run_generate_default.xml -o contact_log_level=$i
         gprof ./bin/stride gmon.out > gprof/contact_log_bench_$i.txt
 done 
