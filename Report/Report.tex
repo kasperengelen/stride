@@ -87,7 +87,7 @@ In order to make assumptions about the population's immunity level, we look at t
 \subsection{Estimating $R_{0}$}
 Now that we have a relatively decent estimate for the immunity level of the population, we can do an analogous exercise to estimate $R_0$. For this data, we fixed the immunity level to 70.5\%. Figure \ref{R0EstPlot} (a) shows the plot for each possible $R_0$ in the range $[12, 18]$ (average over 20 simulations). It's clear that the best candidates are 14, 15 or potentially 16. When we plot a more detailed plot for just those valued (average over 30 different simulations), it seems 15 is the best estimate for $R_0$.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{R0_all_20runs.eps}
@@ -104,6 +104,102 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 \section{Population generation}
 
 \subsection{Influence of demography}
+
+\paragraph{} Here we determine whether or not the age distribution of a population has an effect on the likeliness of an outbreak. To accomplish this we have two different household files, one for population A and one for population B. For each population we ran multiple simulations with different parameters. 
+
+\paragraph{} We found that the intial specified seeding rate of $0.002$ was too high, leading to an outbreak rate of 100\%. We then lowered to seed to $0.00000167$, leading to more useful results. We also changed the amount of days that are to be simulated to $500$, since the effect of the epidemic is not very clear after $50$ days.
+
+\subsubsection{Population A}
+
+\paragraph{} Population A is a population which is significantly younger than population B. We expected that the outbreak rate for this population is higher than that for population B.
+
+\paragraph{} Initially we ran the simulation 100 times during 500 days with seeding rate equal to $0.002$.
+
+% figure that displays popA, seed_rate=0.002
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{2_1_regionDiff_files/{regionA_stan_r0=11_VC=0.8_SR=0.002_cnt=100_days=500_CUMULATIVE}.eps}
+	\caption{Cumulative cases per day showing a 100\% outbreak rate} 
+	\label{popAhighrate}
+\end{figure}
+
+\paragraph{} Lowering the seeding rate to $0.00000167$ and running the simulation $100$ times during $500$ days gave a better result. We determined that the percentage of outbreaks lies within the 95\% confidence interval $[0.7216, 0.8784]$ with a measured outbreak rate of $\overline{x_n} = 0.8$.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionA_stan_r0=11_VC=0.8_SR=0.00000167_cnt=100_days=500_CUMULATIVE}.eps}
+		\caption{Cumulative cases per day} 
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionA_stan_r0=11_VC=0.8_SR=0.00000167_cnt=100_days=500_FINALDAY_HIST}.eps}
+		\caption{A histogram with the final amount of infections} 
+	\end{subfigure}
+	\caption{Plots showing results of running the simulation $100$ times during $500$ days with seeding rate $0.00000167$}
+	\label{popAlowrate100}
+\end{figure}
+
+\paragraph{} In order to reduce the confidence interval, we ran the same simulation $500$ times, leading to a measured average of $\overline{x_n} = 0.794$ and a 95\% confidence interval of $[0.75855, 0.82945]$.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionA_stan_r0=11_VC=0.8_SR=0.00000167_cnt=500_days=500_CUMULATIVE}.eps}
+		\caption{Cumulative cases per day} 
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionA_stan_r0=11_VC=0.8_SR=0.00000167_cnt=500_days=500_FINALDAY_HIST}.eps}
+		\caption{A histogram with the final amount of infections} 
+	\end{subfigure}
+	\caption{Plots showing results of running the simulation $500$ times during $500$ days with seeding rate $0.00000167$}
+	\label{popAlowrate500}
+\end{figure}
+
+\subsubsection{Population B}
+
+\paragraph{} Population B is a population which is significantly older than population A. We expected that the outbreak rate for this population is lower than that for population A.
+
+\paragraph{} Initially we ran the simulation 100 times during 500 days with seeding rate equal to $0.002$.
+
+% figure that displays popA, seed_rate=0.002
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{2_1_regionDiff_files/{regionB_stan_r0=11_VC=0.8_SR=0.002_cnt=100_days=500_CUMULATIVE}.eps}
+	\caption{Cumulative cases per day showing a 100\% outbreak rate} 
+	\label{popBhighrate}
+\end{figure}
+
+\paragraph{} Lowering the seeding rate to $0.00000167$ and running the simulation $100$ times during $500$ days gave a better result. We determined that the percentage of outbreaks lies within the 95\% confidence interval $[0.58871, 0.77143]$ with a measured outbreak rate of $\overline{x_n} = 0.68$.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionB_stan_r0=11_VC=0.8_SR=0.00000167_cnt=100_days=500_CUMULATIVE}.eps}
+		\caption{Cumulative cases per day} 
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionB_stan_r0=11_VC=0.8_SR=0.00000167_cnt=100_days=500_FINALDAY_HIST}.eps}
+		\caption{A histogram with the final amount of infections} 
+	\end{subfigure}
+	\caption{Plots showing results of running the simulation $100$ times during $500$ days with seeding rate $0.00000167$}
+	\label{popBlowrate100}
+\end{figure}
+
+\paragraph{} In order to reduce the confidence interval, we ran the same simulation $500$ times, leading to a measured average of $\overline{x_n} = 0.772$ and a 95\% confidence interval of $[0.73523, 0.80877]$.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionB_stan_r0=11_VC=0.8_SR=0.00000167_cnt=500_days=500_CUMULATIVE}.eps}
+		\caption{Cumulative cases per day} 
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{2_1_regionDiff_files/{regionB_stan_r0=11_VC=0.8_SR=0.00000167_cnt=500_days=500_FINALDAY_HIST}.eps}
+		\caption{A histogram with the final amount of infections} 
+	\end{subfigure}
+	\caption{Plots showing results of running the simulation $500$ times during $500$ days with seeding rate $0.00000167$}
+	\label{popBlowrate500}
+\end{figure}
 
 \subsection{Vaccinating on campus}
 By vaccinating the students, quickly after infected individuals appear in the population, we want to test whether so called 'catch-up' campaigns have a noticeable impact on an outbreak. \\
