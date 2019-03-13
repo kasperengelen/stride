@@ -57,7 +57,7 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 		\includegraphics[width=\linewidth]{cases_per_day.eps}
 		\caption{New cases per day.}
 	\end{subfigure}
-	\caption{Plots using different seeds}
+	\caption{Results of five different simulations, using the configuration file \emph{stochastic\_analysis.xml}}
 	\label{casesPlots}
 \end{figure}
 
@@ -70,7 +70,7 @@ Figure \ref{ETHist} gives the frequencies of the amount of infected people at th
 
 \begin{figure}[!h]
 	\includegraphics[width=\textwidth]{Hist.eps}
-	\caption{Histogram showing the total amount of cases.} 
+	\caption{Frequencies of final amounts of cases for 100 simulations.} 
 	\label{ETHist}
 \end{figure}
 
@@ -79,7 +79,7 @@ In order to make assumptions about the population's immunity level, we look at t
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{ImmLvl.eps}
-\caption{New cases per day for different immunity levels.} 
+\caption{Average new cases per day, calculated from 20 simulations per immunity level.} 
 \label{immLvlPlot}
 \end{figure}
 
@@ -91,13 +91,13 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{R0_all_20runs.eps}
-		\caption{Overview of all potential $R_0$'s.} 	
+		\caption{Overview of all potential $R_0$'s. Averages from 20 runs per $R_0$.} 	
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{R0_detail_30runs.eps}
-		\caption{More detailed look at $R_0$ candidates.} 
+		\caption{More detailed look at $R_0$ candidates. Averages from 30 runs per $R_0$.} 
 	\end{subfigure}
-	\caption{Plots for various values for $R_0$}
+	\caption{Averages for different values of $R_0$.}
 	\label{R0EstPlot}
 \end{figure}
 
@@ -105,15 +105,15 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 
 \subsection{Influence of demography}
 
-\paragraph{} Here we determine whether or not the age distribution of a population has an effect on the likeliness of an outbreak. To accomplish this we have two different household files, one for population A and one for population B. For each population we ran multiple simulations with different parameters. 
+Here we determine whether or not the age distribution of a population has an effect on the likeliness of an outbreak. To accomplish this we have two different household files, one for population A and one for population B. For each population we ran multiple simulations with different parameters. 
 
-\paragraph{} We found that the intial specified seeding rate of $0.002$ was too high, leading to an outbreak rate of 100\%. We then lowered to seed to $0.00000167$, leading to more useful results. We also changed the amount of days that are to be simulated to $500$, since the effect of the epidemic is not very clear after $50$ days.
+We found that the intial specified seeding rate of $0.002$ was too high, leading to an outbreak rate of 100\%. We then lowered to seed to $0.00000167$, leading to more useful results. We also changed the amount of days that are to be simulated to $500$, since the effect of the epidemic is not very clear after $50$ days.
 
 \subsubsection{Population A}
 
-\paragraph{} Population A is a population which is significantly younger than population B. We expected that the outbreak rate for this population is higher than that for population B.
+Population A is a population which is significantly younger than population B. We expected that the outbreak rate for this population is higher than that for population B.
 
-\paragraph{} Initially we ran the simulation 100 times during 500 days with seeding rate equal to $0.002$.
+Initially we ran the simulation 100 times during 500 days with seeding rate equal to $0.002$.
 
 % figure that displays popA, seed_rate=0.002
 \begin{figure}[H]
@@ -123,7 +123,7 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 	\label{popAhighrate}
 \end{figure}
 
-\paragraph{} Lowering the seeding rate to $0.00000167$ and running the simulation $100$ times during $500$ days gave a better result. We determined that the percentage of outbreaks lies within the 95\% confidence interval $[0.7216, 0.8784]$ with a measured outbreak rate of $\overline{x_n} = 0.8$.
+Lowering the seeding rate to $0.00000167$ and running the simulation $100$ times during $500$ days gave a better result. We determined that the percentage of outbreaks lies within the 95\% confidence interval $[0.7216, 0.8784]$ with a measured outbreak rate of $\overline{x_n} = 0.8$.
 
 \begin{figure}[H]
 	\centering
@@ -139,7 +139,7 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 	\label{popAlowrate100}
 \end{figure}
 
-\paragraph{} In order to reduce the confidence interval, we ran the same simulation $500$ times, leading to a measured average of $\overline{x_n} = 0.794$ and a 95\% confidence interval of $[0.75855, 0.82945]$.
+In order to reduce the confidence interval, we ran the same simulation $500$ times, leading to a measured average of $\overline{x_n} = 0.794$ and a 95\% confidence interval of $[0.75855, 0.82945]$.
 
 \begin{figure}[H]
 	\centering
@@ -157,9 +157,8 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 
 \subsubsection{Population B}
 
-\paragraph{} Population B is a population which is significantly older than population A. We expected that the outbreak rate for this population is lower than that for population A.
-
-\paragraph{} Initially we ran the simulation 100 times during 500 days with seeding rate equal to $0.002$.
+Population B is a population which is significantly older than population A. We expected that the outbreak rate for this population is lower than that for population A.
+Initially we ran the simulation 100 times during 500 days with seeding rate equal to $0.002$.
 
 % figure that displays popA, seed_rate=0.002
 \begin{figure}[H]
@@ -169,7 +168,7 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 	\label{popBhighrate}
 \end{figure}
 
-\paragraph{} Lowering the seeding rate to $0.00000167$ and running the simulation $100$ times during $500$ days gave a better result. We determined that the percentage of outbreaks lies within the 95\% confidence interval $[0.58871, 0.77143]$ with a measured outbreak rate of $\overline{x_n} = 0.68$.
+Lowering the seeding rate to $0.00000167$ and running the simulation $100$ times during $500$ days gave a better result. We determined that the percentage of outbreaks lies within the 95\% confidence interval $[0.58871, 0.77143]$ with a measured outbreak rate of $\overline{x_n} = 0.68$.
 
 \begin{figure}[H]
 	\centering
@@ -185,7 +184,7 @@ Now that we have a relatively decent estimate for the immunity level of the popu
 	\label{popBlowrate100}
 \end{figure}
 
-\paragraph{} In order to reduce the confidence interval, we ran the same simulation $500$ times, leading to a measured average of $\overline{x_n} = 0.772$ and a 95\% confidence interval of $[0.73523, 0.80877]$.
+In order to reduce the confidence interval, we ran the same simulation $500$ times, leading to a measured average of $\overline{x_n} = 0.772$ and a 95\% confidence interval of $[0.73523, 0.80877]$.
 
 \begin{figure}[H]
 	\centering
@@ -215,7 +214,7 @@ For these simulations, we generated a population where 60\% of people between th
 		\includegraphics[width=\textwidth]{vaccinating_cases_per_day_20runs.eps}
 		\caption{New cases per day.} 
 	\end{subfigure}
-	\caption{Plots showing the impact of vaccinating students}
+	\caption{Plots showing the impact of vaccinating students. Averages from 20 simulations.}
 	\label{VaccinePlot}
 \end{figure}
 
