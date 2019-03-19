@@ -24,14 +24,14 @@ class GeoGrid;
 /**
  * Models a Workplace as ContactCenter.
  */
-class Workplace : public ContactCenter
+class WorkplaceCenter : public ContactCenter
 {
 public:
         /// Construct workplace with assigned ID.
-        explicit Workplace(unsigned int id) : ContactCenter(id) {}
+        explicit WorkplaceCenter(unsigned int id) : ContactCenter(id) {}
 
         /// See ContactCenter::Fill.
-        void Fill(const GeoGridConfig& geoGridConfig, const std::shared_ptr<GeoGrid>& geoGrid) override;
+        void SetupPools(const GeoGridConfig& geoGridConfig, stride::Population* pop) override;
 
         /// See ContactCenter::GetContactPoolType.
         stride::ContactType::Id GetContactPoolType() const override { return stride::ContactType::Id::Workplace; }
