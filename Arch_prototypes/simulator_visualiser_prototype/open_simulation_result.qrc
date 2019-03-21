@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/img"/>
+    <qresource prefix="/">
+        <file>img/map_of_belgium.png</file>
+        <file>img/open_simulation_file.png</file>
+        <file>img/controls_auto_pause.png</file>
+        <file>img/controls_auto_play.png</file>
+        <file>img/controls_back_full.png</file>
+        <file>img/controls_back_one.png</file>
+        <file>img/controls_forward_full.png</file>
+        <file>img/controls_forward_one.png</file>
+    </qresource>
+</RCC>
