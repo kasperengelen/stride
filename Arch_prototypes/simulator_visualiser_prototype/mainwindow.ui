@@ -50,6 +50,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpenSimulationFile"/>
+   <addaction name="actionSaveToImage"/>
   </widget>
   <widget class="QToolBar" name="playback_toolbar">
    <property name="windowTitle">
@@ -137,6 +138,27 @@
    </property>
    <property name="toolTip">
     <string>Next</string>
+   </property>
+  </action>
+  <action name="actionSaveToImage">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="open_simulation_result.qrc">
+     <normaloff>:/img/save_to_image.png</normaloff>:/img/save_to_image.png</iconset>
+   </property>
+   <property name="text">
+    <string>SaveToImage</string>
+   </property>
+   <property name="toolTip">
+    <string>Save To Image</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>
