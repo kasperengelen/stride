@@ -25,6 +25,7 @@
 #include "util/RunConfigManager.h"
 #include "util/StringUtils.h"
 #include "util/TimeStamp.h"
+#include "writedata.cpp"
 
 #include <boost/property_tree/ptree.hpp>
 #include <tclap/CmdLine.h>
@@ -43,6 +44,8 @@ using namespace boost::property_tree;
 int main(int argc, char** argv)
 {
         int exitStatus = EXIT_SUCCESS;
+
+    gg();
 
         try {
                 // -----------------------------------------------------------------------------------------
