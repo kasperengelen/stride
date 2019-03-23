@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.10)
 project (HDF5 C)
 
+add_compile_options(-w)
+
 #-----------------------------------------------------------------------------
 # Instructions for use : Normal Build
 #
@@ -99,7 +101,7 @@ string(TIMESTAMP CONFIG_DATE "%Y-%m-%d")
 # organization feature. Default to ON for non-Express users. Express users must
 # explicitly turn off this option to build HDF5 in the Express IDE...
 #
-option (HDF5_USE_FOLDERS "Enable folder grouping of projects in IDEs." OFF)
+option (HDF5_USE_FOLDERS "Enable folder grouping of projects in IDEs." ON)
 mark_as_advanced (HDF5_USE_FOLDERS)
 if (HDF5_USE_FOLDERS)
   set_property (GLOBAL PROPERTY USE_FOLDERS ON)
@@ -785,7 +787,7 @@ endif ()
 # Option to build HDF5 Tools
 #-----------------------------------------------------------------------------
 if (EXISTS "${HDF5_SOURCE_DIR}/tools" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/tools")
-  option (HDF5_BUILD_TOOLS  "Build HDF5 Tools" ON)
+  option (HDF5_BUILD_TOOLS  "Build HDF5 Tools" OFF)
   if (HDF5_BUILD_TOOLS)
     add_subdirectory (tools)
   endif ()

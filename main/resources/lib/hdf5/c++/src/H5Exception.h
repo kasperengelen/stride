@@ -72,7 +72,7 @@ class H5_DLLCPP Exception {
                                     hid_t err_stack = H5E_DEFAULT);
         // Deprecated in favor of printErrorStack.
         // Removed from code. -BMR, 2017/08/11 1.8.20 and 1.10.2
-        // virtual void printError(FILE* stream = NULL) const;
+        virtual void printError(FILE* stream = NULL) const;
 
         // Default constructor
         Exception();
