@@ -39,6 +39,14 @@ void M_drawCircle(QPainter& painter, QPointF pos, QColor color, int radius)
 
 }
 
+/**
+ * @param rate Float value in [0,1]
+ */
+int rate_to_degree(float rate)
+{
+    return 360 * rate;
+}
+
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     QPainter painter{this};
@@ -51,20 +59,25 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
     if(m_fileOpened || true)
     {
-        // brussels
-        M_drawCircle(painter, QPointF{300,250}, QColor{255,0,0,255}, 50);
+        QColor lowRate = QColor::fromHsvF(0.2, 1.0, 1.0, 1.0);
+        QColor midRate = QColor::fromHsvF(0.5, 1.0, 1.0, 1.0);
+        QColor highRate = QColor::fromHsvF(1.0, 1.0, 1.0, 1.0);
 
-        // antwerp
-        M_drawCircle(painter, QPointF{300,150}, QColor{255,0,0,255}, 32);
+        // brussels
+        M_drawCircle(painter, QPointF{300,250}, lowRate, 50);
 
         // hasselt
-        M_drawCircle(painter, QPointF{449,214}, QColor{255,0,0,255}, 20);
-
-        // mechelen
-        M_drawCircle(painter, QPointF{313,188}, QColor{255,0,0,255}, 20);
+        M_drawCircle(painter, QPointF{449,214}, lowRate, 20);
 
         // gent
-        M_drawCircle(painter, QPointF{198,187}, QColor{255,0,0,255}, 28);
+        M_drawCircle(painter, QPointF{198,187}, lowRate, 28);
+
+        // mechelen
+        M_drawCircle(painter, QPointF{313,188}, midRate, 20);
+
+        // antwerp
+        M_drawCircle(painter, QPointF{300,150}, highRate, 32);
+
     }
 }
 
