@@ -159,6 +159,8 @@ if(Protobuf_FOUND)
 else()
     target_link_libraries(libstride PRIVATE libprotobuf)
 endif()
+target_link_libraries(libstride PRIVATE ${_hdf5_libs})
+
 set_target_properties(libstride
     PROPERTIES
         POSITION_INDEPENDENT_CODE ON
@@ -175,53 +177,10 @@ include(CheckIPOSupported)
 #message( STATUS "CheckIPOSupported: ${ipo_result}" )
 
 #============================================================================
-# Add HDF5
-#============================================================================
-option(ENABLE_HDF5 "Enable HDF5 support" ON)
-if(ENABLE_HDF5)
-    find_package(HDF5)
-    if(HDF5_FOUND)
-        include_directories(${HDF5_INCLUDE_DIR})
-        set(_hdf5_libs hdf5 hdf5_cpp)
-    else()
-        include(ExternalProject)
-        set(ExternalProjectCMakeArgs
-                -DHDF5_BUILD_CPP_LIB=ON
-                )
-        ExternalProject_Add(hdf5
-                DOWNLOAD_COMMAND ""
-                CMAKE_ARGS ${ExternalProjectCMakeArgs}
-                SOURCE_DIR ${PROJECT_SOURCE_DIR}/main/resources/lib/hdf5
-                BINARY_DIR ${PROJECT_BINARY_DIR}/main/resources/lib/hdf5/build
-                STAMP_DIR  ${PROJECT_BINARY_DIR}/main/resources/lib/hdf5/stamp
-                TMP_DIR    ${PROJECT_BINARY_DIR}/main/resources/lib/hdf5/tmp
-                INSTALL_COMMAND ""
-                )
-        include_directories(
-                ${PROJECT_SOURCE_DIR}/main/resources/lib/hdf5/src
-                ${PROJECT_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
-                ${PROJECT_BINARY_DIR}/main/resources/lib/hdf5/build
-        )
-        set(_hdf5_libs
-                ${PROJECT_BINARY_DIR}/main/resources/lib/hdf5/build/bin/libhdf5_cpp.a
-                ${PROJECT_BINARY_DIR}/main/resources/lib/hdf5/build/bin/libhdf5.a
-                -ldl
-                )
-    endif()
-endif()
-
-#============================================================================
 # Build the stride binary.
 #============================================================================
 add_executable(stride execs/stride.cpp)
-if (ENABLE_HDF5)
-    if(NOT HDF5_FOUND)
-        add_dependencies(stride hdf5)
-    endif()
-    target_link_libraries(stride libstride ${_hdf5_libs})
-else()
-    target_link_libraries(stride libstride)
-endif()
+target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 
 #############################################################################

@@ -33,6 +33,8 @@ message( STATUS "------> STRIDE_FORCE_NO_BOOST       : ${STRIDE_FORCE_NO_BOOST}"
 message( STATUS "------> STRIDE_FORCE_NO_OPENMP      : ${STRIDE_FORCE_NO_OPENMP}"   )
 message( STATUS "------> STRIDE_FORCE_NO_PROTOC      : ${STRIDE_FORCE_NO_PROTOC}"   )
 message( STATUS "------> STRIDE_FORCE_NO_PYTHON      : ${STRIDE_FORCE_NO_PYTHON}"   )
+message( STATUS "------> STRIDE_FORCE_NO_HDF5        : ${STRIDE_FORCE_NO_HDF5}"   )
+
 #
 message( STATUS " " )
 message( STATUS "------> CMAKE_SYSTEM                : ${CMAKE_SYSTEM} "           )
@@ -114,6 +116,16 @@ if ( STRIDE_INCLUDE_DOC )
 		message( STATUS "------> DOXYGEN_DOT_EXECUTABLE      : ${DOXYGEN_DOT_EXECUTABLE} " )
 	endif()
 endif()
+#
+message( STATUS "" )
+if( HDF5_FOUND )
+	message( STATUS "------> HDF5_FOUND              : ${HDF5_FOUND}"          )
+	message( STATUS "------> HDF5_INCLUDE_DIRS       : ${HDF5_INCLUDE_DIRS} "  )
+	message( STATUS "------> HDF5_LIBRARIES          : ${HDF5_LIBRARIES} "     )
+else()
+	message( STATUS "------> HDF5_VERSION            : using included HDF5 source 1.10.5"    )
+endif()
+
 message( STATUS "" )
 message( STATUS "Report complete." )
 
