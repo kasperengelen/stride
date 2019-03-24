@@ -105,8 +105,10 @@ if(NOT STRIDE_FORCE_NO_PROTOC)
     include(FindProtobuf)
     find_package(Protobuf)
     if(NOT Protobuf_FOUND)
-            set(Protobuf_VERSION "0.0.0")
+            SET(Protobuf_VERSION 0.0.0)
     endif()
+else()
+    SET(Protobuf_VERSION 0.0.0) # deze setten, want als STRIDE_FORCE_NO_PROTOC dan wordt het vorige stuk code niet gerund en deze variabele niet geset.
 endif()
 #
 if(Protobuf_FOUND AND ${Protobuf_VERSION} VERSION_GREATER_EQUAL 3.0.0)
