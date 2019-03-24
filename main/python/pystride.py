@@ -282,9 +282,6 @@ class Person(_object):
     def GetAge(self):
         return _pystride.Person_GetAge(self)
 
-    def GetGender(self):
-        return _pystride.Person_GetGender(self)
-
     def GetHealth(self, *args):
         return _pystride.Person_GetHealth(self, *args)
 
@@ -403,23 +400,26 @@ class Population(PopulationBaseClass):
     else:
         Create = _pystride.Population_Create
 
-    def CreateContactPool(self, typeId):
-        return _pystride.Population_CreateContactPool(self, typeId)
-
     def CreatePerson(self, id, age, householdId, k12SchoolId, college, workId, primaryCommunityId, secondaryCommunityId):
         return _pystride.Population_CreatePerson(self, id, age, householdId, k12SchoolId, college, workId, primaryCommunityId, secondaryCommunityId)
 
     def GetInfectedCount(self):
         return _pystride.Population_GetInfectedCount(self)
 
-    def GetContactLogger(self):
-        return _pystride.Population_GetContactLogger(self)
+    def CRefPoolSys(self):
+        return _pystride.Population_CRefPoolSys(self)
 
-    def GetContactPoolSys(self, *args):
-        return _pystride.Population_GetContactPoolSys(self, *args)
+    def CRefGeoGrid(self):
+        return _pystride.Population_CRefGeoGrid(self)
 
-    def GetGeoGrid(self):
-        return _pystride.Population_GetGeoGrid(self)
+    def RefContactLogger(self):
+        return _pystride.Population_RefContactLogger(self)
+
+    def RefPoolSys(self):
+        return _pystride.Population_RefPoolSys(self)
+
+    def RefGeoGrid(self):
+        return _pystride.Population_RefGeoGrid(self)
     __swig_destroy__ = _pystride.delete_Population
     __del__ = lambda self: None
 Population_swigregister = _pystride.Population_swigregister
@@ -446,30 +446,30 @@ class Sim(_object):
     def GetCalendar(self):
         return _pystride.Sim_GetCalendar(self)
 
-    def GetTransmissionProfile(self):
-        return _pystride.Sim_GetTransmissionProfile(self)
+    def GetConfigValue(self, attribute):
+        return _pystride.Sim_GetConfigValue(self, attribute)
 
     def GetPopulation(self):
         return _pystride.Sim_GetPopulation(self)
 
-    def GetRnManager(self):
-        return _pystride.Sim_GetRnManager(self)
+    def GetTransmissionRate(self):
+        return _pystride.Sim_GetTransmissionRate(self)
+
+    def RefRnManager(self):
+        return _pystride.Sim_RefRnManager(self)
+
+    def RefTransmissionProfile(self):
+        return _pystride.Sim_RefTransmissionProfile(self)
 
     def TimeStep(self):
         return _pystride.Sim_TimeStep(self)
-
-    def GetConfigValue(self, attribute):
-        return _pystride.Sim_GetConfigValue(self, attribute)
-
-    def GetTransmissionRate(self):
-        return _pystride.Sim_GetTransmissionRate(self)
     __swig_destroy__ = _pystride.delete_Sim
     __del__ = lambda self: None
 Sim_swigregister = _pystride.Sim_swigregister
 Sim_swigregister(Sim)
 
-def Sim_Create(*args):
-    return _pystride.Sim_Create(*args)
+def Sim_Create(config, pop, rnMan):
+    return _pystride.Sim_Create(config, pop, rnMan)
 Sim_Create = _pystride.Sim_Create
 
 

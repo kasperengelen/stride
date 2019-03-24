@@ -180,4 +180,23 @@ add_executable(stride execs/stride.cpp)
 target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 
+#============================================================================
+# Data visualiser sources.
+#============================================================================
+set(DATAVIS_SRC
+    #---
+    datavis/ProtoTypeVis.cpp
+    datavis/mainwindow.cpp
+    datavis/mainwindow.h
+)
+
+#============================================================================
+# Build data visualiser binary.
+#============================================================================
+if(Qt5Widgets_FOUND AND Qt5Location_FOUND)
+    add_executable(stride_datavis ${DATAVIS_SRC})
+    target_link_libraries(stride_datavis Qt5::Core)
+    target_link_libraries(stride_datavis Qt5::Location)
+endif()
+
 #############################################################################
