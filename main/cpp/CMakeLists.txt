@@ -155,7 +155,11 @@ if(Protobuf_FOUND)
 else()
     target_link_libraries(libstride PRIVATE libprotobuf)
 endif()
-target_link_libraries(libstride PRIVATE ${_hdf5_libs})
+if(HDF5_FOUND)
+    target_link_libraries(libstride PRIVATE hdf5_cpp)
+else()
+    target_link_libraries(libstride PRIVATE ${_hdf5_libs})
+endif()
 
 set_target_properties(libstride
     PROPERTIES
@@ -176,6 +180,9 @@ include(CheckIPOSupported)
 # Build the stride binary.
 #============================================================================
 add_executable(stride execs/stride.cpp)
+if(NOT HDF5_FOUND)
+        add_dependencies(stride hdf5)
+endif()
 target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 
