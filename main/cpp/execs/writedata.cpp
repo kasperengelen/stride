@@ -63,7 +63,7 @@ void c() {
 }
 
 
-int gg ()
+int writedata()
 {
     int   i,j; // loop indices */
     /*
