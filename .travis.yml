@@ -20,6 +20,7 @@ addons:
       # - libhdf5-dev
       - doxygen
       - graphviz
+      - qt5-default
 
 matrix:
   include:
