@@ -175,4 +175,17 @@ if(NOT OPENMP_FOUND)
     include_directories(${CMAKE_HOME_DIRECTORY}/main/resources/lib/domp/include)
 endif()
 
+#----------------------------------------------------------------------------
+# Qt5
+#----------------------------------------------------------------------------
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_PREFIX_PATH "/opt/Qt/5.12.2/gcc_64/lib/cmake")
+#set(CMAKE_PREFIX_PATH "~/Qt/5.12.2/gcc_64/lib/cmake")
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Location REQUIRED)
+
+
 #############################################################################
