@@ -186,8 +186,7 @@ install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 set(DATAVIS_SRC
     #---
     datavis/ProtoTypeVis.cpp
-    datavis/mainwindow.cpp
-    datavis/mainwindow.h
+    datavis/qml.qrc
 )
 
 #============================================================================

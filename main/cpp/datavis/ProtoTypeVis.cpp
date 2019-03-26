@@ -1,12 +1,19 @@
-#include "mainwindow.h"
-#include <QtWidgets/QApplication>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.setWindowTitle("Simulation visualizer");
-    w.show();
 
-    return a.exec();
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    if (engine.rootObjects().isEmpty())
+        return -1;
+
+    return app.exec();
 }
