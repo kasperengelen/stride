@@ -15,5 +15,6 @@ Public members and methods are documented using brief comments indicated by '///
 We will provide a short document explaining all the functions of the visualiser.
 
 
-
+## Input formats
+We will document changes we've made to configuration/input file formats (e.g. households).
 
