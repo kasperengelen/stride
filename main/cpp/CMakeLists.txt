@@ -199,6 +199,7 @@ if(Qt5Widgets_FOUND AND Qt5Location_FOUND)
     target_link_libraries(stride_datavis Qt5::Location)
     install(TARGETS stride_datavis DESTINATION ${BIN_INSTALL_LOCATION})
     set(CMAKE_INSTALL_RPATH "/opt/Qt/5.12.2/gcc_64/lib")
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
 #############################################################################
