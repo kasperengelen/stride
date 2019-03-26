@@ -195,8 +195,10 @@ set(DATAVIS_SRC
 #============================================================================
 if(Qt5Widgets_FOUND AND Qt5Location_FOUND)
     add_executable(stride_datavis ${DATAVIS_SRC})
-    target_link_libraries(stride_datavis Qt5::Core)
+    target_link_libraries(stride_datavis Qt5::Widgets)
     target_link_libraries(stride_datavis Qt5::Location)
+    install(TARGETS stride_datavis DESTINATION ${BIN_INSTALL_LOCATION})
+    set(CMAKE_INSTALL_RPATH "/opt/Qt/5.12.2/gcc_64/lib")
 endif()
 
 #############################################################################
