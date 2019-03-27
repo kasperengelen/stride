@@ -66,7 +66,7 @@ struct IDPack
 
 /// Placed separately to please swig and avoid syntax errors there
 using IdPack_t =
-    IDPack<Id::Household, Id::K12School, Id::College, Id::Workplace, Id::PrimaryCommunity, Id::SecondaryCommunity>;
+    IDPack<Id::Household, Id::Daycare, Id::PreSchool, Id::K12School, Id::College, Id::Workplace, Id::PrimaryCommunity, Id::SecondaryCommunity>;
 
 /// A constexpr global variable that gives access to the available Ids
 constexpr IdPack_t IdPack;

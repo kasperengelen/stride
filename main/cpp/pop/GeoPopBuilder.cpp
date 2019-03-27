@@ -22,6 +22,8 @@
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
+#incldue "geopop/generator/DaycareGenerator.h"
+#incldue "geopop/generator/PreschoolGenerator.h"
 #include "geopop/generators/CollegeGenerator.h"
 #include "geopop/generators/HouseholdGenerator.h"
 #include "geopop/generators/K12SchoolGenerator.h"
