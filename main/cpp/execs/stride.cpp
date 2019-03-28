@@ -47,8 +47,8 @@ int main(int argc, char** argv)
 {
         int exitStatus = EXIT_SUCCESS;
 
-    writedata();
-    json j;
+        writedata();
+        json j;
 
         try {
                 // -----------------------------------------------------------------------------------------

@@ -54,15 +54,6 @@ const int   MSPACE_DIM2 = 9;    //  to the dataset in memory with these
 const int   NPOINTS = 4;    // Number of points that will be selected
                 //  and overwritten
 
-bool b() {
-    return true;
-}
-
-void c() {
-    int64_t const d(b());
-}
-
-
 int writedata()
 {
     int   i,j; // loop indices */
@@ -291,21 +282,17 @@ int writedata()
    // catch failure caused by the H5File operations
     catch( FileIException error )
     {
-        error.printError();
         return -1;
     }
         // catch failure caused by the DataSet operations
     catch( DataSetIException error )
     {
-        error.printError();
         return -1;
     }
         // catch failure caused by the DataSpace operations
     catch( DataSpaceIException error )
     {
-        error.printError();
         return -1;
     }
-//    catch(...){}
    return 0;
 }
