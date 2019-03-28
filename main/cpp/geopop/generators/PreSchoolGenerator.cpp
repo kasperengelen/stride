@@ -13,7 +13,7 @@
  *  Copyright 2018, 2019, ACED.
  */
 
-#include "DaycareGenerator.h"
+#include "PreSchoolGenerator.h"
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
@@ -27,7 +27,7 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-void DaycareGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
+void PreSchoolGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
         // 1. given the number of persons of school age, calculate number of schools; schools
         //    have 500 pupils on average
@@ -35,9 +35,9 @@ void DaycareGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfi
         //    relative number of pupils for that location; the relative number of pupils is set
         //    to the relative population w.r.t the total population.
 
-        const auto pupilCount = geoGridConfig.popInfo.popcount_daycare;
+        const auto pupilCount = geoGridConfig.popInfo.popcount_preschool;
         const auto schoolCount =
-                static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.daycare_size)));
+                static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.preschool_size)));
 
         vector<double> weights;
         for (const auto& loc : geoGrid) {
@@ -54,16 +54,16 @@ void DaycareGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfi
 
         for (auto i = 0U; i < schoolCount; i++) {
                 const auto loc = geoGrid[dist()];
-                AddPools(*loc, pop, geoGridConfig.pools.pools_per_daycare);
+                AddPools(*loc, pop, geoGridConfig.pools.pools_per_preschool);
         }
 }
 
-void DaycareGenerator::AddPools(Location& loc, Population* pop, unsigned int number)
+void PreSchoolGenerator::AddPools(Location& loc, Population* pop, unsigned int number)
 {
         auto& poolSys = pop->RefPoolSys();
         for (auto i = 0U; i < number; ++i) {
-                const auto p = poolSys.CreateContactPool(Id::Daycare);
-                loc.RegisterPool<Id::Daycare>(p);
+                const auto p = poolSys.CreateContactPool(Id::PreSchool);
+                loc.RegisterPool<Id::PreSchool>(p);
         }
 }
 

@@ -77,7 +77,7 @@ set(STRIDE_SRC
     geopop/generators/Generator.cpp
     geopop/generators/HouseholdGenerator.cpp
     geopop/generators/K12SchoolGenerator.cpp
-    geopop/generators/PreschoolGenerator.cpp
+        geopop/generators/PreSchoolGenerator.cpp
     geopop/generators/PrimaryCommunityGenerator.cpp
     geopop/generators/SecondaryCommunityGenerator.cpp
     geopop/generators/WorkplaceGenerator.cpp
@@ -101,7 +101,7 @@ set(STRIDE_SRC
     geopop/populators/DaycarePopulator.cpp
     geopop/populators/HouseholdPopulator.cpp
     geopop/populators/K12SchoolPopulator.cpp
-    geopop/populators/PreschoolPopulator.cpp
+        geopop/populators/PreSchoolPopulator.cpp
     geopop/populators/Populator.cpp
     geopop/populators/PrimaryCommunityPopulator.cpp
     geopop/populators/SecondaryCommunityPopulator.cpp

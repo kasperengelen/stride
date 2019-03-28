@@ -22,18 +22,19 @@
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#incldue "geopop/generator/DaycareGenerator.h"
-#incldue "geopop/generator/PreschoolGenerator.h"
-#include "geopop/generators/CollegeGenerator.h"
-#include "geopop/generators/HouseholdGenerator.h"
+#include "geopop/generators/DaycareGenerator.h"
 #include "geopop/generators/K12SchoolGenerator.h"
+#include "geopop/generators/HouseholdGenerator.h"
+#include "geopop/generators/PreSchoolGenerator.h"
 #include "geopop/generators/PrimaryCommunityGenerator.h"
 #include "geopop/generators/SecondaryCommunityGenerator.h"
 #include "geopop/generators/WorkplaceGenerator.h"
 #include "geopop/io/ReaderFactory.h"
 #include "geopop/populators/CollegePopulator.h"
+#include "geopop/populators/DaycarePopulator.h"
 #include "geopop/populators/HouseholdPopulator.h"
 #include "geopop/populators/K12SchoolPopulator.h"
+#include "geopop/populators/PreSchoolPopulator.h"
 #include "geopop/populators/PrimaryCommunityPopulator.h"
 #include "geopop/populators/SecondaryCommunityPopulator.h"
 #include "geopop/populators/WorkplacePopulator.h"
@@ -130,7 +131,9 @@ void GeoPopBuilder::MakeLocations(GeoGrid& geoGrid, const GeoGridConfig& geoGrid
 
 void GeoPopBuilder::MakePools(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
-        vector<shared_ptr<Generator>> generators{make_shared<K12SchoolGenerator>(m_rn_man, m_stride_logger),
+        vector<shared_ptr<Generator>> generators{make_shared<DaycareGenerator>(m_rn_man, m_stride_logger),
+                                                 make_shared<PreschoolGenerator>(m_rn_man, m_stride_logger),
+                                                 make_shared<K12SchoolGenerator>(m_rn_man, m_stride_logger),
                                                  make_shared<CollegeGenerator>(m_rn_man, m_stride_logger),
                                                  make_shared<WorkplaceGenerator>(m_rn_man, m_stride_logger),
                                                  make_shared<PrimaryCommunityGenerator>(m_rn_man, m_stride_logger),

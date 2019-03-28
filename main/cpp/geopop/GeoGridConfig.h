@@ -116,13 +116,13 @@ public:
                 unsigned int pools_per_household = 1U;
 
                 /// Used to calculate the number of Daycares.
-                // TODO
+                // TODO Supply correct values for Daycare `pools` vars - Dawid
                 unsigned int daycare_size      = 500U;
                 unsigned int pools_per_daycare = 25U;
                 unsigned int daycare_pool_size = 20U;
 
                 /// Used to calculate the number of Preschools.
-                // TODO
+                // TODO Supply correct values for PreSchool `pools` vars - Dawid
                 unsigned int preschool_size      = 500U;
                 unsigned int pools_per_preschool = 25U;
                 unsigned int preschool_pool_size = 20U;
