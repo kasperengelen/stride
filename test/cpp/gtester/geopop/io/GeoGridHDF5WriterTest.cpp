@@ -15,7 +15,6 @@
 
 #include "GeoGridIOUtils.h"
 
-#include "geopop/ContactCenter.h"
 #include "geopop/GeoGridConfig.h"
 //#include "geopop/io/GeoGridHDF5Writer.h"
 #include "pop/Population.h"

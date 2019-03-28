@@ -30,23 +30,22 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-void PreSchoolPopulator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
-{
+void PreSchoolPopulator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig) {
         m_logger->trace("Starting to populate PreSchools");
 
         // for every location
-        for (const auto& loc : geoGrid) {
+        for (const auto &loc : geoGrid) {
                 if (loc->GetPopCount() == 0) {
                         continue;
                 }
                 // 1. find all daycares in an area of 10-k*10 km
-                const vector<ContactPool*>& classes = GetNearbyPools(Id::PreSchool, geoGrid, *loc);
+                const vector<ContactPool *> &classes = GetNearbyPools(Id::PreSchool, geoGrid, *loc);
 
                 auto dist = m_rn_man.GetUniformIntGenerator(0, static_cast<int>(classes.size()), 0U);
 
 
                 // 2. for every student assign a class
-                for (auto& pool : loc->RefPools(Id::Household)) {
+                for (auto &pool : loc->RefPools(Id::Household)) {
                         for (Person *p : *pool) {
                                 if (AgeBrackets::PreSchool::HasAge(p->GetAge()) &&
                                     MakeChoice(geoGridConfig.input.participation_preschool)) {
@@ -59,5 +58,6 @@ void PreSchoolPopulator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridCon
 
                 m_logger->trace("Done populating PreSchools");
         }
+}
 
 } // namespace geopop

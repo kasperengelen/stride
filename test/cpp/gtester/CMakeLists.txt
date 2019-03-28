@@ -52,7 +52,7 @@ set(SRC
     geopop/generators/DaycareGeneratorTest.cpp
     geopop/generators/HouseholdGeneratorTest.cpp
     geopop/generators/K12SchoolGeneratorTest.cpp
-    geopop/generators/PreschoolGeneratorTest.cpp
+    geopop/generators/PreSchoolGeneratorTest.cpp
     geopop/generators/PrimaryCommunityGeneratorTest.cpp
     geopop/generators/SecondaryCommunityGeneratorTest.cpp
     geopop/generators/WorkplaceGeneratorTest.cpp
@@ -76,7 +76,7 @@ set(SRC
     geopop/populators/DaycarePopulatorTest.cpp
     geopop/populators/HouseholdPopulatorTest.cpp
     geopop/populators/K12SchoolPopulatorTest.cpp
-    geopop/populators/PreschoolPopulatorTest.cpp
+    geopop/populators/PreSchoolPopulatorTest.cpp
     geopop/populators/PrimaryCommunityPopulatorTests.cpp
     geopop/populators/SecondaryCommunityPopulatorTests.cpp
     geopop/populators/WorkplacePopulatorTest.cpp

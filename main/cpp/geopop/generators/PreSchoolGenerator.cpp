@@ -29,12 +29,6 @@ using namespace stride::ContactType;
 
 void PreSchoolGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
-        // 1. given the number of persons of school age, calculate number of schools; schools
-        //    have 500 pupils on average
-        // 2. assign schools to a location by using a discrete distribution which reflects the
-        //    relative number of pupils for that location; the relative number of pupils is set
-        //    to the relative population w.r.t the total population.
-
         const auto pupilCount = geoGridConfig.popInfo.popcount_preschool;
         const auto schoolCount =
                 static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.preschool_size)));
