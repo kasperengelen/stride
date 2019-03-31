@@ -25,8 +25,6 @@
 #include "util/RunConfigManager.h"
 #include "util/StringUtils.h"
 #include "util/TimeStamp.h"
-#include "writedata.cpp"
-#include "util/json.hpp"
 
 #include <boost/property_tree/ptree.hpp>
 #include <tclap/CmdLine.h>
@@ -40,16 +38,10 @@ using namespace stride;
 using namespace stride::util;
 using namespace TCLAP;
 using namespace boost::property_tree;
-using json = nlohmann::json;
 
 /// Main program of the stride simulator.
 int main(int argc, char** argv)
 {
-        int exitStatus = EXIT_SUCCESS;
-
-        writedata();
-        json j;
-
         try {
                 // -----------------------------------------------------------------------------------------
                 // Parse command line (parameters displayed in --help in reverse order to order below).
