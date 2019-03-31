@@ -42,6 +42,8 @@ using namespace boost::property_tree;
 /// Main program of the stride simulator.
 int main(int argc, char** argv)
 {
+        int exitStatus = EXIT_SUCCESS;
+
         try {
                 // -----------------------------------------------------------------------------------------
                 // Parse command line (parameters displayed in --help in reverse order to order below).
