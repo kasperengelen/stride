@@ -47,6 +47,8 @@ message GeoGrid {
                 College = 3;
                 Household = 4;
                 Workplace = 5;
+                Daycare = 6;
+                PreSchool = 7;
             }
             Type type = 2;
 
@@ -57,7 +59,7 @@ message GeoGrid {
             }
             repeated ContactPool pools = 3;
         }
-        repeated ContactPools contactPools = 6;
+        repeated ContactPools contactPools = 8;
 
         message Commute {
             int64 to = 1;

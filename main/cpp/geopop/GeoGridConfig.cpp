@@ -36,8 +36,8 @@ GeoGridConfig::GeoGridConfig() : input{}, refHH{}, popInfo{}, pools{} {}
 GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
 {
         input.pop_size                     = configPt.get<unsigned int>("run.geopop_gen.population_size");
-        input.participation_preschool      = configPt.get<double>("run.geopop_gen.particpation_preschool");
-        input.participation_daycare        = configPt.get<double>("run.geopop_gen.particpation_daycare");
+        input.participation_preschool      = configPt.get<double>("run.geopop_gen.participation_preschool");
+        input.participation_daycare        = configPt.get<double>("run.geopop_gen.participation_daycare");
         input.participation_college        = configPt.get<double>("run.geopop_gen.participation_college");
         input.fraction_workplace_commuters = configPt.get<double>("run.geopop_gen.fraction_workplace_commuters");
         input.fraction_college_commuters   = configPt.get<double>("run.geopop_gen.fraction_college_commuters");
