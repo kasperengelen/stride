@@ -74,6 +74,8 @@ public:
                 if (p1->IsSurveyParticipant()) {
                         logger->info("[CONT] {} {} {} {} {} {} {} {} {} {} {} {}", p1->GetId(), p1->GetAge(),
                                      p2->GetAge(), static_cast<unsigned int>(type == ContactType::Id::Household),
+                                     static_cast<unsigned int>(type == ContactType::Id::Daycare),
+                                     static_cast<unsigned int>(type == ContactType::Id::PreSchool),
                                      static_cast<unsigned int>(type == ContactType::Id::K12School),
                                      static_cast<unsigned int>(type == ContactType::Id::College),
                                      static_cast<unsigned int>(type == ContactType::Id::Workplace),
