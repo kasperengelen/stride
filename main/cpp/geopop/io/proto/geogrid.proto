@@ -59,7 +59,7 @@ message GeoGrid {
             }
             repeated ContactPool pools = 3;
         }
-        repeated ContactPools contactPools = 8;
+        repeated ContactPools contactPools = 6;
 
         message Commute {
             int64 to = 1;
