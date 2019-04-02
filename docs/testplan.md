@@ -47,3 +47,5 @@
 * TestWorkplacePopulator:
     ???
 
+## Responsibilities
+The teammember that is responsible for implementing a feature, is also responsible for testing that feature. The tests are verified when the pull request for the feature is processed.
