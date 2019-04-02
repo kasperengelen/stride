@@ -18,3 +18,18 @@ We will provide a short document explaining all the functions of the visualiser.
 ## Input formats
 We will document changes we've made to configuration/input file formats (e.g. households).
 
+
+## Responsibilities
+The responsibilities for the different parts of the documentation is as follows.
+
+### Code documentation
+Each team member writes the documentation for his own code. Afterwards the documentation is verified by making pull requests.
+
+### Manuals
+Each team member writes parts of the manual for the features he implemented.
+
+### Paper
+<insert here the responsibilities for the paper chapters>.
+
+
+
