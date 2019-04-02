@@ -23,7 +23,7 @@ We will document changes we've made to configuration/input file formats (e.g. ho
 The responsibilities for the different parts of the documentation is as follows.
 
 ### Code documentation
-Each team member writes the documentation for his own code. Afterwards, the documentation is verified by making pull requests.
+Each team member writes the documentation for his own code. Afterwards, the documentation and the code is verified when the pull request for the feature is processed.
 
 ### Manuals
 Each team member writes parts of the manual for the features he implemented.
