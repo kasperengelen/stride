@@ -148,7 +148,7 @@ Region B & 0.00000167 & 300 \\
 
 \paragraph{} All the simulations started on the 11th of March 2019, with $R_0$ equal to $11$ and a randomized vaccination policy with a rate of $0.8$. \textit{Seeding rate} here means the fraction of the population that is initially infected.
 
-\paragraph{} Once we determined which simulation parameters are interesting, we ran 1000 simulations with each set of parameters.
+\paragraph{} For each parameter set listed in table \ref{2_1_regionDiff_tableParamSets}, we ran 1000 simulations.
 
 \subsubsection{Comparing outbreak sizes}
 
@@ -156,27 +156,24 @@ Region B & 0.00000167 & 300 \\
 
 
 \begin{figure}[H]
-\centering
-
-\begin{subfigure}[b]{0.7\linewidth}
 % RegionAvsB, SR=0.002,      Days=50
-\includegraphics[width=\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.002_Days=50_FINALDAY_HIST}.eps}
-\caption{Plot for simulation over 50 days with seeding rate $0.02$.}
-\end{subfigure}
-
-\begin{subfigure}[b]{0.7\linewidth}
-% RegionAvsB, SR=0.002,      Days=300
-\includegraphics[width=\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.002_Days=300_FINALDAY_HIST}.eps}
-\caption{Plot for simulation over 300 days with seeding rate $0.02$.}
-\end{subfigure}
-
-\begin{subfigure}[b]{0.7\linewidth}
-% RegionAvsB, SR=0.00000167, Days=300
-\includegraphics[width=\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.00000167_Days=300_FINALDAY_HIST}.eps}
-\caption{Plot for simulation over 300 days with seeding rate $0.00000167$.}
-\end{subfigure}
-\caption{Plots that compare the outbreak sizes of region A and region B using different parameters.}
+\includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.002_Days=50_FINALDAY_HIST}.eps}
+\caption{Plot that compares region A and B with a simulation over 50 days with seeding rate $0.02$.}
 \end{figure}
+
+\begin{figure}[H]
+% RegionAvsB, SR=0.002,      Days=300
+\includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.002_Days=300_FINALDAY_HIST}.eps}
+\caption{Plot that compares region A and B with a simulation over 300 days with seeding rate $0.02$.}
+\end{figure}
+
+\begin{figure}[H]
+% RegionAvsB, SR=0.00000167, Days=300
+\includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.00000167_Days=300_FINALDAY_HIST}.eps}
+\caption{Plot that compares region A and B with a simulation over 300 days with seeding rate $0.00000167$.}
+\end{figure}
+
+\paragraph{} We can clearly see that the outbreaks in region A are consistently higher than those in region B.
 
 \subsubsection{Comparing outbreak rates}
 
@@ -186,6 +183,7 @@ Region B & 0.00000167 & 300 \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compRate_SR=0.00000167_Days=300_FINALDAY_HIST}.eps}
+\caption{Plot that compares regionA and B with a simulation over 300 days with seeding rate $0.00000167$.}
 \end{figure}
 
 \paragraph{} We can see that there is a difference between region A and region B which leads to region A having a higher outbreak rate than region B. We also determined a 95\% confidence interval for the outbreak probability of region A:
