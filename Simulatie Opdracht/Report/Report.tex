@@ -207,11 +207,11 @@ For these simulations, we generated a population where 60\% of people between th
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{vaccinating_cases_cum_20runs.eps}
-		\caption{Cumulative cases per day} 
+		\caption{Plot showing the amount of infected student per day.} 	
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{vaccinating_cases_per_day_20runs.eps}
-		\caption{New cases per day.} 
+		\caption{Plot showing the amount of newly infected student per day.} 
 	\end{subfigure}
 	\caption{Plots showing the impact of vaccinating students. Averages from 20 simulations.}
 	\label{VaccinePlot}
@@ -281,92 +281,54 @@ the actual sorting and analyzing of the population takes up most of the time.
 
 \subsection{Number of days}
 
-\paragraph{} By increasing the number of days to be simulated, the total execution time gets longer as well. This should be expected as more days means more times simulating what goes on in a day.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Number of days & Time \\\hline
-		50  & 00:00:04 \\\hline
-    	100 & 00:00:09 \\\hline
-    	150 & 00:00:14 \\\hline
-    	200	& 00:00:18 \\\hline
-    	500 & 00:00:38 \\
-    	\hline
-	\end{tabular}
-	\caption{Number of days}
-\end{table}
+\paragraph{} By increasing the number of days to be simulated, the total execution time gets longer as well. This should be expected as more days means more times we simulate what goes on in a day.
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_numdays.eps}
+	\caption{Plot showing run time of simulations by varying the number of days.} 
+	\label{Gprof_numdays}
+\end{figure}
 
 \subsection{Population size}
 
 \paragraph{} Generating a new population depends on the given size, which was expected. The generation however is very fast.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Population size & Time \\\hline
-	    10000  & 00:00:00:421 \\\hline
-	    50000  & 00:00:00:816 \\\hline
-	    100000 & 00:00:01:332 \\\hline
- 	    200000 & 00:00:02:249 \\\hline
- 	    500000 & 00:00:04:926 \\
-    	\hline
-	\end{tabular}
-	\caption{Population size}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_popsize.eps}
+	\caption{Plot showing run time of simulations by varying the size of the population.} 
+	\label{Gprof_popsize}
+\end{figure}
 
 \subsection{Immunity rate}
 
 \paragraph{} Varying the immunity rate does not seem to affect the total execution time.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Immunity rate & Time \\\hline
-    	0.2  & 00:00:05:817 \\\hline
-    	0.4  & 00:00:05:750 \\\hline
-    	0.6  & 00:00:05:643 \\\hline
-    	0.8  & 00:00:05:580 \\\hline
-    	0.99 & 00:00:05:648 \\
-    	\hline
-	\end{tabular}
-	\caption{Immunity rate}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_immunityrate.eps}
+	\caption{Plot showing run time of simulations by varying the immunity rate.} 
+	\label{Gprof_immunityrate}
+\end{figure}
 
 \subsection{Seeding rate}
 
 \paragraph{} A bigger seeding rate slightly increases the time of the execution. This happens as more people have to be initially infected.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Seeding rate & Time \\\hline
-    	0.02 	& 00:00:06:599 \\\hline
-    	0.002 	& 00:00:05:589 \\\hline
-    	0.0002 	& 00:00:05:134 \\\hline
-  		0.00002 & 00:00:04:865 \\
-    	\hline
-	\end{tabular}
-	\caption{seeding rate}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_seedingrate.eps}
+	\caption{Plot showing run time of simulations by varying the seeding rate.} 
+	\label{Gprof_seedingrate}
+\end{figure}
 
 \subsection{Contact log mode}
 
 \paragraph{} The mode of the contact log has a very large impact on the execution time. Logging every contact between people takes a long time.\\
-At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person.\\
+At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person. The logging modes 'All' and 'Susceptibles' use a less efficient algorithm, hence the big difference in run time between them and the modes 'Transmissions' and 'None'.\\
 
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Contact log mode & Time \\\hline
-   		All 			& 00:26:48:251 \\\hline
-   		Transmissions 	& 00:00:06:730 \\\hline
-   		Susceptibles 	& 00:27:06:444 \\\hline
-   		None 			& 00:00:05:824 \\
-    	\hline
-	\end{tabular}
-	\caption{Contact log mode}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_contactlogmode.eps}
+	\caption{Plot showing run time of simulations using different logging methods.} 
+	\label{Gprof_contactlogmode}
+\end{figure}
 
 \end{document}
