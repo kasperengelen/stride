@@ -218,22 +218,33 @@ For these simulations, we generated a population where 60\% of people between th
 \end{figure}
 
 \newpage
+
 \subsection{Commuting to work}
 
 \paragraph{} Another factor that is interesting to examine is the impact of commuting on disease spread. \\
-In this simulation, we generate different populations, depending on different fractions of commuters. The expectation we have is that if more people commute to work, more people gets infected in the end. But when we run the simulation, we see that there isn't a difference between the fraction of commuters. We can also see that there is a peak between day 40 and 50. This peak doesn't change much when we increase the amound of commuters. 
+In this simulation, we generate different populations, depending on different fractions of commuters. The expectation we have is that if more people commute to work, more people gets infected in the end. But when we run the simulation, we see that there isn't a difference between the fraction of commuters. We can also see that there is a peak between day 40 and 50. This peak doesn't change much when we increase the amount of commuters. If we increase the amount of days to 200, the peak is around 70-75, but still no difference between the fractions of commuters. 
 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{work_cum_1.eps}
-		\caption{Cumulative cases per day, with a population of 10000. 1000 runs for each fraction.} 
+		\caption{Cumulative cases per day} 
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{work_cases_per_day_1.eps}
 		\caption{New cases per day.} 
 	\end{subfigure}
 	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. }
+	\label{VaccinePlot}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{work_cases_per_day_3.eps}
+		\caption{New cases per day.} 
+	\end{subfigure}
+	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. 200 days.}
 	\label{VaccinePlot}
 \end{figure}
 
@@ -244,7 +255,7 @@ When we increase the population size, we don't see many differences.
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{work_cum_2.eps}
-		\caption{Cumulative cases per day, with a population of 600000. 100 runs for each fraction.} 
+		\caption{Cumulative cases per day} 
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{work_cases_per_day_2.eps}
