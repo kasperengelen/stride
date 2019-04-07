@@ -9,6 +9,8 @@
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 
+
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -45,7 +47,8 @@ This document reports our findings regarding the final dissertation. The section
 \section{Simulation}
 \subsection{Stochastic Variation}
 
-\paragraph{} The first topic we consider is stochastic variation. Since the simulation uses a pseudo-random number generator, it's useful to inspect the influence of this stochasticity on the results of the simulation. Using the Stan tool which is provided with Stride, we collected data on 100 simulations with an identical configuration file. The only difference between executions is the RNG seed. When plotting the results, it becomes apparent that the amount of new cases per day follows a normal distribution. For the data we collected, we calculated a  mean of 33.33 new cases per day, and a variance of 1196.99. Looking at the plot for the cumulative cases per day, two 'categories' can be distinguished:  'outbreak' scenarios and 'extinction' scenarios. These cases are quite evenly spread, which explains the high variance for new cases per day. In the former, the curve has a sigmoid shape, indicating that the disease succesfully spread among the population. The latter scenario corresponds to the curves that are almost constant and are bounded by a value well under the population size. In these cases, the disease did not manage to spread, resulting in only a few infected people at the end of the simulation. This is likely explained by the initial infectation: if the first person to be infected is sufficiently isolated (either socially or by being surrounded by people who are immune), the disease doesn't have a chance to spread.\\
+\paragraph{} The first topic we consider is stochastic variation. Since the simulation uses a pseudo-random number generator, it's useful to inspect the influence of this stochasticity on the results of the simulation. Using the Stan tool which is provided with Stride, we collected data on 100 simulations with an identical configuration file. The only difference between executions is the RNG seed. For the data we collected, we calculated a  mean of 33.33 new cases per day, and a variance of 1196.99. Looking at the plot for the cumulative cases per day, two 'categories' can be distinguished:  'outbreak' scenarios and 'extinction' scenarios. These cases are quite evenly spread, which explains the high variance for new cases per day. In the former, the curve has a sigmoid shape, indicating that the disease succesfully spread among the population. The latter scenario corresponds to the curves that are almost constant and are bounded by a value well under the population size. In these cases, the disease did not manage to spread, resulting in only a few infected people at the end of the simulation. This is likely explained by the initial infectation: if the first person to be infected is sufficiently isolated (either socially or by being surrounded by people who are immune), the disease doesn't have a chance to spread. From the boxplot and a normal probability plot for the average new cases per day (Figure \ref{normalPlots}) (without extincion cases), it seems like the new cases per day do not have a normal distribution. However, the plot for new cases per day is very jagged (it jumps significantly from day to day), therefore this might not be representative. 
+\\
 Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases plot the 'extinction' senario is clearly visible at the bottom. The plot for new cases per day is very jagged, which can also be explained by the stochastic nature of the simulation.
 
 \begin{figure}[h!]
@@ -58,8 +61,23 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 		\includegraphics[width=\linewidth]{cases_per_day.eps}
 		\caption{New cases per day.}
 	\end{subfigure}
-	\caption{Results of five different simulations, using the configuration file \emph{stochastic\_analysis.xml}}
+	\caption{Results of five different simulations, using a disease profile for measles. Seeding rate = $0.2$\%, $R_0$ = 11. Simulated for a population of 600,000, with 80\% vaccine and immunity rate.}
 	\label{casesPlots}
+\end{figure}
+\clearpage
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\linewidth]{Boxplot.eps}
+		\caption{Boxplot for average new cases per day.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\linewidth]{NormalDistProb.eps}
+		\caption{Normal Distribution Plot for average new cases per day.}
+	\end{subfigure}
+	\caption{Results of 100 different simulations, using a disease profile for measles. Seeding rate = $0.2$\%, $R_0$ = 11. Simulated for a population of 600,000, with 80\% vaccine and immunity rate.}
+	\label{normalPlots}
 \end{figure}
 
 
@@ -71,7 +89,7 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 
 \begin{figure}[!h]
 	\includegraphics[width=\textwidth]{Hist.eps}
-	\caption{Frequencies of final amounts of cases for 100 simulations.} 
+	\caption{Frequencies of final amounts of cases for 100 simulations, using a disease profile for measles. Seeding rate = $0.2$\%, $R_0$ = 11. Simulated for a population of 600,000, with 80\% vaccine and immunity rate.} 
 	\label{ETHist}
 \end{figure}
 
@@ -81,7 +99,7 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{ImmLvl.eps}
-\caption{Average new cases per day, calculated from 20 simulations per immunity level.} 
+\caption{Average new cases per day, calculated from 20 simulations per immunity level. Simulated using a disease profile for measles. Seeding rate = $0.000334$\%, $R_0$ = 15. Population size is 600,000, with random vaccine profile.} 
 \label{immLvlPlot}
 \end{figure}
 
@@ -357,5 +375,9 @@ At day 50 in the simulation, only 20000 people out of 600000 where infected. Whe
 	\end{tabular}
 	\caption{Contact log mode}
 \end{table}
+
+
+\section*{Configurations}
+Lorem ipsum
 
 \end{document}
