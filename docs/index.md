@@ -7,6 +7,8 @@ As the project progresses, more data will become available here. Contact info is
 
 ### Progress
 [Simulation assignments](https://kasperengelen.github.io/stride/simulation) (deadline: 10/03)
+[Test Plan](https://kasperengelen.github.io/stride/testplan) (deadline: 31/03)
+[Documentation Plan](https://kasperengelen.github.io/stride/documentatieplan) (deadline: 31/03)
 
 ### Contact
 

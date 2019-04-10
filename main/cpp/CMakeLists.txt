@@ -63,31 +63,29 @@ set(STRIDE_SRC
     execs/SimController.cpp
     execs/StanController.cpp
     #---
-    geopop/CollegeCenter.cpp
-    geopop/ContactCenter.cpp
+    #geopop/ContactCenter.cpp
     geopop/Coordinate.h
     geopop/GeoGrid.cpp
     geopop/GeoGridConfig.cpp
-    geopop/HouseholdCenter.cpp
-    geopop/K12SchoolCenter.cpp
     geopop/Location.cpp
-    geopop/PrimaryCommunityCenter.cpp
-    geopop/SecondaryCommunityCenter.cpp
-    geopop/WorkplaceCenter.cpp
     #---
     geopop/geo/GeoGridKdTree.cpp
     geopop/geo/KdTree2DPoint.cpp
     #---
     geopop/generators/CollegeGenerator.cpp
-    geopop/generators/CommunityGenerator.cpp
+    geopop/generators/DaycareGenerator.cpp
+    geopop/generators/Generator.cpp
     geopop/generators/HouseholdGenerator.cpp
     geopop/generators/K12SchoolGenerator.cpp
+    geopop/generators/PreSchoolGenerator.cpp
+    geopop/generators/PrimaryCommunityGenerator.cpp
+    geopop/generators/SecondaryCommunityGenerator.cpp
     geopop/generators/WorkplaceGenerator.cpp
     #---
-    geopop/io/CitiesCSVReader.cpp
+    geopop/io/LocationsCSVReader.cpp
     geopop/io/CommutesCSVReader.cpp
-    geopop/io/GeoGridJSONReader.cpp
-    geopop/io/GeoGridJSONWriter.cpp
+    #geopop/io/GeoGridJSONReader.cpp
+    #geopop/io/GeoGridJSONWriter.cpp
     geopop/io/GeoGridProtoReader.cpp
     geopop/io/GeoGridProtoReader.h
     geopop/io/GeoGridProtoWriter.cpp
@@ -100,8 +98,10 @@ set(STRIDE_SRC
     geopop/io/HouseholdCSVReader.cpp
     geopop/io/ReaderFactory.cpp
     geopop/populators/CollegePopulator.cpp
+    geopop/populators/DaycarePopulator.cpp
     geopop/populators/HouseholdPopulator.cpp
     geopop/populators/K12SchoolPopulator.cpp
+    geopop/populators/PreSchoolPopulator.cpp
     geopop/populators/Populator.cpp
     geopop/populators/PrimaryCommunityPopulator.cpp
     geopop/populators/SecondaryCommunityPopulator.cpp
@@ -138,6 +138,7 @@ set(STRIDE_SRC
     util/RunConfigManager.cpp
     util/TimeStamp.cpp
     util/TimeToString.cpp
+    util/json.hpp
     #---
     viewers/CliViewer.cpp
     viewers/InfectedFileViewer.cpp
@@ -158,6 +159,12 @@ if(Protobuf_FOUND)
 else()
     target_link_libraries(libstride PRIVATE libprotobuf)
 endif()
+if(HDF5_FOUND)
+    target_link_libraries(libstride PRIVATE hdf5_cpp)
+else()
+    target_link_libraries(libstride PRIVATE ${_hdf5_libs})
+endif()
+
 set_target_properties(libstride
     PROPERTIES
         POSITION_INDEPENDENT_CODE ON
@@ -177,6 +184,9 @@ include(CheckIPOSupported)
 # Build the stride binary.
 #============================================================================
 add_executable(stride execs/stride.cpp)
+if(NOT HDF5_FOUND)
+        add_dependencies(stride hdf5)
+endif()
 target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 

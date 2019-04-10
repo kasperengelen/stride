@@ -9,6 +9,8 @@
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 
+
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -45,7 +47,8 @@ This document reports our findings regarding the final dissertation. The section
 \section{Simulation}
 \subsection{Stochastic Variation}
 
-\paragraph{} The first topic we consider is stochastic variation. Since the simulation uses a pseudo-random number generator, it's useful to inspect the influence of this stochasticity on the results of the simulation. Using the Stan tool which is provided with Stride, we collected data on 100 simulations with an identical configuration file. The only difference between executions is the RNG seed. When plotting the results, it becomes apparent that the amount of new cases per day follows a normal distribution. For the data we collected, we calculated a  mean of 33.33 new cases per day, and a variance of 1196.99. Looking at the plot for the cumulative cases per day, two 'categories' can be distinguished:  'outbreak' scenarios and 'extinction' scenarios. These cases are quite evenly spread, which explains the high variance for new cases per day. In the former, the curve has a sigmoid shape, indicating that the disease succesfully spread among the population. The latter scenario corresponds to the curves that are almost constant and are bounded by a value well under the population size. In these cases, the disease did not manage to spread, resulting in only a few infected people at the end of the simulation. This is likely explained by the initial infectation: if the first person to be infected is sufficiently isolated (either socially or by being surrounded by people who are immune), the disease doesn't have a chance to spread.\\
+\paragraph{} The first topic we consider is stochastic variation. Since the simulation uses a pseudo-random number generator, it's useful to inspect the influence of this stochasticity on the results of the simulation. Using the Stan tool which is provided with Stride, we collected data on 100 simulations with an identical configuration file. The only difference between executions is the RNG seed. For the data we collected, we calculated a  mean of 33.33 new cases per day, and a variance of 1196.99. Looking at the plot for the cumulative cases per day, two 'categories' can be distinguished:  'outbreak' scenarios and 'extinction' scenarios. These cases are quite evenly spread, which explains the high variance for new cases per day. In the former, the curve has a sigmoid shape, indicating that the disease succesfully spread among the population. The latter scenario corresponds to the curves that are almost constant and are bounded by a value well under the population size. In these cases, the disease did not manage to spread, resulting in only a few infected people at the end of the simulation. This is likely explained by the initial infectation: if the first person to be infected is sufficiently isolated (either socially or by being surrounded by people who are immune), the disease doesn't have a chance to spread. From the boxplot and a normal probability plot for the average new cases per day (Figure \ref{normalPlots}) (without extincion cases), it seems like the new cases per day do not have a normal distribution. However, the plot for new cases per day is very jagged (it jumps significantly from day to day), therefore this might not be representative. 
+\\
 Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases plot the 'extinction' senario is clearly visible at the bottom. The plot for new cases per day is very jagged, which can also be explained by the stochastic nature of the simulation.
 
 \begin{figure}[h!]
@@ -58,8 +61,23 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 		\includegraphics[width=\linewidth]{cases_per_day.eps}
 		\caption{New cases per day.}
 	\end{subfigure}
-	\caption{Results of five different simulations, using the configuration file \emph{stochastic\_analysis.xml}}
+	\caption{Results of five different simulations, using a disease profile for measles. Seeding rate = $0.2$\%, $R_0$ = 11. Simulated for a population of 600,000, with 80\% vaccine and immunity rate.}
 	\label{casesPlots}
+\end{figure}
+\clearpage
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\linewidth]{Boxplot.eps}
+		\caption{Boxplot for average new cases per day.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\linewidth]{NormalDistProb.eps}
+		\caption{Normal Distribution Plot for average new cases per day.}
+	\end{subfigure}
+	\caption{Results of 100 different simulations, using a disease profile for measles. Seeding rate = $0.2$\%, $R_0$ = 11. Simulated for a population of 600,000, with 80\% vaccine and immunity rate.}
+	\label{normalPlots}
 \end{figure}
 
 
@@ -71,7 +89,7 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 
 \begin{figure}[!h]
 	\includegraphics[width=\textwidth]{Hist.eps}
-	\caption{Frequencies of final amounts of cases for 100 simulations.} 
+	\caption{Frequencies of final amounts of cases for 100 simulations, using a disease profile for measles. Seeding rate = $0.2$\%, $R_0$ = 11. Simulated for a population of 600,000, with 80\% vaccine and immunity rate.} 
 	\label{ETHist}
 \end{figure}
 
@@ -81,7 +99,7 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{ImmLvl.eps}
-\caption{Average new cases per day, calculated from 20 simulations per immunity level.} 
+\caption{Average new cases per day, calculated from 20 simulations per immunity level. Simulated using a disease profile for measles. Seeding rate = $0.000334$\%, $R_0$ = 15. Population size is 600,000, with random vaccine profile.} 
 \label{immLvlPlot}
 \end{figure}
 
@@ -207,47 +225,59 @@ For these simulations, we generated a population where 60\% of people between th
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{vaccinating_cases_cum_20runs.eps}
-		\caption{Cumulative cases per day} 
+		\caption{Plot showing the amount of infected student per day.} 	
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{vaccinating_cases_per_day_20runs.eps}
-		\caption{New cases per day.} 
+		\caption{Plot showing the amount of newly infected student per day.} 
 	\end{subfigure}
 	\caption{Plots showing the impact of vaccinating students. Averages from 20 simulations.}
 	\label{VaccinePlot}
 \end{figure}
 
+\newpage
+
 \subsection{Commuting to work}
 
 \paragraph{} Another factor that is interesting to examine is the impact of commuting on disease spread. \\
-In this simulation, we generate different populations, depending on different fractions of commuters. In figure 12 we can expect that if more people commute to work, more people gets infected in the end. The weird thing we can't really explain is why the numbers drop beneath the other ones when half of the population commutes to work. We can also see that there is a peak between day 40 and 50. The peak occurs faster with a higher fraction of commuters. 
+In this simulation, we generate different populations, depending on different fractions of commuters. The expectation we have is that if more people commute to work, more people gets infected in the end. But when we run the simulation, we see that there isn't a difference between the fraction of commuters. We can also see that there is a peak between day 40 and 50. This peak doesn't change much when we increase the amount of commuters. If we increase the amount of days to 200, the peak is around 70-75, but still no difference between the fractions of commuters. 
 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{population10000_Cumulative.png}
+		\includegraphics[width=\textwidth]{work_cum_1.eps}
 		\caption{Cumulative cases per day} 
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{population10000_cases_per_day.png}
+		\includegraphics[width=\textwidth]{work_cases_per_day_1.eps}
 		\caption{New cases per day.} 
 	\end{subfigure}
-	\caption{Plots showing the impact of Commuting to work on a population of size 10000}
+	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. }
 	\label{VaccinePlot}
 \end{figure}
 
-\paragraph{} In Figure 13 we take a much larger population. Instead of a population of size 10000, the population size is 500000. There is not much difference between the two, except the higher numbers. If we zoom in though, we can see again that the numbers drop when only half of the population commutes to work. The peak of all the fractions of commuters lay around 47 now. 
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{work_cases_per_day_3.eps}
+		\caption{New cases per day.} 
+	\end{subfigure}
+	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. 200 days.}
+	\label{VaccinePlot}
+\end{figure}
 
+\newpage
+When we increase the population size, we don't see many differences. 
 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{population500000_Cumulative.png}
+		\includegraphics[width=\textwidth]{work_cum_2.eps}
 		\caption{Cumulative cases per day} 
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{population500000_cases_per_day.png}
-		\caption{New cases per day.} 
+		\includegraphics[width=\textwidth]{work_cases_per_day_2.eps}
+		\caption{Plots showing the impact of Commuting to work on a population of size 600000. 100 runs for each fraction. } 
 	\end{subfigure}
 	\caption{Plots showing the impact of Commuting to work on a population of size 500000}
 	\label{VaccinePlot}
@@ -269,92 +299,54 @@ the actual sorting and analyzing of the population takes up most of the time.
 
 \subsection{Number of days}
 
-\paragraph{} By increasing the number of days to be simulated, the total execution time gets longer as well. This should be expected as more days means more times simulating what goes on in a day.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Number of days & Time \\\hline
-		50  & 00:00:04 \\\hline
-    	100 & 00:00:09 \\\hline
-    	150 & 00:00:14 \\\hline
-    	200	& 00:00:18 \\\hline
-    	500 & 00:00:38 \\
-    	\hline
-	\end{tabular}
-	\caption{Number of days}
-\end{table}
+\paragraph{} By increasing the number of days to be simulated, the total execution time gets longer as well. This should be expected as more days means more times we simulate what goes on in a day.
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_numdays.eps}
+	\caption{Plot showing run time of simulations by varying the number of days.} 
+	\label{Gprof_numdays}
+\end{figure}
 
 \subsection{Population size}
 
 \paragraph{} Generating a new population depends on the given size, which was expected. The generation however is very fast.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Population size & Time \\\hline
-	    10000  & 00:00:00:421 \\\hline
-	    50000  & 00:00:00:816 \\\hline
-	    100000 & 00:00:01:332 \\\hline
- 	    200000 & 00:00:02:249 \\\hline
- 	    500000 & 00:00:04:926 \\
-    	\hline
-	\end{tabular}
-	\caption{Population size}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_popsize.eps}
+	\caption{Plot showing run time of simulations by varying the size of the population.} 
+	\label{Gprof_popsize}
+\end{figure}
 
 \subsection{Immunity rate}
 
 \paragraph{} Varying the immunity rate does not seem to affect the total execution time.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Immunity rate & Time \\\hline
-    	0.2  & 00:00:05:817 \\\hline
-    	0.4  & 00:00:05:750 \\\hline
-    	0.6  & 00:00:05:643 \\\hline
-    	0.8  & 00:00:05:580 \\\hline
-    	0.99 & 00:00:05:648 \\
-    	\hline
-	\end{tabular}
-	\caption{Immunity rate}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_immunityrate.eps}
+	\caption{Plot showing run time of simulations by varying the immunity rate.} 
+	\label{Gprof_immunityrate}
+\end{figure}
 
 \subsection{Seeding rate}
 
 \paragraph{} A bigger seeding rate slightly increases the time of the execution. This happens as more people have to be initially infected.
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Seeding rate & Time \\\hline
-    	0.02 	& 00:00:06:599 \\\hline
-    	0.002 	& 00:00:05:589 \\\hline
-    	0.0002 	& 00:00:05:134 \\\hline
-  		0.00002 & 00:00:04:865 \\
-    	\hline
-	\end{tabular}
-	\caption{seeding rate}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_seedingrate.eps}
+	\caption{Plot showing run time of simulations by varying the seeding rate.} 
+	\label{Gprof_seedingrate}
+\end{figure}
 
 \subsection{Contact log mode}
 
 \paragraph{} The mode of the contact log has a very large impact on the execution time. Logging every contact between people takes a long time.\\
-At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person.\\
+At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person. The logging modes 'All' and 'Susceptibles' use a less efficient algorithm, hence the big difference in run time between them and the modes 'Transmissions' and 'None'.\\
 
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		Contact log mode & Time \\\hline
-   		All 			& 00:26:48:251 \\\hline
-   		Transmissions 	& 00:00:06:730 \\\hline
-   		Susceptibles 	& 00:27:06:444 \\\hline
-   		None 			& 00:00:05:824 \\
-    	\hline
-	\end{tabular}
-	\caption{Contact log mode}
-\end{table}
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=0.8\textwidth]{3_GProf_contactlogmode.eps}
+	\caption{Plot showing run time of simulations using different logging methods.} 
+	\label{Gprof_contactlogmode}
+\end{figure}
 
 \end{document}

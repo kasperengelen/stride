@@ -105,8 +105,10 @@ if(NOT STRIDE_FORCE_NO_PROTOC)
     include(FindProtobuf)
     find_package(Protobuf)
     if(NOT Protobuf_FOUND)
-            set(Protobuf_VERSION "0.0.0")
+            SET(Protobuf_VERSION 0.0.0)
     endif()
+else()
+    SET(Protobuf_VERSION 0.0.0) # deze setten, want als STRIDE_FORCE_NO_PROTOC dan wordt het vorige stuk code niet gerund en deze variabele niet geset.
 endif()
 #
 if(Protobuf_FOUND AND ${Protobuf_VERSION} VERSION_GREATER_EQUAL 3.0.0)
@@ -187,5 +189,40 @@ set(CMAKE_PREFIX_PATH "/opt/Qt/5.12.2/gcc_64/lib/cmake")
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Location REQUIRED)
 
+#----------------------------------------------------------------------------
+# HDF5
+#----------------------------------------------------------------------------
+if (NOT STRIDE_FORCE_NO_HDF5)
+    include(FindHDF5)
+    find_package(HDF5)
+endif()
+if(HDF5_FOUND)
+    include_directories(${HDF5_INCLUDE_DIR})
+    set(LIBS ${LIBS} ${HDF5_LIBRARIES})
+else()
+    include(ExternalProject)
+    set(ExternalProjectCMakeArgs
+            -DHDF5_BUILD_CPP_LIB=ON
+            )
+    ExternalProject_Add(hdf5
+            DOWNLOAD_COMMAND ""
+            CMAKE_ARGS ${ExternalProjectCMakeArgs}
+            SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5
+            BINARY_DIR ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build
+            STAMP_DIR  ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/stamp
+            TMP_DIR    ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/tmp
+            INSTALL_COMMAND ""
+            )        
+    include_directories(
+                ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/src
+                ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
+                ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build
+            )
+    set(_hdf5_libs
+            ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build/bin/libhdf5_cpp.a
+            ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build/bin/libhdf5.a
+            -ldl
+            )
+endif()
 
 #############################################################################

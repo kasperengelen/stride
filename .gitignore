@@ -234,7 +234,6 @@ fabric.properties
 ### Eclipse ###
 
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -360,7 +359,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -502,5 +500,8 @@ vignettes/*.pdf
 ### R.Bookdown Stack ###
 # R package: bookdown caching files
 /*_files/
+
+### vscode
+**/.vscode
 
 installation_dir/*
