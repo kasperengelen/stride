@@ -185,9 +185,11 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #set(CMAKE_PREFIX_PATH "/opt/Qt/5.12.2/gcc_64/lib/cmake")
-set(CMAKE_PREFIX_PATH "~/Qt/5.12.2/gcc_64/lib/cmake")
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Location REQUIRED)
+set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.12.2/gcc_64)
+#find_package(Qt5Core REQUIRED)
+#find_package(Qt5Widgets REQUIRED)
+#find_package(Qt5Location REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Location REQUIRED)
 
 #----------------------------------------------------------------------------
 # HDF5
