@@ -194,7 +194,15 @@ install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 # Data visualiser sources.
 #============================================================================
 set(DATAVIS_SRC
-    #---add other here
+    # epi data model
+    datavis/epi_output_model/Locality.cpp
+    datavis/epi_output_model/Timestep.cpp
+    datavis/epi_output_model/EpiOutputModel.cpp
+    # epi output readers
+    datavis/readers/HDF5EpiReader.cpp
+    datavis/readers/JSONEpiReader.cpp
+    datavis/readers/ProtobufEpiReader.cpp
+    # main
     datavis/main.cpp
     datavis/qml.qrc
 )
