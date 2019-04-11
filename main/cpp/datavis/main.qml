@@ -176,6 +176,16 @@ Window {
             radius: 10000.0
             color: Qt.hsva(0.2, 1.0, 1.0, 1.0)
             border.width: 0
+            
+            ToolTip.visible: ma.containsMouse
+            ToolTip.text: qsTr("Gent: 10,000 inhabitants.\n 20% infected.")
+            
+            MouseArea {
+            	id: ma
+            	anchors.fill: parent
+            	hoverEnabled: true
+            }
+            
         }
 
         MapCircle {
