@@ -37,11 +37,12 @@ public:
 	/**
 	 * Parametrised constructor.
 	 *
+     * @param name The place name of the locality.
 	 * @param coord The coordinate that represents the geographical location of the locality.
 	 * @param popCount The total population count of the locality.
 	 * @param infectedFrac The fraction of the population that is infected.
 	 */
-	explicit Locality(geopop::Coordinate coord, unsigned int popCount, double infectedFrac);
+	explicit Locality(const std::string& name, geopop::Coordinate coord, unsigned int popCount, double infectedFrac);
 
 	/**
 	 * Retrieve the place name of the locality.
