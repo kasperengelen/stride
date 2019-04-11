@@ -20,6 +20,11 @@ Locality::Locality(geopop::Coordinate coord, unsigned int popCount, double infec
 		: m_coordinate(coord), m_pop_count(popCount), m_infected_frac(infectedFrac)
 {}
 
+const std::string& Locality::GetName() const
+{
+	return m_name;
+}
+
 const geopop::Coordinate& Locality::GetCoordinate() const
 {
 	return m_coordinate;

@@ -21,6 +21,8 @@
 #include "geopop/Coordinate.h"
 #include "disease/Health.h"
 
+#include <string>
+
 namespace stride {
 namespace datavisualiser {
 
@@ -40,6 +42,11 @@ public:
 	 * @param infectedFrac The fraction of the population that is infected.
 	 */
 	explicit Locality(geopop::Coordinate coord, unsigned int popCount, double infectedFrac);
+
+	/**
+	 * Retrieve the place name of the locality.
+	 */
+	const std::string& GetName() const;
 
 	/**
 	 * Retrieve the geographical coordinate of the locality.
@@ -64,6 +71,7 @@ public:
 
 private:
 	geopop::Coordinate m_coordinate;
+	std::string        m_name;
 	unsigned int       m_pop_count;
 	double             m_infected_frac;
 };
