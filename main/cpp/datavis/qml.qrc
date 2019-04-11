@@ -10,6 +10,5 @@
         <file>img/map_of_belgium.png</file>
         <file>img/open_simulation_file.png</file>
         <file>img/save_to_image.png</file>
-        <file>localityCreator.js</file>
     </qresource>
 </RCC>

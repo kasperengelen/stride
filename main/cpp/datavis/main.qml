@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.12
 import QtLocation 5.3
 import QtPositioning 5.6
 import QtQuick.Dialogs 1.3
-import "localityCreator.js" as LocalityCreator // contains function to add localities to the map
 
 // TODO components in seperate qml files
 // TODO render from file data
@@ -28,9 +27,17 @@ Window {
             console.log("You chose: " + dialog_openSimulationFile.fileUrls)
             // open file, process, order by fraction of infected and call functions
             // to render localities
+            
+            // send file to reader
+            // reader returns a EpiOutputModel, save this to somewhere
+            
+            // set current timestep to zero
+            
+            // render current timestep
         }
         onRejected: {
             console.log("Canceled")
+            // TODO popup with "no file selected.
         }
         Component.onCompleted: visible = false
     }
