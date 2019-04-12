@@ -28,7 +28,7 @@ namespace geopop {
 
     private:
 
-        void WriteLocation(const Location& location, H5::H5File& file);
+        void WriteLocation(const Location& location, H5::H5Location& h5_location);
 
         void WritePerson(stride::Person* person, H5::H5File& file);
 
