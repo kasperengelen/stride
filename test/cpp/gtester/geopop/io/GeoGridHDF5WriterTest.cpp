@@ -11,7 +11,6 @@
 #include <iostream>
 #include <sstream>
 
-
 using namespace std;
 using namespace geopop;
 using namespace stride;
@@ -21,13 +20,11 @@ using boost::property_tree::ptree;
 
 namespace {
 
-
 bool compareGeoGrid(GeoGrid& geoGrid, const string& testname)
 {
         GeoGridHDF5Writer writer;
         stringstream      ss;
         writer.Write(geoGrid, ss);
-
 
         return true;
 }
@@ -42,4 +39,4 @@ TEST(GeoGridHDF5WriterTest, locationTest)
 
         EXPECT_TRUE(compareGeoGrid(geoGrid, "test0.json"));
 }
-}
+} // namespace

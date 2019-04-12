@@ -4,18 +4,17 @@
 
 #include "H5Cpp.h"
 
-
 namespace geopop {
 
-    class GeoGrid;
+class GeoGrid;
 
 /**
  * An implementation of the GeoGridReader using HDF5.
  * This class is used to read a GeoGrid from a HDF5 file.
  */
-    class GeoGridHDF5Reader : public GeoGridReader
-    {
-    public:
+class GeoGridHDF5Reader : public GeoGridReader
+{
+public:
         /// Construct the GeoGridHDF5Reader with the istream which contains the HDF5.
         GeoGridHDF5Reader(std::unique_ptr<std::istream> inputStream, stride::Population* pop);
 
@@ -27,7 +26,6 @@ namespace geopop {
 
         /// Actually perform the read and return the GeoGrid.
         void Read() override;
-
-    };
+};
 
 } // namespace geopop
