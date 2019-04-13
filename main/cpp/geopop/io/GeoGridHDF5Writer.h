@@ -29,7 +29,7 @@ private:
         void WriteContactPool(H5::H5Location& h5_location, const stride::ContactPool* pool, int count);
         void WriteLocation(const Location& location, H5::H5Location& h5_location, int count);
 
-        void WritePerson(stride::Person* person, H5::H5File& file);
+        void WritePersons(H5::H5Location& h5_location);
 
 private:
         std::set<stride::Person*> m_persons_found; ///< The persons found when looping over the ContactPools.

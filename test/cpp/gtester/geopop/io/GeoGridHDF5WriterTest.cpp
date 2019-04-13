@@ -73,4 +73,10 @@ TEST(GeoGridHDF5WriterTest, commutesTest)
         auto pop = Population::Create();
         EXPECT_TRUE(compareGeoGrid(*GetCommutesGeoGrid(pop.get()), "test7.json"));
 }
+
+TEST(GeoGridHDF5WriterTest, peopleTest)
+{
+        auto pop = Population::Create();
+        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get()), "test2.json"));
+}
 } // namespace

@@ -33,9 +33,7 @@ void GeoGridHDF5Writer::Write(GeoGrid& geoGrid, ostream& stream)
                         WriteLocation(*location, locations, count++);
                 }
 
-                for (const auto& person : m_persons_found) {
-                        WritePerson(person, file);
-                }
+                WritePersons(file);
 
         } catch (FileIException& error) {
                 error.printErrorStack();
@@ -81,10 +79,11 @@ void WriteCoordinate(H5Object& object, const Coordinate& coordinate)
 
 void GeoGridHDF5Writer::WriteContactPool(H5Location& h5_location, const ContactPool* pool, int count)
 {
-        const auto&  members = pool->GetPool();
-        unsigned int people_data[members.size()];
-        for (int i = 0; i < members.size(); i++) {
-                people_data[i] = members[i]->GetId();
+        const auto&  persons = pool->GetPool();
+        unsigned int people_data[persons.size()];
+        for (int i = 0; i < persons.size(); i++) {
+                people_data[i] = persons[i]->GetId();
+                m_persons_found.insert(persons[i]);
         }
         CompType comp_type(sizeof(unsigned int));
         comp_type.insertMember("people", 0, PredType::NATIVE_UINT);
@@ -133,7 +132,7 @@ void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& h5_l
         Group contact_pools(loc.createGroup("ContactPools"));
 
         int pool_count = 1;
-        for (auto type : IdList) {
+        for (const auto& type : IdList) {
                 const auto& pools = location.CRefPools(type);
                 for (auto pool : pools) {
                         WriteContactPool(contact_pools, pool, pool_count++);
@@ -141,29 +140,53 @@ void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& h5_l
         }
 }
 
-void GeoGridHDF5Writer::WritePerson(stride::Person* person, H5::H5File& file)
+void GeoGridHDF5Writer::WritePersons(H5Location& h5_location)
 {
+        struct PersonsData
+        {
+                unsigned int id;
+                float        age;
+                unsigned int daycare;
+                unsigned int preschool;
+                unsigned int k12school;
+                unsigned int household;
+                unsigned int workplace;
+                unsigned int primary_community;
+                unsigned int secondary_community;
+                unsigned int collage;
+        };
+        const vector<Person*> persons(m_persons_found.begin(), m_persons_found.end());
 
-        // The data of the attribute.
-        vector<string> att_vector;
-        att_vector.emplace_back("id");
-        att_vector.emplace_back("age");
-        att_vector.emplace_back("daycare");
-        const int RANK = 1;
-        hsize_t   dims[RANK];
-        StrType   str_type(PredType::C_S1, H5T_VARIABLE);
-        dims[0] = att_vector.size();
-        DataSpace att_datspc(RANK, dims);
-
-        DataSet   persons = file.createDataSet("Persons", PredType::STD_I32BE, att_datspc);
-        Attribute att(persons.createAttribute("Column_Names", str_type, att_datspc));
-
-        vector<const char*> cStrArray;
-        for (auto& index : att_vector) {
-                cStrArray.push_back(index.c_str());
+        PersonsData persons_data[persons.size()];
+        for (auto i = 0; i < persons.size(); i++) {
+                persons_data[i].id  = persons[i]->GetId();
+                persons_data[i].age = persons[i]->GetAge();
+                persons_data[i].daycare = 0;             // TODO: edit when Daycare and preschool are implemented
+                persons_data[i].preschool           = 0; // TODO: Idem
+                persons_data[i].k12school           = persons[i]->GetPoolId(Id::K12School);
+                persons_data[i].household           = persons[i]->GetPoolId(Id::Household);
+                persons_data[i].workplace           = persons[i]->GetPoolId(Id::Workplace);
+                persons_data[i].primary_community   = persons[i]->GetPoolId(Id::PrimaryCommunity);
+                persons_data[i].secondary_community = persons[i]->GetPoolId(Id::SecondaryCommunity);
+                persons_data[i].collage             = persons[i]->GetPoolId(Id::College);
         }
-        // att_vector must not change
-        att.write(str_type, (void*)&cStrArray[0]);
+
+        CompType comp_type(sizeof(PersonsData));
+        comp_type.insertMember("id", HOFFSET(PersonsData, id), PredType::NATIVE_UINT);
+        comp_type.insertMember("age", HOFFSET(PersonsData, age), PredType::NATIVE_FLOAT);
+        comp_type.insertMember("daycare", HOFFSET(PersonsData, daycare), PredType::NATIVE_UINT);
+        comp_type.insertMember("preschool", HOFFSET(PersonsData, preschool), PredType::NATIVE_UINT);
+        comp_type.insertMember("k12school", HOFFSET(PersonsData, k12school), PredType::NATIVE_UINT);
+        comp_type.insertMember("household", HOFFSET(PersonsData, household), PredType::NATIVE_UINT);
+        comp_type.insertMember("workplace", HOFFSET(PersonsData, workplace), PredType::NATIVE_UINT);
+        comp_type.insertMember("primary community", HOFFSET(PersonsData, primary_community), PredType::NATIVE_UINT);
+        comp_type.insertMember("secondary community", HOFFSET(PersonsData, secondary_community), PredType::NATIVE_UINT);
+        comp_type.insertMember("collage", HOFFSET(PersonsData, collage), PredType::NATIVE_UINT);
+
+        hsize_t   pers_dim[] = {persons.size()};
+        DataSpace pers_ds(1, pers_dim);
+        DataSet   commute = h5_location.createDataSet("Persons", comp_type, pers_ds);
+        commute.write(persons_data, comp_type);
 }
 
 } // namespace geopop
