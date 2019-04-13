@@ -37,7 +37,7 @@ void DaycareGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfi
 
         const auto pupilCount = geoGridConfig.popInfo.popcount_daycare;
         const auto schoolCount =
-                static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.daycare_size)));
+            static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.daycare_size)));
 
         vector<double> weights;
         for (const auto& loc : geoGrid) {

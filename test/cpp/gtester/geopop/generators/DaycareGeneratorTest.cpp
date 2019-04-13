@@ -52,8 +52,8 @@ protected:
 // Check that generator can handle one Location.
 TEST_F(DaycareGeneratorTest, OneLocationTest)
 {
-        m_geogrid_config.input.pop_size             = 10000;
-        m_geogrid_config.popInfo.popcount_daycare   = 2000;
+        m_geogrid_config.input.pop_size           = 10000;
+        m_geogrid_config.popInfo.popcount_daycare = 2000;
 
         auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_geo_grid.AddLocation(loc1);
@@ -78,7 +78,7 @@ TEST_F(DaycareGeneratorTest, ZeroLocationTest)
 // Check that generator can handle five Locations.
 TEST_F(DaycareGeneratorTest, FiveLocationsTest)
 {
-        m_geogrid_config.input.pop_size             = 37542 * 100;
+        m_geogrid_config.input.pop_size           = 37542 * 100;
         m_geogrid_config.popInfo.popcount_daycare = 750840;
 
         auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 10150 * 100);
