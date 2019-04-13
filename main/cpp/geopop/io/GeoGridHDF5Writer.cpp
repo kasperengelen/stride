@@ -159,10 +159,10 @@ void GeoGridHDF5Writer::WritePersons(H5Location& h5_location)
 
         PersonsData persons_data[persons.size()];
         for (auto i = 0; i < persons.size(); i++) {
-                persons_data[i].id  = persons[i]->GetId();
-                persons_data[i].age = persons[i]->GetAge();
-                persons_data[i].daycare = 0;             // TODO: edit when Daycare and preschool are implemented
-                persons_data[i].preschool           = 0; // TODO: Idem
+                persons_data[i].id                  = persons[i]->GetId();
+                persons_data[i].age                 = persons[i]->GetAge();
+                persons_data[i].daycare             = persons[i]->GetPoolId(Id::Daycare);
+                persons_data[i].preschool           = persons[i]->GetPoolId(Id::PreSchool);
                 persons_data[i].k12school           = persons[i]->GetPoolId(Id::K12School);
                 persons_data[i].household           = persons[i]->GetPoolId(Id::Household);
                 persons_data[i].workplace           = persons[i]->GetPoolId(Id::Workplace);
