@@ -33,7 +33,6 @@ using namespace stride::util;
 
 using boost::geometry::get;
 
-
 namespace {
 TEST(GeoGridHDF5ReaderTest, locationTest) {}
 TEST(GeoGridHDF5ReaderTest, contactPoolsTest) {}
@@ -44,4 +43,4 @@ TEST(GeoGridHDF5ReaderTest, invalidTypeTest) {}
 TEST(GeoGridHDF5ReaderTest, invalidPersonTest) {}
 TEST(GeoGridHDF5ReaderTest, invalidHDF5Test) {}
 
-} //namespace
+} // namespace

@@ -40,27 +40,26 @@ class PreSchoolPopulatorTest : public testing::Test
 {
 public:
         PreSchoolPopulatorTest()
-//            : m_rn_man(RnInfo()), m_daycare_populator(m_rn_man), m_geogrid_config(), m_pop(Population::Create()),
-//              m_geo_grid(m_pop->RefGeoGrid()), m_daycare_generator(m_rn_man)
-            : m_rn_man(RnInfo()), m_geogrid_config(), m_pop(Population::Create()),
-              m_geo_grid(m_pop->RefGeoGrid())
+            //            : m_rn_man(RnInfo()), m_daycare_populator(m_rn_man), m_geogrid_config(),
+            //            m_pop(Population::Create()),
+            //              m_geo_grid(m_pop->RefGeoGrid()), m_daycare_generator(m_rn_man)
+            : m_rn_man(RnInfo()), m_geogrid_config(), m_pop(Population::Create()), m_geo_grid(m_pop->RefGeoGrid())
 
         {
         }
 
 protected:
-        RnMan                  m_rn_man;
-//        PreSchoolPopulator       m_preschool_populator;
+        RnMan m_rn_man;
+        //        PreSchoolPopulator       m_preschool_populator;
         GeoGridConfig          m_geogrid_config;
         shared_ptr<Population> m_pop;
         GeoGrid&               m_geo_grid;
-//        PreSchoolGenerator       m_preschool_generator;
-        //const unsigned int     m_ppp = GeoGridConfig{}.pools.pools_per_preschool;
+        //        PreSchoolGenerator       m_preschool_generator;
+        // const unsigned int     m_ppp = GeoGridConfig{}.pools.pools_per_preschool;
 };
 
 TEST_F(PreSchoolPopulatorTest, NoPopulation) {}
 TEST_F(PreSchoolPopulatorTest, OneLocationTest) {}
 TEST_F(PreSchoolPopulatorTest, TwoLocationTest) {}
-
 
 } // namespace

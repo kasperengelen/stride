@@ -24,7 +24,7 @@ namespace geopop {
  */
 class DaycarePopulator : public Populator
 {
-        public:
+public:
         /// Using base class constructors.
         using Populator::Populator;
 

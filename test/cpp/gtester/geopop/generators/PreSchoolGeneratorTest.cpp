@@ -53,7 +53,7 @@ protected:
 TEST_F(PreSchoolGeneratorTest, OneLocationTest)
 {
         m_geogrid_config.input.pop_size             = 10000;
-        m_geogrid_config.popInfo.popcount_preschool   = 2000;
+        m_geogrid_config.popInfo.popcount_preschool = 2000;
 
         auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_geo_grid.AddLocation(loc1);
@@ -67,7 +67,7 @@ TEST_F(PreSchoolGeneratorTest, OneLocationTest)
 // Checks whether Generator can handle zero locations in GeoGrid.
 TEST_F(PreSchoolGeneratorTest, ZeroLocationTest)
 {
-        m_geogrid_config.input.pop_size           = 10000;
+        m_geogrid_config.input.pop_size             = 10000;
         m_geogrid_config.popInfo.popcount_preschool = 2000;
 
         m_preschool_generator.Apply(m_geo_grid, m_geogrid_config);
