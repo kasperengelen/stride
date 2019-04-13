@@ -26,7 +26,8 @@ public:
         void Write(GeoGrid& geoGrid, std::ostream& stream) override;
 
 private:
-        void WriteLocation(const Location& location, H5::H5Location& h5_location);
+        void WriteContactPool(H5::H5Location& h5_location, const stride::ContactPool* pool, int count);
+        void WriteLocation(const Location& location, H5::H5Location& h5_location, int count);
 
         void WritePerson(stride::Person* person, H5::H5File& file);
 
