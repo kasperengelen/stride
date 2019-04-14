@@ -91,7 +91,7 @@ void GeoGridHDF5Reader::Read()
 //        m_people.clear();
 }
 
-void GeoGridHDF5Reader::ParsePersons(GeoGrid& geogrid, const H5::H5Location& h5_location)
+void GeoGridHDF5Reader::ParsePersons(GeoGrid& geoGrid, const H5::H5Location& h5_location)
 {
         DataSet persons(h5_location.openDataSet("Persons"));
 
@@ -126,11 +126,10 @@ void GeoGridHDF5Reader::ParsePersons(GeoGrid& geogrid, const H5::H5Location& h5_
         size_att.read(PredType::NATIVE_UINT, size);
         vector<PersonsData> persons_data(size[0]);
         persons.read(&persons_data.front(), comp_type);
-        for (auto person_data : persons_data) {
-                Person person(person_data.id, person_data.age, person_data.household, person_data.k12school,
-                              person_data.collage, person_data.workplace, person_data.primary_community,
-                              person_data.secondary_community);
 
+        auto pop = geoGrid.GetPopulation();
+        for (auto p : persons_data) {
+                pop->CreatePerson(p.id, p.age, p.household, p.k12school, p.collage, p.workplace, p.primary_community, p.secondary_community, p.daycare, p.preschool);
         }
 
 

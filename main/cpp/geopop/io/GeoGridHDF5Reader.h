@@ -41,7 +41,7 @@ private:
 //        std::shared_ptr<Location> ParseLocation(boost::property_tree::ptree& location);
 
         /// Create a Person based on the information stored in the provided boost property tree.
-        void ParsePersons(GeoGrid& geogrid, const H5::H5Location& h5_location);
+        void ParsePersons(GeoGrid& geoGrid, const H5::H5Location& h5_location);
 private:
         std::string m_filename;
 };
