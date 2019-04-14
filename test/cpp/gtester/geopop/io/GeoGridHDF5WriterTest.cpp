@@ -19,12 +19,10 @@ using namespace stride::util;
 
 namespace {
 
-bool compareGeoGrid(GeoGrid& geoGrid, const string& testname)
+bool compareGeoGrid(GeoGrid& geoGrid)
 {
         GeoGridHDF5Writer writer;
-        stringstream      ss;
-        writer.Write(geoGrid, ss);
-
+        writer.Write(geoGrid, "Geo/GeoGrid.h5");
         return true;
 }
 
@@ -36,7 +34,7 @@ TEST(GeoGridHDF5WriterTest, locationTest)
         geoGrid.AddLocation(make_shared<Location>(2, 3, Coordinate(0, 0), "Gent", 5000));
         geoGrid.AddLocation(make_shared<Location>(3, 2, Coordinate(0, 0), "Mons", 2500));
 
-        EXPECT_TRUE(compareGeoGrid(geoGrid, "test0.json"));
+        EXPECT_TRUE(compareGeoGrid(geoGrid));
 }
 
 TEST(GeoGridJSONWriterTest, contactPoolsTest)
@@ -64,18 +62,18 @@ TEST(GeoGridJSONWriterTest, contactPoolsTest)
 
         geoGrid.AddLocation(location);
 
-        EXPECT_TRUE(compareGeoGrid(geoGrid, "test1.json"));
+        EXPECT_TRUE(compareGeoGrid(geoGrid));
 }
 
 TEST(GeoGridHDF5WriterTest, commutesTest)
 {
         auto pop = Population::Create();
-        EXPECT_TRUE(compareGeoGrid(*GetCommutesGeoGrid(pop.get()), "test7.json"));
+        EXPECT_TRUE(compareGeoGrid(*GetCommutesGeoGrid(pop.get())));
 }
 
 TEST(GeoGridHDF5WriterTest, peopleTest)
 {
         auto pop = Population::Create();
-        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get()), "test2.json"));
+        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get())));
 }
 } // namespace
