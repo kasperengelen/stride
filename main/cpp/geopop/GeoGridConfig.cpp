@@ -66,10 +66,10 @@ void GeoGridConfig::SetData(const string& householdsFileName)
         for (const auto& hhAgeProfile : refHH.ages) {
                 for (const auto& age : hhAgeProfile) {
                         if (Daycare::HasAge(age)) {
-                                ref_daycare++;    
+                                ref_daycare++;
                         }
                         if (PreSchool::HasAge(age)) {
-                                ref_preschool++;    
+                                ref_preschool++;
                         }
                         if (K12School::HasAge(age)) {
                                 ref_k12school++;
@@ -91,16 +91,16 @@ void GeoGridConfig::SetData(const string& householdsFileName)
         const auto fraction_college_age   = static_cast<double>(ref_college) / static_cast<double>(ref_p_count);
         const auto fraction_workplace_age = static_cast<double>(ref_workplace) / static_cast<double>(ref_p_count);
 
-        const auto age_count_daycare = static_cast<unsigned int>(floor(popSize * fraction_daycare_age));
+        const auto age_count_daycare   = static_cast<unsigned int>(floor(popSize * fraction_daycare_age));
         const auto age_count_preschool = static_cast<unsigned int>(floor(popSize * fraction_preschool_age));
         const auto age_count_k12school = static_cast<unsigned int>(floor(popSize * fraction_k12school_age));
         const auto age_count_college   = static_cast<unsigned int>(floor(popSize * fraction_college_age));
         const auto age_count_workplace = static_cast<unsigned int>(floor(popSize * fraction_workplace_age));
 
+        popInfo.popcount_daycare = static_cast<unsigned int>(floor(input.participation_daycare * age_count_daycare));
 
-        popInfo.popcount_daycare   = static_cast<unsigned int>(floor(input.participation_daycare * age_count_daycare));
-
-        popInfo.popcount_preschool = static_cast<unsigned int>(floor(input.participation_preschool * age_count_preschool));
+        popInfo.popcount_preschool =
+            static_cast<unsigned int>(floor(input.participation_preschool * age_count_preschool));
 
         popInfo.popcount_k12school = age_count_k12school;
 

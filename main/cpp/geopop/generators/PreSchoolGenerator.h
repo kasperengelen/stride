@@ -24,7 +24,7 @@ namespace geopop {
  */
 class PreSchoolGenerator : public Generator
 {
-        public:
+public:
         using Generator::Generator;
 
         /// See @Generator::Apply.

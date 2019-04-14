@@ -31,7 +31,7 @@ void PreSchoolGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridCon
 {
         const auto pupilCount = geoGridConfig.popInfo.popcount_preschool;
         const auto schoolCount =
-                static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.preschool_size)));
+            static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.preschool_size)));
 
         vector<double> weights;
         for (const auto& loc : geoGrid) {

@@ -36,4 +36,4 @@ TEST(GeoGridHDF5WriterTest, contacPoolTest) {}
 TEST(GeoGridHDF5WriterTest, peopleTest) {}
 TEST(GeoGridHDF5WriterTest, commutesTest) {}
 
-} //namespace
+} // namespace
