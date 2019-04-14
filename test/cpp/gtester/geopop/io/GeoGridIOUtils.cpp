@@ -193,8 +193,9 @@ shared_ptr<GeoGrid> GetPopulatedGeoGrid(Population* pop)
         loc->RefPools(Id::PreSchool).emplace_back(wPool);
 
         geoGrid->AddLocation(loc);
-        const auto person = geoGrid->GetPopulation()->CreatePerson(
-            0, 18, hPool->GetId(), k12Pool->GetId(), cPool->GetId(), wPool->GetId(), pcPool->GetId(), scPool->GetId());
+        const auto person = geoGrid->GetPopulation()->CreatePerson(0, 18, hPool->GetId(), k12Pool->GetId(),
+                                                                   cPool->GetId(), wPool->GetId(), pcPool->GetId(),
+                                                                   scPool->GetId(), dPool->GetId(), psPool->GetId());
         k12Pool->AddMember(person);
         pcPool->AddMember(person);
         scPool->AddMember(person);
