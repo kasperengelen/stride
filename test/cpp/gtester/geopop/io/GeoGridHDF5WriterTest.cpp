@@ -47,9 +47,9 @@ TEST(GeoGridJSONWriterTest, contactPoolsTest)
         ContactPool pool3    = ContactPool(3, Id::College);
         ContactPool pool4    = ContactPool(4, Id::Household);
         ContactPool pool5    = ContactPool(5, Id::Workplace);
-        Person      person1  = Person(1, 12, 0, 1, 0, 0, 0, 0);
-        Person      person2  = Person(2, 40, 1, 0, 0, 2, 0, 0);
-        Person      person3  = Person(3, 20, 2, 0, 1, 0, 0, 0);
+        Person      person1  = Person(1, 12, 0, 1, 0, 0, 0, 0, 0, 0);
+        Person      person2  = Person(2, 40, 1, 0, 0, 2, 0, 0, 0, 0);
+        Person      person3  = Person(3, 20, 2, 0, 1, 0, 0, 0, 0, 0);
         pool1.AddMember(&person1);
         pool1.AddMember(&person2);
         pool1.AddMember(&person3);
