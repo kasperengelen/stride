@@ -79,7 +79,7 @@ void MakeGeoGrid(const GeoGridConfig& ggConfig, int locCount, int locPop, int sc
 
                         for (int i = 0; i < personCount; i++) {
                                 auto sample = populationSample[sampleId % populationSize];
-                                auto p      = pop->CreatePerson(personId, sample, contactPool->GetId(), 0, 0, 0, 0, 0);
+                                auto p = pop->CreatePerson(personId, sample, contactPool->GetId(), 0, 0, 0, 0, 0, 0, 0);
                                 contactPool->AddMember(p);
                                 sampleId++;
                                 personId++;
