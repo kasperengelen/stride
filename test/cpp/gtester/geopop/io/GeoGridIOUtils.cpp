@@ -188,9 +188,9 @@ shared_ptr<GeoGrid> GetPopulatedGeoGrid(Population* pop)
         auto wPool = pop->RefPoolSys().CreateContactPool(Id::Workplace);
         loc->RefPools(Id::Workplace).emplace_back(wPool);
         auto dPool = pop->RefPoolSys().CreateContactPool(Id::Daycare);
-        loc->RefPools(Id::Daycare).emplace_back(wPool);
+        loc->RefPools(Id::Daycare).emplace_back(dPool);
         auto psPool = pop->RefPoolSys().CreateContactPool(Id::PreSchool);
-        loc->RefPools(Id::PreSchool).emplace_back(wPool);
+        loc->RefPools(Id::PreSchool).emplace_back(psPool);
 
         geoGrid->AddLocation(loc);
         const auto person = geoGrid->GetPopulation()->CreatePerson(0, 18, hPool->GetId(), k12Pool->GetId(),
