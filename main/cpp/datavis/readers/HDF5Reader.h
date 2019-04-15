@@ -13,7 +13,7 @@
 
 /**
  * @file
- * Header file for the ProtobufEpiReader class.
+ * Header file for the HDF5Reader class.
  */
 
 #pragma once
@@ -22,9 +22,9 @@ namespace stride {
 namespace datavisualiser {
 
 /**
- * Class that reads epi-output specified in the protobuf data format.
+ * Class that reads epi-output specified in the HDF5 data format.
  */
-class ProtobufEpiReader
+class HDF5EpiReader
 {
 public:
 
@@ -34,4 +34,3 @@ private:
 
 }
 }
-

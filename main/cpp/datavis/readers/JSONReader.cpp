@@ -11,5 +11,9 @@
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ProtobufEpiReader.h"
+/**
+ * @file
+ * Implementation file for the JSONReader class.
+ */
 
+#include "JSONReader.h"

@@ -11,4 +11,26 @@
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "JSONEpiReader.h"
+/**
+ * @file
+ * Header file for the JSONReader class.
+ */
+
+#pragma once
+
+namespace stride {
+namespace datavisualiser {
+
+/**
+ * Class that reads epi-output specified in the json data format.
+ */
+class JSONEpiReader
+{
+public:
+
+private:
+
+};
+
+}
+}

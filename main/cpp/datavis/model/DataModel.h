@@ -13,24 +13,42 @@
 
 /**
  * @file
- * Header file for the JSONEpiReader class.
+ * Header file for the DataModel class.
  */
 
 #pragma once
 
+#include "datavis/model/Timestep.h"
+
+#include <vector>
+
 namespace stride {
 namespace datavisualiser {
 
-/**
- * Class that reads epi-output specified in the json data format.
- */
-class JSONEpiReader
+
+class DataModel
 {
 public:
+	/**
+	 * Default constructor.
+	 */
+	DataModel();
+
+	/**
+	 * Add a timestep.
+	 */
+	void AddTimestep(const Timestep& timestep);
+
+	/**
+	 * Retrieve a list of timesteps.
+	 */
+	const std::vector<Timestep>& GetTimesteps() const ;
 
 private:
-
+	// vector<vector<Locality>>
+	std::vector<Timestep> m_timesteps;
 };
+
 
 }
 }

@@ -13,45 +13,15 @@
 
 /**
  * @file
- * Header file for the Timestep class.
+ * Implementation file for the Controller class.
  */
 
-#pragma once
-
-#include "datavis/epi_output_model/Locality.h"
-
-#include <vector>
+#include "datavis/controller/Controller.h"
 
 namespace stride {
 namespace datavisualiser {
 
-/**
- * Class that represents what a geographical area look like during
- * a specific timestep. It contains a list of localities.
- */
-class Timestep
-{
-public:
-	/**
-	 * Default constructor.
-	 */
-	Timestep();
-
-	/**
-	 * Add a locality to the timestep.
-	 */
-	void AddLocality(const Locality& locality);
-
-	/**
-	 * Retrieve the localities that are part of the timestep.
-	 */
-	const std::vector<Locality>& GetLocalities() const;
-
-private:
-	std::vector<Locality> m_localities;
-};
 
 }
 }
-
 

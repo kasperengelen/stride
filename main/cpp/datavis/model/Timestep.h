@@ -13,24 +13,45 @@
 
 /**
  * @file
- * Header file for the HDF5EpiReader class.
+ * Header file for the Timestep class.
  */
 
 #pragma once
+
+#include "datavis/model/Locality.h"
+
+#include <vector>
 
 namespace stride {
 namespace datavisualiser {
 
 /**
- * Class that reads epi-output specified in the HDF5 data format.
+ * Class that represents what a geographical area look like during
+ * a specific timestep. It contains a list of localities.
  */
-class HDF5EpiReader
+class Timestep
 {
 public:
+	/**
+	 * Default constructor.
+	 */
+	Timestep();
+
+	/**
+	 * Add a locality to the timestep.
+	 */
+	void AddLocality(const Locality& locality);
+
+	/**
+	 * Retrieve the localities that are part of the timestep.
+	 */
+	const std::vector<Locality>& GetLocalities() const;
 
 private:
-
+	std::vector<Locality> m_localities;
 };
 
 }
 }
+
+

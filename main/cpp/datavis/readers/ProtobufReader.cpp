@@ -11,25 +11,10 @@
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "datavis/epi_output_model/Timestep.h"
+/**
+ * @file
+ * Implementation file for the ProtobufReader class.
+ */
 
-namespace stride {
-namespace datavisualiser {
-
-Timestep::Timestep()
- : m_localities()
-{}
-
-void Timestep::AddLocality(const Locality& locality)
-{
-	m_localities.push_back(locality);
-}
-
-const std::vector<Locality>& Timestep::GetLocalities() const
-{
-	return m_localities;
-}
-
-}
-}
+#include "ProtobufReader.h"
 

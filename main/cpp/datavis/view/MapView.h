@@ -13,42 +13,14 @@
 
 /**
  * @file
- * Header file for the EpiOutputModel class.
+ * Header file for the MapView class.
  */
 
-#pragma once
-
-#include "datavis/epi_output_model/Timestep.h"
-
-#include <vector>
 
 namespace stride {
 namespace datavisualiser {
 
 
-class EpiOutputModel
-{
-public:
-	/**
-	 * Default constructor.
-	 */
-	EpiOutputModel();
-
-	/**
-	 * Add a timestep.
-	 */
-	void AddTimestep(const Timestep& timestep);
-
-	/**
-	 * Retrieve a list of timesteps.
-	 */
-	const std::vector<Timestep>& GetTimesteps() const ;
-
-private:
-	// vector<vector<Locality>>
-	std::vector<Timestep> m_timesteps;
-};
-
-
 }
 }
+

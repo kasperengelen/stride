@@ -11,6 +11,39 @@
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "HDF5EpiReader.h"
+/**
+ * @file
+ * Implementation file for the DataModel class.
+ */
+
+#include "DataModel.h"
+
+namespace stride {
+namespace datavisualiser {
+
+DataModel::DataModel()
+	: m_timesteps{}
+{}
+
+/**
+ * Add a timestep.
+ */
+void DataModel::AddTimestep(const Timestep& timestep)
+{
+	m_timesteps.push_back(timestep);
+}
+
+/**
+ * Retrieve a list of timesteps.
+ */
+const std::vector<Timestep>& DataModel::GetTimesteps() const
+{
+	return m_timesteps;
+}
+
+}
+}
+
+
 
 

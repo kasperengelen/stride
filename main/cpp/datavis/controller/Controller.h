@@ -11,34 +11,14 @@
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "datavis/epi_output_model/EpiOutputModel.h"
+/**
+ * @file
+ * Header file for the Controller class.
+ */
 
 namespace stride {
 namespace datavisualiser {
 
-EpiOutputModel::EpiOutputModel()
-	: m_timesteps{}
-{}
-
-/**
- * Add a timestep.
- */
-void EpiOutputModel::AddTimestep(const Timestep& timestep)
-{
-	m_timesteps.push_back(timestep);
-}
-
-/**
- * Retrieve a list of timesteps.
- */
-const std::vector<Timestep>& EpiOutputModel::GetTimesteps() const
-{
-	return m_timesteps;
-}
 
 }
 }
-
-
-
-
