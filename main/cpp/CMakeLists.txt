@@ -113,6 +113,7 @@ set(STRIDE_SRC
     viewers/InfectedFile.cpp
     viewers/PersonsFile.cpp
     viewers/SummaryFile.cpp
+    viewers/EpiOutputFile.cpp
     #---
     pop/AbstractPopBuilder.cpp
     pop/Person.cpp
@@ -145,6 +146,7 @@ set(STRIDE_SRC
     viewers/InfectedViewer.cpp
     viewers/PersonsFileViewer.cpp
     viewers/SummaryFileViewer.cpp
+    viewers/EpiOutputFileViewer.cpp
 )
 
 #============================================================================
