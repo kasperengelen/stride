@@ -32,11 +32,12 @@ void GeoGridHDF5Reader::Read()
                 ParsePersons(file);
 
                 Group        locations(file.openGroup("Locations"));
-                unsigned int size[1];
-                locations.openAttribute("size").read(PredType::NATIVE_UINT, size);
-                for (unsigned long i = 1; i <= size[0]; i++) {
+                unsigned int size;
+                locations.openAttribute("size").read(PredType::NATIVE_UINT, &size);
+                for (unsigned long i = 1; i <= size; i++) {
                         Group loc(locations.openGroup("Loc" + to_string(i)));
-                        ParseLocation(loc);
+                        auto location = ParseLocation(loc);
+                        geoGrid.AddLocation(move(location));
                 }
 
                 AddCommutes(geoGrid);
@@ -118,7 +119,7 @@ Coordinate ParseCoordinate(const H5::H5Object& loc)
         return {longitude, latitude};
 }
 
-void GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
+shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
 {
         unsigned int id;
         loc.openAttribute("id").read(PredType::NATIVE_UINT, &id);
@@ -134,7 +135,7 @@ void GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
 
         auto location = make_shared<Location>(id, province, coordinate, name, population);
 
-        DataSet commute = loc.openDataSet("commute");
+        DataSet commute = loc.openDataSet("Commute");
         struct CommuteData
         {
                 unsigned int to;
@@ -162,6 +163,7 @@ void GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
                 auto    contact_pool = ParseContactPool(pool);
                 location->RegisterPool(contact_pool, contact_pool->GetType());
         }
+        return location;
 }
 
 ContactPool* GeoGridHDF5Reader::ParseContactPool(const DataSet& pool)

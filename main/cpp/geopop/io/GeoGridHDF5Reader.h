@@ -11,6 +11,7 @@ class ContactPool;
 namespace geopop {
 
 class GeoGrid;
+class Location;
 
 /**
  * An implementation of the GeoGridReader using HDF5.
@@ -43,7 +44,7 @@ private:
         //
 
         /// Create a Location based on the information stored in the provided boost property tree.
-        void ParseLocation(const H5::H5Object& loc);
+        std::shared_ptr<geopop::Location> ParseLocation(const H5::H5Object& loc);
 
         /// Create a Person based on the information stored in the provided boost property tree.
         void ParsePersons(const H5::H5Location& loc);
