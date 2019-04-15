@@ -26,8 +26,10 @@ public:
         void Write(GeoGrid& geoGrid, const std::string& filename);
 
 private:
-        void WriteContactPool(H5::H5Location& h5_location, const stride::ContactPool* pool, int count);
-        void WriteLocation(const Location& location, H5::H5Location& h5_location, int count);
+        void WriteAttribute(H5::H5Object& object, const std::string& name, unsigned int data);
+        void WriteCoordinate(H5::H5Object& object, const Coordinate& coordinate);
+        void WriteContactPool(H5::H5Location& h5_location, const stride::ContactPool* pool, unsigned int count);
+        void WriteLocation(const Location& location, H5::H5Location& h5_location, unsigned int count);
 
         void WritePersons(H5::H5Location& h5_location);
 

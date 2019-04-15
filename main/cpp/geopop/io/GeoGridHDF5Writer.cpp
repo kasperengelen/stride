@@ -27,13 +27,16 @@ void GeoGridHDF5Writer::Write(GeoGrid& geoGrid, const string& filename)
                 Exception::dontPrint();
                 H5File file(filename, H5F_ACC_TRUNC);
 
-                Group locations(file.createGroup("Locations"));
-                int   count = 1;
+                Group        locations(file.createGroup("Locations"));
+                unsigned int count = 0;
                 for (const auto& location : geoGrid) {
-                        WriteLocation(*location, locations, count++);
+                        WriteLocation(*location, locations, ++count);
                 }
 
+                WriteAttribute(locations, "size", count);
+
                 WritePersons(file);
+                m_persons_found.clear();
 
         } catch (FileIException& error) {
                 error.printErrorStack();
@@ -54,17 +57,14 @@ void GeoGridHDF5Writer::Write(GeoGrid& geoGrid, const string& filename)
         }
 }
 
-template <typename T>
-void WriteAttribute(H5Object& object, const std::string& name, const DataType& type, const T& data)
+void GeoGridHDF5Writer::WriteAttribute(H5Object& object, const std::string& name, unsigned int data)
 {
-        hsize_t   dim[1] = {1};
-        DataSpace dataspace(1, dim);
-        Attribute attribute         = object.createAttribute(name, type, dataspace);
-        T         attribute_data[1] = {data};
-        attribute.write(type, attribute_data);
+        hsize_t   dim       = 1;
+        Attribute attribute = object.createAttribute(name, PredType::NATIVE_UINT, DataSpace(1, &dim));
+        attribute.write(PredType::NATIVE_UINT, &data);
 }
 
-void WriteCoordinate(H5Object& object, const Coordinate& coordinate)
+void GeoGridHDF5Writer::WriteCoordinate(H5Object& object, const Coordinate& coordinate)
 {
         hsize_t   dim[2] = {1, 2};
         DataSpace dataspace(2, dim);
@@ -73,9 +73,9 @@ void WriteCoordinate(H5Object& object, const Coordinate& coordinate)
         attribute.write(PredType::NATIVE_DOUBLE, attribute_data);
 }
 
-void GeoGridHDF5Writer::WriteContactPool(H5Location& h5_location, const ContactPool* pool, int count)
+void GeoGridHDF5Writer::WriteContactPool(H5Location& loc, const ContactPool* pool, unsigned int count)
 {
-        const auto&  persons = pool->GetPool();
+        const auto& persons = pool->GetPool();
 
         vector<unsigned int> persons_data;
 
@@ -88,21 +88,25 @@ void GeoGridHDF5Writer::WriteContactPool(H5Location& h5_location, const ContactP
 
         hsize_t   pool_dim[] = {pool->size()};
         DataSpace pool_ds(1, pool_dim);
-        DataSet   people = h5_location.createDataSet("Pool" + to_string(count), comp_type, pool_ds);
+        DataSet   people = loc.createDataSet("Pool" + to_string(count), comp_type, pool_ds);
         people.write(&persons_data.front(), comp_type);
 
-        WriteAttribute(people, "id", PredType::NATIVE_UINT, pool->GetId());
-        WriteAttribute(people, "type", PredType::NATIVE_UINT, static_cast<unsigned int>(pool->GetType()));
+        WriteAttribute(people, "id", pool->GetId());
+        WriteAttribute(people, "type", static_cast<unsigned int>(pool->GetType()));
+        WriteAttribute(people, "size", static_cast<unsigned int>(persons_data.size()));
 }
 
-void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& h5_location, int count)
+void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& obj, unsigned int count)
 {
-        Group loc(h5_location.createGroup("Loc" + to_string(count)));
-        WriteAttribute(loc, "id", PredType::NATIVE_UINT, location.GetID());
-        WriteAttribute(loc, "name", StrType(PredType::C_S1, location.GetName().size() + 1), location.GetName());
-        WriteAttribute(loc, "province", PredType::NATIVE_UINT, location.GetProvince());
-        WriteAttribute(loc, "population", PredType::NATIVE_UINT, location.GetPopCount());
+        Group loc(obj.createGroup("Loc" + to_string(count)));
+        WriteAttribute(loc, "id", location.GetID());
+        WriteAttribute(loc, "province", location.GetProvince());
+        WriteAttribute(loc, "population", location.GetPopCount());
         WriteCoordinate(loc, location.GetCoordinate());
+        hsize_t   dim = 1;
+        Attribute attribute =
+            loc.createAttribute("name", StrType(PredType::C_S1, location.GetName().size()), DataSpace(1, &dim));
+        attribute.write(StrType(PredType::C_S1, location.GetName().size()), location.GetName());
 
         struct CommuteData
         {
@@ -129,18 +133,21 @@ void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& h5_l
         DataSet   commute = loc.createDataSet("Commute", comp_type, com_ds);
         commute.write(&commute_data.front(), comp_type);
 
+        WriteAttribute(commute, "size", static_cast<unsigned int>(commute_data.size()));
+
         Group contact_pools(loc.createGroup("ContactPools"));
 
-        int pool_count = 1;
+        unsigned int pool_count = 0;
         for (const auto& type : IdList) {
                 const auto& pools = location.CRefPools(type);
                 for (auto pool : pools) {
-                        WriteContactPool(contact_pools, pool, pool_count++);
+                        WriteContactPool(contact_pools, pool, ++pool_count);
                 }
         }
+        WriteAttribute(contact_pools, "size", pool_count);
 }
 
-void GeoGridHDF5Writer::WritePersons(H5Location& h5_location)
+void GeoGridHDF5Writer::WritePersons(H5Location& loc)
 {
         struct PersonsData
         {
@@ -187,10 +194,10 @@ void GeoGridHDF5Writer::WritePersons(H5Location& h5_location)
 
         hsize_t   pers_dim[] = {m_persons_found.size()};
         DataSpace pers_ds(1, pers_dim);
-        DataSet   persons = h5_location.createDataSet("Persons", comp_type, pers_ds);
+        DataSet   persons = loc.createDataSet("Persons", comp_type, pers_ds);
         persons.write(&persons_data.front(), comp_type);
 
-        WriteAttribute(persons, "size", PredType::NATIVE_UINT, m_persons_found.size());
+        WriteAttribute(persons, "size", static_cast<unsigned int>(m_persons_found.size()));
 }
 
 } // namespace geopop

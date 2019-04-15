@@ -15,9 +15,9 @@
 
 //#include "geopop/io/GeoGridHDF5Reader.h"
 
+#include "geopop/io/GeoGridHDF5Reader.h"
 #include "contact/ContactType.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/io/GeoGridHDF5Reader.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
@@ -37,14 +37,12 @@ namespace {
 
 void getGeoGridFromFile(const string& filename, Population* pop)
 {
-    GeoGridHDF5Reader reader(pop, "Geo/GeoGrid.h5");
-    reader.Read();
+        GeoGridHDF5Reader reader(pop, "Geo/GeoGrid.h5");
+        reader.Read();
 }
-
 
 TEST(GeoGridHDF5ReaderTest, locationTest) {}
 TEST(GeoGridHDF5ReaderTest, contactPoolsTest) {}
-
 
 TEST(GeoGridHDF5ReaderTest, peopleTest)
 {
@@ -52,10 +50,8 @@ TEST(GeoGridHDF5ReaderTest, peopleTest)
         getGeoGridFromFile("test0.json", pop.get());
         auto& geoGrid = pop->RefGeoGrid();
 
-
         EXPECT_TRUE(true);
 }
-
 
 TEST(GeoGridHDF5ReaderTest, commutesTest) {}
 TEST(GeoGridHDF5ReaderTest, emptyStreamTest) {}
