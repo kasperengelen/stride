@@ -180,17 +180,20 @@ endif()
 #----------------------------------------------------------------------------
 # Qt5
 #----------------------------------------------------------------------------
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.12.2/gcc_64)
-find_package(Qt5 COMPONENTS Core Widgets Location REQUIRED)
 
 if(APPLE)
     set(CMAKE_PREFIX_PATH /usr/local/opt/qt)
 else()
     set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.12.2/gcc_64)
+endif()
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+find_package(Qt5 COMPONENTS Core Widgets Location REQUIRED)
+
+
 
 
 #----------------------------------------------------------------------------
