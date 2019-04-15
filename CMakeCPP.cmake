@@ -187,6 +187,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.12.2/gcc_64)
 find_package(Qt5 COMPONENTS Core Widgets Location REQUIRED)
 
+if(APPLE)
+    set(CMAKE_PREFIX_PATH /usr/local/opt/qt)
+else()
+    set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.12.2/gcc_64)
+
+
 #----------------------------------------------------------------------------
 # HDF5
 #----------------------------------------------------------------------------
