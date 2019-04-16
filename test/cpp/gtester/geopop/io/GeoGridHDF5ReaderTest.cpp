@@ -75,20 +75,54 @@ TEST(GeoGridHDF5ReaderTest, locationTest)
         EXPECT_EQ(location3->GetPopCount(), 2500);
         EXPECT_EQ(get<0>(location3->GetCoordinate()), 0);
         EXPECT_EQ(get<1>(location3->GetCoordinate()), 0);
-
 }
 TEST(GeoGridHDF5ReaderTest, contactPoolsTest) {}
 
-TEST(GeoGridHDF5ReaderTest, peopleTest)
+void runPeopleTest(const string& filename)
 {
         auto pop = Population::Create();
-        getGeoGridFromFile("test0.h5", pop.get());
-        auto& geoGrid = pop->RefGeoGrid();
+        getGeoGridFromFile(filename, pop.get());
+        auto& geoGrid  = pop->RefGeoGrid();
+        auto  location = geoGrid[0];
 
-        EXPECT_TRUE(true);
+        map<int, string> ids = {{0, "K12School"}, {1, "PrimaryCommunity"}, {2, "SecondaryCommunity"},
+                                {3, "College"},   {4, "Household"},        {5, "Workplace"},
+                                {6, "Daycare"},   {7, "Preschool"}};
+
+        EXPECT_EQ(location->GetID(), 1);
+        EXPECT_EQ(location->GetName(), "Bavikhove");
+        EXPECT_EQ(location->GetProvince(), 4);
+        EXPECT_EQ(location->GetPopCount(), 2500);
+        EXPECT_EQ(get<0>(location->GetCoordinate()), 0);
+        EXPECT_EQ(get<1>(location->GetCoordinate()), 0);
+
+        vector<ContactPool*> pools;
+        for (Id typ : IdList) {
+                for (const auto& pool : location->RefPools(typ)) {
+                        pools.emplace_back(pool);
+                }
+        }
+
+        for (const auto& pool : pools) {
+                EXPECT_EQ(pool->size(), 1);
+                auto person = *(pool->begin());
+                EXPECT_EQ(person->GetId(), 0);
+                EXPECT_EQ(person->GetAge(), 18);
+                EXPECT_EQ(person->GetPoolId(Id::K12School), 1);
+                EXPECT_EQ(person->GetPoolId(Id::Household), 1);
+                EXPECT_EQ(person->GetPoolId(Id::College), 1);
+                EXPECT_EQ(person->GetPoolId(Id::Workplace), 1);
+                EXPECT_EQ(person->GetPoolId(Id::PrimaryCommunity), 1);
+                EXPECT_EQ(person->GetPoolId(Id::SecondaryCommunity), 1);
+                EXPECT_EQ(person->GetPoolId(Id::Daycare), 1);
+                EXPECT_EQ(person->GetPoolId(Id::PreSchool), 1);
+        }
 }
 
-TEST(GeoGridHDF5ReaderTest, commutesTest) {
+TEST(GeoGridHDF5ReaderTest, peopleTest) { runPeopleTest("test2.h5"); }
+
+TEST(GeoGridHDF5ReaderTest, commutesTest)
+{
         auto pop = Population::Create();
         getGeoGridFromFile("test7.h5", pop.get());
         auto& geoGrid = pop->RefGeoGrid();
