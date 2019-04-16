@@ -76,7 +76,39 @@ TEST(GeoGridHDF5ReaderTest, locationTest)
         EXPECT_EQ(get<0>(location3->GetCoordinate()), 0);
         EXPECT_EQ(get<1>(location3->GetCoordinate()), 0);
 }
-TEST(GeoGridHDF5ReaderTest, contactPoolsTest) {}
+TEST(GeoGridHDF5ReaderTest, contactPoolsTest)
+{
+        auto pop = Population::Create();
+        getGeoGridFromFile("test1.h5", pop.get());
+        auto& geoGrid  = pop->RefGeoGrid();
+        auto  location = geoGrid[0];
+
+
+        vector<ContactPool*> pools;
+        for (Id typ : IdList) {
+                for (const auto& pool : location->RefPools(typ)) {
+                        pools.emplace_back(pool);
+                }
+        }
+
+        map<Id, bool> found = {{Id::K12School, false},
+                               {Id::PrimaryCommunity, false},
+                               {Id::College, false},
+                               {Id::Household, false},
+                               {Id::Workplace, false},
+                               {Id::Daycare, false},
+                               {Id::PreSchool, false}};
+
+        for (unsigned int i = 0; i < 7; i++) {
+                EXPECT_FALSE(found[pools[i]->GetType()]);
+                found[pools[i]->GetType()] = true;
+        }
+        for (auto& type : found) {
+                EXPECT_TRUE(type.second);
+        }
+
+
+}
 
 TEST(GeoGridHDF5ReaderTest, peopleTest)
 {
@@ -84,17 +116,6 @@ TEST(GeoGridHDF5ReaderTest, peopleTest)
         getGeoGridFromFile("test2.h5", pop.get());
         auto& geoGrid  = pop->RefGeoGrid();
         auto  location = geoGrid[0];
-
-        map<int, string> ids = {{0, "K12School"}, {1, "PrimaryCommunity"}, {2, "SecondaryCommunity"},
-                                {3, "College"},   {4, "Household"},        {5, "Workplace"},
-                                {6, "Daycare"},   {7, "Preschool"}};
-
-        EXPECT_EQ(location->GetID(), 1);
-        EXPECT_EQ(location->GetName(), "Bavikhove");
-        EXPECT_EQ(location->GetProvince(), 4);
-        EXPECT_EQ(location->GetPopCount(), 2500);
-        EXPECT_EQ(get<0>(location->GetCoordinate()), 0);
-        EXPECT_EQ(get<1>(location->GetCoordinate()), 0);
 
         vector<ContactPool*> pools;
         for (Id typ : IdList) {
@@ -122,7 +143,7 @@ TEST(GeoGridHDF5ReaderTest, peopleTest)
 TEST(GeoGridHDF5ReaderTest, commutesTest)
 {
         auto pop = Population::Create();
-        getGeoGridFromFile("test7.h5", pop.get());
+        getGeoGridFromFile("test3.h5", pop.get());
         auto& geoGrid = pop->RefGeoGrid();
 
         map<unsigned int, shared_ptr<Location>> locations;
