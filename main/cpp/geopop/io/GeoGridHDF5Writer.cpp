@@ -20,41 +20,20 @@ GeoGridHDF5Writer::GeoGridHDF5Writer() : m_persons_found() {}
 
 void GeoGridHDF5Writer::Write(GeoGrid& geoGrid, const string& filename)
 {
+        /// Create file
+        Exception::dontPrint();
+        H5File file(filename, H5F_ACC_TRUNC);
 
-        try {
-
-                /// Create file
-                Exception::dontPrint();
-                H5File file(filename, H5F_ACC_TRUNC);
-
-                Group        locations(file.createGroup("Locations"));
-                unsigned int count = 0;
-                for (const auto& location : geoGrid) {
-                        WriteLocation(*location, locations, ++count);
-                }
-
-                WriteAttribute(locations, "size", count);
-
-                WritePersons(file);
-                m_persons_found.clear();
-
-        } catch (FileIException& error) {
-                error.printErrorStack();
+        Group        locations(file.createGroup("Locations"));
+        unsigned int count = 0;
+        for (const auto& location : geoGrid) {
+                WriteLocation(*location, locations, ++count);
         }
 
-        // catch failure caused by the DataSet operations
-        catch (DataSetIException& error) {
-                error.printErrorStack();
-        }
+        WriteAttribute(locations, "size", count);
 
-        // catch failure caused by the DataSpace operations
-        catch (DataSpaceIException& error) {
-                error.printErrorStack();
-        }
-        // catch failure caused by the Group operations
-        catch (GroupIException& error) {
-                error.printErrorStack();
-        }
+        WritePersons(file);
+        m_persons_found.clear();
 }
 
 void GeoGridHDF5Writer::WriteAttribute(H5Object& object, const std::string& name, unsigned int data)

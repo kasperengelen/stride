@@ -21,50 +21,25 @@ GeoGridHDF5Reader::GeoGridHDF5Reader(Population* pop, const std::string& filenam
 
 void GeoGridHDF5Reader::Read()
 {
+        /// Create file
+        H5::Exception::dontPrint();
+        H5File file(m_filename, H5F_ACC_RDONLY);
 
-        try {
+        auto& geoGrid = m_population->RefGeoGrid();
+        ParsePersons(file);
 
-                /// Create file
-                H5::Exception::dontPrint();
-                H5File file(m_filename, H5F_ACC_RDONLY);
-
-                auto& geoGrid = m_population->RefGeoGrid();
-                ParsePersons(file);
-
-                Group        locations(file.openGroup("Locations"));
-                unsigned int size;
-                locations.openAttribute("size").read(PredType::NATIVE_UINT, &size);
-                for (unsigned long i = 1; i <= size; i++) {
-                        Group loc(locations.openGroup("Loc" + to_string(i)));
-                        auto  location = ParseLocation(loc);
-                        geoGrid.AddLocation(move(location));
-                }
-
-                AddCommutes(geoGrid);
-                m_commutes.clear();
-                m_people.clear();
-
-        } catch (FileIException& error) {
-                error.printErrorStack();
+        Group        locations(file.openGroup("Locations"));
+        unsigned int size;
+        locations.openAttribute("size").read(PredType::NATIVE_UINT, &size);
+        for (unsigned long i = 1; i <= size; i++) {
+                Group loc(locations.openGroup("Loc" + to_string(i)));
+                auto  location = ParseLocation(loc);
+                geoGrid.AddLocation(move(location));
         }
 
-        // catch failure caused by the DataSet operations
-        catch (DataSetIException& error) {
-                error.printErrorStack();
-        }
-
-        // catch failure caused by the DataSpace operations
-        catch (DataSpaceIException& error) {
-                error.printErrorStack();
-        }
-        // catch failure caused by the Group operations
-        catch (GroupIException& error) {
-                error.printErrorStack();
-        }
-        // catch failure caused by the DataSpace operations
-        catch (DataTypeIException& error) {
-                error.printErrorStack();
-        }
+        AddCommutes(geoGrid);
+        m_commutes.clear();
+        m_people.clear();
 }
 
 void GeoGridHDF5Reader::ParsePersons(const H5::H5Location& loc)
