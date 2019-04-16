@@ -5,6 +5,7 @@
 #include <boost/lexical_cast.hpp>
 #include <H5Cpp.h>
 #include <geopop/Location.h>
+#include "util/Exception.h"
 
 namespace geopop {
 
@@ -166,7 +167,7 @@ ContactPool* GeoGridHDF5Reader::ParseContactPool(const DataSet& pool)
         } else if (type_str == ToString(Id::PreSchool)) {
                 type = Id::PreSchool;
         } else {
-                throw Exception("No such ContactCenter type: " + type_str);
+                throw util::Exception("No such ContactCenter type: " + type_str);
         }
         auto contact_pool = m_population->RefPoolSys().CreateContactPool(type);
 
@@ -180,7 +181,7 @@ ContactPool* GeoGridHDF5Reader::ParseContactPool(const DataSet& pool)
         pool.read(&persons_data.front(), comp_type);
         for (auto person_id : persons_data) {
                 if (m_people.count(person_id) == 0) {
-                        throw Exception("No such person: " + to_string(person_id));
+                        throw util::Exception("No such person: " + to_string(person_id));
                 }
                 contact_pool->AddMember(m_people[person_id]);
         }

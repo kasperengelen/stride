@@ -19,6 +19,7 @@
 #include "geopop/Location.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
+#include "util/Exception.h"
 
 #include <fstream>
 #include <gtest/gtest.h>
@@ -203,16 +204,24 @@ TEST(GeoGridHDF5ReaderTest, commutesTest)
                 EXPECT_DOUBLE_EQ(commuting_in[1].second, 0.5);
         }
 }
+
 TEST(GeoGridHDF5ReaderTest, emptyFileTest)
 {
         auto pop = Population::Create();
         EXPECT_THROW(getGeoGridFromFile("test4.h5", pop.get()), H5::FileIException);
 
 }
+
 TEST(GeoGridHDF5ReaderTest, unexistingFileTest)
 {
         auto pop = Population::Create();
         EXPECT_THROW(getGeoGridFromFile("unexistingFile.h5", pop.get()), H5::FileIException);
+}
+
+TEST(GeoGridHDF5ReaderTest, invalidTypeTest)
+{
+        auto pop = Population::Create();
+        EXPECT_THROW(getGeoGridFromFile("test5.h5", pop.get()), Exception);
 }
 
 } // namespace
