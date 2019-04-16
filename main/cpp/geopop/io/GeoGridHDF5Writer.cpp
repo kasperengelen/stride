@@ -71,8 +71,11 @@ void GeoGridHDF5Writer::WriteContactPool(H5Location& loc, const ContactPool* poo
         people.write(&persons_data.front(), comp_type);
 
         WriteAttribute(people, "id", pool->GetId());
-        WriteAttribute(people, "type", static_cast<unsigned int>(pool->GetType()));
         WriteAttribute(people, "size", static_cast<unsigned int>(persons_data.size()));
+        hsize_t   dim = 1;
+        Attribute attribute =
+                people.createAttribute("type", StrType(PredType::C_S1, ToString(pool->GetType()).size()), DataSpace(1, &dim));
+        attribute.write(StrType(PredType::C_S1, ToString(pool->GetType()).size()), ToString(pool->GetType()));
 }
 
 void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& obj, unsigned int count)

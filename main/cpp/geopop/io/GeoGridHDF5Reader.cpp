@@ -144,9 +144,31 @@ shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
 ContactPool* GeoGridHDF5Reader::ParseContactPool(const DataSet& pool)
 {
         // Don't use the id of the ContactPool but let the Population create an id.
-        unsigned int type;
-        pool.openAttribute("type").read(PredType::NATIVE_UINT, &type);
-        auto contact_pool = m_population->RefPoolSys().CreateContactPool(static_cast<Id>(type));
+        string    type_str;
+        Attribute attr_name = pool.openAttribute("type");
+        StrType   stype     = attr_name.getStrType();
+        attr_name.read(stype, type_str);
+        Id type;
+        if (type_str == ToString(Id::K12School)) {
+                type = Id::K12School;
+        } else if (type_str == ToString(Id::College)) {
+                type = Id::College;
+        } else if (type_str == ToString(Id::Household)) {
+                type = Id::Household;
+        } else if (type_str == ToString(Id::PrimaryCommunity)) {
+                type = Id::PrimaryCommunity;
+        } else if (type_str == ToString(Id::SecondaryCommunity)) {
+                type = Id::SecondaryCommunity;
+        } else if (type_str == ToString(Id::Workplace)) {
+                type = Id::Workplace;
+        } else if (type_str == ToString(Id::Daycare)) {
+                type = Id::Daycare;
+        } else if (type_str == ToString(Id::PreSchool)) {
+                type = Id::PreSchool;
+        } else {
+                throw Exception("No such ContactCenter type: " + type_str);
+        }
+        auto contact_pool = m_population->RefPoolSys().CreateContactPool(type);
 
         CompType comp_type(sizeof(unsigned int));
         comp_type.insertMember("people", 0, PredType::NATIVE_UINT);
