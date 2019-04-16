@@ -123,6 +123,8 @@ install:
       sudo apt-get install libqt5location5
       sudo apt-get install libqt5location5-plugins
       sudo apt-get install libqt5quick5
+
+      sudo apt-get install curl git build-essential zlib1g-dev automake \ libtool xutils-dev make cmake pkg-config python-pip \ libcurl4-openssl-dev libpng-dev libsqlite3-dev \ libllvm3.4
       
       #sudo apt-get install qtdeclarative5-dev
       #sudo apt-get install libqt5webkit5-dev

@@ -22,7 +22,7 @@ namespace stride {
 namespace datavisualiser {
 
 Locality::Locality(const std::string& name, geopop::Coordinate coord, unsigned int popCount, double infectedFrac)
-		: m_name(name), m_coordinate(coord), m_pop_count(popCount), m_infected_frac(infectedFrac)
+		: m_coordinate(coord), m_name(name), m_pop_count(popCount), m_infected_frac(infectedFrac)
 {}
 
 const std::string& Locality::GetName() const
