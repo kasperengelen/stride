@@ -36,7 +36,7 @@ void GeoGridHDF5Reader::Read()
                 locations.openAttribute("size").read(PredType::NATIVE_UINT, &size);
                 for (unsigned long i = 1; i <= size; i++) {
                         Group loc(locations.openGroup("Loc" + to_string(i)));
-                        auto location = ParseLocation(loc);
+                        auto  location = ParseLocation(loc);
                         geoGrid.AddLocation(move(location));
                 }
 
@@ -177,9 +177,9 @@ ContactPool* GeoGridHDF5Reader::ParseContactPool(const DataSet& pool)
         comp_type.insertMember("people", 0, PredType::NATIVE_UINT);
 
         unsigned int size;
-        pool.openAttribute("type").read(PredType::NATIVE_UINT, &size);
+        pool.openAttribute("size").read(PredType::NATIVE_UINT, &size);
 
-        vector<unsigned int> persons_data;
+        vector<unsigned int> persons_data(size);
         pool.read(&persons_data.front(), comp_type);
         for (auto person_id : persons_data) {
                 if (m_people.count(person_id) == 0) {
