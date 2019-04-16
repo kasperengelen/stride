@@ -157,8 +157,8 @@ shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
 
         Group        contact_pools = loc.openGroup("ContactPools");
         unsigned int pool_size;
-        commute.openAttribute("size").read(PredType::NATIVE_UINT, &pool_size);
-        for (unsigned int i = 0; i < pool_size; i++) {
+        contact_pools.openAttribute("size").read(PredType::NATIVE_UINT, &pool_size);
+        for (unsigned int i = 1; i <= pool_size; i++) {
                 DataSet pool         = contact_pools.openDataSet("Pool" + to_string(i));
                 auto    contact_pool = ParseContactPool(pool);
                 location->RegisterPool(contact_pool, contact_pool->GetType());
