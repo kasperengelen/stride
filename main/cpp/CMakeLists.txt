@@ -193,15 +193,20 @@ install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 #============================================================================
 # Data visualiser sources.
 #============================================================================
+# WARNING!!: MAKE SURE THESE ARE -CORRECT-, otherwise a "no sources specified" error will be showed!!
 set(DATAVIS_SRC
-    # epi data model
-    datavis/epi_output_model/Locality.cpp
-    datavis/epi_output_model/Timestep.cpp
-    datavis/epi_output_model/EpiOutputModel.cpp
+	# controller
+	datavis/controller/Controller.cpp
+	# view
+	datavis/view/MapView.cpp
+    # model
+    datavis/model/Locality.cpp
+    datavis/model/Timestep.cpp
+    datavis/model/DataModel.cpp
     # epi output readers
-    datavis/readers/HDF5EpiReader.cpp
-    datavis/readers/JSONEpiReader.cpp
-    datavis/readers/ProtobufEpiReader.cpp
+    datavis/readers/HDF5Reader.cpp
+    datavis/readers/JSONReader.cpp
+    datavis/readers/ProtobufReader.cpp
     # main
     datavis/main.cpp
     datavis/qml.qrc
@@ -210,11 +215,11 @@ set(DATAVIS_SRC
 #============================================================================
 # Build data visualiser binary.
 #============================================================================
-if(Qt5Widgets_FOUND AND Qt5Location_FOUND)
+if(DO_BUILD_DATAVIS)
     add_executable(stride_datavis ${DATAVIS_SRC})
-    set_target_properties(stride_datavis 
-                          PROPERTIES INSTALL_RPATH "/opt/Qt/5.12.2/gcc_64/lib"
-                                     INSTALL_RPATH_USE_LINK_PATH TRUE)
+#    set_target_properties(stride_datavis 
+#                          PROPERTIES INSTALL_RPATH "/opt/Qt/5.12.2/gcc_64/lib"
+#                                     INSTALL_RPATH_USE_LINK_PATH TRUE)
     target_link_libraries(stride_datavis libstride) # give data visualiser access to the stride library
     target_link_libraries(stride_datavis Qt5::Core)
     target_link_libraries(stride_datavis Qt5::Widgets)

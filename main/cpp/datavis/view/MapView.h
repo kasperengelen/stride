@@ -20,6 +20,10 @@
 namespace stride {
 namespace datavisualiser {
 
+class MapView
+{
+
+};
 
 }
 }
