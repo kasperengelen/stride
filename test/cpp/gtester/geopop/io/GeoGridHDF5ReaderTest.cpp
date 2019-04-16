@@ -82,13 +82,74 @@ TEST(GeoGridHDF5ReaderTest, contactPoolsTest) {}
 TEST(GeoGridHDF5ReaderTest, peopleTest)
 {
         auto pop = Population::Create();
-        getGeoGridFromFile("test0.json", pop.get());
+        getGeoGridFromFile("test0.h5", pop.get());
         auto& geoGrid = pop->RefGeoGrid();
 
         EXPECT_TRUE(true);
 }
 
-TEST(GeoGridHDF5ReaderTest, commutesTest) {}
+TEST(GeoGridHDF5ReaderTest, commutesTest) {
+        auto pop = Population::Create();
+        getGeoGridFromFile("test7.h5", pop.get());
+        auto& geoGrid = pop->RefGeoGrid();
+
+        map<unsigned int, shared_ptr<Location>> locations;
+
+        locations[geoGrid[0]->GetID()] = geoGrid[0];
+        locations[geoGrid[1]->GetID()] = geoGrid[1];
+        locations[geoGrid[2]->GetID()] = geoGrid[2];
+
+        auto location1 = locations[1];
+        auto location2 = locations[2];
+        auto location3 = locations[3];
+
+        auto sortLoc = [](vector<pair<Location*, double>> loc) {
+                sort(begin(loc), end(loc), [](const pair<Location*, double>& a, const pair<Location*, double>& b) {
+                        return a.first->GetID() < b.first->GetID();
+                });
+                return loc;
+        };
+
+        {
+                auto commuting_in  = sortLoc(location1->CRefIncomingCommutes());
+                auto commuting_out = sortLoc(location1->CRefOutgoingCommutes());
+                EXPECT_EQ(commuting_in.size(), 1);
+                EXPECT_EQ(commuting_out.size(), 2);
+
+                EXPECT_EQ(commuting_in[0].first->GetID(), 2);
+                EXPECT_DOUBLE_EQ(commuting_in[0].second, 0.75);
+
+                EXPECT_EQ(commuting_out[0].first->GetID(), 2);
+                EXPECT_DOUBLE_EQ(commuting_out[0].second, 0.50);
+                EXPECT_EQ(commuting_out[1].first->GetID(), 3);
+                EXPECT_DOUBLE_EQ(commuting_out[1].second, 0.25);
+        }
+        {
+                auto commuting_in  = sortLoc(location2->CRefIncomingCommutes());
+                auto commuting_out = sortLoc(location2->CRefOutgoingCommutes());
+                EXPECT_EQ(commuting_out.size(), 2);
+                EXPECT_EQ(commuting_in.size(), 1);
+
+                EXPECT_EQ(commuting_in[0].first->GetID(), 1);
+                EXPECT_DOUBLE_EQ(commuting_in[0].second, 0.50);
+
+                EXPECT_EQ(commuting_out[0].first->GetID(), 1);
+                EXPECT_DOUBLE_EQ(commuting_out[0].second, 0.75);
+                EXPECT_EQ(commuting_out[1].first->GetID(), 3);
+                EXPECT_DOUBLE_EQ(commuting_out[1].second, 0.5);
+        }
+        {
+                auto commuting_in  = sortLoc(location3->CRefIncomingCommutes());
+                auto commuting_out = sortLoc(location3->CRefOutgoingCommutes());
+                EXPECT_EQ(commuting_out.size(), 0);
+                EXPECT_EQ(commuting_in.size(), 2);
+
+                EXPECT_EQ(commuting_in[0].first->GetID(), 1);
+                EXPECT_DOUBLE_EQ(commuting_in[0].second, 0.25);
+                EXPECT_EQ(commuting_in[1].first->GetID(), 2);
+                EXPECT_DOUBLE_EQ(commuting_in[1].second, 0.5);
+        }
+}
 TEST(GeoGridHDF5ReaderTest, emptyStreamTest) {}
 TEST(GeoGridHDF5ReaderTest, invalidTypeTest) {}
 TEST(GeoGridHDF5ReaderTest, invalidPersonTest) {}
