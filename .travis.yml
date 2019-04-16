@@ -114,10 +114,26 @@ install:
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
       
       # QT installation
-     sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-     sudo apt-get update -qq
-     sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libqt5location5 libqt5location5-plugins libsqlite3-dev
-     sudo apt-get install qt5-default qttools5-dev-tools
+      sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+      sudo apt-get update -qq
+      sudo apt-get install qtbase5-dev
+      sudo apt-get install qtbase5-dev-tools
+      sudo apt-get install libqt5core5a
+      sudo apt-get install libqt5widgets5
+      sudo apt-get install libqt5location5
+      sudo apt-get install libqt5location5-plugins
+      sudo apt-get install libqt5quick5
+      
+#      sudo apt-get install qtdeclarative5-dev
+#      sudo apt-get install libqt5webkit5-dev
+#      sudo apt-get install libqt5widgets5
+#      sudo apt-get install libqt5location5
+#      sudo apt-get install libqt5location5-plugins
+#      sudo apt-get install libsqlite3-dev
+#      sudo apt-get install qt5-default
+#      sudo apt-get install qttools5-dev-tools
+#      sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libqt5location5 libqt5location5-plugins libsqlite3-dev
+#      sudo apt-get install qt5-default qttools5-dev-tools
     fi
     #--------- OSX
   - |

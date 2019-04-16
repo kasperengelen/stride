@@ -191,9 +191,14 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-# TEMPORARILY REMOVED "Location"
+find_package(Qt5 COMPONENTS Core Widgets Location Quick REQUIRED)
 
+if(Qt5Core_FOUND AND Qt5Widgets_FOUND AND Qt5Location_FOUND AND Qt5Quick_FOUND)
+	message("Found QT5.")
+	set(DO_BUILD_DATAVIS true)
+else()
+	set(DO_BUILD_DATAVIS false)
+endif()
 
 
 #----------------------------------------------------------------------------
