@@ -78,10 +78,10 @@ TEST(GeoGridHDF5ReaderTest, locationTest)
 }
 TEST(GeoGridHDF5ReaderTest, contactPoolsTest) {}
 
-void runPeopleTest(const string& filename)
+TEST(GeoGridHDF5ReaderTest, peopleTest)
 {
         auto pop = Population::Create();
-        getGeoGridFromFile(filename, pop.get());
+        getGeoGridFromFile("test2.h5", pop.get());
         auto& geoGrid  = pop->RefGeoGrid();
         auto  location = geoGrid[0];
 
@@ -118,8 +118,6 @@ void runPeopleTest(const string& filename)
                 EXPECT_EQ(person->GetPoolId(Id::PreSchool), 1);
         }
 }
-
-TEST(GeoGridHDF5ReaderTest, peopleTest) { runPeopleTest("test2.h5"); }
 
 TEST(GeoGridHDF5ReaderTest, commutesTest)
 {
