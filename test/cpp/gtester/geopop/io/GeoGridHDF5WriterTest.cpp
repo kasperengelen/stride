@@ -41,26 +41,15 @@ TEST(GeoGridJSONWriterTest, contactPoolsTest)
 {
         auto        pop      = Population::Create();
         auto&       geoGrid  = pop->RefGeoGrid();
-        auto        location = make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
-        ContactPool pool1    = ContactPool(1, Id::K12School);
-        ContactPool pool2    = ContactPool(2, Id::PrimaryCommunity);
-        ContactPool pool3    = ContactPool(3, Id::College);
-        ContactPool pool4    = ContactPool(4, Id::Household);
-        ContactPool pool5    = ContactPool(5, Id::Workplace);
-        Person      person1  = Person(1, 12, 0, 1, 0, 0, 0, 0, 0, 0);
-        Person      person2  = Person(2, 40, 1, 0, 0, 2, 0, 0, 0, 0);
-        Person      person3  = Person(3, 20, 2, 0, 1, 0, 0, 0, 0, 0);
-        pool1.AddMember(&person1);
-        pool1.AddMember(&person2);
-        pool1.AddMember(&person3);
-
-        location->RegisterPool(&pool1, pool1.GetType());
-        location->RegisterPool(&pool2, pool2.GetType());
-        location->RegisterPool(&pool3, pool3.GetType());
-        location->RegisterPool(&pool4, pool4.GetType());
-        location->RegisterPool(&pool5, pool5.GetType());
-
-        geoGrid.AddLocation(location);
+        auto        loc = make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
+        loc->RefPools(Id::K12School).emplace_back(pop->RefPoolSys().CreateContactPool(Id::K12School));
+        loc->RefPools(Id::PrimaryCommunity).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PrimaryCommunity));
+        loc->RefPools(Id::College).emplace_back(pop->RefPoolSys().CreateContactPool(Id::College));
+        loc->RefPools(Id::Household).emplace_back(pop->RefPoolSys().CreateContactPool(Id::Household));
+        loc->RefPools(Id::Workplace).emplace_back(pop->RefPoolSys().CreateContactPool(Id::Workplace));
+        loc->RefPools(Id::Daycare).emplace_back(pop->RefPoolSys().CreateContactPool(Id::Daycare));
+        loc->RefPools(Id::PreSchool).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PreSchool));
+        geoGrid.AddLocation(loc);
 
         EXPECT_TRUE(compareGeoGrid(geoGrid));
 }
