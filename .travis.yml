@@ -125,6 +125,9 @@ install:
       sudo ldconfig /opt/qt512/lib
       export CMAKE_PREFIX_PATH=/opt/qt512/:$CMAKE_PREFIX_PATH
       export LD_LIBRARY_PATH=/opt/qt512/lib/
+
+      #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
+      sudo apt-get install libhdf5-serial-dev
     fi
     #--------- OSX
   - |
