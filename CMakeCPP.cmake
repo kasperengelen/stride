@@ -197,6 +197,7 @@ if(Qt5Core_FOUND AND Qt5Widgets_FOUND AND Qt5Location_FOUND AND Qt5Quick_FOUND)
 	message("Found QT5.")
 	set(DO_BUILD_DATAVIS true)
 else()
+    message("Did not find QT5. Not building datavis.")
 	set(DO_BUILD_DATAVIS false)
 endif()
 
