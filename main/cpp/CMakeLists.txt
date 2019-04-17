@@ -216,6 +216,7 @@ set(DATAVIS_SRC
 # Build data visualiser binary.
 #============================================================================
 if(DO_BUILD_DATAVIS)
+	message("Adding datavis build target.")
     add_executable(stride_datavis ${DATAVIS_SRC})
 #    set_target_properties(stride_datavis 
 #                          PROPERTIES INSTALL_RPATH "/opt/Qt/5.12.2/gcc_64/lib"
