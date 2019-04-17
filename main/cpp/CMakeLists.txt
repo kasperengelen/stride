@@ -223,21 +223,6 @@ if(DO_BUILD_DATAVIS)
 #                                     INSTALL_RPATH_USE_LINK_PATH TRUE)
     target_link_libraries(stride_datavis libstride) # give data visualiser access to the stride library
 
-    # link protobuf
-    if(Protobuf_FOUND)
-        target_link_libraries(libstride PRIVATE ${Protobuf_LIBRARIES})
-    else()
-        target_link_libraries(libstride PRIVATE libprotobuf)
-    endif()
-
-    # link to HDF5
-    if(HDF5_FOUND)
-        target_link_libraries(libstride PRIVATE hdf5_cpp)
-    else()
-        target_link_libraries(libstride PRIVATE ${_hdf5_libs})
-    endif()
-
-
     target_link_libraries(stride_datavis Qt5::Core)
     target_link_libraries(stride_datavis Qt5::Widgets)
     target_link_libraries(stride_datavis Qt5::Location)
