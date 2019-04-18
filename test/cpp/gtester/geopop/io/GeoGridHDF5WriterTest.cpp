@@ -3,13 +3,16 @@
 #include "contact/ContactPool.h"
 #include "geopop/GeoGridConfig.h"
 #include "geopop/io/GeoGridHDF5Writer.h"
+#include "geopop/io/GeoGridHDF5Reader.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
+#include "GeoGridCompare.h"
 
 #include "H5Cpp.h"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
+#include <stdio.h>
 
 using namespace std;
 using namespace geopop;
@@ -19,10 +22,16 @@ using namespace stride::util;
 
 namespace {
 
-bool compareGeoGrid(GeoGrid& geoGrid)
+bool compareGeoGrid(GeoGrid& geoGrid, const std::string& filename)
 {
         GeoGridHDF5Writer writer;
-        writer.Write(geoGrid, "Geo/GeoGrid.h5");
+        writer.Write(geoGrid, FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write");
+        auto pop = Population::Create();
+        GeoGridHDF5Reader reader(pop.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/" + filename);
+        reader.Read();
+        GeoGridCompare c;
+        c.CompareGeoGrid(geoGrid, pop->RefGeoGrid());
+        remove((FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write").c_str());
         return true;
 }
 
@@ -34,7 +43,7 @@ TEST(GeoGridHDF5WriterTest, locationTest)
         geoGrid.AddLocation(make_shared<Location>(2, 3, Coordinate(0, 0), "Gent", 5000));
         geoGrid.AddLocation(make_shared<Location>(3, 2, Coordinate(0, 0), "Mons", 2500));
 
-        EXPECT_TRUE(compareGeoGrid(geoGrid));
+        EXPECT_TRUE(compareGeoGrid(geoGrid, "test0.h5"));
 }
 
 TEST(GeoGridJSONWriterTest, contactPoolsTest)
@@ -51,18 +60,19 @@ TEST(GeoGridJSONWriterTest, contactPoolsTest)
         loc->RefPools(Id::PreSchool).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PreSchool));
         geoGrid.AddLocation(loc);
 
-        EXPECT_TRUE(compareGeoGrid(geoGrid));
-}
-
-TEST(GeoGridHDF5WriterTest, commutesTest)
-{
-        auto pop = Population::Create();
-        EXPECT_TRUE(compareGeoGrid(*GetCommutesGeoGrid(pop.get())));
+        EXPECT_TRUE(compareGeoGrid(geoGrid, "test1.h5"));
 }
 
 TEST(GeoGridHDF5WriterTest, peopleTest)
 {
         auto pop = Population::Create();
-        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get())));
+        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get()), "test2.h5"));
 }
+
+TEST(GeoGridHDF5WriterTest, commutesTest)
+{
+        auto pop = Population::Create();
+        EXPECT_TRUE(compareGeoGrid(*GetCommutesGeoGrid(pop.get()), "test3.h5"));
+}
+
 } // namespace
