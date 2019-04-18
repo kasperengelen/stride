@@ -17,7 +17,6 @@ addons:
       - ubuntu-toolchain-r-test
       - boost-latest
     packages: &default_packages
-      # - libhdf5-dev
       - doxygen
       - graphviz
 
@@ -42,7 +41,7 @@ matrix:
     - os: linux
       compiler: clang
       env: MATRIX_EVAL="CC=clang && CXX=clang++ && MAKE_TEST=true"
-      addons: {apt: { packages: [*default_packages], sources: [*default_sources, llvm-toolchain-trusty-6.0]}}
+      addons: {apt: { packages: [*default_packages], sources: [*default_sources]}}
 
     #- os: osx
     #  osx_image: xcode10.1
@@ -112,6 +111,7 @@ install:
         echo "Already have swig cache"
       fi
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH 
+
       #--------- Linux - qt 5.12.1 (xenial) from Stephan Binner's ppa
       if [[ "$CC" == "clang" ]]; then
         sudo apt install libomp-dev
