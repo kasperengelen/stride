@@ -51,11 +51,12 @@ void GeoGridCompare::CompareCoordinate(const Coordinate& coordinate1, const Coor
         EXPECT_EQ(get<1>(coordinate1), get<1>(coordinate2));
 }
 
-void GeoGridCompare::CompareContactPools(SegmentedVector<ContactPool*>& contactPools1, SegmentedVector<ContactPool*>& contactPools2)
+void GeoGridCompare::CompareContactPools(SegmentedVector<ContactPool*>& contactPools1,
+                                         SegmentedVector<ContactPool*>& contactPools2)
 {
         ASSERT_EQ(contactPools1.size(), contactPools2.size());
 
-        auto sorter = [](ContactPool* p1, ContactPool* p2){ return p1->GetId() < p2->GetId(); };
+        auto sorter = [](ContactPool* p1, ContactPool* p2) { return p1->GetId() < p2->GetId(); };
         sort(contactPools1.begin(), contactPools1.end(), sorter);
         sort(contactPools1.begin(), contactPools1.end(), sorter);
 

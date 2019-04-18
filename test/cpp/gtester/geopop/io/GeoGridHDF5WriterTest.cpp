@@ -1,12 +1,12 @@
 #include "GeoGridIOUtils.h"
 
+#include "GeoGridCompare.h"
 #include "contact/ContactPool.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/io/GeoGridHDF5Writer.h"
 #include "geopop/io/GeoGridHDF5Reader.h"
+#include "geopop/io/GeoGridHDF5Writer.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
-#include "GeoGridCompare.h"
 
 #include "H5Cpp.h"
 #include <gtest/gtest.h>
@@ -26,7 +26,7 @@ bool compareGeoGrid(GeoGrid& geoGrid, const std::string& filename)
 {
         GeoGridHDF5Writer writer;
         writer.Write(geoGrid, FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write");
-        auto pop = Population::Create();
+        auto              pop = Population::Create();
         GeoGridHDF5Reader reader(pop.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/" + filename);
         reader.Read();
         GeoGridCompare c;
@@ -48,9 +48,9 @@ TEST(GeoGridHDF5WriterTest, locationTest)
 
 TEST(GeoGridJSONWriterTest, contactPoolsTest)
 {
-        auto        pop      = Population::Create();
-        auto&       geoGrid  = pop->RefGeoGrid();
-        auto        loc = make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
+        auto  pop     = Population::Create();
+        auto& geoGrid = pop->RefGeoGrid();
+        auto  loc     = make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
         loc->RefPools(Id::K12School).emplace_back(pop->RefPoolSys().CreateContactPool(Id::K12School));
         loc->RefPools(Id::PrimaryCommunity).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PrimaryCommunity));
         loc->RefPools(Id::College).emplace_back(pop->RefPoolSys().CreateContactPool(Id::College));

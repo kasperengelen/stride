@@ -18,8 +18,8 @@
 #include "geopop/GeoGrid.h"
 #include "geopop/Location.h"
 #include "pop/Population.h"
-#include "util/FileSys.h"
 #include "util/Exception.h"
+#include "util/FileSys.h"
 
 #include <fstream>
 #include <gtest/gtest.h>
@@ -84,7 +84,6 @@ TEST(GeoGridHDF5ReaderTest, contactPoolsTest)
         auto& geoGrid  = pop->RefGeoGrid();
         auto  location = geoGrid[0];
 
-
         vector<ContactPool*> pools;
         for (Id typ : IdList) {
                 for (const auto& pool : location->RefPools(typ)) {
@@ -92,12 +91,8 @@ TEST(GeoGridHDF5ReaderTest, contactPoolsTest)
                 }
         }
 
-        map<Id, bool> found = {{Id::K12School, false},
-                               {Id::PrimaryCommunity, false},
-                               {Id::College, false},
-                               {Id::Household, false},
-                               {Id::Workplace, false},
-                               {Id::Daycare, false},
+        map<Id, bool> found = {{Id::K12School, false}, {Id::PrimaryCommunity, false}, {Id::College, false},
+                               {Id::Household, false}, {Id::Workplace, false},        {Id::Daycare, false},
                                {Id::PreSchool, false}};
 
         for (unsigned int i = 0; i < 7; i++) {
@@ -107,8 +102,6 @@ TEST(GeoGridHDF5ReaderTest, contactPoolsTest)
         for (auto& type : found) {
                 EXPECT_TRUE(type.second);
         }
-
-
 }
 
 TEST(GeoGridHDF5ReaderTest, peopleTest)
@@ -209,7 +202,6 @@ TEST(GeoGridHDF5ReaderTest, emptyFileTest)
 {
         auto pop = Population::Create();
         EXPECT_THROW(getGeoGridFromFile("test4.h5", pop.get()), H5::FileIException);
-
 }
 
 TEST(GeoGridHDF5ReaderTest, unexistingFileTest)

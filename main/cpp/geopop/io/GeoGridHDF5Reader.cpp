@@ -2,10 +2,10 @@
 
 #include "geopop/GeoGrid.h"
 #include "pop/Population.h"
+#include "util/Exception.h"
 #include <boost/lexical_cast.hpp>
 #include <H5Cpp.h>
 #include <geopop/Location.h>
-#include "util/Exception.h"
 
 namespace geopop {
 
