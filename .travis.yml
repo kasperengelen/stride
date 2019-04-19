@@ -131,10 +131,8 @@ install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install ccache swig qt && brew link --force qt
       brew install hdf5
-      sudo ln -s /usr/local/Cellar/qt/5.12.2/plugins /usr/local/plugins
-      sudo ln -s /usr/local/Cellar/qt/5.12.2/mkspecs/ /usr/local/mkspecs
-      #export CMAKE_PREFIX_PATH=/usr/local/opt/qt5:$CMAKE_PREFIX_PATH
-      #export LD_LIBRARY_PATH=/usr/local/opt/qt5/lib/
+      #sudo ln -s /usr/local/Cellar/qt/5.12.2/plugins /usr/local/plugins
+      #sudo ln -s /usr/local/Cellar/qt/5.12.2/mkspecs/ /usr/local/mkspecs
 
     fi
     #--------- All platforms
