@@ -17,6 +17,7 @@ addons:
       - ubuntu-toolchain-r-test
       - boost-latest
     packages: &default_packages
+      - libhdf5-dev
       - doxygen
       - graphviz
 
@@ -127,7 +128,7 @@ install:
       export LD_LIBRARY_PATH=/opt/qt512/lib/
 
       #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
-      sudo apt-get install libhdf5-serial-dev
+      #sudo apt-get install libhdf5-serial-dev
     fi
     #--------- OSX
   - |
