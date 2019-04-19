@@ -112,7 +112,7 @@ install:
         echo "Already have swig cache"
       fi
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
-      
+
       # QT installation
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
       sudo apt-get update -qq
