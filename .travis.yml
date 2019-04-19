@@ -128,16 +128,18 @@ install:
       export LD_LIBRARY_PATH=/opt/qt512/lib/
 
       #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
-      #sudo apt-get install libhdf5-serial-dev
+      sudo apt-get install libhdf5-serial-dev
     fi
     #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install ccache swig qt && brew link --force qt
+      brew install hdf5
       sudo ln -s /usr/local/Cellar/qt/5.12.2/plugins /usr/local/plugins
       sudo ln -s /usr/local/Cellar/qt/5.12.2/mkspecs/ /usr/local/mkspecs
       export CMAKE_PREFIX_PATH=/usr/local/opt/qt5:$CMAKE_PREFIX_PATH
       export LD_LIBRARY_PATH=/usr/local/opt/qt5/lib/
+
     fi
     #--------- All platforms
   - |
