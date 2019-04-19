@@ -122,10 +122,6 @@ install:
       sudo apt-get update -qq
       sudo apt-get install -y -q qt512base qt512charts-no-lgpl qt512svg qt512declarative qt512qbs
       sudo apt-get install -y -q qt512quickcontrols qt512connectivity qt512graphicaleffects qt512tools qt512quickcontrols2 qt512location
-      #source /opt/qt512/bin/qt512-env.sh
-      #sudo ldconfig /opt/qt512/lib
-      #export CMAKE_PREFIX_PATH=/opt/qt512/:$CMAKE_PREFIX_PATH
-      #export LD_LIBRARY_PATH=/opt/qt512/lib/
 
       #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
       sudo apt-get install libhdf5-serial-dev
@@ -137,8 +133,8 @@ install:
       brew install hdf5
       sudo ln -s /usr/local/Cellar/qt/5.12.2/plugins /usr/local/plugins
       sudo ln -s /usr/local/Cellar/qt/5.12.2/mkspecs/ /usr/local/mkspecs
-      export CMAKE_PREFIX_PATH=/usr/local/opt/qt5:$CMAKE_PREFIX_PATH
-      export LD_LIBRARY_PATH=/usr/local/opt/qt5/lib/
+      #export CMAKE_PREFIX_PATH=/usr/local/opt/qt5:$CMAKE_PREFIX_PATH
+      #export LD_LIBRARY_PATH=/usr/local/opt/qt5/lib/
 
     fi
     #--------- All platforms
@@ -168,7 +164,6 @@ install:
     fi
 
 script:
-  #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then source /opt/qt512/bin/qt512-env.sh; fi
   - make all && if [[ "$MAKE_TEST" = "true" ]]; then make test; fi
 
 after_success:
