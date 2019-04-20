@@ -5,7 +5,7 @@
 #include "util/Exception.h"
 #include <boost/lexical_cast.hpp>
 #include <H5Cpp.h>
-#include <geopop/Location.h>
+#include "geopop/Location.h"
 
 namespace geopop {
 

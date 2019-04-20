@@ -8,7 +8,7 @@
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
