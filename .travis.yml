@@ -113,7 +113,7 @@ install:
       fi
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
 
-      #--------- Linux - qt 5.12.1 (xenial) from Stephan Binner's ppa
+      #--------- Linux - qt 5.12.1 (xenial) from Stephan Binner's ppa  # laurens
       if [[ "$CC" == "clang" ]]; then
         sudo apt install libomp-dev
       fi
@@ -122,6 +122,7 @@ install:
       sudo apt-get update -qq
       sudo apt-get install -y -q qt512base qt512charts-no-lgpl qt512svg qt512declarative qt512qbs
       sudo apt-get install -y -q qt512quickcontrols qt512connectivity qt512graphicaleffects qt512tools qt512quickcontrols2 qt512location
+      # laurens
 
       #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
       sudo apt-get install libhdf5-serial-dev
@@ -129,10 +130,16 @@ install:
     #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install ccache swig qt && brew link --force qt
+      # stride dependencies
+      brew install ccache
+      brew install swig
+
+      # install qt5 for brew # SOURCE: https://github.com/pcolby/aws-sdk-qt/blob/master/.travis.yml, laurens
+      brew install qt
+      brew link --force qt
+
+      # install HDF5
       brew install hdf5
-      #sudo ln -s /usr/local/Cellar/qt/5.12.2/plugins /usr/local/plugins
-      #sudo ln -s /usr/local/Cellar/qt/5.12.2/mkspecs/ /usr/local/mkspecs
 
     fi
     #--------- All platforms
