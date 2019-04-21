@@ -184,9 +184,6 @@ include(CheckIPOSupported)
 # Build the stride binary.
 #============================================================================
 add_executable(stride execs/stride.cpp)
-if(NOT HDF5_FOUND)
-        add_dependencies(stride hdf5-static hdf5_cpp-static)
-endif()
 target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 
