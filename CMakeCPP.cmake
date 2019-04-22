@@ -188,12 +188,7 @@ if(HDF5_FOUND)
     include_directories(${HDF5_INCLUDE_DIR})
     set(LIBS ${LIBS} ${HDF5_LIBRARIES})
 else()
-    include_directories(
-        ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/src
-        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
-        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/hl/src
-        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/hl/c++/src
-        ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5)
+    include_directories(${HDF5_INCLUDE})
 endif()
 
 #############################################################################
