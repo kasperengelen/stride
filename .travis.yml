@@ -3,7 +3,7 @@ dist: xenial
 
 env:
   global:
-    secure: AF50YrtPAbiWK7E7EgQ6RwRGoEj3pF/ToOWAk+lLupqEgwM6qyWXrIZx12OY4hAA2RljDl2q+btPpSkHKlP2SYko5/yWmvkXB9sY+6K+AHotn/y7oNJj0/jqaz6NV6gOpfIgcDJEdl7Zjyj9jJiSbmTJPAf0gNJR0Zljw2l27F2YeCwrEXp1Zl/7f6WKhhcSdD60p8548U+XhM8d+8Sbw1lVscIhgen+HMSkjqFoSiqDRkOiQUczu4sapfQqJV6LRcq6dw+nFRRE/Rhg1K+eO6tDqk0pdc5/9TYrpa80pV55MAdBMIPB/4/7XCIe0P3059+bEEpsMpm+f2pTmjKlmDEHwhKji3tX3vDF2QbnWV/FjOrFRmzO9x20jOY+6Nhn15rza5cP9gLVbm+5a6rEZd9UgzI9q1DLwJmbglGdX4ht0pMjJTKn+BY6woZ6R1ipJXryd+VSrRCyaJ8vCl9XSWKIjI9f3QowNMu4ySo3KZI4OtJxfsNCGy7pb47bL5wpOaSBApobuqEZ1vYVm5mHGqX+dp2dveIQC9ykPvGOs7DaVTSS+5oZK21qocq+w15HUR1P8fhB988+Pz9boMWAYX2OoztVxepoVVXATsL92bkZJhS2kVxaj/HX+8ka0+kItQ1ZcdSW50opwXxYqJm5N1EgRj7OG1AP7/RInBX/2Ag=
+    secure: EROUAjbfrAVF4dwimkwN5wvrDqQVkFpHKOl2eGHNKR79GDGIVZqtfeAC8O2WlzHSvIuB+8HOdkQV+FQ39pjrfWtLwLDuUd31Qeye0HxFo+h+gnP+6n/I/TGfo2dUcUSVVOH3FsHZ8qfsBSsU+qoTt1TbaUnp7qdjNIT1mE7mX1D9g1bwoZyBDJCbd3+NBUzhyBtKfNDmW7iTzRKFeHN/bWXQ5FT2bkt+QwARL08nNl1BLh+EqhhiLnMusqmmPPtCgG2FqYva0ADFVQ2UK7sm/xL61WsvRMzps2CJoVedGrUKHBj/gOSBpO7yEjk27cECvnP3Xw149e4bofV36wAYY3kC6hvBiHT/+8v1HqJf0jyAK5I3SqQfzspOlc4rYdI5kuRP4gYCWIW8PE+8bADaP/q71DSX54KOdVDgXy2oQAuSiNXoPLP/vNHHfmljavL4krw4uKVXSh7AMfUfKgpT0F1/92OW1z+s/w37wVIxoBFFGCaq7ZQeG0MzN6j/WrJFR9A4iZ6kUd0pl1z78ziZylCzD4+WpAf00ufiUL40gwER0f1wO58IcKj1b8l3JwR0LFAWZOfG/SlN6VkY5AJx16JK33KjknWzl/CCUPl4ee/xDRdIWA6mSeyXN8wzVM0mUUN29+OIul7to2YVlYYwKZObPX0nFUYhjLtkYddMTnM=
 
 cache:
   directories:
@@ -17,7 +17,6 @@ addons:
       - ubuntu-toolchain-r-test
       - boost-latest
     packages: &default_packages
-      #- libhdf5-dev
       - doxygen
       - graphviz
 
@@ -113,16 +112,27 @@ install:
       fi
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
 
-      #--------- Linux - qt 5.12.1 (xenial) from Stephan Binner's ppa  # laurens
-      #if [[ "$CC" == "clang" ]]; then
-      #  sudo apt install libomp-dev
-      #fi
-      sudo apt-get install libgl-dev # open gl for QT
+      # QT 5.12.1 installation
+      # SOURCE: Stephan Binner, Laurens
+
+      # open gl for QT
+      sudo apt-get install libgl-dev
+
+      # Stephan Binner packages
       sudo add-apt-repository ppa:beineri/opt-qt-5.12.1-xenial -y
       sudo apt-get update -qq
-      sudo apt-get install -y -q qt512base qt512charts-no-lgpl qt512svg qt512declarative qt512qbs
-      sudo apt-get install -y -q qt512quickcontrols qt512connectivity qt512graphicaleffects qt512tools qt512quickcontrols2 qt512location
-      # laurens
+      sudo apt-get install -y -q qt512base
+      sudo apt-get install -y -q qt512charts-no-lgpl
+      sudo apt-get install -y -q qt512svg
+      sudo apt-get install -y -q qt512declarative
+      sudo apt-get install -y -q qt512qbs
+      sudo apt-get install -y -q qt512quickcontrols
+      sudo apt-get install -y -q qt512connectivity
+      sudo apt-get install -y -q qt512graphicaleffects
+      sudo apt-get install -y -q qt512tools
+      sudo apt-get install -y -q qt512quickcontrols2
+      sudo apt-get install -y -q qt512location
+      source /opt/qt512/bin/qt512-env.sh # not really needed, but recommended by Stephan Binner
 
       #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
       sudo apt-get install libhdf5-serial-dev
