@@ -119,20 +119,19 @@ install:
       sudo apt-get install libgl-dev
 
       # # Stephan Binner packages
-      # sudo add-apt-repository ppa:beineri/opt-qt-5.12.1-xenial -y
-      # sudo apt-get update -qq
-      # sudo apt-get install -y -q qt512base
-      # sudo apt-get install -y -q qt512charts-no-lgpl
-      # sudo apt-get install -y -q qt512svg
-      # sudo apt-get install -y -q qt512declarative
-      # sudo apt-get install -y -q qt512qbs
-      # sudo apt-get install -y -q qt512quickcontrols
-      # sudo apt-get install -y -q qt512connectivity
-      # sudo apt-get install -y -q qt512graphicaleffects
-      # sudo apt-get install -y -q qt512tools
-      # sudo apt-get install -y -q qt512quickcontrols2
-      # sudo apt-get install -y -q qt512location
-      # source /opt/qt512/bin/qt512-env.sh # not really needed, but recommended by Stephan Binner
+      sudo add-apt-repository ppa:beineri/opt-qt-5.12.1-xenial -y
+      sudo apt-get update -qq
+      sudo apt-get install -y -q qt512base
+      #sudo apt-get install -y -q qt512charts-no-lgpl
+      #sudo apt-get install -y -q qt512svg
+      #sudo apt-get install -y -q qt512declarative
+      #sudo apt-get install -y -q qt512qbs
+      sudo apt-get install -y -q qt512quickcontrols
+      sudo apt-get install -y -q qt512graphicaleffects
+      sudo apt-get install -y -q qt512tools
+      sudo apt-get install -y -q qt512quickcontrols2
+      sudo apt-get install -y -q qt512location
+      source /opt/qt512/bin/qt512-env.sh # not really needed, but recommended by Stephan Binner
 
       #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
       sudo apt-get install libhdf5-serial-dev
