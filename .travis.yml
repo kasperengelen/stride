@@ -117,7 +117,7 @@ install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew upgrade python cmake
-      brew install swig
+      brew install ccache swig
     fi
     #--------- All platforms
   - |
