@@ -22,5 +22,4 @@ set(HDF5_INCLUDE
     libhdf5/src
     libhdf5/c++/src
     libhdf5/hl/src
-    libhdf5/hl/c++/src
-    ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/libhdf5)
+    libhdf5/hl/c++/src)
