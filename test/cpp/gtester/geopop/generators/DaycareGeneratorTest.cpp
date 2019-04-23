@@ -31,9 +31,9 @@ using namespace stride::util;
 
 namespace {
 
-class PreSchoolGeneratorTest : public testing::Test {
+class DaycareGeneratorTest : public testing::Test {
         public:
-        PreSchoolGeneratorTest()
+        DaycareGeneratorTest()
                 : m_rn_man(RnInfo()), m_daycare_generator(m_rn_man), m_gg_config(), m_pop(Population::Create()),
                   m_geo_grid(m_pop.get()) {
         }
@@ -48,7 +48,7 @@ class PreSchoolGeneratorTest : public testing::Test {
 };
 
 // Check that generator can handle one Location.
-TEST_F(PreSchoolGeneratorTest, OneLocationTest) {
+TEST_F(DaycareGeneratorTest, OneLocationTest) {
         m_gg_config.param.pop_size = 10000;
         m_gg_config.info.popcount_daycare = 2000;
 
@@ -62,7 +62,7 @@ TEST_F(PreSchoolGeneratorTest, OneLocationTest) {
 }
 
 // Check that generator can handle empty GeoGrid.
-TEST_F(PreSchoolGeneratorTest, ZeroLocationTest) {
+TEST_F(DaycareGeneratorTest, ZeroLocationTest) {
         m_gg_config.param.pop_size = 10000;
         m_gg_config.info.popcount_daycare = 2000;
 
@@ -72,7 +72,7 @@ TEST_F(PreSchoolGeneratorTest, ZeroLocationTest) {
 }
 
 // Check that generator can handle five Locations.
-TEST_F(PreSchoolGeneratorTest, FiveLocationsTest) {
+TEST_F(DaycareGeneratorTest, FiveLocationsTest) {
         m_gg_config.param.pop_size = 37542 * 100;
         m_gg_config.info.popcount_daycare = 750840;
 
@@ -102,6 +102,6 @@ TEST_F(PreSchoolGeneratorTest, FiveLocationsTest) {
         }
 }
 
-TEST_F(PreSchoolGeneratorTest, ParticipationTest) {}
+TEST_F(DaycareGeneratorTest, ParticipationTest) {}
 
 } // namespace
