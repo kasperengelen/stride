@@ -86,6 +86,8 @@ set(STRIDE_SRC
     geopop/io/CommutesCSVReader.cpp
 #    geopop/io/GeoGridJSONReader.cpp
     geopop/io/GeoGridJSONWriter.cpp
+    geopop/io/GeoGridHDF5Reader.cpp
+    geopop/io/GeoGridHDF5Writer.cpp
     geopop/io/GeoGridProtoReader.cpp
     geopop/io/GeoGridProtoReader.h
     geopop/io/GeoGridProtoWriter.cpp
@@ -162,7 +164,10 @@ endif()
 if(HDF5_FOUND)
     target_link_libraries(libstride PRIVATE hdf5_cpp)
 else()
-    target_link_libraries(libstride PRIVATE ${_hdf5_libs})
+    target_link_libraries(libstride PUBLIC hdf5-static)
+    target_link_libraries(libstride PUBLIC hdf5_cpp-static)
+    target_link_libraries(libstride PUBLIC hdf5_hl-static)
+    target_link_libraries(libstride PUBLIC hdf5_hl_cpp-static)
 endif()
 
 set_target_properties(libstride
@@ -184,9 +189,6 @@ include(CheckIPOSupported)
 # Build the stride binary.
 #============================================================================
 add_executable(stride execs/stride.cpp)
-if(NOT HDF5_FOUND)
-        add_dependencies(stride hdf5)
-endif()
 target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 

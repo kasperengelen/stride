@@ -424,7 +424,7 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to Build Shared and Static libs, default is both
 #-----------------------------------------------------------------------------
-option (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
+option (BUILD_SHARED_LIBS "Build Shared Libraries" OFF)
 set (H5_ENABLE_SHARED_LIB NO)
 if (BUILD_SHARED_LIBS)
   set (H5_ENABLE_SHARED_LIB YES)

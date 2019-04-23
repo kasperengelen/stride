@@ -188,29 +188,12 @@ if(HDF5_FOUND)
     include_directories(${HDF5_INCLUDE_DIR})
     set(LIBS ${LIBS} ${HDF5_LIBRARIES})
 else()
-    include(ExternalProject)
-    set(ExternalProjectCMakeArgs
-            -DHDF5_BUILD_CPP_LIB=ON
-            )
-    ExternalProject_Add(hdf5
-            DOWNLOAD_COMMAND ""
-            CMAKE_ARGS ${ExternalProjectCMakeArgs}
-            SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5
-            BINARY_DIR ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build
-            STAMP_DIR  ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/stamp
-            TMP_DIR    ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/tmp
-            INSTALL_COMMAND ""
-            )
     include_directories(
-                ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/src
-                ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
-                ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build
-            )
-    set(_hdf5_libs
-            ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build/bin/libhdf5_cpp.a
-            ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5/build/bin/libhdf5.a
-            -ldl
-            )
+        ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/src
+        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
+        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/hl/src
+        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/hl/c++/src
+        ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5)
 endif()
 
 #############################################################################

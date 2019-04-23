@@ -112,12 +112,14 @@ install:
         echo "Already have swig cache"
       fi
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
+      sudo apt-get install libhdf5-serial-dev
     fi
     #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew upgrade python cmake
       brew install ccache swig
+      brew install hdf5
     fi
     #--------- All platforms
   - |
