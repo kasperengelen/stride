@@ -42,8 +42,8 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
         param.fraction_workplace_commuters = pt.get<double>("fraction_workplace_commuters");
         param.fraction_college_commuters   = pt.get<double>("fraction_college_commuters");
         param.particpation_workplace       = pt.get<double>("particpation_workplace");
-        param.participation_daycare        = pt.get<double>("particpation_daycare");
-        param.participation_preschool      = pt.get<double>("particpation_preschool");
+        param.participation_daycare        = pt.get<double>("participation_daycare");
+        param.participation_preschool      = pt.get<double>("participation_preschool");
 
         people[Id::K12School]              = pt.get<unsigned int>("people_per_K12School", 500U);
         people[Id::College]                = pt.get<unsigned int>("people_per_College", 3000U);
@@ -56,8 +56,10 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
         people[Id::PreSchool]              = pt.get<unsigned int>("people_per_PreSchool", 60U);
 
 
-        pools[Id::K12School]              = pt.get<unsigned int>("pools_per_K12School", 25U);
-        pools[Id::College]                = pt.get<unsigned int>("pools_per_College", 20U);
+        pools[Id::Daycare]                 = pt.get<unsigned int>("pools_per_Daycare", 25U);
+        pools[Id::PreSchool]               = pt.get<unsigned int>("pools_per_PreSchool", 25U);
+        pools[Id::K12School]               = pt.get<unsigned int>("pools_per_K12School", 25U);
+        pools[Id::College]                 = pt.get<unsigned int>("pools_per_College", 20U);
 }
 
 void GeoGridConfig::SetData(const string& householdsFileName)

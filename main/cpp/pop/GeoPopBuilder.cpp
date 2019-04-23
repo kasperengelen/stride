@@ -111,7 +111,7 @@ void GeoPopBuilder::MakeLocations(GeoGrid& geoGrid, const GeoGridConfig& geoGrid
         }
 
         for (const shared_ptr<Location>& loc : geoGrid) {
-                loc->SetPopCount(geoGridConfig.input.pop_size);
+                loc->SetPopCount(geoGridConfig.param.pop_size);
         }
         geoGrid.Finalize();
 }

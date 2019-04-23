@@ -40,7 +40,7 @@ class Population;
  */
 class GeoPopBuilder : public AbstractPopBuilder
 {
-public:
+        public:
         /// Use constructor of base.
         // using AbstractPopBuilder::AbstractPopBuilder;
 
@@ -54,7 +54,7 @@ public:
         /// Generates a synthetic population.
         std::shared_ptr<Population> Build(std::shared_ptr<Population> pop) override;
 
-private:
+        private:
         /// Read files with location data and constructs GeoGrid config.
         void MakeLocations(geopop::GeoGrid& geoGrid, const geopop::GeoGridConfig& geoGridConfig,
                            const std::string& citiesFileName, const std::string& commutingFileName);
