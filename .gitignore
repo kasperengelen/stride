@@ -44,7 +44,7 @@ test/cpp/gtester/gtester
 /.settings/
 target*/
 build*/
-/CMakeLocal.cmake
+#/CMakeLocal.cmake
 /CMakeLocalProject.cmake
 
 #-----------------------------
