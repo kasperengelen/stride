@@ -19,7 +19,7 @@ target_link_libraries(libhdf5
     )
 
 set(HDF5_INCLUDE
-    libhdf5/src
-    libhdf5/c++/src
-    libhdf5/hl/src
-    libhdf5/hl/c++/src)
+    ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/libhdf5/src/
+    ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/libhdf5/c++/src/
+    ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/libhdf5/hl/src/
+    ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/libhdf5/hl/c++/src/)
