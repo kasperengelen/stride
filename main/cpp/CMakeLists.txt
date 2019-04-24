@@ -74,7 +74,6 @@ set(STRIDE_SRC
     #---
     geopop/generators/CollegeGenerator.cpp
     geopop/generators/DaycareGenerator.cpp
-    geopop/generators/Generator.cpp
     geopop/generators/HouseholdGenerator.cpp
     geopop/generators/K12SchoolGenerator.cpp
     geopop/generators/PreSchoolGenerator.cpp
@@ -97,12 +96,12 @@ set(STRIDE_SRC
     geopop/io/GeoGridWriterFactory.h
     geopop/io/HouseholdCSVReader.cpp
     geopop/io/ReaderFactory.cpp
+    #---
     geopop/populators/CollegePopulator.cpp
     geopop/populators/DaycarePopulator.cpp
     geopop/populators/HouseholdPopulator.cpp
     geopop/populators/K12SchoolPopulator.cpp
     geopop/populators/PreSchoolPopulator.cpp
-    geopop/populators/Populator.cpp
     geopop/populators/PrimaryCommunityPopulator.cpp
     geopop/populators/SecondaryCommunityPopulator.cpp
     geopop/populators/WorkplacePopulator.cpp
@@ -155,9 +154,9 @@ target_compile_definitions(libstride PUBLIC "-DSTRIDE_GIT_HASH=${STRIDE_WC_REVIS
 target_compile_definitions(libstride PUBLIC "-DPROCCOUNT=${PROCCOUNT}")
 target_link_libraries(libstride PRIVATE ${LIBS})
 if(Protobuf_FOUND)
-    target_link_libraries(libstride PRIVATE ${Protobuf_LIBRARIES})
+    target_link_libraries(libstride PUBLIC ${Protobuf_LIBRARIES})
 else()
-    target_link_libraries(libstride PRIVATE libprotobuf)
+    target_link_libraries(libstride PUBLIC libprotobuf)
 endif()
 if(HDF5_FOUND)
     target_link_libraries(libstride PRIVATE hdf5_cpp)

@@ -10,16 +10,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2018, 2019, ACED.
+ *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-#include "DaycareGenerator.h"
-
-#include "geopop/GeoGrid.h"
-#include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
-#include "pop/Population.h"
-#include "util/RnMan.h"
+#include "Generator.h"
 
 namespace geopop {
 
@@ -27,17 +21,17 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-void DaycareGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
+template<>
+void Generator<stride::ContactType::Id::Daycare>::Apply(GeoGrid& geoGrid, const GeoGridConfig& ggConfig)
 {
-        // 1. given the number of persons of school age, calculate number of schools; schools
-        //    have 500 pupils on average
+        // 1. given the number of persons of school age, calculate number of schools
         // 2. assign schools to a location by using a discrete distribution which reflects the
         //    relative number of pupils for that location; the relative number of pupils is set
         //    to the relative population w.r.t the total population.
 
-        const auto pupilCount = geoGridConfig.popInfo.popcount_daycare;
-        const auto schoolCount =
-            static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(geoGridConfig.pools.daycare_size)));
+        const auto pupilCount = ggConfig.info.popcount_daycare;
+        const auto daycareCount =
+                static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(ggConfig.people[Id::Daycare])));
 
         vector<double> weights;
         for (const auto& loc : geoGrid) {
@@ -52,18 +46,9 @@ void DaycareGenerator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfi
         const auto dist = m_rn_man.GetDiscreteGenerator(weights, 0U);
         auto       pop  = geoGrid.GetPopulation();
 
-        for (auto i = 0U; i < schoolCount; i++) {
+        for (auto i = 0U; i < daycareCount; i++) {
                 const auto loc = geoGrid[dist()];
-                AddPools(*loc, pop, geoGridConfig.pools.pools_per_daycare);
-        }
-}
-
-void DaycareGenerator::AddPools(Location& loc, Population* pop, unsigned int number)
-{
-        auto& poolSys = pop->RefPoolSys();
-        for (auto i = 0U; i < number; ++i) {
-                const auto p = poolSys.CreateContactPool(Id::Daycare);
-                loc.RegisterPool<Id::Daycare>(p);
+                AddPools(*loc, pop, ggConfig);
         }
 }
 
