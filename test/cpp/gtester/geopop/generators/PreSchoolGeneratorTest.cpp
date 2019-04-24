@@ -50,7 +50,7 @@ class PreSchoolGeneratorTest : public testing::Test {
 // Check that generator can handle one Location.
 TEST_F(PreSchoolGeneratorTest, OneLocationTest) {
         m_gg_config.param.pop_size = 10000;
-        m_gg_config.info.popcount_daycare = 2000;
+        m_gg_config.info.popcount_preschool = 300;
 
         auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_geo_grid.AddLocation(loc1);
@@ -64,7 +64,7 @@ TEST_F(PreSchoolGeneratorTest, OneLocationTest) {
 // Check that generator can handle empty GeoGrid.
 TEST_F(PreSchoolGeneratorTest, ZeroLocationTest) {
         m_gg_config.param.pop_size = 10000;
-        m_gg_config.info.popcount_daycare = 2000;
+        m_gg_config.info.popcount_preschool = 300;
 
         m_preschool_generator.Apply(m_geo_grid, m_gg_config);
 
@@ -74,7 +74,7 @@ TEST_F(PreSchoolGeneratorTest, ZeroLocationTest) {
 // Check that generator can handle five Locations.
 TEST_F(PreSchoolGeneratorTest, FiveLocationsTest) {
         m_gg_config.param.pop_size = 37542 * 100;
-        m_gg_config.info.popcount_daycare = 750840;
+        m_gg_config.info.popcount_preschool = 125140;
 
         auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 10150 * 100);
         auto loc2 = make_shared<Location>(1, 4, Coordinate(0, 0), "Vlaams-Brabant", 10040 * 100);
@@ -95,7 +95,7 @@ TEST_F(PreSchoolGeneratorTest, FiveLocationsTest) {
 
         m_preschool_generator.Apply(m_geo_grid, m_gg_config);
 
-        array<unsigned int, 5> sizes{444, 416, 330, 133, 179};
+        array<unsigned int, 5> sizes{415, 383, 306, 122, 165};
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(sizes[i] * m_ppps,
                           m_geo_grid[i]->CRefPools(Id::PreSchool).size());

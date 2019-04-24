@@ -68,7 +68,9 @@ shared_ptr<Population> SurveySeeder::Seed(shared_ptr<Population> pop)
                         const auto pW   = p.GetPoolId(Id::Workplace);
                         const auto pPC  = p.GetPoolId(Id::PrimaryCommunity);
                         const auto pSC  = p.GetPoolId(Id::SecondaryCommunity);
-                        logger->info("[PART] {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", p.GetId(),
+                        const auto pD  = p.GetPoolId(Id::Daycare);
+                        const auto pPS  = p.GetPoolId(Id::PreSchool);
+                        logger->info("[PART] {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", p.GetId(),
                                      p.GetAge(), pHH, pK12, pC, pW, h.IsSusceptible(), h.IsInfected(), h.IsInfectious(),
                                      h.IsRecovered(), h.IsImmune(), h.GetStartInfectiousness(), h.GetStartSymptomatic(),
                                      h.GetEndInfectiousness(), h.GetEndSymptomatic(),
@@ -77,7 +79,9 @@ shared_ptr<Population> SurveySeeder::Seed(shared_ptr<Population> pop)
                                      poolSys.CRefPools<Id::College>()[pC].GetPool().size(),
                                      poolSys.CRefPools<Id::Workplace>()[pW].GetPool().size(),
                                      poolSys.CRefPools<Id::PrimaryCommunity>()[pPC].GetPool().size(),
-                                     poolSys.CRefPools<Id::SecondaryCommunity>()[pSC].GetPool().size());
+                                     poolSys.CRefPools<Id::SecondaryCommunity>()[pSC].GetPool().size(),
+                                     poolSys.CRefPools<Id::Daycare>()[pD].GetPool().size(),
+                                     poolSys.CRefPools<Id::PreSchool>()[pPS].GetPool().size());
 
                         numSamples++;
                 }

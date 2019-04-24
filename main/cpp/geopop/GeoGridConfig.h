@@ -43,12 +43,12 @@ public:
         /// People per unit (= Household, K12School, College, etc.) for each of the ContactTypes.
         /// Default initialization. Order in which contacttypes are listed in the
         /// definition of the enumeration must be respected!
-        stride::ContactType::IdSubscriptArray<unsigned int> people {0U, 500U, 3000U, 20U, 2000U, 2000U};
+        stride::ContactType::IdSubscriptArray<unsigned int> people {0U, 500U, 3000U, 20U, 2000U, 2000U, 14U, 90U};
 
         /// Pools per unit (= Household, K12School, College, etc.) for each of the ContactTypes.
         /// Default initialization. Order in which contacttypes are listed in the
         /// definition of the enumeration must be respected!
-        stride::ContactType::IdSubscriptArray<unsigned int> pools {1U, 25U, 20U, 1U, 1U, 1U};
+        stride::ContactType::IdSubscriptArray<unsigned int> pools {1U, 25U, 20U, 1U, 1U, 1U, 1U, 6U};
 
         // -----------------------------------------------------------------------------------------
         // Parameters set by constructor with configuration property tree.
@@ -58,7 +58,7 @@ public:
                 /// Participation of daycare (fraction of people of daycare age going to daycare).
                 double participation_daycare;
 
-                /// Participation of preschool (fraction of people of preschool age going to prschool).
+                /// Participation of preschool (fraction of people of preschool age going to preschool).
                 double participation_preschool;
 
                 /// Participation of college (fraction of people of college age going to college).

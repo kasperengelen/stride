@@ -118,6 +118,10 @@ shared_ptr<ContactCenter> GeoGridJSONReader::ParseContactCenter(boost::property_
                 typeId = Id::SecondaryCommunity;
         } else if (type == ToString(Id::Workplace)) {
                 typeId = Id::Workplace;
+        } else if (type == ToString(Id::Daycare)) {
+                typeId = Id::Daycare;
+        } else if (type == ToString(Id::PreSchool)) {
+                typeId = Id::PreSchool;
         } else {
                 throw Exception("No such ContactCenter type: " + type);
         }
@@ -159,8 +163,10 @@ Person* GeoGridJSONReader::ParsePerson(boost::property_tree::ptree& person)
         const auto wpId = boost::lexical_cast<unsigned int>(person.get<string>("Workplace"));
         const auto pcId = boost::lexical_cast<unsigned int>(person.get<string>("PrimaryCommunity"));
         const auto scId = boost::lexical_cast<unsigned int>(person.get<string>("SecondaryCommunity"));
+        const auto dcId = boost::lexical_cast<unsigned int>(person.get<string>("Daycare"));
+        const auto psId = boost::lexical_cast<unsigned int>(person.get<string>("PreSchool"));
 
-        return m_population->CreatePerson(id, age, hhId, ksId, coId, wpId, pcId, scId);
+        return m_population->CreatePerson(id, age, hhId, ksId, coId, wpId, pcId, scId, dcId, psId);
 }
 
 } // namespace geopop
