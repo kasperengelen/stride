@@ -13,15 +13,15 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
+
 #include "Populator.h"
 
 #include "contact/AgeBrackets.h"
 #include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/GeoGridConfig.h"
 #include "geopop/Location.h"
 #include "pop/Person.h"
-#include "util/Assert.h"
+
 
 namespace geopop {
 

@@ -50,14 +50,10 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
         people[Id::Workplace]              = pt.get<unsigned int>("people_per_Workplace", 20U);
         people[Id::PrimaryCommunity]       = pt.get<unsigned int>("people_per_PrimaryCommunity", 2000U);
         people[Id::SecondaryCommunity]     = pt.get<unsigned int>("people_per_SecondaryCommunity", 2000U);
-
-        //TODO Find somehow values for this boy
-        people[Id::Daycare]                = pt.get<unsigned int>("people_per_Daycare", 30U);
-        people[Id::PreSchool]              = pt.get<unsigned int>("people_per_PreSchool", 60U);
+        people[Id::Daycare]                = pt.get<unsigned int>("people_per_Daycare", 14U);
+        people[Id::PreSchool]              = pt.get<unsigned int>("people_per_PreSchool", 90U);
 
 
-        pools[Id::Daycare]                 = pt.get<unsigned int>("pools_per_Daycare", 25U);
-        pools[Id::PreSchool]               = pt.get<unsigned int>("pools_per_PreSchool", 25U);
         pools[Id::K12School]               = pt.get<unsigned int>("pools_per_K12School", 25U);
         pools[Id::College]                 = pt.get<unsigned int>("pools_per_College", 20U);
 }
@@ -142,8 +138,8 @@ ostream& operator<<(ostream& out, const GeoGridConfig& config)
             << "\n";
         out << "Calculated:"
             << "\n";
-        out << setw(w) << "Daycare student count:" << intToDottedString(config.info.popcount_k12school) << "\n";
-        out << setw(w) << "PreSchool student count:" << intToDottedString(config.info.popcount_k12school) << "\n";
+        out << setw(w) << "Daycare student count:" << intToDottedString(config.info.popcount_daycare) << "\n";
+        out << setw(w) << "PreSchool student count:" << intToDottedString(config.info.popcount_preschool) << "\n";
         out << setw(w) << "K12School student count:" << intToDottedString(config.info.popcount_k12school) << "\n";
         out << setw(w) << "College student count:" << intToDottedString(config.info.popcount_college) << "\n";
         out << setw(w) << "Workplace person count:" << intToDottedString(config.info.popcount_workplace) << "\n";

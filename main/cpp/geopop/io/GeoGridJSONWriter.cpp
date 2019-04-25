@@ -139,6 +139,8 @@ ptree GeoGridJSONWriter::WritePerson(Person* person)
         person_root.put("Workplace", person->GetPoolId(Id::Workplace));
         person_root.put("PrimaryCommunity", person->GetPoolId(Id::PrimaryCommunity));
         person_root.put("SecondaryCommunity", person->GetPoolId(Id::SecondaryCommunity));
+        person_root.put("Daycare", person->GetPoolId(Id::Daycare));
+        person_root.put("PreSchool", person->GetPoolId(Id::PreSchool));
         return person_root;
 }
 
