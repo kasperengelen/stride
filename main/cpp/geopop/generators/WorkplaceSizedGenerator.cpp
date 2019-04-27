@@ -65,6 +65,7 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         }
 
         /*
+        # checking if workplace info is correct
         unsigned int last_size = 0;
         for (const auto& range : size) {
             min_size = get<0>(range);

@@ -66,31 +66,4 @@ TEST(WorkplaceCSVReader, test1)
         EXPECT_EQ(get<0>(sizes[3]), 200);
         EXPECT_EQ(get<1>(sizes[3]), 400);
 }
-
-TEST(WorkplaceCSVReader, test2)
-{
-        string csvString =
-                R"(ratio,min_size,max_size
-0.778532842256952,1,9
-0.171901116625764,10,49
-0.041003902521095,50,199
-0.00856213859619,200,400
-
-)";
-
-        GeoGridConfig      geoConfig{};
-        auto               instream = make_unique<istringstream>(csvString);
-        WorkplaceCSVReader reader(move(instream));
-
-        reader.SetWorkplaceData(geoConfig.workplaceSD.ratios, geoConfig.workplaceSD.sizes);
-
-        const vector<double>& ratios = geoConfig.workplaceSD.ratios;
-
-        EXPect
-
-        const vector<tuple<unsigned int, unsigned int>>& sizes = geoConfig.workplaceSD.sizes;
-
-
-}
-
 } // namespace
