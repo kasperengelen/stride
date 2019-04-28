@@ -38,7 +38,7 @@ EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, cons
 void EpiOutputFileViewer::Update(const sim_event::Id id)
 {
         switch (id) {
-        case Id::Finished: {
+        case Id::Stepped: {
                 m_epioutput_file.Print(m_runner->GetSim()->GetPopulation());
                 break;
         }

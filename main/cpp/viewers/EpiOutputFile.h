@@ -50,8 +50,13 @@ private:
         /// Generate file name and open the file stream.
         void Initialize(const std::string& output_dir, const std::string& output_type);
 
+        void InitializeJSON();
+
+        void PrintJSON(std::shared_ptr<const Population> population);
+
 private:
-        std::ofstream m_fstream;
+        std::fstream m_fstream;
+        std::string m_file_type;
 };
 
 } // namespace output
