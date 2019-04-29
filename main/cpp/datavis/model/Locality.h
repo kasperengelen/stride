@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -24,7 +26,7 @@
 #include <string>
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
 /**
  * Class that represents a locality. This is a geographical location
@@ -42,7 +44,7 @@ public:
 	 * @param popCount The total population count of the locality.
 	 * @param infectedFrac The fraction of the population that is infected.
 	 */
-	explicit Locality(const std::string& name, geopop::Coordinate coord, unsigned int popCount, double infectedFrac);
+	explicit Locality(const std::string& name, geopop::Coordinate coord);
 
 	/**
 	 * Retrieve the place name of the locality.
@@ -54,28 +56,11 @@ public:
 	 */
 	const geopop::Coordinate& GetCoordinate() const;
 
-	/**
-	 * Retrieve the total population count of the locality.
-	 */
-	unsigned int GetPopCount() const;
-
-	/**
-	 * Retrieve the fraction of the population that is infected.
-	 */
-	double getInfectedFraction() const;
-
-// TODO possible extension, so that each health status is covered.
-//	/**
-//	 * Retrieve the fraction of the population with the specified health status.
-//	 */
-//	double getPopFraction(const HealthStatus status) const ;
-
 private:
 	geopop::Coordinate m_coordinate;
 	std::string        m_name;
-	unsigned int       m_pop_count;
-	double             m_infected_frac;
+
 };
 
-}
-}
+} // namespace datavis
+} // namespace stride

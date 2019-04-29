@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -18,13 +20,15 @@
 
 #pragma once
 
+#include "Reader.h"
+
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
 /**
  * Class that reads epi-output specified in the json data format.
  */
-class JSONEpiReader
+class JSONEpiReader : public Reader
 {
 public:
 
@@ -32,5 +36,5 @@ private:
 
 };
 
-}
-}
+} // namespace datavis
+} // namespace stride

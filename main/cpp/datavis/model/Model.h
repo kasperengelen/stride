@@ -9,22 +9,53 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
  * @file
- * Implementation file for the MapView class.
+ * Header file for the Model class.
  */
 
-#include "MapView.h"
+#pragma once
+
+#include "datavis/model/Timestep.h"
+
+#include <vector>
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
 
-}
-}
+class Model
+{
+public:
+	/// Constructor.
+	Model();
+
+	void AddTimestep(const Timestep& timestep);
+	void ClearTimesteps();
+	void SetTimesteps(const std::vector<Timestep>& timesteps);
+
+	const Timestep& GetCurrentTimestepData();
+
+	bool HasNextTimestep() const;
+	bool HasPrevTimestep();
+
+	void NextTimestep();
+	void PrevTimestep();
+
+	void FirstTimestep();
+	void LastTimestep();
+
+private:
+	// vector<vector<Locality>>
+	std::vector<Timestep> m_timesteps;
+
+	int m_currentTimestep;
+};
 
 
-
-
+} // namespace datavis
+} // namespace stride

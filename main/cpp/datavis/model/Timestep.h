@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -23,7 +25,7 @@
 #include <vector>
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
 /**
  * Class that represents what a geographical area look like during
@@ -51,7 +53,7 @@ private:
 	std::vector<Locality> m_localities;
 };
 
-}
-}
+} // namespace datavis
+} // namespace stride
 
 

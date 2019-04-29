@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -16,33 +18,19 @@
  * Implementation file for the DataModel class.
  */
 
-#include "DataModel.h"
+#include "Model.h"
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
-DataModel::DataModel()
-	: m_timesteps{}
+Model::Model()
+	: m_timesteps{}, m_currentTimestep{0}
 {}
 
-/**
- * Add a timestep.
- */
-void DataModel::AddTimestep(const Timestep& timestep)
-{
-	m_timesteps.push_back(timestep);
-}
 
-/**
- * Retrieve a list of timesteps.
- */
-const std::vector<Timestep>& DataModel::GetTimesteps() const
-{
-	return m_timesteps;
-}
 
-}
-}
+} // namespace datavis
+} // namespace stride
 
 
 

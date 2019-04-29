@@ -9,22 +9,23 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
  * @file
- * Header file for the MapView class.
+ * Implementation file for the Reader class.
  */
 
+#include "Reader.h"
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
-class MapView
-{
 
-};
 
-}
-}
+
+} // namespace datavis
+} // namespace stride
 

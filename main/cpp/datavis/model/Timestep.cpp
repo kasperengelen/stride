@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -19,7 +21,7 @@
 #include "Timestep.h"
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
 Timestep::Timestep()
  : m_localities()
@@ -35,6 +37,6 @@ const std::vector<Locality>& Timestep::GetLocalities() const
 	return m_localities;
 }
 
-}
-}
+} // namespace datavis
+} // namespace stride
 

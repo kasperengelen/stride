@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -19,10 +21,10 @@
 #include "Locality.h"
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
 Locality::Locality(const std::string& name, geopop::Coordinate coord, unsigned int popCount, double infectedFrac)
-		: m_coordinate(coord), m_name(name), m_pop_count(popCount), m_infected_frac(infectedFrac)
+		: m_coordinate(coord), m_name(name)
 {}
 
 const std::string& Locality::GetName() const
@@ -45,5 +47,5 @@ double Locality::getInfectedFraction() const
 	return m_infected_frac;
 }
 
-}
-}
+} // namespace datavis
+} // namespace stride

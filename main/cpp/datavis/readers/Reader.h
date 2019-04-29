@@ -9,46 +9,44 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
  * @file
- * Header file for the DataModel class.
+ * Header file for the Reader class.
  */
 
 #pragma once
 
-#include "datavis/model/Timestep.h"
-
-#include <vector>
+#include <memory>
+#include "../model/Model.h"
 
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
-
-class DataModel
+/**
+ * Base class for epi-output readers.
+ */
+class Reader
 {
 public:
-	/**
-	 * Default constructor.
-	 */
-	DataModel();
 
-	/**
-	 * Add a timestep.
-	 */
-	void AddTimestep(const Timestep& timestep);
+	/// Construct the Reader with an istream containing the file content.
+	explicit Reader(std::unique_ptr<std::istream> inputStream) : m_inputStream(std::move(inputStream)) {};
 
-	/**
-	 * Retrieve a list of timesteps.
-	 */
-	const std::vector<Timestep>& GetTimesteps() const ;
+	/// Default destructor.
+	virtual ~Reader() = default;
+
+	/// Read the epidemiological simulation data and add it to the model.
+	virtual std::vector<Timestep> ReadIntoModel(Model& datamode) = 0;
 
 private:
-	// vector<vector<Locality>>
-	std::vector<Timestep> m_timesteps;
+	std::unique_ptr<std::istream> m_inputStream; ///< The istream with the file content.
 };
 
 
-}
-}
+} // namespace datavis
+} // namespace stride
+

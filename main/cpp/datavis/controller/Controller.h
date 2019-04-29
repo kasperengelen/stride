@@ -9,6 +9,8 @@
  *  GNU General Public License for more details.
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
  */
 
 /**
@@ -16,9 +18,24 @@
  * Header file for the Controller class.
  */
 
+#include <QObject>
+
 namespace stride {
-namespace datavisualiser {
+namespace datavis {
 
+class Controller : public QObject
+{
+	Q_OBJECT
 
-}
-}
+public:
+	explicit Controller(QObject* parent = nullptr) : QObject(parent)
+	{}
+
+	// prev
+	// next
+	// readfile
+	// etc.
+};
+
+} // namespace datavis
+} // namespace stride
