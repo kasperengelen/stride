@@ -41,7 +41,7 @@ public:
 	const Timestep& GetCurrentTimestepData();
 
 	bool HasNextTimestep() const;
-	bool HasPrevTimestep();
+	bool HasPrevTimestep() const;
 
 	void NextTimestep();
 	void PrevTimestep();
@@ -53,7 +53,7 @@ private:
 	// vector<vector<Locality>>
 	std::vector<Timestep> m_timesteps;
 
-	int m_currentTimestep;
+	unsigned int m_current_timestep;
 };
 
 

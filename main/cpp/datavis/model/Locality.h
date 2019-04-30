@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "datavis/model/PopCategory.h"
+
 #include "geopop/Coordinate.h"
 #include "disease/Health.h"
 
@@ -45,6 +47,7 @@ public:
 	 * @param infectedFrac The fraction of the population that is infected.
 	 */
 	explicit Locality(const std::string& name, geopop::Coordinate coord);
+	// TODO add CTOR parameters for other population groups.
 
 	/**
 	 * Retrieve the place name of the locality.
@@ -56,10 +59,22 @@ public:
 	 */
 	const geopop::Coordinate& GetCoordinate() const;
 
+
+	const PopCategory& GetCollegePopData() const;
+
+
+	const PopCategory& GetDaycarePopData() const;
+
+	// TODO getters for other pop ground
+
 private:
 	geopop::Coordinate m_coordinate;
 	std::string        m_name;
 
+	PopCategory        m_college_pop;
+	PopCategory        m_daycare_pop;
+
+	// TODO add more population groups
 };
 
 } // namespace datavis

@@ -24,7 +24,7 @@ namespace stride {
 namespace datavis {
 
 Model::Model()
-	: m_timesteps{}, m_currentTimestep{0}
+	: m_timesteps{}, m_current_timestep{0}
 {}
 
 

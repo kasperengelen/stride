@@ -23,8 +23,8 @@
 namespace stride {
 namespace datavis {
 
-Locality::Locality(const std::string& name, geopop::Coordinate coord, unsigned int popCount, double infectedFrac)
-		: m_coordinate(coord), m_name(name)
+Locality::Locality(const std::string& name, geopop::Coordinate coord)
+		: m_coordinate(coord), m_name(name), m_college_pop(0), m_daycare_pop(0)
 {}
 
 const std::string& Locality::GetName() const
@@ -35,16 +35,6 @@ const std::string& Locality::GetName() const
 const geopop::Coordinate& Locality::GetCoordinate() const
 {
 	return m_coordinate;
-}
-
-unsigned int Locality::GetPopCount() const
-{
-	return m_pop_count;
-}
-
-double Locality::getInfectedFraction() const
-{
-	return m_infected_frac;
 }
 
 } // namespace datavis
