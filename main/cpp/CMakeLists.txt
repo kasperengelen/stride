@@ -193,7 +193,7 @@ install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 #============================================================================
 # Data visualiser sources.
 #============================================================================
-# WARNING!!: MAKE SURE THESE ARE -CORRECT-, otherwise a "no sources specified" error will be showed!!
+# WARNING!!: MAKE SURE THESE ARE -CORRECT-, otherwise a "no sources specified" error will be shown!!
 set(DATAVIS_SRC
 	# controller
 	datavis/controller/Controller.cpp
@@ -217,14 +217,15 @@ set(DATAVIS_SRC
 if(DO_BUILD_DATAVIS)
 	message("Adding datavis build target.")
     add_executable(stride_datavis ${DATAVIS_SRC})
-#    set_target_properties(stride_datavis 
-#                          PROPERTIES INSTALL_RPATH "/opt/Qt/5.12.2/gcc_64/lib"
-#                                     INSTALL_RPATH_USE_LINK_PATH TRUE)
+  
     target_link_libraries(stride_datavis libstride) # give data visualiser access to the stride library
-
+    
     target_link_libraries(stride_datavis Qt5::Core)
     target_link_libraries(stride_datavis Qt5::Widgets)
     target_link_libraries(stride_datavis Qt5::Location)
+
+    set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
+    
     install(TARGETS stride_datavis DESTINATION ${BIN_INSTALL_LOCATION})
 endif()
 
