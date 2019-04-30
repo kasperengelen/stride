@@ -65,4 +65,6 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         }
 }
 
+
+
 } // namespace geopop

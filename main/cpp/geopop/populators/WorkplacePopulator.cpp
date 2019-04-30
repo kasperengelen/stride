@@ -42,6 +42,8 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         vector<ContactPool*> nearbyWp{};
         vector<Location*> commuteLocations{};
 
+
+
         const auto participCollege      = geoGridConfig.param.participation_college;
         const auto participWorkplace    = geoGridConfig.param.particpation_workplace;
         const auto popCollege           = geoGridConfig.info.popcount_college;
@@ -93,7 +95,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 // --------------------------------------------------------------------------------
                 // For everyone of working age: decide between work or college (iff of College age)
                 // --------------------------------------------------------------------------------
-                for (auto& hhPool : loc->RefPools(Id::Household)) {
+                for (auto& hhPool : loc->RefPools (Id::Household)) {
                         for (auto person : *hhPool) {
                                 if (!Workplace::HasAge(person->GetAge())) {
                                         continue;

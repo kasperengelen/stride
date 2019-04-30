@@ -118,6 +118,9 @@ void GeoPopBuilder::MakeLocations(GeoGrid& geoGrid, const GeoGridConfig& geoGrid
 
 void GeoPopBuilder::MakePools(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
+
+        //TODO Check in geoGridConfig if using special workplace generator
+
         K12SchoolGenerator(m_rn_man, m_stride_logger).Apply(geoGrid, geoGridConfig);
 
         CollegeGenerator(m_rn_man, m_stride_logger).Apply(geoGrid, geoGridConfig);

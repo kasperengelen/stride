@@ -13,6 +13,7 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
+#include <geopop/GeoGridConfig.h>
 #include "Generator.h"
 
 #include "util/Assert.h"
@@ -33,8 +34,17 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         // 5. assign each workplaces to a location
 
         const auto EmployeeCount = ggConfig.info.popcount_workplace;
+
+        auto avg_per_pool = 0.0;
+
+        for (unsigned long i = 0; i < ggConfig.workplaceSD.ratios.size(); i++) {
+                auto ratio_workplace = ggConfig.workplaceSD.ratios[i];
+                auto& size_workplace = ggConfig.workplaceSD.sizes[i];
+                avg_per_pool +=  ratio_workplace * (get<0>(size_workplace) + get<1>(size_workplace)) / 2;
+        }
+
         const auto WorkplacesCount =
-                static_cast<unsigned int>(ceil(EmployeeCount / static_cast<double>(ggConfig.people[Id::Workplace])));
+                static_cast<unsigned int>(ceil(EmployeeCount / (avg_per_pool)));
 
         // = for each location #residents + #incoming commuting people - #outgoing commuting people
         vector<double> weights;

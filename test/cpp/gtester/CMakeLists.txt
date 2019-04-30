@@ -56,7 +56,7 @@ set(SRC
     geopop/generators/PrimaryCommunityGeneratorTest.cpp
     geopop/generators/SecondaryCommunityGeneratorTest.cpp
     geopop/generators/WorkplaceGeneratorTest.cpp
-    #geopop/generators/WorkplaceSizedGeneratorTest.cpp
+    geopop/generators/WorkplaceSizedGeneratorTest.cpp
     #---
     geopop/io/CitiesCSVReaderTest.cpp
     geopop/io/CommutesCSVReaderTest.cpp
