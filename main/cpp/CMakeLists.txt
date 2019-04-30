@@ -198,6 +198,7 @@ set(DATAVIS_SRC
 	# controller
 	datavis/controller/Controller.cpp
     # model
+    datavis/model/PopCategory.cpp
     datavis/model/Locality.cpp
     datavis/model/Timestep.cpp
     datavis/model/Model.cpp
