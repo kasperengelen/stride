@@ -23,8 +23,10 @@
 namespace stride {
 namespace datavis {
 
-Locality::Locality(const std::string& name, geopop::Coordinate coord)
-		: m_coordinate(coord), m_name(name), m_college_pop(0), m_daycare_pop(0)
+Locality::Locality(const std::string& name, geopop::Coordinate coord, std::map<ContactType::Id, PopCategory> popCatMap)
+		: m_coordinate(coord), m_name(name),
+		  m_college_pop(popCatMap.at(ContactType::Id::College)),
+		  m_daycare_pop(popCatMap.at(ContactType::Id::Daycare))
 {}
 
 const std::string& Locality::GetName() const
@@ -35,6 +37,17 @@ const std::string& Locality::GetName() const
 const geopop::Coordinate& Locality::GetCoordinate() const
 {
 	return m_coordinate;
+}
+
+const PopCategory& Locality::GetCollegePopData() const
+{
+	return m_college_pop;
+}
+
+
+const PopCategory& Locality::GetDaycarePopData() const
+{
+	return m_daycare_pop;
 }
 
 } // namespace datavis

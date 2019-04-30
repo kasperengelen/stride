@@ -22,10 +22,12 @@
 
 #include "datavis/model/PopCategory.h"
 
+#include "contact/ContactType.h"
 #include "geopop/Coordinate.h"
 #include "disease/Health.h"
 
 #include <string>
+#include <map>
 
 namespace stride {
 namespace datavis {
@@ -43,11 +45,9 @@ public:
 	 *
      * @param name The place name of the locality.
 	 * @param coord The coordinate that represents the geographical location of the locality.
-	 * @param popCount The total population count of the locality.
-	 * @param infectedFrac The fraction of the population that is infected.
+	 * @param popCatMap An std::map that maps ContactType::Id to PopCategory objects.
 	 */
-	explicit Locality(const std::string& name, geopop::Coordinate coord);
-	// TODO add CTOR parameters for other population groups.
+	explicit Locality(const std::string& name, geopop::Coordinate coord, std::map<ContactType::Id, PopCategory> popCatMap);
 
 	/**
 	 * Retrieve the place name of the locality.
@@ -65,7 +65,7 @@ public:
 
 	const PopCategory& GetDaycarePopData() const;
 
-	// TODO getters for other pop ground
+	// TODO getters for other pop groups
 
 private:
 	geopop::Coordinate m_coordinate;
