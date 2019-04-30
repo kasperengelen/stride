@@ -20,8 +20,11 @@
 
 #pragma once
 
+#include "datavis/model/Model.h"
+
+#include <fstream>
+#include <istream>
 #include <memory>
-#include "../model/Model.h"
 
 namespace stride {
 namespace datavis {
@@ -32,20 +35,23 @@ namespace datavis {
 class Reader
 {
 public:
-
 	/// Construct the Reader with an istream containing the file content.
-	explicit Reader(std::unique_ptr<std::istream> inputStream) : m_inputStream(std::move(inputStream)) {};
+	explicit Reader(const std::string& path) : m_path(path) {};
 
 	/// Default destructor.
 	virtual ~Reader() = default;
 
 	/// Read the epidemiological simulation data and add it to the model.
-	virtual std::vector<Timestep> ReadIntoModel(Model& datamode) = 0;
+	virtual void ReadIntoModel(Model& datamodel) const = 0;
+
+protected:
+	/// Retrieve the istream that contains the file contents
+	const std::unique_ptr<std::ifstream>& GetInStream() const { return std::make_unique<std::ifstream>(m_path); }
 
 private:
-	std::unique_ptr<std::istream> m_inputStream; ///< The istream with the file content.
+	/// stores that path to the file
+	const std::string m_path;
 };
-
 
 } // namespace datavis
 } // namespace stride

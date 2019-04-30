@@ -25,7 +25,6 @@ namespace datavis {
 
 
 
-
 } // namespace datavis
 } // namespace stride
 

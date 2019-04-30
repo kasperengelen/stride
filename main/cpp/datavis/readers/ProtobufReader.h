@@ -27,7 +27,7 @@ namespace datavis {
 /**
  * Class that reads epi-output specified in the protobuf data format.
  */
-class ProtobufEpiReader : public Reader
+class ProtobufReader : public Reader
 {
 public:
 

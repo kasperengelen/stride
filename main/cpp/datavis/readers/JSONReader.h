@@ -22,18 +22,32 @@
 
 #include "Reader.h"
 
+#include "util/json.hpp"
+
 namespace stride {
 namespace datavis {
 
 /**
  * Class that reads epi-output specified in the json data format.
  */
-class JSONEpiReader : public Reader
+class JSONReader : public Reader
 {
 public:
+	/// Construct the Reader with an istream containing the file content.
+	explicit JSONReader(const std::string& path) : Reader(path)
+	{}
 
+	/// Default destructor.
+	virtual ~JSONReader() = default;
+
+	/// Read the epidemiological simulation data and add it to the model.
+	virtual void ReadIntoModel(Model& datamodel) const override;
 private:
+	///< Create a Locality object from the specified information.
+	const Locality ReadLocality(const nlohmann::json& localityData) const;
 
+	///< Create a PopCategory object from the specified information.
+	const PopCategory ReadPopCategory(const nlohmann::json& popCatData) const;
 };
 
 } // namespace datavis

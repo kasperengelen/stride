@@ -28,7 +28,7 @@ namespace datavis {
 /**
  * Class that reads epi-output specified in the HDF5 data format.
  */
-class HDF5EpiReader : public Reader
+class HDF5Reader : public Reader
 {
 public:
 
