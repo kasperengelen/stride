@@ -22,31 +22,72 @@
 
 #include "datavis/model/Timestep.h"
 
+#include <QObject>
+
 #include <vector>
 
 namespace stride {
 namespace datavis {
 
 
-class Model
+class Model : public QObject
 {
-public:
-	/// Constructor.
-	Model();
+	Q_OBJECT
 
+public:
+	explicit Model(QObject* parent = nullptr) : QObject(parent), m_timesteps(), m_current_timestep()
+	{}
+
+	/**
+	 * Deleted copy CTOR.
+	 */
+	Model(const Model&) = delete;
+
+	/**
+	 * Deleted assignment operator.
+	 */
+	Model& operator=(const Model&) = delete;
+
+	/**
+	 * Add a timestep to the model.
+	 */
 	void AddTimestep(const Timestep& timestep);
+
+	/**
+	 * Remove all the timesteps from the model.
+	 */
 	void ClearTimesteps();
-	void SetTimesteps(const std::vector<Timestep>& timesteps);
 
 	const Timestep& GetCurrentTimestepData();
 
+	/**
+	 * Determine whether or not the model has a timestep that comes after the current one.
+	 */
 	bool HasNextTimestep() const;
+
+	/**
+     * Determine whether or not the model has a timestep that comes before the current one.
+     */
 	bool HasPrevTimestep() const;
 
+	/**
+	 * Switch to the next timestep.
+	 */
 	void NextTimestep();
+
+	/**
+	 * Switch to the previous timestep.
+	 */
 	void PrevTimestep();
 
+	/**
+	 * Switch to the first timestep.
+	 */
 	void FirstTimestep();
+
+	/**
+	 * Switch to the last timestep.
+	 */
 	void LastTimestep();
 
 private:

@@ -23,9 +23,53 @@
 namespace stride {
 namespace datavis {
 
-Model::Model()
-	: m_timesteps{}, m_current_timestep{0}
-{}
+void Model::AddTimestep(const Timestep& timestep)
+{
+
+}
+
+void Model::ClearTimesteps()
+{
+
+}
+
+const Timestep& Model::GetCurrentTimestepData()
+{
+
+}
+
+
+bool Model::HasNextTimestep() const
+{
+
+}
+
+bool Model::HasPrevTimestep() const
+{
+
+}
+
+
+void Model::NextTimestep()
+{
+
+}
+
+void Model::PrevTimestep()
+{
+
+}
+
+
+void Model::FirstTimestep()
+{
+
+}
+
+void Model::LastTimestep()
+{
+
+}
 
 
 
