@@ -30,7 +30,7 @@ namespace datavis {
 class PopCategory
 {
 public:
-	explicit PopCategory(const unsigned int popCount);
+	explicit PopCategory(const unsigned int popCount, std::map<HealthStatus, unsigned int> healthMap);
 
 private:
 	unsigned int m_pop_count;

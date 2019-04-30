@@ -24,10 +24,10 @@ namespace stride {
 namespace datavis {
 
 
-PopCategory::PopCategory(const unsigned int popCount) : m_pop_count(popCount), m_healthstatus_counts()
+PopCategory::PopCategory(const unsigned int popCount, std::map<HealthStatus, unsigned int> healthMap)
+	: m_pop_count(popCount), m_healthstatus_counts(healthMap)
 {
-	// TODO insert health statusses here
-	m_healthstatus_counts.insert({HealthStatus::Susceptible, 50});
+	//m_healthstatus_counts.insert({HealthStatus::Susceptible, 50});
 }
 
 } // namespace datavis
