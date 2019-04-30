@@ -49,12 +49,10 @@ public:
 	 */
 	Controller& operator=(const Controller&) = delete;
 
-	// TODO read file
-
 	/**
 	 * Set the pointer to the Model.
 	 */
-	void SetModelPointer(const Model* modelPtr);
+	void SetModelPointer(Model* modelPtr);
 
 public:
 	/**
@@ -89,7 +87,7 @@ public:
 
 private:
 	///> Pointer to model object.
-	const Model* m_model_ptr;
+	Model* m_model_ptr;
 };
 
 } // namespace datavis

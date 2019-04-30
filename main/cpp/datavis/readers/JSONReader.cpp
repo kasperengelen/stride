@@ -32,7 +32,7 @@ void JSONReader::ReadIntoModel(Model& datamodel) const
 
 	// read data from JSON
 	nlohmann::json js;
-	//*(this->GetInStream()) >> js;
+	*(this->GetInStream()) >> js;
 
 	// add timesteps
 	for(const auto& timestep_data : js.at("Timesteps"))
@@ -71,18 +71,32 @@ const Locality JSONReader::ReadLocality(const nlohmann::json& localityData) cons
 
 const PopCategory JSONReader::ReadPopCategory(const nlohmann::json& popCatData) const
 {
-	unsigned int popcount = popCatData.at("popCount");
-
-
 	std::map<HealthStatus, unsigned int> health_map{};
 
-	health_map.insert({HealthStatus::Susceptible,              popCatData.at("susceptible")});
-	health_map.insert({HealthStatus::Exposed,                  popCatData.at("exposed")});
-	health_map.insert({HealthStatus::Infectious,               popCatData.at("infectious")});
-	health_map.insert({HealthStatus::Symptomatic,              popCatData.at("symptomatic")});
-	health_map.insert({HealthStatus::InfectiousAndSymptomatic, popCatData.at("infectAndSympt")});
-	health_map.insert({HealthStatus::Recovered,                popCatData.at("recovered")});
-	health_map.insert({HealthStatus::Immune,                   popCatData.at("immune")});
+	unsigned int susceptible        = popCatData.at("susceptible");
+	unsigned int exposed            = popCatData.at("exposed");
+	unsigned int infectious         = popCatData.at("infectious");
+	unsigned int symptomatic        = popCatData.at("symptomatic");
+	unsigned int infected_and_sympt = popCatData.at("infectAndSympt");
+	unsigned int recovered          = popCatData.at("recovered");
+	unsigned int immune             = popCatData.at("immune");
+
+	health_map.insert({HealthStatus::Susceptible,              susceptible});
+	health_map.insert({HealthStatus::Exposed,                  exposed});
+	health_map.insert({HealthStatus::Infectious,               infectious});
+	health_map.insert({HealthStatus::Symptomatic,              symptomatic});
+	health_map.insert({HealthStatus::InfectiousAndSymptomatic, infected_and_sympt});
+	health_map.insert({HealthStatus::Recovered,                recovered});
+	health_map.insert({HealthStatus::Immune,                   immune});
+
+	unsigned int popcount = susceptible
+							  + exposed
+							  + infectious
+							  + symptomatic
+							  + infected_and_sympt
+							  + recovered
+							  + immune
+						  ;
 
 	return PopCategory(popcount, health_map);
 }

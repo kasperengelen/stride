@@ -29,13 +29,18 @@
 namespace stride {
 namespace datavis {
 
-
+/**
+ * Class that represents the model of the visualiser. This contains all the stored simulation data.
+ */
 class Model : public QObject
 {
 	Q_OBJECT
 
 public:
-	explicit Model(QObject* parent = nullptr) : QObject(parent), m_timesteps(), m_current_timestep()
+	/**
+	 * Constructor.
+	 */
+	explicit Model(QObject* parent = nullptr) : QObject(parent), m_timesteps(), m_current_timestep(0)
 	{}
 
 	/**
@@ -58,6 +63,9 @@ public:
 	 */
 	void ClearTimesteps();
 
+	/**
+	 * Retrieve the current timestep.
+	 */
 	const Timestep& GetCurrentTimestepData();
 
 	/**
@@ -91,10 +99,11 @@ public:
 	void LastTimestep();
 
 private:
-	// vector<vector<Locality>>
+	/// Contains the currently stored simulation timesteps.
 	std::vector<Timestep> m_timesteps;
 
-	unsigned int m_current_timestep;
+	/// Contains the index of the current timestep.
+	std::size_t m_current_timestep;
 };
 
 

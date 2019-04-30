@@ -46,7 +46,7 @@ public:
 
 protected:
 	/// Retrieve the istream that contains the file contents
-	const std::unique_ptr<std::ifstream>& GetInStream() const { return std::make_unique<std::ifstream>(m_path); }
+	const std::unique_ptr<std::ifstream> GetInStream() const { return std::make_unique<std::ifstream>(m_path); }
 
 private:
 	/// stores that path to the file

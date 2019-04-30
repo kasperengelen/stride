@@ -31,7 +31,7 @@
 namespace stride {
 namespace datavis {
 
-void Controller::SetModelPointer(const Model* modelPtr)
+void Controller::SetModelPointer(Model* modelPtr)
 {
 	m_model_ptr = modelPtr;
 }
@@ -92,6 +92,8 @@ void Controller::OpenFile()
 		// JSON
 		std::ifstream infile;
 		JSONReader reader(filename.toStdString());
+
+		reader.ReadIntoModel(*m_model_ptr);
 
 		return;
 	}

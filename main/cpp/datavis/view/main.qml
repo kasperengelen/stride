@@ -32,33 +32,14 @@ Window {
     	id: model
     	objectName: "model"
     }
-/*
-    FileDialog {
-        id: dialog_openSimulationFile
-        title: "Please choose a file"
-        folder: shortcuts.home
-        nameFilters: ["CSV files (*.csv)", "Sim files (*.sim)", "All files (*)"]
-        selectMultiple: false
-
-        onAccepted: {
-            console.log("You chose: " + dialog_openSimulationFile.fileUrls)
-            // open file, process, order by fraction of infected and call functions
-            // to render localities
-            
-            // send file to reader
-            // reader returns a EpiOutputModel, save this to somewhere
-            
-            // set current timestep to zero
-            
-            // render current timestep
-        }
-        onRejected: {
-            console.log("Canceled")
-            // TODO popup with "no file selected".
-        }
-        Component.onCompleted: visible = false
+    
+    function refreshMap()
+    {
+    	// clear map
+    	// retrieve data from model
+    	// add to map
     }
-*/
+
     // toolbar at the top of the window
     ToolBar {
         // position at the top of the window, full width of the window, 50 pixels height
@@ -71,22 +52,28 @@ Window {
             ToolButton {
                 id: open_file
                 Image {
-                    source: "img/open_simulation_file.png"
+                    source: "../img/open_simulation_file.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                //onClicked: dialog_openSimulationFile.open()
-                onClicked: controller.OpenFile()
+                onClicked: {
+                	controller.OpenFile()
+                	// check if openfile was success full
+                	
+                	refreshMap()
+                }
             }
 
             ToolButton {
                 id: save_to_img
                 Image {
-                    source: "img/save_to_image.png"
+                    source: "../img/save_to_image.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                onClicked: controller.SaveFile()
+                onClicked: { 
+                	controller.SaveFile()
+                }
             }
 
             ToolSeparator {}
@@ -94,52 +81,67 @@ Window {
             ToolButton {
                 id: controls_to_begin
                 Image {
-                    source: "img/controls_back_full.png"
+                    source: "../img/controls_back_full.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                onClicked: controller.FirstStep()
+                onClicked: {
+                	controller.FirstStep()
+                		
+                	// check if successfull
+                	
+                	refreshMap()
+                }
             }
 
             ToolButton {
                 id: controls_previous
                 Image {
-                    source: "img/controls_back_one.png"
+                    source: "../img/controls_back_one.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
                 
-                onClicked: controller.PrevStep()
-            }
-
-            ToolButton {
-                id: controls_play_pause
-                Image {
-                    source: "img/controls_auto_play.png"
-                    anchors.fill: parent
-                    anchors.margins: 4
+                onClicked: {
+                	controller.PrevStep()
+                	
+                	// check if successfull
+                	
+                	refreshMap()
                 }
             }
 
             ToolButton {
                 id: controls_next
                 Image {
-                    source: "img/controls_forward_one.png"
+                    source: "../img/controls_forward_one.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
                 
-                onClicked: controller.NextStep()
+                onClicked: {
+                	controller.NextStep()
+                	
+                	// check if successfull
+                	
+                	refreshMap()
+                }
             }
 
             ToolButton {
                 id: controls_to_end
                 Image {
-                    source: "img/controls_forward_full.png"
+                    source: "../img/controls_forward_full.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                onClicked: controller.LastStep()
+                onClicked: {
+                	controller.LastStep()
+                	
+                	// check if successfull
+                	
+                	refreshMap()
+                }
             }
 
             ////////////////////////////////////////////
@@ -159,7 +161,6 @@ Window {
     Map {
         id: map
         plugin: mapPlugin
-        // TODO center?
 
         // positioning: bottom of the window, in the place that is left over by the toolbar
         anchors.bottom: parent.bottom

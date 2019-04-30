@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>view/main.qml</file>
         <file>img/controls_auto_pause.png</file>
         <file>img/controls_auto_play.png</file>
         <file>img/controls_back_full.png</file>

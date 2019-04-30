@@ -20,55 +20,58 @@
 
 #include "Model.h"
 
+#include <iostream>
+
 namespace stride {
 namespace datavis {
 
 void Model::AddTimestep(const Timestep& timestep)
 {
-
+	m_timesteps.push_back(timestep);
 }
 
 void Model::ClearTimesteps()
 {
-
+	m_timesteps.clear();
+	m_current_timestep = 0;
 }
 
 const Timestep& Model::GetCurrentTimestepData()
 {
-
+	return m_timesteps.at(m_current_timestep);
 }
 
 
 bool Model::HasNextTimestep() const
 {
-
+	return m_current_timestep < (m_timesteps.size() - 1);
 }
 
 bool Model::HasPrevTimestep() const
 {
-
+	return m_current_timestep > 0; // 0 is the first timestep
 }
 
 
 void Model::NextTimestep()
 {
-
+	m_current_timestep++;
 }
 
 void Model::PrevTimestep()
 {
-
+	m_current_timestep--;
 }
 
 
 void Model::FirstTimestep()
 {
-
+	m_current_timestep = 0;
 }
 
 void Model::LastTimestep()
 {
-
+	m_current_timestep = m_timesteps.size() - 1;
 }
 
 

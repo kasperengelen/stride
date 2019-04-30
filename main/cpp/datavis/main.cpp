@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     // create engine
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/view/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
@@ -33,11 +33,6 @@ int main(int argc, char *argv[])
     // connect controller with model
     Model* model_ptr = engine.rootObjects().at(0)->findChild<Model*>("model");
     ctrl_ptr->SetModelPointer(model_ptr);
-
-    // set window_ptr
-    QWindow* window_ptr = dynamic_cast<QWindow*>(engine.rootObjects().at(0));
-
-
 
     return app.exec();
 }
