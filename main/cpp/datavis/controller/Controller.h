@@ -18,23 +18,78 @@
  * Header file for the Controller class.
  */
 
+#include "datavis/model/Model.h"
+
 #include <QObject>
 
 namespace stride {
 namespace datavis {
 
+/**
+ * Class that represents the controller component of the data visualiser
+ * MVC structure.
+ */
 class Controller : public QObject
 {
 	Q_OBJECT
 
 public:
-	explicit Controller(QObject* parent = nullptr) : QObject(parent)
+	explicit Controller(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr)
 	{}
 
-	// prev
-	// next
-	// readfile
-	// etc.
+	// TODO delete copy ctor, ==, etc.
+
+	/**
+	 * Deleted copy CTOR.
+	 */
+	Controller(const Controller&) = delete;
+
+	/**
+	 * Deleted assignment operator.
+	 */
+	Controller& operator=(const Controller&) = delete;
+
+	// TODO read file
+
+	/**
+	 * Set the pointer to the Model.
+	 */
+	void SetModelPointer(const Model* modelPtr);
+
+public:
+	/**
+	 * Go to the previous timestep.
+	 */
+	Q_INVOKABLE void PrevStep();
+
+	/**
+	 * Go to the next timestep.
+	 */
+	Q_INVOKABLE void NextStep();
+
+	/**
+	 * Go to first timestep.
+	 */
+	Q_INVOKABLE void FirstStep();
+
+	/**
+	 * Go to last timestep.
+	 */
+	Q_INVOKABLE void LastStep();
+
+	/**
+	 * Open dialog to save to file.
+	 */
+	Q_INVOKABLE void SaveFile();
+
+	/**
+	 * Open dialog to open file.
+	 */
+	Q_INVOKABLE void OpenFile();
+
+private:
+	///> Pointer to model object.
+	const Model* m_model_ptr;
 };
 
 } // namespace datavis

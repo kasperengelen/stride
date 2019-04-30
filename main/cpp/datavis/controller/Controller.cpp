@@ -19,14 +19,93 @@
  */
 
 #include "datavis/controller/Controller.h"
+#include "datavis/readers/JSONReader.h"
+
+#include <QString>
+#include <QFileDialog>
+#include <QMessageBox>
+
+#include <fstream>
+#include <iostream>
 
 namespace stride {
 namespace datavis {
 
+void Controller::SetModelPointer(const Model* modelPtr)
+{
+	m_model_ptr = modelPtr;
+}
 
+void Controller::PrevStep()
+{
+	qDebug("prev");
+}
 
+void Controller::NextStep()
+{
+	qDebug("next");
+}
+
+void Controller::FirstStep()
+{
+	qDebug("first");
+}
+
+void Controller::LastStep()
+{
+	std::cout << __cplusplus << std::endl;
+	qDebug("last");
+}
+
+void Controller::SaveFile()
+{
+	qDebug("save");
+	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+	QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "", tr("Zip file (*.zip);;GIF file (*.gif)"));
+
+	if(filename.isNull())
+	{
+		qDebug("no savefile selected.");
+	}
+	else
+	{
+		qDebug("filename '" + filename.toLatin1() + "'");
+	}
+}
+
+void Controller::OpenFile()
+{
+	qDebug("open");
+	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+	QString filename = QFileDialog::getOpenFileName(parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
+
+	if(filename.isNull())
+	{
+		return;
+	}
+
+	qDebug("filename '" + filename.toLatin1() + "'");
+
+	// determine HDF5, Protobuf, JSON
+	if(filename.endsWith(".json"))
+	{
+		// JSON
+		std::ifstream infile;
+		JSONReader reader(filename.toStdString());
+
+		return;
+	}
+	else
+	{
+		// Unknown format
+		QMessageBox::warning(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
+		return;
+	}
+}
 
 
 } // namespace datavis
 } // namespace stride
+
+
 
