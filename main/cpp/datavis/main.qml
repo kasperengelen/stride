@@ -6,16 +6,33 @@ import QtLocation 5.3
 import QtPositioning 5.6
 import QtQuick.Dialogs 1.3
 
+import stride.datavis.controller 1.0
+import stride.datavis.model 1.0
+
 // TODO components in seperate qml files
 // TODO render from file data
 
 // main window
 Window {
+	id: mainWindow
+	objectName: "mainWindow"
     width: 768
     height: 768
     visible: true
     title: "Simulation visualizer"
-
+    
+    // C++ controller object
+    Controller {
+    	id: controller
+    	objectName: "controller"
+    }
+    
+    // C++ model object
+    Model {
+    	id: model
+    	objectName: "model"
+    }
+/*
     FileDialog {
         id: dialog_openSimulationFile
         title: "Please choose a file"
@@ -37,11 +54,11 @@ Window {
         }
         onRejected: {
             console.log("Canceled")
-            // TODO popup with "no file selected.
+            // TODO popup with "no file selected".
         }
         Component.onCompleted: visible = false
     }
-
+*/
     // toolbar at the top of the window
     ToolBar {
         // position at the top of the window, full width of the window, 50 pixels height
@@ -58,7 +75,8 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                onClicked: dialog_openSimulationFile.open()
+                //onClicked: dialog_openSimulationFile.open()
+                onClicked: controller.OpenFile()
             }
 
             ToolButton {
@@ -68,6 +86,7 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
+                onClicked: controller.SaveFile()
             }
 
             ToolSeparator {}
@@ -79,6 +98,7 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
+                onClicked: controller.FirstStep()
             }
 
             ToolButton {
@@ -88,6 +108,8 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
+                
+                onClicked: controller.PrevStep()
             }
 
             ToolButton {
@@ -106,6 +128,8 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
+                
+                onClicked: controller.NextStep()
             }
 
             ToolButton {
@@ -115,6 +139,7 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
+                onClicked: controller.LastStep()
             }
 
             ////////////////////////////////////////////
