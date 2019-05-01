@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{subcaption}
+\usepackage{dirtytalk}
 \captionsetup{compatibility=false}
 
 
@@ -124,10 +125,12 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 
 \section{Population generation}
 
+In this section we will investigate what impact the population structure and generation has on the simulations. More specifically we will investigate the impact of the age distribution, the effectiveness of the vaccination of college students, and whether or not commuting to work has an effect on disease spread.
+
 \subsection{Influence of demography}
 
 % outbreak risico, outbreak grootte
-\paragraph{} We want to test whether or not the age distribution of a population has an influence on the size and probability of an outbreak. To do this we have two populations, namely region A and region B and we sample households from these two populations. 
+\paragraph{} We want to determine whether or not the age distribution of a population has an impact on the size and probability of an outbreak. We start off with two populations, region A and region B, each generated based on a household file. The households mainly differ in age, with the households of region A being generally younger that those of region B. This is shown in figure \ref{2_1_regionDiff_plotAgeDistr}.
 
 \begin{figure}[H]
 \centering
@@ -136,7 +139,68 @@ Figure \ref{casesPlots} shows the different scenarios. In the cumulative cases p
 \label{2_1_regionDiff_plotAgeDistr}
 \end{figure}
 
-\paragraph{} We determined a large number of sets of parameters and ran simulations using these parameters. By using statistics and plots of the obtained data we determined 6 sets of interesting parameters:
+\paragraph{} In order to see the impact of the difference in age distribution on the simulation, we had to run a number of simulations. Each simulation we would run had to be \say{interesting}, i.e. when compared to other simulations the impact of the age difference had to be clear. We listed a number of parameter sets so that all regions, big and small seeding rates, short and long simulation lengths, and the difference in weekdays would be covered.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Region} & \textbf{Seeding rate} & \textbf{Number of days} & \textbf{Weekday} \\
+\hline
+Region A & 0.002 &      50 Days & Monday \\ 
+ \hline
+Region A & 0.002 &      300 Days & Monday \\ 
+ \hline
+Region A & 0.0003 &     50 Days &  Monday \\ 
+ \hline
+Region A & 0.0003 &     300 Days & Monday \\ 
+ \hline
+Region A & 0.00000167 & 50 Days &  Monday \\ 
+ \hline
+Region A & 0.00000167 & 300 Days & Monday \\ 
+ \hline
+Region B & 0.002 &      50 Days &  Monday \\ 
+ \hline
+Region B & 0.002 &      300 Days & Monday \\ 
+ \hline
+Region B & 0.0003 &     50 Days &  Monday \\ 
+ \hline
+Region B & 0.0003 &     300 Days & Monday \\ 
+ \hline
+Region B & 0.00000167 & 50 Days &  Monday \\ 
+ \hline
+Region B & 0.00000167 & 300 Days & Monday \\ 
+ \hline
+Region A & 0.002 &      50 Days & Saturday \\ 
+ \hline
+Region A & 0.002 &      300 Days & Saturday \\ 
+ \hline
+Region A & 0.0003 &     50 Days &  Saturday \\ 
+ \hline
+Region A & 0.0003 &     300 Days & Saturday \\ 
+ \hline
+Region A & 0.00000167 & 50 Days &  Saturday \\ 
+ \hline
+Region A & 0.00000167 & 300 Days & Saturday \\ 
+ \hline
+Region B & 0.002 &      50 Days &  Saturday \\ 
+ \hline
+Region B & 0.002 &      300 Days & Saturday \\ 
+ \hline
+Region B & 0.0003 &     50 Days &  Saturday \\ 
+ \hline
+Region B & 0.0003 &     300 Days & Saturday \\ 
+ \hline
+Region B & 0.00000167 & 50 Days &  Saturday \\ 
+ \hline
+Region B & 0.00000167 & 300 Days & Saturday \\ 
+ \hline
+\end{tabular}
+\caption{The different parameter sets that could potentially be interesting.}
+\label{2_1_regionDiff_tableParamSets_full}
+\end{table}
+
+\paragraph{} Next, we ran 400 simulations for each parameter set in table \ref{2_1_regionDiff_tableParamSets_full} and plotted different aspects of the simulations. These aspects include the outbreak sizes, the new cases per day, and the cumulative cases. We then used these plots to compare the two regions and visually selected plots that clearly showed the difference between the two regions. We then narrowed the sets in table \ref{2_1_regionDiff_tableParamSets_full} down to the 6 parameter sets listed below. Note that we also discarded the weekday column. This is because we didn't find any significant differences between Monday and Saturday.
 
 %%parameters
 \begin{table}[H]
@@ -159,52 +223,67 @@ Region B & 0.00000167 & 300 \\
 \hline
 \end{tabular}
 \caption{The different parameter sets that we found to be interesting.}
-\label{2_1_regionDiff_tableParamSets}
+\label{2_1_regionDiff_tableParamSets_filtered}
 \end{table}
 
 % verschillende parameters toelichten
 
-\paragraph{} All the simulations started on the 11th of March 2019, with $R_0$ equal to $11$ and a randomized vaccination policy with a rate of $0.8$. \textit{Seeding rate} here means the fraction of the population that is initially infected.
+\paragraph{} Some parameters used in the stride simulator are not listed in the table, since they ware the same for all sets. All the simulations started on the 11th of March 2019, with $R_0$ equal to $11$ and a randomized vaccination policy with a rate of $0.8$. \textit{Seeding rate} here means the fraction of the population that is initially infected.
 
-\paragraph{} For each parameter set listed in table \ref{2_1_regionDiff_tableParamSets}, we ran 1000 simulations.
+\paragraph{} Now that we determined the six interesting parameter sets listed in table \ref{2_1_regionDiff_tableParamSets_filtered}, we ran de final simulations on which we would base our conclusions. In order to make our calculations and conclusions statistically significant, we ran 1000 simulations per parameter set.
 
 \subsubsection{Comparing outbreak sizes}
 
-\paragraph{} Before analyzing the outbreak sizes, we first filtered out all the simulations that did not lead to an outbreak. For the simulations with seeding rate equal to $0.002$ the \textit{extinction threshold} was taken to be $5000$, for seeding rate equal to $0.00000167$ we used $40000$. One should note that when setting seeding rate to $0.002$ there was a 100\% outbreak rate and as such filtering out the extinctions was not really necessary.
+\paragraph{} Before analysing the outbreak sizes, we first filtered out all the simulations that did not lead to an outbreak. For the simulations with seeding rate equal to $0.002$ the \textit{extinction threshold} was taken to be $5000$, for seeding rate equal to $0.00000167$ we used $40000$. We determined these thresholds by visually inspecting the plots. One should note that when setting the seeding rate to $0.002$ there was a 100\% outbreak rate and as such filtering out the extinctions was not really necessary.
 
 
 \begin{figure}[H]
 % RegionAvsB, SR=0.002,      Days=50
 \includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.002_Days=50_FINALDAY_HIST}.eps}
-\caption{Plot that compares region A and B with a simulation over 50 days with seeding rate $0.02$.}
+\caption{Plot that compares region A and B with a simulation over 50 days with seeding rate $0.002$.}
+\label{2_1_regionDiff_plotCompSize_bigSr_50}
 \end{figure}
 
 \begin{figure}[H]
 % RegionAvsB, SR=0.002,      Days=300
 \includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.002_Days=300_FINALDAY_HIST}.eps}
-\caption{Plot that compares region A and B with a simulation over 300 days with seeding rate $0.02$.}
+\caption{Plot that compares region A and B with a simulation over 300 days with seeding rate $0.002$.}
+\label{2_1_regionDiff_plotCompSize_bigSr_300}
 \end{figure}
 
 \begin{figure}[H]
 % RegionAvsB, SR=0.00000167, Days=300
 \includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compSize_SR=0.00000167_Days=300_FINALDAY_HIST}.eps}
 \caption{Plot that compares region A and B with a simulation over 300 days with seeding rate $0.00000167$.}
+\label{2_1_regionDiff_plotCompSize_smallSr_300}
 \end{figure}
 
-\paragraph{} We can clearly see that the outbreaks in region A are consistently higher than those in region B.
+\paragraph{} First off, by visually inspecting figures \ref{2_1_regionDiff_plotCompSize_bigSr_50}, \ref{2_1_regionDiff_plotCompSize_bigSr_300}, and \ref{2_1_regionDiff_plotCompSize_smallSr_300} we can see that the outbreaks in region A are consistently larger than those in region B. We will make a more formal statistical analysis based on the parameter set used in figure \ref{2_1_regionDiff_plotCompSize_smallSr_300}, due to the large outbreak size and visible difference between regions A and B.
 
-\subsubsection{Comparing outbreak rates}
+\paragraph{} We determined a 95\% confidence interval for the outbreak size of region A:
 
-\paragraph{} In order to analyze the outbreak rate, we only looked at the simulations with seeding rate equal to $0.00000167$, since with seeding rate equal to $0.002$ there was a 100\% outbreak rate. The following plot contains a histogram that depics the amount of infected individuals in the different simulations.
+$$ [99449.975, 99510.976] $$
+
+\paragraph{} We did the same for region B:
+
+$$ [95198.107, 95521.279] $$ 
+
+\paragraph{} Since these intervals are disjoint and lie apart quite significantly, we can conclude that the outbreak size for region A is higher than that of region B.
+
+
+\subsubsection{Comparing outbreak probabilities}
+
+\paragraph{} In order to analyse the outbreak probability, we only looked at the simulations with seeding rate equal to $0.00000167$, since with seeding rate equal to $0.002$ there was a 100\% outbreak rate. The following plot contains a histogram that depicts the amount of infected individuals in the different simulations.
 
 % figure
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{./2_1_regionDiff/{plot_compRate_SR=0.00000167_Days=300_FINALDAY_HIST}.eps}
-\caption{Plot that compares regionA and B with a simulation over 300 days with seeding rate $0.00000167$.}
+\caption{Plot that compares regions A and B with a simulation over 300 days with seeding rate $0.00000167$.}
+\label{2_1_regionDiff_plotRate_smallSr_300}
 \end{figure}
 
-\paragraph{} We can see that there is a difference between region A and region B which leads to region A having a higher outbreak rate than region B. We also determined a 95\% confidence interval for the outbreak probability of region A:
+\paragraph{} By visual inspection alone, we can see that there is a difference between region A and region B which leads to region A having a higher outbreak probability than region B. We also determined a 95\% confidence interval for the outbreak probability of region A:
 
 $$ [77.625\%, 82.575\%] $$
 
@@ -212,7 +291,7 @@ $$ [77.625\%, 82.575\%] $$
 
 $$ [73.561\%, 78.839\%] $$
 
-\paragraph{} We can clearly see that the outbreak rate of region A lies higher than that of region B.
+\paragraph{} We can now conclude that the outbreak probability of region A lies higher than that of region B.
 
 \subsection{Vaccinating on campus}
 

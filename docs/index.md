@@ -9,7 +9,7 @@ As the project progresses, more data will become available here. Contact info is
 [Link](https://travis-ci.com/kasperengelen/stride)
 
 ### Progress
-[Simulation assignments](https://kasperengelen.github.io/stride/simulation) (deadline: 07/04)
+[Simulation assignments](https://kasperengelen.github.io/stride/simulation_1) (deadline: 07/04)
 [Test Plan](https://kasperengelen.github.io/stride/testplan) (deadline: 31/03)
 [Documentation Plan](https://kasperengelen.github.io/stride/documentatieplan) (deadline: 31/03)
 
