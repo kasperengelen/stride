@@ -32,6 +32,7 @@ class WorkplaceReader
 public:
         /// Construct the WorplaceReader with an istream with the file content.
         explicit WorkplaceReader(std::unique_ptr<std::istream> inputStream) : m_inputStream(std::move(inputStream)) {}
+
         /// Default destructor needs to be virtual.
         virtual ~WorkplaceReader() = default;
 

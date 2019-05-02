@@ -34,7 +34,6 @@ TEST(WorkplaceCSVReader, test1)
 0.171901116625764,10,49
 0.041003902521095,50,199
 0.00856213859619,200,400
-
 )";
 
         GeoGridConfig      geoConfig{};

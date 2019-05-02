@@ -79,8 +79,7 @@ set(STRIDE_SRC
     geopop/generators/PreSchoolGenerator.cpp
     geopop/generators/PrimaryCommunityGenerator.cpp
     geopop/generators/SecondaryCommunityGenerator.cpp
-    #geopop/generators/WorkplaceGenerator.cpp
-    geopop/generators/WorkplaceSizedGenerator.cpp
+    geopop/generators/WorkplaceGenerator.cpp
     #---
     geopop/io/LocationsCSVReader.cpp
     geopop/io/CommutesCSVReader.cpp
@@ -108,7 +107,6 @@ set(STRIDE_SRC
     geopop/populators/PrimaryCommunityPopulator.cpp
     geopop/populators/SecondaryCommunityPopulator.cpp
     geopop/populators/WorkplacePopulator.cpp
-    geopop/populators/WorkplaceSizedPopulator.cpp
     #---
     ${PROTO_HEADER}
     ${PROTO_SRC}
@@ -147,8 +145,7 @@ set(STRIDE_SRC
     viewers/InfectedFileViewer.cpp
     viewers/InfectedViewer.cpp
     viewers/PersonsFileViewer.cpp
-    viewers/SummaryFileViewer.cpp
-        geopop/generators/WorkplaceSizedGenerator.cpp geopop/populators/WorkplaceSizedPopulator.cpp geopop/io/WorkplaceCSVReader.cpp geopop/io/WorkplaceCSVReader.h geopop/io/WorkplaceReader.h)
+    viewers/SummaryFileViewer.cpp)
 
 #============================================================================
 # Build the Stride library.

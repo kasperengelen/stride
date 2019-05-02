@@ -56,7 +56,6 @@ set(SRC
     geopop/generators/PrimaryCommunityGeneratorTest.cpp
     geopop/generators/SecondaryCommunityGeneratorTest.cpp
     geopop/generators/WorkplaceGeneratorTest.cpp
-    geopop/generators/WorkplaceSizedGeneratorTest.cpp
     #---
     geopop/io/CitiesCSVReaderTest.cpp
     geopop/io/CommutesCSVReaderTest.cpp
@@ -82,7 +81,6 @@ set(SRC
     geopop/populators/PrimaryCommunityPopulatorTests.cpp
     geopop/populators/SecondaryCommunityPopulatorTests.cpp
     geopop/populators/WorkplacePopulatorTest.cpp
-    #geopop/generators/WorkplaceSizedPopulatorTest.cpp
     #---
     myhayai/DeliveryMan.cpp
     myhayai/MyhayaiTests.cpp

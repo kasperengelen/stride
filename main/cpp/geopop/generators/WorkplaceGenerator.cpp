@@ -13,6 +13,7 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
+#include <geopop/GeoGridConfig.h>
 #include "Generator.h"
 
 #include "util/Assert.h"
@@ -33,16 +34,29 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         // 5. assign each workplaces to a location
 
         const auto EmployeeCount = ggConfig.info.popcount_workplace;
+
+        // Calculate the average amount of people in th workplace pool with respect to the workplace ratio's and sizes
+        double avgPplPerWorkplace = 0;
+
+        for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++)
+        {
+                const auto min_size = get<0>(ggConfig.workplaceSD.sizes[i]);
+                const auto max_size = get<1>(ggConfig.workplaceSD.sizes[i]);
+
+
+                avgPplPerWorkplace += ggConfig.workplaceSD.ratios[i] * (min_size + max_size) / 2;
+        }
+
         const auto WorkplacesCount =
-            static_cast<unsigned int>(ceil(EmployeeCount / static_cast<double>(ggConfig.people[Id::Workplace])));
+                static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace)));
 
         // = for each location #residents + #incoming commuting people - #outgoing commuting people
         vector<double> weights;
         for (const auto& loc : geoGrid) {
                 const double ActivePeopleCount =
-                    (loc->GetPopCount() +
-                     loc->GetIncomingCommuteCount(ggConfig.param.fraction_workplace_commuters) -
-                     loc->GetOutgoingCommuteCount(ggConfig.param.fraction_workplace_commuters) *
+                        (loc->GetPopCount() +
+                         loc->GetIncomingCommuteCount(ggConfig.param.fraction_workplace_commuters) -
+                         loc->GetOutgoingCommuteCount(ggConfig.param.fraction_workplace_commuters) *
                          ggConfig.param.particpation_workplace);
 
                 const double weight = ActivePeopleCount / EmployeeCount;
@@ -64,7 +78,5 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 AddPools(*loc, pop, ggConfig);
         }
 }
-
-
 
 } // namespace geopop

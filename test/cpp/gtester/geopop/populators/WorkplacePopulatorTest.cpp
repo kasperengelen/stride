@@ -65,6 +65,8 @@ TEST_F(WorkplacePopulatorTest, NoActive)
 
         m_gg_config.param.particpation_workplace = 0;
         m_gg_config.param.participation_college  = 1;
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
 
         // Nobody works, everybody in the student age bracket goes to college: so workplace is empty.
         // Brasschaat and Schoten are close to each other. There is no commuting, but they are so close
@@ -93,6 +95,8 @@ TEST_F(WorkplacePopulatorTest, NoCommuting)
         m_gg_config.param.fraction_workplace_commuters = 0;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0.5;
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
 
         // Brasschaat and Schoten are close to each other
         // There is no commuting, but since they will still receive students from each other
@@ -169,6 +173,8 @@ TEST_F(WorkplacePopulatorTest, OnlyCommuting)
         m_gg_config.info.popcount_workplace         = 1;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0.5;
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
 
         // only commuting
 
@@ -229,6 +235,8 @@ TEST_F(WorkplacePopulatorTest, NoCommutingAvailable)
         m_gg_config.info.popcount_workplace         = 1;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0.5;
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
 
         auto brasschaat = *m_geo_grid.begin();
         brasschaat->SetCoordinate(Coordinate(51.29227, 4.49419));
