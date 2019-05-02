@@ -197,8 +197,9 @@ install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 set(DATAVIS_SRC
 	# controller
 	datavis/controller/Controller.cpp
+	# view
+	datavis/view/LocalityView.cpp
     # model
-    datavis/model/PopCategory.cpp
     datavis/model/Locality.cpp
     datavis/model/Timestep.cpp
     datavis/model/Model.cpp
