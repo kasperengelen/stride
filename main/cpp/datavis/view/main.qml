@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
@@ -21,6 +21,9 @@ Window {
     visible: true
     title: "Simulation visualizer"
     
+    // keeps track of the currently displayed day
+    property int current_day : 0;
+    
     // C++ controller object
     Controller {
     	id: controller
@@ -33,14 +36,85 @@ Window {
     	objectName: "model"
     }
     
+    function saveMap()
+   	{
+    	map.grabToImage(function(result) {
+   			result.saveToFile("something.png");
+   		});
+   	}
+    
     function refreshMap()
     {
-    	// clear map
-    	// retrieve data from model
-    	// add to map
-    }
+    	map.clearMapItems()
+    	
+		var locality_list = model.loc_list
+		
+		console.log("Localities")
+		for(var key in locality_list)
+		{
+			var locality_data = locality_list[key]
+			
+			console.log("---")
+			console.log(locality_data.name)
+			console.log(locality_data.lat)
+			console.log(locality_data.lon)
+			console.log("total:" + locality_data.totPop)
+			console.log("exposed:" + locality_data.college.exposed)
+			
+			var disease_status_frac = locality_data.college.exposed / locality_data.college.total;
+			console.log("frac:" + frac)
+			
+	        var circle_1 = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map);
+		        circle_1.center = QtPositioning.coordinate(locality_data.lat, locality_data.lon)
+		        circle_1.radius = locality_data.totPop
+		        circle_1.color = Qt.hsva(disease_status_frac, 1.0, 1.0, 1.0)
+		        circle_1.border.width = 0
+		        map.addMapItem(circle_1)
+		}
+		
+		map.fitViewportToMapItems()
+	
+      	
+	/*
+	
+	
+	        ToolTip.visible: ma.containsMouse
+            ToolTip.text: qsTr("Gent: 10,000 inhabitants.\n 20% infected.")
+            
+            MouseArea {
+            	id: ma
+            	anchors.fill: parent
+            	hoverEnabled: true
+            }
+            */
+	 
 
-    // toolbar at the top of the window
+    }
+    
+    /**
+     * Map that displays the localities. The map will be located at the bottom of the window.
+     */
+	Map {
+        id: map
+        objectName: "map"
+
+        plugin: Plugin {
+	        id: mapPlugin
+	        name: "osm"
+	    }
+	    
+		// better when saving to file.
+	    copyrightsVisible: false
+
+        // positioning: bottom of the window, in the place that is left over by the toolbar
+        anchors.bottom: parent.bottom
+        width: parent.width
+        height: parent.height - toolbar.height
+    } // Map
+
+    /**
+     * Toolbar that contains the controls. The toolbar will be located at the top of the window.
+     */
     ToolBar {
         // position at the top of the window, full width of the window, 50 pixels height
         anchors.top: parent.top
@@ -58,7 +132,7 @@ Window {
                 }
                 onClicked: {
                 	controller.OpenFile()
-                	// check if openfile was success full
+                	// check if openfile was successful
                 	
                 	refreshMap()
                 }
@@ -147,97 +221,6 @@ Window {
             ////////////////////////////////////////////
         }
     }
-
-    Plugin {
-        id: mapPlugin
-        name: "osm" // "mapboxgl", "esri", ...
-        // specify plugin parameters if necessary
-        // PluginParameter {
-        //     name:
-        //     value:
-        // }
-    }
-
-    Map {
-        id: map
-        plugin: mapPlugin
-
-        // positioning: bottom of the window, in the place that is left over by the toolbar
-        anchors.bottom: parent.bottom
-        width: parent.width
-        height: parent.height - toolbar.height
-
-        // map details
-        center: QtPositioning.coordinate(50.85045, 4.34878) // brussels
-        zoomLevel: 8
-
-        MapCircle {
-            id: locality_brussels
-            center {
-                latitude: 50.85045
-                longitude: 4.34878
-            }
-            radius: 18000.0
-            color: Qt.hsva(0.2, 1.0, 1.0, 1.0)
-            border.width: 0
-        }
-
-        MapCircle {
-            id: locality_hasselt
-            center {
-                latitude: 50.93069
-                longitude: 5.33248
-            }
-            radius: 8000.0
-            color: Qt.hsva(0.2, 1.0, 1.0, 1.0)
-            border.width: 0
-        }
-
-        MapCircle {
-            id: locality_gent
-            center {
-                latitude: 51.0543422
-                longitude: 3.7174243
-            }
-            radius: 10000.0
-            color: Qt.hsva(0.2, 1.0, 1.0, 1.0)
-            border.width: 0
-            
-            ToolTip.visible: ma.containsMouse
-            ToolTip.text: qsTr("Gent: 10,000 inhabitants.\n 20% infected.")
-            
-            MouseArea {
-            	id: ma
-            	anchors.fill: parent
-            	hoverEnabled: true
-            }
-            
-        }
-
-        MapCircle {
-            id: locality_mechelen
-            center {
-                latitude: 51.025876
-                longitude: 4.477536
-            }
-            radius: 10000.0
-            color: Qt.hsva(0.5, 1.0, 1.0, 1.0)
-            border.width: 0
-        }
-
-        MapCircle {
-            id: locality_antwerp
-            center {
-                latitude: 51.219448
-                longitude: 4.402464
-            }
-            radius: 14000.0
-            color: Qt.hsva(1.0, 1.0, 1.0, 1.0)
-            border.width: 0
-        }
-    } // Map
-
-
 }
 
 
