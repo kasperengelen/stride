@@ -23,6 +23,7 @@
 
 #include "EpiOutputFile.h"
 #include "pop/Population.h"
+#include "geopop/Location.h"
 #include "util/FileSys.h"
 #include "util/json.hpp"
 
@@ -33,51 +34,43 @@ using namespace std;
 using namespace stride::util;
 using json = nlohmann::json;
 
-EpiOutputFile::EpiOutputFile(const string& output_prefix, const std::string& output_type) 
-        : m_fstream() { Initialize(output_prefix, output_type); }
+EpiOutputFile::EpiOutputFile() : m_fstream() {}
 
 EpiOutputFile::~EpiOutputFile() { m_fstream.close(); }
 
-void EpiOutputFile::Initialize(const string& output_prefix, const string& output_type)
+EpiOutputJSON::EpiOutputJSON(const string& output_prefix) : EpiOutputFile(), m_data()
+{ 
+        Initialize(output_prefix); 
+}
+
+void EpiOutputJSON::Initialize(const string& output_prefix)
 {
-        m_file_type = output_type;
-        string fname = "EpiOutput." + m_file_type;
+        string fname = "EpiOutput.json";
         const auto p = FileSys::BuildPath(output_prefix, fname);
-        m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out | std::ios::in);
-
-        if (m_file_type == "json") {
-                this->InitializeJSON();
-        }
+        m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out);
+        m_data["Timesteps"] = json::array();
 }
 
-void EpiOutputFile::InitializeJSON()
+void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
 {
-        json j;
-        j["Timesteps"] = json::array();
-        m_fstream << setw(4) << j << endl;
-}
-
-void EpiOutputFile::Print(std::shared_ptr<const Population> population)
-{
-        if (m_file_type == "json") {
-                this->PrintJSON(population);
-        }
-}
-
-void EpiOutputFile::PrintJSON(std::shared_ptr<const Population> population)
-{
-        m_fstream.seekg(0); // Reset read position
-        json j;
-        m_fstream >> j;
-        
         // Create timestep info
         json timestep = json::array();
-        timestep["population"] = population->GetInfectedCount();
-        timestep[""]
-        j["Timesteps"].push_back(timestep);
 
+        const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
+        for (auto it = geogrid.cbegin(); it != geogrid.cend(); ++it) {
+                json loc = json::object();
+                loc["name"] = (*it)->GetName();
+                loc["population"] = (*it)->GetPopCount();
+                loc["infected"] = (*it)->GetInfectedCount();
+                timestep.push_back(loc);
+        }
+        m_data["Timesteps"].push_back(timestep);
+}
+
+void EpiOutputJSON::Finish(std::shared_ptr<const Population> population)
+{
         m_fstream.seekp(0); // Reset write position
-        m_fstream << setw(4) << j << std::endl;
+        m_fstream << setw(4) << m_data << std::endl;
 }
 
 } // namespace output

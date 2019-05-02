@@ -24,6 +24,8 @@
 #include <memory>
 #include <string>
 
+#include "util/json.hpp"
+
 namespace stride {
 
 class Population;
@@ -37,26 +39,48 @@ class EpiOutputFile
 {
 public:
         /// Constructor: initialize.
-        /// Accepted filetypes are "json", "hdf5", and "protobuf"
-        explicit EpiOutputFile(const std::string& output_dir = "output", const std::string& output_type = "json");
+        EpiOutputFile();
 
         /// Destructor: close the file stream.
-        ~EpiOutputFile();
+        virtual ~EpiOutputFile();
 
-        /// Print the given cases with corresponding tag.
-        void Print(std::shared_ptr<const Population> population);
+        /// Update the data.
+        virtual void Update(std::shared_ptr<const Population> population) = 0;
+
+        /// Finish writing the data.
+        virtual void Finish(std::shared_ptr<const Population> population) = 0;
 
 private:
         /// Generate file name and open the file stream.
-        void Initialize(const std::string& output_dir, const std::string& output_type);
+        virtual void Initialize(const std::string& output_dir) = 0;
 
-        void InitializeJSON();
+protected:
+        std::fstream m_fstream;
+};
 
-        void PrintJSON(std::shared_ptr<const Population> population);
+
+/**
+ *  Implementation of JSON EpiOutputFile
+ */
+
+class EpiOutputJSON : public EpiOutputFile
+{
+public:
+
+        explicit EpiOutputJSON(const std::string& output_dir = "output");
+
+        /// Overridden print method.
+        virtual void Update(std::shared_ptr<const Population> population) override;
+
+        /// Dump json data to file.
+        virtual void Finish(std::shared_ptr<const Population> population) override;
 
 private:
-        std::fstream m_fstream;
-        std::string m_file_type;
+        /// Initialize json object and open file stream.
+        virtual void Initialize(const std::string& output_dir) override;
+
+private:
+        nlohmann::json m_data;
 };
 
 } // namespace output

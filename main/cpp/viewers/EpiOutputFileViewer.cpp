@@ -29,17 +29,24 @@ namespace stride {
 namespace viewers {
 
 EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, const std::string& output_prefix) 
-                : m_epioutput_file(output_prefix), m_runner(std::move(runner))
+                : m_runner(std::move(runner))
 {
                 // Initialise EpiOutputFile with the right type
                 std::string filetype = m_runner->GetConfig().get<string>("run.output_epi_type");
+                if (filetype == "json") {
+                        m_epioutput_file = std::make_unique<output::EpiOutputJSON>(output_prefix);
+                }
 }
 
 void EpiOutputFileViewer::Update(const sim_event::Id id)
 {
         switch (id) {
         case Id::Stepped: {
-                m_epioutput_file.Print(m_runner->GetSim()->GetPopulation());
+                m_epioutput_file->Update(m_runner->GetSim()->GetPopulation());
+                break;
+        }
+        case Id::Finished: {
+                m_epioutput_file->Finish(m_runner->GetSim()->GetPopulation());
                 break;
         }
         default: break;

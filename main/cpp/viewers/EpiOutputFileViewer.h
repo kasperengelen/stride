@@ -42,8 +42,8 @@ public:
         void Update(sim_event::Id id);
 
 private:
-        output::EpiOutputFile      m_epioutput_file;
-        std::shared_ptr<SimRunner> m_runner;
+        std::unique_ptr<output::EpiOutputFile>    m_epioutput_file;
+        std::shared_ptr<SimRunner>                m_runner;
 };
 
 } // namespace viewers
