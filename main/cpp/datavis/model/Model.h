@@ -22,7 +22,10 @@
 
 #include "datavis/model/Timestep.h"
 
+#include <QQmlPropertyMap>
 #include <QObject>
+#include <QVariantMap>
+#include <QVariantList>
 
 #include <vector>
 
@@ -35,12 +38,13 @@ namespace datavis {
 class Model : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QVariant loc_list READ GetViewList)
 
 public:
 	/**
 	 * Constructor.
 	 */
-	explicit Model(QObject* parent = nullptr) : QObject(parent), m_timesteps(), m_current_timestep(0)
+	explicit Model(QObject* parent = nullptr) : QObject(parent), m_timesteps()
 	{}
 
 	/**
@@ -63,47 +67,24 @@ public:
 	 */
 	void ClearTimesteps();
 
-	/**
-	 * Retrieve the current timestep.
-	 */
-	const Timestep& GetCurrentTimestepData();
+	const QVariant GetViewList() const
+	{
+		//return {new LocalityView(this), new LocalityView(this), new LocalityView(this)};
 
-	/**
-	 * Determine whether or not the model has a timestep that comes after the current one.
-	 */
-	bool HasNextTimestep() const;
+		QVariantList list;
 
-	/**
-     * Determine whether or not the model has a timestep that comes before the current one.
-     */
-	bool HasPrevTimestep() const;
+		for(const auto& loc : m_timesteps.at(0).GetLocalities())
+		{
+			list.push_back(loc.GetView());
+		}
 
-	/**
-	 * Switch to the next timestep.
-	 */
-	void NextTimestep();
+		return QVariant::fromValue(list);
+	}
 
-	/**
-	 * Switch to the previous timestep.
-	 */
-	void PrevTimestep();
-
-	/**
-	 * Switch to the first timestep.
-	 */
-	void FirstTimestep();
-
-	/**
-	 * Switch to the last timestep.
-	 */
-	void LastTimestep();
 
 private:
 	/// Contains the currently stored simulation timesteps.
 	std::vector<Timestep> m_timesteps;
-
-	/// Contains the index of the current timestep.
-	std::size_t m_current_timestep;
 };
 
 
