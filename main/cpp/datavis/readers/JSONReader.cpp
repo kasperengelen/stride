@@ -54,51 +54,42 @@ const Locality JSONReader::ReadLocality(const nlohmann::json& localityData) cons
 {
 	// coord
 	const std::vector<double> coord_vec = localityData.at("coord");
-	const geopop::Coordinate coord{coord_vec.at(0), coord_vec.at(1)};
+	const geopop::Coordinate coord      = {coord_vec.at(0), coord_vec.at(1)};
+	const unsigned int tot_pop          = localityData.at("totalPop");
 
 	// name
 	const std::string name = localityData.at("name");
 
-	std::map<ContactType::Id, PopCategory> pop_categories{};
+	ContactPoolStat household;
+	ContactPoolStat k12_school;
+	ContactPoolStat college = this->ReadPopCategory(localityData.at("collegePop"));
+	ContactPoolStat workplace;
+	ContactPoolStat primary_community;
+	ContactPoolStat secondary_community;
+	ContactPoolStat daycare = this->ReadPopCategory(localityData.at("daycarePop"));
+	ContactPoolStat preschool;
 
-	pop_categories.insert({ContactType::Id::College, this->ReadPopCategory(localityData.at("collegePop"))});
-	pop_categories.insert({ContactType::Id::Daycare, this->ReadPopCategory(localityData.at("daycarePop"))});
-
-	// TODO more population categories
-
-	return Locality(name, coord, pop_categories);
+	return Locality(name, coord, tot_pop, household, k12_school, college, workplace, primary_community, secondary_community, daycare, preschool);
 }
 
-const PopCategory JSONReader::ReadPopCategory(const nlohmann::json& popCatData) const
+const ContactPoolStat JSONReader::ReadPopCategory(const nlohmann::json& popCatData) const
 {
 	std::map<HealthStatus, unsigned int> health_map{};
 
-	unsigned int susceptible        = popCatData.at("susceptible");
-	unsigned int exposed            = popCatData.at("exposed");
-	unsigned int infectious         = popCatData.at("infectious");
-	unsigned int symptomatic        = popCatData.at("symptomatic");
-	unsigned int infected_and_sympt = popCatData.at("infectAndSympt");
-	unsigned int recovered          = popCatData.at("recovered");
-	unsigned int immune             = popCatData.at("immune");
+	ContactPoolStat retval;
 
-	health_map.insert({HealthStatus::Susceptible,              susceptible});
-	health_map.insert({HealthStatus::Exposed,                  exposed});
-	health_map.insert({HealthStatus::Infectious,               infectious});
-	health_map.insert({HealthStatus::Symptomatic,              symptomatic});
-	health_map.insert({HealthStatus::InfectiousAndSymptomatic, infected_and_sympt});
-	health_map.insert({HealthStatus::Recovered,                recovered});
-	health_map.insert({HealthStatus::Immune,                   immune});
+	retval.susceptible      = popCatData.at("susceptible");
+	retval.exposed          = popCatData.at("exposed");
+	retval.infectious       = popCatData.at("infectious");
+	retval.symptomatic      = popCatData.at("symptomatic");
+	retval.infect_and_sympt = popCatData.at("infectAndSympt");
+	retval.recovered        = popCatData.at("recovered");
+	retval.immune           = popCatData.at("immune");
 
-	unsigned int popcount = susceptible
-							  + exposed
-							  + infectious
-							  + symptomatic
-							  + infected_and_sympt
-							  + recovered
-							  + immune
-						  ;
+	retval.total = retval.susceptible + retval.exposed + retval.infectious + retval.symptomatic
+							  + retval.infect_and_sympt + retval.recovered + retval.immune;
 
-	return PopCategory(popcount, health_map);
+	return retval;
 }
 
 }

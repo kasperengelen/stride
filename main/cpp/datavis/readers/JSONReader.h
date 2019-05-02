@@ -46,8 +46,8 @@ private:
 	///< Create a Locality object from the specified information.
 	const Locality ReadLocality(const nlohmann::json& localityData) const;
 
-	///< Create a PopCategory object from the specified information.
-	const PopCategory ReadPopCategory(const nlohmann::json& popCatData) const;
+	///< Create a ContactPoolStat object from the specified information.
+	const ContactPoolStat ReadPopCategory(const nlohmann::json& popCatData) const;
 };
 
 } // namespace datavis
