@@ -39,6 +39,7 @@ class Model : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QVariant loc_list READ GetViewList)
+	Q_PROPERTY(QVariant epi_data READ GetEpiData)
 
 public:
 	/**
@@ -69,8 +70,6 @@ public:
 
 	const QVariant GetViewList() const
 	{
-		//return {new LocalityView(this), new LocalityView(this), new LocalityView(this)};
-
 		QVariantList list;
 
 		for(const auto& loc : m_timesteps.at(0).GetLocalities())
@@ -79,6 +78,29 @@ public:
 		}
 
 		return QVariant::fromValue(list);
+	}
+
+	const QVariant GetEpiData() const
+	{
+		QVariantList timesteps;
+
+		// iterate over timesteps
+		//   iterate over localities
+		//		add locality
+
+		for(const auto& timestep : m_timesteps)
+		{
+			QVariantList loc_list;
+
+			for(const auto& loc : timestep.GetLocalities())
+			{
+				loc_list.push_back(loc.GetView());
+			}
+
+			timesteps.push_back(loc_list);
+		}
+
+		return QVariant::fromValue(timesteps);
 	}
 
 

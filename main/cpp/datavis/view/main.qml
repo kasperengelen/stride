@@ -21,8 +21,8 @@ Window {
     visible: true
     title: "Simulation visualizer"
     
-    // keeps track of the currently displayed day
-    property int current_day : 0;
+    // keeps track of the currently loaded epi data
+    property var epiData : [];
     
     // C++ controller object
     Controller {
@@ -36,49 +36,86 @@ Window {
     	objectName: "model"
     }
     
-    function saveMap()
+    /**
+     * Save the current map contents to a file with
+     * the specified filename.
+     */
+    function saveMap(filename)
    	{
     	map.grabToImage(function(result) {
-   			result.saveToFile("something.png");
+   			result.saveToFile(filename);
    		});
    	}
+   	
+   	/**
+   	 * Retrieve the epi-data currently stored in the model. This will
+     * also adjust the slider to the model data.
+   	 */
+   	function loadModel()
+   	{
+   		// retrieve data from model
+   		mainWindow.epiData = model.epi_data
+   		
+   		// set slider parameters
+   		daySlider.value = 0
+   		daySlider.from = 0
+   		daySlider.to = mainWindow.epiData.length - 1
+   		
+   		// now that model data is present, it is safe to use the slider
+   		daySlider.enabled = true 
+    }
     
-    function refreshMap()
+    /**
+     * Reset the visualisation tool. This clears all
+     * currently loaded epi-data, removes all map items
+     * and resets the slider. It also disables the slider
+     */
+    function resetView()
     {
-    	map.clearMapItems()
+    	//map.clearMapItems()      // clear map
+    	mainWindow.epiData = []  // clear data
+    	daySlider.value = 0      // reset slider
+    	daySlider.enable = false // disable slider
+    }
+    
+    /**
+     * Display the current day on the map.
+     */
+    function displayCurrentDay()
+    {
+    	// clear previous day
+    	//map.clearMapItems();
+    
+    	// retrieve data
+    	var locality_list = mainWindow.epiData[daySlider.value]
     	
-		var locality_list = model.loc_list
-		
-		console.log("Localities")
 		for(var key in locality_list)
 		{
-			var locality_data = locality_list[key]
+			var loc = locality_list[key]
+			var disease_status_frac = loc.college.exposed / loc.college.total;
+			// var disease_status_frac = locality_data.total.exposed / locality_data.total.pop
 			
-			console.log("---")
-			console.log(locality_data.name)
-			console.log(locality_data.lat)
-			console.log(locality_data.lon)
-			console.log("total:" + locality_data.totPop)
-			console.log("exposed:" + locality_data.college.exposed)
+			// create tooltip to display locality name
+			//var mouse_area = Qt.createQmlObject('import 
 			
-			var disease_status_frac = locality_data.college.exposed / locality_data.college.total;
-			console.log("frac:" + frac)
-			
-	        var circle_1 = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map);
-		        circle_1.center = QtPositioning.coordinate(locality_data.lat, locality_data.lon)
-		        circle_1.radius = locality_data.totPop
-		        circle_1.color = Qt.hsva(disease_status_frac, 1.0, 1.0, 1.0)
-		        circle_1.border.width = 0
-		        map.addMapItem(circle_1)
+			// create map marker
+	        var marker = Qt.createQmlObject(
+	        	'import QtLocation 5.3; MapCircle {\n'
+	        	+ 'id: localityMarker_' + key + ';\n'
+	        	+ 'ToolTip.visible: hovered; \n'
+	        	+ '}',
+	        		map);
+		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
+		        marker.radius = loc.totPop // TODO: change to loc.total.pop
+		        marker.color  = Qt.hsva(disease_status_frac, 1.0, 1.0, 1.0)
+		        marker.border.width = 0
+		        map.addMapItem(marker)
+		        marker.ToolTip.text = loc.name
 		}
 		
 		map.fitViewportToMapItems()
-	
-      	
-	/*
-	
-	
-	        ToolTip.visible: ma.containsMouse
+		/*
+			ToolTip.visible: ma.containsMouse
             ToolTip.text: qsTr("Gent: 10,000 inhabitants.\n 20% infected.")
             
             MouseArea {
@@ -86,9 +123,7 @@ Window {
             	anchors.fill: parent
             	hoverEnabled: true
             }
-            */
-	 
-
+		*/
     }
     
     /**
@@ -110,6 +145,28 @@ Window {
         anchors.bottom: parent.bottom
         width: parent.width
         height: parent.height - toolbar.height
+        
+        
+        MapCircle {
+        	id: testMarker
+
+			hoverEnabled: true
+        	ToolTip.visible: testMarker.hovered
+        	ToolTip.text : "ok123"
+        	
+			
+			center {
+	            latitude: 50.0
+	            longitude: 4.0
+        	}
+	        
+	        radius: 5000.0
+	        color: 'green'
+	        border.width: 3
+	        
+	        
+        
+        }
     } // Map
 
     /**
@@ -134,7 +191,9 @@ Window {
                 	controller.OpenFile()
                 	// check if openfile was successful
                 	
-                	refreshMap()
+                	//refreshMap()
+                	
+                	loadModel()
                 }
             }
 
@@ -151,74 +210,42 @@ Window {
             }
 
             ToolSeparator {}
+            
+            Slider {
+            	// anchor
+            	// dynamic width calculation
+                id: daySlider
+            	from: 0
+            	to: 2
+            	stepSize: 1
+            	implicitWidth: mainWindow.width * (3/5)
+            	enabled: false
+            	
+            	onValueChanged: {
+	            	displayCurrentDay()
+            	}
 
-            ToolButton {
-                id: controls_to_begin
-                Image {
-                    source: "../img/controls_back_full.png"
-                    anchors.fill: parent
-                    anchors.margins: 4
-                }
-                onClicked: {
-                	controller.FirstStep()
-                		
-                	// check if successfull
-                	
-                	refreshMap()
-                }
+			    background: Rectangle {
+			        x: daySlider.leftPadding
+			        y: daySlider.topPadding + daySlider.availableHeight / 2 - height / 2
+			        implicitWidth: 200
+			        implicitHeight: 4
+			        width: daySlider.availableWidth
+			        height: implicitHeight
+			        radius: 2
+			        color: "#bdbebf"
+			
+			        Rectangle {
+			            width: daySlider.visualPosition * parent.width
+			            height: parent.height
+			            color: "#21be2b"
+			            radius: 2
+			        }
+			    }
+    
+    
+            	
             }
-
-            ToolButton {
-                id: controls_previous
-                Image {
-                    source: "../img/controls_back_one.png"
-                    anchors.fill: parent
-                    anchors.margins: 4
-                }
-                
-                onClicked: {
-                	controller.PrevStep()
-                	
-                	// check if successfull
-                	
-                	refreshMap()
-                }
-            }
-
-            ToolButton {
-                id: controls_next
-                Image {
-                    source: "../img/controls_forward_one.png"
-                    anchors.fill: parent
-                    anchors.margins: 4
-                }
-                
-                onClicked: {
-                	controller.NextStep()
-                	
-                	// check if successfull
-                	
-                	refreshMap()
-                }
-            }
-
-            ToolButton {
-                id: controls_to_end
-                Image {
-                    source: "../img/controls_forward_full.png"
-                    anchors.fill: parent
-                    anchors.margins: 4
-                }
-                onClicked: {
-                	controller.LastStep()
-                	
-                	// check if successfull
-                	
-                	refreshMap()
-                }
-            }
-
-            ////////////////////////////////////////////
         }
     }
 }
