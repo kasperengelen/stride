@@ -199,9 +199,9 @@ set(DATAVIS_SRC
 	datavis/controller/Controller.cpp
 	# view
 	datavis/view/LocalityView.cpp
+	datavis/view/View.cpp
     # model
     datavis/model/Locality.cpp
-    datavis/model/Timestep.cpp
     datavis/model/Model.cpp
     # epi output readers
     datavis/readers/HDF5Reader.cpp
