@@ -31,32 +31,6 @@
 namespace stride {
 namespace datavis {
 
-void Controller::SetModelPointer(Model* modelPtr)
-{
-	m_model_ptr = modelPtr;
-}
-
-void Controller::PrevStep()
-{
-	qDebug("prev");
-}
-
-void Controller::NextStep()
-{
-	qDebug("next");
-}
-
-void Controller::FirstStep()
-{
-	qDebug("first");
-}
-
-void Controller::LastStep()
-{
-	std::cout << __cplusplus << std::endl;
-	qDebug("last");
-}
-
 void Controller::SaveFile()
 {
 	qDebug("save");

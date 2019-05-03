@@ -52,29 +52,9 @@ public:
 	/**
 	 * Set the pointer to the Model.
 	 */
-	void SetModelPointer(Model* modelPtr);
+	void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
 
 public:
-	/**
-	 * Go to the previous timestep.
-	 */
-	Q_INVOKABLE void PrevStep();
-
-	/**
-	 * Go to the next timestep.
-	 */
-	Q_INVOKABLE void NextStep();
-
-	/**
-	 * Go to first timestep.
-	 */
-	Q_INVOKABLE void FirstStep();
-
-	/**
-	 * Go to last timestep.
-	 */
-	Q_INVOKABLE void LastStep();
-
 	/**
 	 * Open dialog to save to file.
 	 */
@@ -84,6 +64,12 @@ public:
 	 * Open dialog to open file.
 	 */
 	Q_INVOKABLE void OpenFile();
+
+signals:
+	/**
+	 * Indicates that a successful file read has occurred.
+	 */
+	void fileReadSuccessful();
 
 private:
 	///> Pointer to model object.
