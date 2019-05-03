@@ -5,10 +5,12 @@
 #include <iostream>
 
 #include "datavis/controller/Controller.h"
+#include "datavis/view/View.h"
 #include "datavis/model/Model.h"
 
 using stride::datavis::Controller;
 using stride::datavis::Model;
+using stride::datavis::View;
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +21,7 @@ int main(int argc, char *argv[])
 
     // register QML elements
     qmlRegisterType<Controller>("stride.datavis.controller", 1, 0, "Controller");
-    qmlRegisterType<Model>("stride.datavis.model", 1, 0, "Model");
+    qmlRegisterType<View>("stride.datavis.view", 1, 0, "View");
 
     // create engine
     QQmlApplicationEngine engine;
@@ -30,9 +32,13 @@ int main(int argc, char *argv[])
     // get controller
     Controller* ctrl_ptr = engine.rootObjects().at(0)->findChild<Controller*>("controller");
 
-    // connect controller with model
-    Model* model_ptr = engine.rootObjects().at(0)->findChild<Model*>("model");
-    ctrl_ptr->SetModelPointer(model_ptr);
+    // get view
+    View* view_ptr = engine.rootObjects().at(0)->findChild<View*>("view");
+
+    // create model
+    Model model{};
+    ctrl_ptr->SetModelPointer(&model);
+    view_ptr->SetModelPointer(&model);
 
     return app.exec();
 }
