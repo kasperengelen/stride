@@ -1,10 +1,14 @@
 import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.5
+import QtQuick.Controls 1.4 as OldControls
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.12
 import QtLocation 5.3
 import QtPositioning 5.6
 import QtQuick.Dialogs 1.3
+
+import "view_code.js" as Logic
 
 import stride.datavis.controller 1.0
 import stride.datavis.view 1.0
@@ -29,86 +33,17 @@ Window {
     	id: controller
     	objectName: "controller"
     	
-    	onFileReadSuccessful: {
-    		console.log("Read successful")
-    	}
+		onFileReadSuccessful: {
+            // if the read was completed -> refresh data, display new data    	
+			Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
+			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
+		}
     }
     
     // C++ view object
     View {
     	id: view
     	objectName: "view"
-    }
-    
-    /**
-     * Save the current map contents to a file with
-     * the specified filename.
-     */
-    function saveMap(filename)
-   	{
-    	map.grabToImage(function(result) {
-   			result.saveToFile(filename);
-   		});
-   	}
-   	
-   	/**
-   	 * Retrieve the epi-data currently stored in the model. This will
-     * also adjust the slider to the model data.
-   	 */
-   	function loadEpiData()
-   	{
-   		// retrieve data from view
-   		mainWindow.epiData = view.epi_data
-   		
-   		// set slider parameters
-   		daySlider.value = 0
-   		daySlider.from = 0
-   		daySlider.to = mainWindow.epiData.length - 1
-   		
-   		// now that epi data is present, it is safe to use the slider
-   		daySlider.enabled = true
-    }
-    
-    /**
-     * Display the current day on the map.
-     */
-    function displayCurrentDay()
-    {
-    	// clear previous day
-    	map.clearMapItems();
-    
-    	// retrieve data
-    	var locality_list = mainWindow.epiData[daySlider.value]
-    	
-		for(var key in locality_list)
-		{
-			var loc = locality_list[key]
-			var health_frac = loc.total.pop
-			
-			// create map marker
-	        var marker = Qt.createQmlObject(
-	        	'import QtLocation 5.3\n'
-	        	+ 'import QtQuick 2.12\n'
-	        	+ 'import QtQuick.Controls 2.5\n'
-	        	+ 'MapCircle {\n'
-	        	+ '    id: localityMarker_' + key + ';\n'
-	        	+ '    ToolTip.visible: localityMarker_' + key + '_ma.containsMouse; \n'
-	        	+ '    MouseArea {\n' // add mouse interaction
-	        	+ '        id: localityMarker_' + key + '_ma;\n'
-	        	+ '        anchors.fill: parent;\n'
-	        	+ '        hoverEnabled: true;\n'
-	        	+ '        onClicked: console.log("clicked loc ' + key + '");\n'
-	        	+ '    }\n'
-	        	+ '}', map);
-		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
-		        marker.radius = health_frac
-		        marker.color  = Qt.hsva(loc.total.exposed, 1.0, 1.0, 1.0)
-		        marker.border.width = 0
-		        marker.ToolTip.text = loc.name
-		        map.addMapItem(marker)
-		}
-		
-		map.fitViewportToMapItems()
     }
     
     /**
@@ -155,12 +90,7 @@ Window {
                     anchors.margins: 4
                 }
                 onClicked: {
-                	controller.OpenFile()
-                	
-                	// TODO move this to a signal
-                	
-                	loadEpiData()
-                	displayCurrentDay()
+                	controller.OpenFile() // trigger the file opening dialog and subsequent reader mechanism
                 }
             } // open file button
 
@@ -192,8 +122,8 @@ Window {
             	enabled: false
             	
             	onValueChanged: {
-	            	displayCurrentDay()
-            	} // value changed signal
+	            	Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
+            	}
 
 			    background: Rectangle {
 			        x: daySlider.leftPadding
@@ -212,10 +142,40 @@ Window {
 			            radius: 2
 			        }
 			    } // background
-    
-    
-            	
             } // Slider
+            
+            /**
+             * Dropdown menu to select which health status should be displayed on the map.
+             */
+            ComboBox {
+            	id: healthTypeSelector
+            	property string currentHealthId: healthTypeList.get(0).internal_name
+            	
+            	currentIndex: 0
+            	anchors.right: parent.right
+            	anchors.top: parent.top
+            	model: ListModel {
+            		id: healthTypeList
+            		ListElement { text: "Immune";      internal_name: "immune" }
+            		ListElement { text: "Susceptible"; internal_name: "susceptible" }
+            		ListElement { text: "Infected";    internal_name: "infected" }
+            		ListElement { text: "Symptomatic"; internal_name: "symptomatic" }
+            		ListElement { text: "Infectious";  internal_name: "infectious" }
+            		ListElement { text: "Recovered";   internal_name: "recovered" }
+            	}
+            	
+            	textRole: 'text'
+            	
+            	delegate: ItemDelegate {
+            	
+            	}
+				
+				onCurrentIndexChanged: {
+					currentHealthId = healthTypeList.get(currentIndex).internal_name
+					Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
+				}        
+            
+            } // ComboBox
         } // RowLayout
     } // ToolBar
 } // Window
