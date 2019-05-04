@@ -65,16 +65,14 @@ json GeoGridJSONWriter::WriteLocation(const Location& location) {
         location_root["Coordinate"]["latitude"] = boost::geometry::get<0>(location.GetCoordinate());
         location_root["Coordinate"]["longitude"] = boost::geometry::get<1>(location.GetCoordinate());
         auto commutes = location.CRefOutgoingCommutes();
-        if (!commutes.empty()) {
-                vector<json> commute_vec;
-                for (auto commute_pair : commutes) {
-                        json commutes_root;
-                        commutes_root["to"] = commute_pair.first->GetID();
-                        commutes_root["proportion"] = commute_pair.second;
-                        commute_vec.push_back(commutes_root);
-                }
-                location_root["commute"] = commute_vec;
+        vector<json> commute_vec;
+        for (auto commute_pair : commutes) {
+                json commutes_root;
+                commutes_root["to"] = commute_pair.first->GetID();
+                commutes_root["proportion"] = commute_pair.second;
+                commute_vec.push_back(commutes_root);
         }
+        location_root["commute"] = commute_vec;
         vector<json> contact_pools;
         for (const auto& type : IdList) {
                 const auto& pools = location.CRefPools(type);
