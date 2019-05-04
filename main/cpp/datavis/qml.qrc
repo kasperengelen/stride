@@ -9,5 +9,6 @@
         <file>img/controls_forward_one.png</file>
         <file>img/open_simulation_file.png</file>
         <file>img/save_to_image.png</file>
+        <file>view/view_code.js</file>
     </qresource>
 </RCC>
