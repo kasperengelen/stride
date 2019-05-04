@@ -81,7 +81,7 @@ Person* GeoGridJSONReader::ParsePerson(const json& person)
 shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
 {
         const auto id         = boost::lexical_cast<unsigned int>(location["id"]);
-        const auto name       = boost::lexical_cast<string>(location["name"]);
+        const string name       = location["name"];
         const auto province   = boost::lexical_cast<unsigned int>(location["province"]);
         const auto population = boost::lexical_cast<unsigned int>(location["population"]);
         const auto coordinate = ParseCoordinate(location["coordinate"]);
@@ -89,7 +89,7 @@ shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
         auto result = make_shared<Location>(id, province, coordinate, name, population);
 
         for (const auto& pools : location["contactPools"]) {
-                const auto type_str = boost::lexical_cast<string>(pools["type"]);
+                const string type_str = pools["type"];
                 Id type;
                 if (type_str == ToString(Id::K12School)) {
                         type = Id::K12School;
@@ -115,7 +115,7 @@ shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
                 }
         }
 
-        for (auto commute : location["commutes"]) {
+        for (auto commute : location["commute"]) {
                 const auto to     = boost::lexical_cast<unsigned int>(commute["to"]);
                 const auto amount = boost::lexical_cast<double>(commute["proportion"]);
                 m_commutes.emplace_back(id, to, amount);

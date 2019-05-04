@@ -62,8 +62,8 @@ json GeoGridJSONWriter::WriteLocation(const Location& location) {
         location_root["name"] = location.GetName();
         location_root["province"] = location.GetProvince();
         location_root["population"] = location.GetPopCount();
-        location_root["Coordinate"]["latitude"] = boost::geometry::get<0>(location.GetCoordinate());
-        location_root["Coordinate"]["longitude"] = boost::geometry::get<1>(location.GetCoordinate());
+        location_root["coordinate"]["latitude"] = boost::geometry::get<0>(location.GetCoordinate());
+        location_root["coordinate"]["longitude"] = boost::geometry::get<1>(location.GetCoordinate());
         auto commutes = location.CRefOutgoingCommutes();
         vector<json> commute_vec;
         for (auto commute_pair : commutes) {

@@ -1,102 +1,158 @@
 {
     "locations": [
         {
+            "coordinate": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "commute": [
+                {
+                    "proportion": 0.5,
+                    "to": 2
+                },
+                {
+                    "proportion": 0.25,
+                    "to": 3
+                }
+            ],
+            "contactPools": [
+                {
+                    "pools": [],
+                    "type": "Household"
+                },
+                {
+                    "pools": [],
+                    "type": "K12School"
+                },
+                {
+                    "pools": [],
+                    "type": "College"
+                },
+                {
+                    "pools": [],
+                    "type": "Workplace"
+                },
+                {
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
+                }
+            ],
             "id": 1,
             "name": "Bavikhove",
-            "province": 4,
             "population": 2500,
+            "province": 4
+        },
+        {
             "coordinate": {
-                "x": 0.0,
-                "y": 0.0,
-                "longitude": 0.0,
-                "latitude": 0.0
+                "latitude": 0.0,
+                "longitude": 0.0
             },
-            "contactCenters": [
+            "commute": [
                 {
-                    "id": 0,
-                    "type": "K12School",
-                    "pools": [
-                        {
-                            "id": 2,
-                            "people": [
-                                0
-                            ]
-                        }
-                    ]
+                    "proportion": 0.75,
+                    "to": 1
                 },
                 {
-                    "id": 1,
-                    "type": "PrimaryCommunity",
-                    "pools": [
-                        {
-                            "id": 3,
-                            "people": [
-                                0
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": 2,
-                    "type": "SecondaryCommunity",
-                    "pools": [
-                        {
-                            "id": 7,
-                            "people": [
-                                0
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": 3,
-                    "type": "College",
-                    "pools": [
-                        {
-                            "id": 4,
-                            "people": [
-                                0
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": 4,
-                    "type": "Household",
-                    "pools": [
-                        {
-                            "id": 5,
-                            "people": [
-                                0
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": 5,
-                    "type": "Workplace",
-                    "pools": [
-                        {
-                            "id": 6,
-                            "people": [
-                                0
-                            ]
-                        }
-                    ]
+                    "proportion": 0.5,
+                    "to": 3
                 }
-            ]
+            ],
+            "contactPools": [
+                {
+                    "pools": [],
+                    "type": "Household"
+                },
+                {
+                    "pools": [],
+                    "type": "K12School"
+                },
+                {
+                    "pools": [],
+                    "type": "College"
+                },
+                {
+                    "pools": [],
+                    "type": "Workplace"
+                },
+                {
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
+                }
+            ],
+            "id": 2,
+            "name": "Gent",
+            "population": 2500,
+            "province": 4
+        },
+        {
+            "coordinate": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "commute": [],
+            "contactPools": [
+                {
+                    "pools": [],
+                    "type": "Household"
+                },
+                {
+                    "pools": [],
+                    "type": "K12School"
+                },
+                {
+                    "pools": [],
+                    "type": "College"
+                },
+                {
+                    "pools": [],
+                    "type": "Workplace"
+                },
+                {
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
+                }
+            ],
+            "id": 3,
+            "name": "Mons",
+            "population": 2500,
+            "province": 4
         }
     ],
-    "persons": [
-        {
-            "id": 0,
-            "age": 18,
-            "K12School": 2,
-            "Household": 5,
-            "Workplace": 6,
-            "PrimaryCommunity": 3,
-            "SecondaryCommunity": 7,
-            "College": 4
-        }
-    ]
+    "persons": []
 }

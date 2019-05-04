@@ -25,6 +25,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 add_subdirectory(sha1)
 add_subdirectory(trng-4.20)
 if (NOT HDF5_FOUND)
+    Set(HDF5_EXTERNALLY_CONFIGURED 1)
     add_subdirectory(hdf5)
 endif()
 

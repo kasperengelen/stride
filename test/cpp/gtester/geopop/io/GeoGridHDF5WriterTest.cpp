@@ -46,7 +46,7 @@ TEST(GeoGridHDF5WriterTest, locationTest)
         EXPECT_TRUE(compareGeoGrid(geoGrid, "test0.h5"));
 }
 
-TEST(GeoGridJSONWriterTest, contactPoolsTest)
+TEST(GeoGridHDF5WriterTest, contactPoolsTest)
 {
         auto  pop     = Population::Create();
         auto& geoGrid = pop->RefGeoGrid();
