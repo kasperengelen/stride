@@ -22,6 +22,7 @@
 #include <iostream>
 
 #include "EpiOutputFile.h"
+#include "contact/ContactType.h"
 #include "pop/Population.h"
 #include "geopop/Location.h"
 #include "util/FileSys.h"
@@ -57,11 +58,52 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
         json timestep = json::array();
 
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
-        for (auto it = geogrid.cbegin(); it != geogrid.cend(); ++it) {
+        for (auto loc_it = geogrid.cbegin(); loc_it != geogrid.cend(); ++loc_it) {
                 json loc = json::object();
-                loc["name"] = (*it)->GetName();
-                loc["population"] = (*it)->GetPopCount();
-                loc["infected"] = (*it)->GetInfectedCount();
+                loc["name"] = (*loc_it)->GetName();
+                loc["coordinates"] = json::array();
+                auto coordinate = (*loc_it)->GetCoordinate();
+                loc["coordinates"].push_back(coordinate.get<0>());
+                loc["coordinates"].push_back(coordinate.get<1>());
+                json total_stats = json::object();
+                total_stats["population"] = (*loc_it)->GetPopCount();
+                total_stats["infected"] = (*loc_it)->GetInfectedCount();
+                loc["total_stats"] = total_stats;
+
+                // Collect pooltype-specific information
+                for (auto type_it = ContactType::IdList.begin(); type_it != ContactType::IdList.end(); ++type_it) {
+                        stride::util::SegmentedVector<stride::ContactPool*>& pools = (*loc_it)->RefPools(*type_it);
+                        json pool = json::object();
+                        int immune = 0;
+                        int infected = 0;
+                        int infectious = 0;
+                        int recovered = 0;
+                        int susceptible = 0;
+                        int symptomatic = 0;
+                        int total_pop = 0;
+                        for (auto pool_it = pools.begin(); pool_it != pools.end(); ++pool_it) {
+                                total_pop += (*pool_it)->size();
+                                // Iterate over population to collect data
+                                for (auto mem_it = (*pool_it)->begin(); mem_it != (*pool_it)->end(); ++mem_it) {
+                                        auto health = (*mem_it)->GetHealth();
+                                        if (health.IsImmune()) {immune++;}
+                                        if (health.IsInfected()) {infected++;}
+                                        if (health.IsInfectious()) {infectious++;}
+                                        if (health.IsRecovered()) {recovered++;}
+                                        if (health.IsSusceptible()) {susceptible++;}
+                                        if (health.IsSymptomatic()) {symptomatic++;}
+                                }
+                        }
+                        pool["population"] = total_pop;
+                        pool["immune"] = immune;
+                        pool["infected"] = infected;
+                        pool["infectious"] = infectious;
+                        pool["recovered"] = recovered;
+                        pool["susceptible"] = susceptible;
+                        pool["symptomatic"] = symptomatic;
+                        loc[ContactType::ToString(*type_it)] = pool;
+                }
+
                 timestep.push_back(loc);
         }
         m_data["Timesteps"].push_back(timestep);
