@@ -69,7 +69,7 @@ signals:
 	/**
 	 * Indicates that a successful file read has occurred.
 	 */
-	void FileReadSuccessful();
+	void fileReadSuccessful();
 
 private:
 	///> Pointer to model object.
