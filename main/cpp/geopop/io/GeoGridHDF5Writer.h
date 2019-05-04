@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GeoGridWriter.h"
-#include <H5Cpp.h>
 #include "geopop/Location.h"
+#include <H5Cpp.h>
 
 namespace stride {
 class ContactPool;

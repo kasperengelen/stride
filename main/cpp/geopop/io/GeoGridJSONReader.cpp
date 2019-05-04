@@ -40,7 +40,7 @@ void GeoGridJSONReader::Read()
 {
         json root;
         try {
-                 *m_inputStream >> root;
+                *m_inputStream >> root;
         } catch (runtime_error&) {
                 throw Exception("Problem parsing JSON file, check whether empty or invalid JSON.");
         }
@@ -48,7 +48,7 @@ void GeoGridJSONReader::Read()
         auto& geoGrid = m_population->RefGeoGrid();
 
         for (const auto& person_json : root["persons"]) {
-                auto person = ParsePerson(person_json);
+                auto person               = ParsePerson(person_json);
                 m_people[person->GetId()] = person;
         }
 
@@ -60,7 +60,6 @@ void GeoGridJSONReader::Read()
         m_commutes.clear();
         m_people.clear();
 }
-
 
 Person* GeoGridJSONReader::ParsePerson(const json& person)
 {
@@ -80,17 +79,17 @@ Person* GeoGridJSONReader::ParsePerson(const json& person)
 
 shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
 {
-        const auto id         = boost::lexical_cast<unsigned int>(location["id"]);
+        const auto   id         = boost::lexical_cast<unsigned int>(location["id"]);
         const string name       = location["name"];
-        const auto province   = boost::lexical_cast<unsigned int>(location["province"]);
-        const auto population = boost::lexical_cast<unsigned int>(location["population"]);
-        const auto coordinate = ParseCoordinate(location["coordinate"]);
+        const auto   province   = boost::lexical_cast<unsigned int>(location["province"]);
+        const auto   population = boost::lexical_cast<unsigned int>(location["population"]);
+        const auto   coordinate = ParseCoordinate(location["coordinate"]);
 
         auto result = make_shared<Location>(id, province, coordinate, name, population);
 
         for (const auto& pools : location["contactPools"]) {
                 const string type_str = pools["type"];
-                Id type;
+                Id           type;
                 if (type_str == ToString(Id::K12School)) {
                         type = Id::K12School;
                 } else if (type_str == ToString(Id::College)) {

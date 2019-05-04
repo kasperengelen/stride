@@ -40,11 +40,11 @@ namespace {
 bool compareGeoGrid(GeoGrid& geoGrid, const string& filename)
 {
         GeoGridJSONWriter writer;
-        stringstream ss;
+        stringstream      ss;
         writer.Write(geoGrid, ss);
         ifstream fs(FileSys::GetTestsDir().string() + "/testdata/GeoGridJSON/" + filename);
-        json j1;
-        json j2;
+        json     j1;
+        json     j2;
         ss >> j1;
         fs >> j2;
         return (j1 == j2);

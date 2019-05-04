@@ -107,7 +107,6 @@ TEST(GeoGridJSONReaderTest, contactPoolsTest)
         }
 }
 
-
 TEST(GeoGridJSONReaderTest, peopleTest)
 {
         auto pop = Population::Create();

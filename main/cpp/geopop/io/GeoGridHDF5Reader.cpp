@@ -1,11 +1,11 @@
 #include "GeoGridHDF5Reader.h"
 
 #include "geopop/GeoGrid.h"
+#include "geopop/Location.h"
 #include "pop/Population.h"
 #include "util/Exception.h"
 #include <boost/lexical_cast.hpp>
 #include <H5Cpp.h>
-#include "geopop/Location.h"
 
 namespace geopop {
 

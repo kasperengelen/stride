@@ -56,32 +56,33 @@ void GeoGridJSONWriter::Write(GeoGrid& geoGrid, ostream& stream)
         stream << root;
 }
 
-json GeoGridJSONWriter::WriteLocation(const Location& location) {
+json GeoGridJSONWriter::WriteLocation(const Location& location)
+{
         json location_root;
-        location_root["id"] = location.GetID();
-        location_root["name"] = location.GetName();
-        location_root["province"] = location.GetProvince();
-        location_root["population"] = location.GetPopCount();
-        location_root["coordinate"]["latitude"] = boost::geometry::get<0>(location.GetCoordinate());
+        location_root["id"]                      = location.GetID();
+        location_root["name"]                    = location.GetName();
+        location_root["province"]                = location.GetProvince();
+        location_root["population"]              = location.GetPopCount();
+        location_root["coordinate"]["latitude"]  = boost::geometry::get<0>(location.GetCoordinate());
         location_root["coordinate"]["longitude"] = boost::geometry::get<1>(location.GetCoordinate());
-        auto commutes = location.CRefOutgoingCommutes();
+        auto         commutes                    = location.CRefOutgoingCommutes();
         vector<json> commute_vec;
         for (auto commute_pair : commutes) {
                 json commutes_root;
-                commutes_root["to"] = commute_pair.first->GetID();
+                commutes_root["to"]         = commute_pair.first->GetID();
                 commutes_root["proportion"] = commute_pair.second;
                 commute_vec.push_back(commutes_root);
         }
         location_root["commute"] = commute_vec;
         vector<json> contact_pools;
         for (const auto& type : IdList) {
-                const auto& pools = location.CRefPools(type);
+                const auto&  pools = location.CRefPools(type);
                 vector<json> type_contact_pools;
                 for (auto pool : pools) {
                         type_contact_pools.push_back(WriteContactPool(pool));
                 }
                 json contactPool_root;
-                contactPool_root["type"] = ToString(type);
+                contactPool_root["type"]  = ToString(type);
                 contactPool_root["pools"] = type_contact_pools;
                 contact_pools.push_back(contactPool_root);
         }
@@ -89,7 +90,6 @@ json GeoGridJSONWriter::WriteLocation(const Location& location) {
 
         return location_root;
 }
-
 
 json GeoGridJSONWriter::WriteContactPool(ContactPool* contactPool)
 {
@@ -108,16 +108,16 @@ json GeoGridJSONWriter::WriteContactPool(ContactPool* contactPool)
 json GeoGridJSONWriter::WritePerson(Person* person)
 {
         json person_root;
-        person_root["id"] = person->GetId();
-        person_root["age"] = person->GetAge();
-        person_root["K12School"] = person->GetPoolId(Id::K12School);
-        person_root["College"] = person->GetPoolId(Id::College);
-        person_root["Household"] = person->GetPoolId(Id::Household);
-        person_root["Workplace"] = person->GetPoolId(Id::Workplace);
-        person_root["PrimaryCommunity"] = person->GetPoolId(Id::PrimaryCommunity);
+        person_root["id"]                 = person->GetId();
+        person_root["age"]                = person->GetAge();
+        person_root["K12School"]          = person->GetPoolId(Id::K12School);
+        person_root["College"]            = person->GetPoolId(Id::College);
+        person_root["Household"]          = person->GetPoolId(Id::Household);
+        person_root["Workplace"]          = person->GetPoolId(Id::Workplace);
+        person_root["PrimaryCommunity"]   = person->GetPoolId(Id::PrimaryCommunity);
         person_root["SecondaryCommunity"] = person->GetPoolId(Id::SecondaryCommunity);
-        person_root["Daycare"] = person->GetPoolId(Id::Daycare);
-        person_root["Preschool"] = person->GetPoolId(Id::PreSchool);
+        person_root["Daycare"]            = person->GetPoolId(Id::Daycare);
+        person_root["Preschool"]          = person->GetPoolId(Id::PreSchool);
         return person_root;
 }
 

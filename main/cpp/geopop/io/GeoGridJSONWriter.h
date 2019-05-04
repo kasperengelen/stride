@@ -44,10 +44,8 @@ public:
         void Write(GeoGrid& geoGrid, std::ostream& stream) override;
 
 private:
-
         /// Create a nlohmann::json containing all info needed to reconstruct a Location.
         nlohmann::json WriteLocation(const Location& location);
-
 
         /// Create a nlohmann::json containing all info needed to reconstruct a ContactPool.
         nlohmann::json WriteContactPool(stride::ContactPool* contactPool);

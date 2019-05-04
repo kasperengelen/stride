@@ -45,7 +45,6 @@ public:
         void Read() override;
 
 private:
-
         /// Create a ContactCenter based on the information stored in the provided boost property tree.
         stride::ContactPool* ParseContactPool(const nlohmann::json& contactPool, stride::ContactType::Id typeId);
 
