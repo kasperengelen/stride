@@ -20,20 +20,8 @@
 
 #include "Model.h"
 
-#include <iostream>
-
 namespace stride {
 namespace datavis {
-
-void Model::AddTimestep(const Timestep& timestep)
-{
-	m_timesteps.push_back(timestep);
-}
-
-void Model::ClearTimesteps()
-{
-	m_timesteps.clear();
-}
 
 } // namespace datavis
 } // namespace stride

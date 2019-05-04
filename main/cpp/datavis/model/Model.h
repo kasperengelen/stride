@@ -20,12 +20,7 @@
 
 #pragma once
 
-#include "datavis/model/Timestep.h"
-
-#include <QQmlPropertyMap>
-#include <QObject>
-#include <QVariantMap>
-#include <QVariantList>
+#include "datavis/model/Locality.h"
 
 #include <vector>
 
@@ -35,17 +30,13 @@ namespace datavis {
 /**
  * Class that represents the model of the visualiser. This contains all the stored simulation data.
  */
-class Model : public QObject
+class Model
 {
-	Q_OBJECT
-	Q_PROPERTY(QVariant loc_list READ GetViewList)
-	Q_PROPERTY(QVariant epi_data READ GetEpiData)
-
 public:
 	/**
 	 * Constructor.
 	 */
-	explicit Model(QObject* parent = nullptr) : QObject(parent), m_timesteps()
+	explicit Model() : m_timesteps()
 	{}
 
 	/**
@@ -61,52 +52,22 @@ public:
 	/**
 	 * Add a timestep to the model.
 	 */
-	void AddTimestep(const Timestep& timestep);
+	void AddTimestep(const std::vector<Locality>& timestep) { m_timesteps.push_back(timestep); }
 
 	/**
 	 * Remove all the timesteps from the model.
 	 */
-	void ClearTimesteps();
+	void ClearTimesteps() { m_timesteps.clear(); }
 
-	const QVariant GetViewList() const
-	{
-		QVariantList list;
-
-		for(const auto& loc : m_timesteps.at(0).GetLocalities())
-		{
-			list.push_back(loc.GetView());
-		}
-
-		return QVariant::fromValue(list);
-	}
-
-	const QVariant GetEpiData() const
-	{
-		QVariantList timesteps;
-
-		// iterate over timesteps
-		//   iterate over localities
-		//		add locality
-
-		for(const auto& timestep : m_timesteps)
-		{
-			QVariantList loc_list;
-
-			for(const auto& loc : timestep.GetLocalities())
-			{
-				loc_list.push_back(loc.GetView());
-			}
-
-			timesteps.push_back(loc_list);
-		}
-
-		return QVariant::fromValue(timesteps);
-	}
+	/**
+	 * Retrieve simulation data from the model.
+	 */
+	const std::vector<std::vector<Locality>>& GetEpiData() const { return m_timesteps; }
 
 
 private:
 	/// Contains the currently stored simulation timesteps.
-	std::vector<Timestep> m_timesteps;
+	std::vector<std::vector<Locality>> m_timesteps;
 };
 
 
