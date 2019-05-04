@@ -68,6 +68,8 @@ void Controller::OpenFile() {
 
 		reader.ReadIntoModel(*m_model_ptr);
 
+		emit this->FileReadSuccessful();
+
 		return;
 	}
 	else

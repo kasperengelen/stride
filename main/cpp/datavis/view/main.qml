@@ -28,6 +28,10 @@ Window {
     Controller {
     	id: controller
     	objectName: "controller"
+    	
+    	onFileReadSuccessful: {
+    		console.log("Read successful")
+    	}
     }
     
     // C++ view object
