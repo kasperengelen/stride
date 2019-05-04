@@ -191,8 +191,6 @@ else()
     include_directories(
         ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/src
         ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
-        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/hl/src
-        ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/hl/c++/src
         ${CMAKE_BINARY_DIR}/main/resources/lib/hdf5)
 endif()
 
