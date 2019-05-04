@@ -7,7 +7,7 @@ import QtPositioning 5.6
 import QtQuick.Dialogs 1.3
 
 import stride.datavis.controller 1.0
-import stride.datavis.model 1.0
+import stride.datavis.view 1.0
 
 // TODO components in seperate qml files
 // TODO render from file data
@@ -30,10 +30,10 @@ Window {
     	objectName: "controller"
     }
     
-    // C++ model object
-    Model {
-    	id: model
-    	objectName: "model"
+    // C++ view object
+    View {
+    	id: view
+    	objectName: "view"
     }
     
     /**
@@ -51,31 +51,18 @@ Window {
    	 * Retrieve the epi-data currently stored in the model. This will
      * also adjust the slider to the model data.
    	 */
-   	function loadModel()
+   	function loadEpiData()
    	{
-   		// retrieve data from model
-   		mainWindow.epiData = model.epi_data
+   		// retrieve data from view
+   		mainWindow.epiData = view.epi_data
    		
    		// set slider parameters
    		daySlider.value = 0
    		daySlider.from = 0
    		daySlider.to = mainWindow.epiData.length - 1
    		
-   		// now that model data is present, it is safe to use the slider
-   		daySlider.enabled = true 
-    }
-    
-    /**
-     * Reset the visualisation tool. This clears all
-     * currently loaded epi-data, removes all map items
-     * and resets the slider. It also disables the slider
-     */
-    function resetView()
-    {
-    	//map.clearMapItems()      // clear map
-    	mainWindow.epiData = []  // clear data
-    	daySlider.value = 0      // reset slider
-    	daySlider.enable = false // disable slider
+   		// now that epi data is present, it is safe to use the slider
+   		daySlider.enabled = true
     }
     
     /**
@@ -84,7 +71,7 @@ Window {
     function displayCurrentDay()
     {
     	// clear previous day
-    	//map.clearMapItems();
+    	map.clearMapItems();
     
     	// retrieve data
     	var locality_list = mainWindow.epiData[daySlider.value]
@@ -100,30 +87,29 @@ Window {
 			
 			// create map marker
 	        var marker = Qt.createQmlObject(
-	        	'import QtLocation 5.3; MapCircle {\n'
-	        	+ 'id: localityMarker_' + key + ';\n'
-	        	+ 'ToolTip.visible: hovered; \n'
+	        	'import QtLocation 5.3\n'
+	        	+ 'import QtQuick 2.12\n'
+	        	+ 'import QtQuick.Controls 2.5\n'
+	        	+ 'MapCircle {\n'
+	        	+ '    id: localityMarker_' + key + ';\n'
+	        	+ '    ToolTip.visible: localityMarker_' + key + '_ma.containsMouse; \n'
+	        	+ '    MouseArea {\n' // add mouse interaction
+	        	+ '        id: localityMarker_' + key + '_ma;\n'
+	        	+ '        anchors.fill: parent;\n'
+	        	+ '        hoverEnabled: true;\n'
+	        	+ '        onClicked: console.log("clicked loc ' + key + '");\n'
+	        	+ '    }\n'
 	        	+ '}',
 	        		map);
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
 		        marker.radius = loc.totPop // TODO: change to loc.total.pop
 		        marker.color  = Qt.hsva(disease_status_frac, 1.0, 1.0, 1.0)
 		        marker.border.width = 0
-		        map.addMapItem(marker)
 		        marker.ToolTip.text = loc.name
+		        map.addMapItem(marker)
 		}
 		
 		map.fitViewportToMapItems()
-		/*
-			ToolTip.visible: ma.containsMouse
-            ToolTip.text: qsTr("Gent: 10,000 inhabitants.\n 20% infected.")
-            
-            MouseArea {
-            	id: ma
-            	anchors.fill: parent
-            	hoverEnabled: true
-            }
-		*/
     }
     
     /**
@@ -145,28 +131,6 @@ Window {
         anchors.bottom: parent.bottom
         width: parent.width
         height: parent.height - toolbar.height
-        
-        
-        MapCircle {
-        	id: testMarker
-
-			hoverEnabled: true
-        	ToolTip.visible: testMarker.hovered
-        	ToolTip.text : "ok123"
-        	
-			
-			center {
-	            latitude: 50.0
-	            longitude: 4.0
-        	}
-	        
-	        radius: 5000.0
-	        color: 'green'
-	        border.width: 3
-	        
-	        
-        
-        }
     } // Map
 
     /**
@@ -180,6 +144,10 @@ Window {
         id: toolbar
         RowLayout {
             anchors.fill: parent.top
+            
+			/**
+			 * Open file button
+			 */
             ToolButton {
                 id: open_file
                 Image {
@@ -189,14 +157,17 @@ Window {
                 }
                 onClicked: {
                 	controller.OpenFile()
-                	// check if openfile was successful
                 	
-                	//refreshMap()
+                	// TODO move this to a signal
                 	
-                	loadModel()
+                	loadEpiData()
+                	displayCurrentDay()
                 }
-            }
+            } // open file button
 
+			/**
+			 * Save button
+			 */
             ToolButton {
                 id: save_to_img
                 Image {
@@ -207,7 +178,7 @@ Window {
                 onClicked: { 
                 	controller.SaveFile()
                 }
-            }
+            } // save button
 
             ToolSeparator {}
             
@@ -223,7 +194,7 @@ Window {
             	
             	onValueChanged: {
 	            	displayCurrentDay()
-            	}
+            	} // value changed signal
 
 			    background: Rectangle {
 			        x: daySlider.leftPadding
@@ -241,14 +212,14 @@ Window {
 			            color: "#21be2b"
 			            radius: 2
 			        }
-			    }
+			    } // background
     
     
             	
-            }
-        }
-    }
-}
+            } // Slider
+        } // RowLayout
+    } // ToolBar
+} // Window
 
 
 
