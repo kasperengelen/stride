@@ -107,7 +107,7 @@ public:
 	 * Retrieve information about the total population that is part of the locality.
 	 */
 	const PopSection& GetTotalPopData() const {
-		return m_household_pop;
+		return m_total_pop;
 	}
 
 	/**
