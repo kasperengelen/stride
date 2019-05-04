@@ -80,11 +80,12 @@ json GeoGridJSONWriter::WriteLocation(const Location& location) {
                 const auto& pools = location.CRefPools(type);
                 vector<json> type_contact_pools;
                 for (auto pool : pools) {
-                        json contactPool_root;
-                        contactPool_root["class"] = ToString(type);
-                        contactPool_root["pools"] = WriteContactPool(pool);
+                        type_contact_pools.push_back(WriteContactPool(pool));
                 }
-                contact_pools.emplace_back(type_contact_pools);
+                json contactPool_root;
+                contactPool_root["type"] = ToString(type);
+                contactPool_root["pools"] = type_contact_pools;
+                contact_pools.push_back(contactPool_root);
         }
         location_root["contactPools"] = contact_pools;
 
