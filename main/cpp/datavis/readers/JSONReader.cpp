@@ -37,12 +37,12 @@ void JSONReader::ReadIntoModel(Model& datamodel) const
 	// add timesteps
 	for(const auto& timestep_data : js.at("Timesteps"))
 	{
-		Timestep timestep{};
+		std::vector<Locality> timestep{};
 
 		for(const auto& locality_data : timestep_data)
 		{
 			const Locality locality = this->ReadLocality(locality_data);
-			timestep.AddLocality(locality);
+			timestep.push_back(locality);
 		}
 
 		datamodel.AddTimestep(timestep);
