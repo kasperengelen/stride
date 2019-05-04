@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QWindow>
+#include <QQmlContext>
 
 #include <iostream>
 
@@ -19,8 +20,7 @@ int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 
 	// register QML elements
-	qmlRegisterType<Controller>("stride.datavis.controller", 1, 0,
-			"Controller");
+	qmlRegisterType<Controller>("stride.datavis.controller", 1, 0, "Controller");
 	qmlRegisterType<View>("stride.datavis.view", 1, 0, "View");
 
 	// create engine
@@ -30,8 +30,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 
 	// get controller
-	Controller* ctrl_ptr = engine.rootObjects().at(0)->findChild<Controller*>(
-			"controller");
+	Controller* ctrl_ptr = engine.rootObjects().at(0)->findChild<Controller*>("controller");
 
 	// get view
 	View* view_ptr = engine.rootObjects().at(0)->findChild<View*>("view");
