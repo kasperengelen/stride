@@ -33,135 +33,162 @@ namespace stride {
 namespace datavis {
 
 /**
- * Each individual in a locality can belong to one or more contact pools such
- * as a college, a workplace, etc. This struct keeps track of how many individuals
- * are part of a certain type of contact pool and number of individuals per
- * health status.
+ * Struct that keeps track of a section of the population inside a
+ * locality. Note that the fractions of people who are immune, infected, etc.
+ * don't add up to 1.0, since people can belong to many disease categories
+ * simultaneously.
  */
-struct ContactPoolStat
-{
+struct PopSection {
 	/// Total number of individuals that belong to this type of contact pool
-	unsigned int total;
+	unsigned int pop;
 
-	/// The number of individuals with the HealthStatus::Susceptible health status.
-    unsigned int susceptible;
+	/// The fraction of individuals that return true for HealthStatus::IsImmune().
+	double immune;
 
-	/// The number of individuals with the HealthStatus::Exposed health status.
-    unsigned int exposed;
+	/// The fraction of individuals that return true for HealthStatus::IsInfected().
+	double infected;
 
-	/// The number of individuals with the HealthStatus::Infectious health status.
-	unsigned int infectious;
+	/// The fraction of individuals that return true for HealthStatus::IsInfectious().
+	double infectious;
 
-	/// The number of individuals with the HealthStatus::Symptomatic health status.
-	unsigned int symptomatic;
+	/// The fraction of individuals that return true for HealthStatus::IsRecovered().
+	double recovered;
 
-	/// The number of individuals with the HealthStatus::InfectiousAndSymptomatic health status.
-    unsigned int infect_and_sympt;
+	/// The fraction of individuals that return true for HealthStatus::IsSusceptible().
+	double susceptible;
 
-	/// The number of individuals with the HealthStatus::Recovered health status.
-    unsigned int recovered;
-
-	/// The number of individuals with the HealthStatus::Immune health status.
-    unsigned int immune;
+	/// The fraction of individuals that return true for HealthStatus::isSymptomatic().
+	double symptomatic;
 };
 
 /**
  * Class that represents a locality. This is a geographical location
  * that has a population, of which a certain fraction can be infected.
  */
-class Locality
-{
+class Locality {
 public:
 
 	/**
 	 * Parametrised constructor.
 	 *
-     * @param name The place name of the locality.
+	 * @param name The place name of the locality.
 	 * @param coord The coordinate that represents the geographical location of the locality.
 	 * @param popCatMap An std::map that maps ContactType::Id to PopCategory objects.
 	 */
-	explicit Locality(const std::string& name, const geopop::Coordinate& coord, unsigned int totPop,
-					  const ContactPoolStat& householdData, const ContactPoolStat& k12schoolData, const ContactPoolStat& collegeData, const ContactPoolStat& workplaceData,
-					  const ContactPoolStat& primCommunityData, const ContactPoolStat& secCommunityData, const ContactPoolStat& daycareData, const ContactPoolStat& preschoolData)
-		: m_name(name), m_coordinate(coord), m_total_pop(totPop),
-		  m_household_pop(householdData), m_k12school_pop(k12schoolData), m_college_pop(collegeData), m_workplace_pop(workplaceData),
-		  m_prim_community_pop(primCommunityData), m_sec_community_pop(secCommunityData), m_daycare_pop(daycareData), m_preschool_pop(preschoolData)
-	{}
+	explicit Locality(const std::string& name, const geopop::Coordinate& coord,
+			const PopSection& totalPopData, const PopSection& householdData,
+			const PopSection& k12schoolData, const PopSection& collegeData,
+			const PopSection& workplaceData,
+			const PopSection& primCommunityData,
+			const PopSection& secCommunityData, const PopSection& daycareData,
+			const PopSection& preschoolData) :
+			m_name(name), m_coordinate(coord), m_total_pop(totalPopData), m_household_pop(
+					householdData), m_k12school_pop(k12schoolData), m_college_pop(
+					collegeData), m_workplace_pop(workplaceData), m_prim_community_pop(
+					primCommunityData), m_sec_community_pop(secCommunityData), m_daycare_pop(
+					daycareData), m_preschool_pop(preschoolData) {
+	}
 
 	/**
 	 * Retrieve the place name of the locality.
 	 */
-	const std::string& GetName() const { return m_name; }
+	const std::string& GetName() const {
+		return m_name;
+	}
 
 	/**
 	 * Retrieve the geographical coordinate of the locality.
 	 */
-	const geopop::Coordinate& GetCoordinate() const { return m_coordinate; }
+	const geopop::Coordinate& GetCoordinate() const {
+		return m_coordinate;
+	}
 
 	/**
-	 * Retrieve the total population within the locality.
+	 * Retrieve information about the total population that is part of the locality.
 	 */
-	unsigned int GetTotalPop() const { return m_total_pop; }
+	const PopSection& GetTotalPopData() const {
+		return m_household_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a household.
+	 * Retrieve information about the population that is part of a household. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetHouseholdPopData() const { return m_household_pop; }
+	const PopSection& GetHouseholdPopData() const {
+		return m_household_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a k12 school.
+	 * Retrieve information about the population that is part of a k12 school. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetK12SchoolPopData() const { return m_k12school_pop; }
+	const PopSection& GetK12SchoolPopData() const {
+		return m_k12school_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a college.
+	 * Retrieve information about the population that is part of a college. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetCollegePopData() const { return m_college_pop; }
+	const PopSection& GetCollegePopData() const {
+		return m_college_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a workplace.
+	 * Retrieve information about the population that is part of a workplace. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetWorkplacePopData() const { return m_workplace_pop; }
+	const PopSection& GetWorkplacePopData() const {
+		return m_workplace_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a primary community.
+	 * Retrieve information about the population that is part of a primary community. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetPrimCommunityPopData() const { return m_prim_community_pop; }
+	const PopSection& GetPrimCommunityPopData() const {
+		return m_prim_community_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a secondary community.
+	 * Retrieve information about the population that is part of a secondary community. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetSecCommunityPopData() const { return m_sec_community_pop; }
+	const PopSection& GetSecCommunityPopData() const {
+		return m_sec_community_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a daycare.
+	 * Retrieve information about the population that is part of a daycare. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetDaycarePopData() const { return m_daycare_pop; }
+	const PopSection& GetDaycarePopData() const {
+		return m_daycare_pop;
+	}
 
 	/**
-	 * Retrieve information about the population that is part of a preschool.
+	 * Retrieve information about the population that is part of a preschool. This
+	 * also includes individuals that are not part of the locality, but sometimes visit the locality.
 	 */
-	const ContactPoolStat& GetPreSchoolPopData() const { return m_preschool_pop; }
-
-	/**
-	 * Construct a QVariantMap that represents a view for this locality.
-	 */
-	const QVariantMap GetView() const;
+	const PopSection& GetPreSchoolPopData() const {
+		return m_preschool_pop;
+	}
 
 private:
-	std::string        m_name;
+	std::string m_name;
 	geopop::Coordinate m_coordinate;
-	unsigned int       m_total_pop;
 
-	ContactPoolStat    m_household_pop;
-	ContactPoolStat    m_k12school_pop;
-	ContactPoolStat    m_college_pop;
-	ContactPoolStat    m_workplace_pop;
-	ContactPoolStat    m_prim_community_pop;
-	ContactPoolStat    m_sec_community_pop;
-	ContactPoolStat    m_daycare_pop;
-	ContactPoolStat    m_preschool_pop;
+	PopSection m_total_pop;
+	PopSection m_household_pop;
+	PopSection m_k12school_pop;
+	PopSection m_college_pop;
+	PopSection m_workplace_pop;
+	PopSection m_prim_community_pop;
+	PopSection m_sec_community_pop;
+	PopSection m_daycare_pop;
+	PopSection m_preschool_pop;
 };
 
 } // namespace datavis
 } // namespace stride
+

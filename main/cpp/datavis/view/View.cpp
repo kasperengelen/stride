@@ -20,6 +20,8 @@
 
 #include "View.h"
 
+#include "datavis/view/LocalityView.h"
+
 namespace stride {
 namespace datavis {
 
@@ -35,7 +37,8 @@ const QVariant View::GetEpiData() const
 
 		for(const auto& loc : timestep)
 		{
-			loc_list.push_back(loc.GetView());
+			const LocalityView loc_view(loc);
+			loc_list.push_back(loc_view.GetQVariantMap());
 		}
 
 		retval.push_back(loc_list);

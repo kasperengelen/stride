@@ -79,11 +79,7 @@ Window {
 		for(var key in locality_list)
 		{
 			var loc = locality_list[key]
-			var disease_status_frac = loc.college.exposed / loc.college.total;
-			// var disease_status_frac = locality_data.total.exposed / locality_data.total.pop
-			
-			// create tooltip to display locality name
-			//var mouse_area = Qt.createQmlObject('import 
+			var health_frac = loc.total.pop
 			
 			// create map marker
 	        var marker = Qt.createQmlObject(
@@ -99,11 +95,10 @@ Window {
 	        	+ '        hoverEnabled: true;\n'
 	        	+ '        onClicked: console.log("clicked loc ' + key + '");\n'
 	        	+ '    }\n'
-	        	+ '}',
-	        		map);
+	        	+ '}', map);
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
-		        marker.radius = loc.totPop // TODO: change to loc.total.pop
-		        marker.color  = Qt.hsva(disease_status_frac, 1.0, 1.0, 1.0)
+		        marker.radius = health_frac
+		        marker.color  = Qt.hsva(loc.total.exposed, 1.0, 1.0, 1.0)
 		        marker.border.width = 0
 		        marker.ToolTip.text = loc.name
 		        map.addMapItem(marker)

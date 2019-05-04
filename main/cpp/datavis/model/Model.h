@@ -30,14 +30,14 @@ namespace datavis {
 /**
  * Class that represents the model of the visualiser. This contains all the stored simulation data.
  */
-class Model
-{
+class Model {
 public:
 	/**
 	 * Constructor.
 	 */
-	explicit Model() : m_timesteps()
-	{}
+	explicit Model() :
+			m_timesteps() {
+	}
 
 	/**
 	 * Deleted copy CTOR.
@@ -52,24 +52,28 @@ public:
 	/**
 	 * Add a timestep to the model.
 	 */
-	void AddTimestep(const std::vector<Locality>& timestep) { m_timesteps.push_back(timestep); }
+	void AddTimestep(const std::vector<Locality>& timestep) {
+		m_timesteps.push_back(timestep);
+	}
 
 	/**
 	 * Remove all the timesteps from the model.
 	 */
-	void ClearTimesteps() { m_timesteps.clear(); }
+	void ClearTimesteps() {
+		m_timesteps.clear();
+	}
 
 	/**
 	 * Retrieve simulation data from the model.
 	 */
-	const std::vector<std::vector<Locality>>& GetEpiData() const { return m_timesteps; }
-
+	const std::vector<std::vector<Locality>>& GetEpiData() const {
+		return m_timesteps;
+	}
 
 private:
 	/// Contains the currently stored simulation timesteps.
 	std::vector<std::vector<Locality>> m_timesteps;
 };
-
 
 } // namespace datavis
 } // namespace stride

@@ -25,8 +25,7 @@
 namespace stride {
 namespace datavis {
 
-void JSONReader::ReadIntoModel(Model& datamodel) const
-{
+void JSONReader::ReadIntoModel(Model& datamodel) const {
 	// clear model
 	datamodel.ClearTimesteps();
 
@@ -35,62 +34,56 @@ void JSONReader::ReadIntoModel(Model& datamodel) const
 	*(this->GetInStream()) >> js;
 
 	// add timesteps
-	for(const auto& timestep_data : js.at("Timesteps"))
-	{
-		std::vector<Locality> timestep{};
+	for (const auto& timestep_data : js.at("Timesteps")) {
+		std::vector<Locality> timestep { };
 
-		for(const auto& locality_data : timestep_data)
-		{
+		for (const auto& locality_data : timestep_data) {
 			const Locality locality = this->ReadLocality(locality_data);
 			timestep.push_back(locality);
 		}
 
 		datamodel.AddTimestep(timestep);
 	}
-
 }
 
-const Locality JSONReader::ReadLocality(const nlohmann::json& localityData) const
-{
+const Locality JSONReader::ReadLocality(
+		const nlohmann::json& localityData) const {
 	// coord
-	const std::vector<double> coord_vec = localityData.at("coord");
-	const geopop::Coordinate coord      = {coord_vec.at(0), coord_vec.at(1)};
-	const unsigned int tot_pop          = localityData.at("totalPop");
+	const std::vector<double> coord_vec = localityData.at("coordinates"); // long, lat
+	const geopop::Coordinate coord = { coord_vec.at(0), coord_vec.at(1) }; // long, lat
 
 	// name
 	const std::string name = localityData.at("name");
 
-	ContactPoolStat household;
-	ContactPoolStat k12_school;
-	ContactPoolStat college = this->ReadPopCategory(localityData.at("collegePop"));
-	ContactPoolStat workplace;
-	ContactPoolStat primary_community;
-	ContactPoolStat secondary_community;
-	ContactPoolStat daycare = this->ReadPopCategory(localityData.at("daycarePop"));
-	ContactPoolStat preschool;
+	// retrieve populations
+	const PopSection total = this->ReadPopSection(localityData.at("Total"));
+	const PopSection household = this->ReadPopSection(localityData.at("Household"));
+	const PopSection k12_school = this->ReadPopSection(localityData.at("K12School"));
+	const PopSection college = this->ReadPopSection(localityData.at("College"));
+	const PopSection workplace = this->ReadPopSection(localityData.at("Workplace"));
+	const PopSection prim_com = this->ReadPopSection(localityData.at("PrimaryCommunity"));
+	const PopSection sec_com = this->ReadPopSection(localityData.at("SecondaryCommunity"));
+	const PopSection daycare = this->ReadPopSection(localityData.at("Daycare"));
+	const PopSection preschool = this->ReadPopSection(localityData.at("PreSchool"));
 
-	return Locality(name, coord, tot_pop, household, k12_school, college, workplace, primary_community, secondary_community, daycare, preschool);
+	return Locality(name, coord, total, household, k12_school, college,
+			workplace, prim_com, sec_com, daycare, preschool);
 }
 
-const ContactPoolStat JSONReader::ReadPopCategory(const nlohmann::json& popCatData) const
-{
-	std::map<HealthStatus, unsigned int> health_map{};
+const PopSection JSONReader::ReadPopSection(
+		const nlohmann::json& popCatData) const {
+	PopSection retval;
 
-	ContactPoolStat retval;
-
-	retval.susceptible      = popCatData.at("susceptible");
-	retval.exposed          = popCatData.at("exposed");
-	retval.infectious       = popCatData.at("infectious");
-	retval.symptomatic      = popCatData.at("symptomatic");
-	retval.infect_and_sympt = popCatData.at("infectAndSympt");
-	retval.recovered        = popCatData.at("recovered");
-	retval.immune           = popCatData.at("immune");
-
-	retval.total = retval.susceptible + retval.exposed + retval.infectious + retval.symptomatic
-							  + retval.infect_and_sympt + retval.recovered + retval.immune;
+	retval.pop         = popCatData.at("population");
+	retval.immune      = popCatData.at("immune");
+	retval.infected    = popCatData.at("infected");
+	retval.infectious  = popCatData.at("infectious");
+	retval.recovered   = popCatData.at("recovered");
+	retval.susceptible = popCatData.at("susceptible");
+	retval.symptomatic = popCatData.at("symptomatic");
 
 	return retval;
 }
 
-}
-}
+} // namespace datavis
+} // namespace stride

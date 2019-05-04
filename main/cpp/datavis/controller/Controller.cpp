@@ -31,8 +31,7 @@
 namespace stride {
 namespace datavis {
 
-void Controller::SaveFile()
-{
+void Controller::SaveFile() {
 	qDebug("save");
 	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
 	QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "", tr("Zip file (*.zip);;GIF file (*.gif)"));
@@ -47,8 +46,7 @@ void Controller::SaveFile()
 	}
 }
 
-void Controller::OpenFile()
-{
+void Controller::OpenFile() {
 	qDebug("open");
 	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
 	QString filename = QFileDialog::getOpenFileName(parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
@@ -60,6 +58,7 @@ void Controller::OpenFile()
 
 	qDebug("filename '" + filename.toLatin1() + "'");
 
+	// TODO error handling: if an error occurred during reader => notify with QMessageBox
 	// determine HDF5, Protobuf, JSON
 	if(filename.endsWith(".json"))
 	{
@@ -79,9 +78,7 @@ void Controller::OpenFile()
 	}
 }
 
-
-} // namespace datavis
-} // namespace stride
-
-
+}
+ // namespace datavis
+}// namespace stride
 

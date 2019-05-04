@@ -29,15 +29,13 @@ namespace datavis {
  * Class that represents the controller component of the data visualiser
  * MVC structure.
  */
-class Controller : public QObject
-{
+class Controller: public QObject {
 	Q_OBJECT
 
 public:
-	explicit Controller(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr)
-	{}
-
-	// TODO delete copy ctor, ==, etc.
+	explicit Controller(QObject* parent = nullptr) :
+			QObject(parent), m_model_ptr(nullptr) {
+	}
 
 	/**
 	 * Deleted copy CTOR.
@@ -52,7 +50,9 @@ public:
 	/**
 	 * Set the pointer to the Model.
 	 */
-	void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
+	void SetModelPointer(Model* modelPtr) {
+		m_model_ptr = modelPtr;
+	}
 
 public:
 	/**
@@ -69,7 +69,7 @@ signals:
 	/**
 	 * Indicates that a successful file read has occurred.
 	 */
-	void fileReadSuccessful();
+	void FileReadSuccessful();
 
 private:
 	///> Pointer to model object.

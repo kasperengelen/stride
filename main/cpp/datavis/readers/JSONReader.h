@@ -30,12 +30,12 @@ namespace datavis {
 /**
  * Class that reads epi-output specified in the json data format.
  */
-class JSONReader : public Reader
-{
+class JSONReader: public Reader {
 public:
 	/// Construct the Reader with an istream containing the file content.
-	explicit JSONReader(const std::string& path) : Reader(path)
-	{}
+	explicit JSONReader(const std::string& path) :
+			Reader(path) {
+	}
 
 	/// Default destructor.
 	virtual ~JSONReader() = default;
@@ -46,8 +46,8 @@ private:
 	///< Create a Locality object from the specified information.
 	const Locality ReadLocality(const nlohmann::json& localityData) const;
 
-	///< Create a ContactPoolStat object from the specified information.
-	const ContactPoolStat ReadPopCategory(const nlohmann::json& popCatData) const;
+	///< Create a PopSection object from the specified information.
+	const PopSection ReadPopSection(const nlohmann::json& popCatData) const;
 };
 
 } // namespace datavis

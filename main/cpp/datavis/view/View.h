@@ -28,16 +28,16 @@
 namespace stride {
 namespace datavis {
 
-class View : public QObject
-{
+class View: public QObject {
 	Q_OBJECT
 	Q_PROPERTY(QVariant epi_data READ GetEpiData)
 public:
 	/**
 	 * Constructor.
 	 */
-	explicit View(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr)
-	{}
+	explicit View(QObject* parent = nullptr) :
+			QObject(parent), m_model_ptr(nullptr) {
+	}
 
 	/**
 	 * Deleted copy CTOR.
@@ -52,7 +52,9 @@ public:
 	/**
 	 * Set the pointer to the Model.
 	 */
-	void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
+	void SetModelPointer(Model* modelPtr) {
+		m_model_ptr = modelPtr;
+	}
 
 public:
 

@@ -32,11 +32,13 @@ namespace datavis {
 /**
  * Base class for epi-output readers.
  */
-class Reader
-{
+class Reader {
 public:
 	/// Construct the Reader with an istream containing the file content.
-	explicit Reader(const std::string& path) : m_path(path) {};
+	explicit Reader(const std::string& path) :
+			m_path(path) {
+	}
+	;
 
 	/// Default destructor.
 	virtual ~Reader() = default;
@@ -46,7 +48,9 @@ public:
 
 protected:
 	/// Retrieve the istream that contains the file contents
-	const std::unique_ptr<std::ifstream> GetInStream() const { return std::make_unique<std::ifstream>(m_path); }
+	const std::unique_ptr<std::ifstream> GetInStream() const {
+		return std::make_unique < std::ifstream > (m_path);
+	}
 
 private:
 	/// stores that path to the file
