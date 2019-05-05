@@ -134,7 +134,7 @@ private:
         ///< Associative container maps Location Id to index in m_locations.
         std::unordered_map<unsigned int, unsigned int> m_id_to_index;
 
-        ///< Stores pointer to Popluation, but does not take ownership.
+        ///< Stores pointer to Population, but does not take ownership.
         stride::Population* m_population;
 
         ///< Is the GeoGrid finalized (ready for use) yet?
