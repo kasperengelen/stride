@@ -165,10 +165,6 @@ Window {
             	}
             	
             	textRole: 'text'
-            	
-            	delegate: ItemDelegate {
-            	
-            	}
 				
 				onCurrentIndexChanged: {
 					currentHealthId = healthTypeList.get(currentIndex).internal_name
