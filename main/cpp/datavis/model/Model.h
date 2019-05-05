@@ -50,18 +50,9 @@ public:
 	Model& operator=(const Model&) = delete;
 
 	/**
-	 * Add a timestep to the model.
+	 * Set the timesteps contained in the model to the specified timesteps.
 	 */
-	void AddTimestep(const std::vector<Locality>& timestep) {
-		m_timesteps.push_back(timestep);
-	}
-
-	/**
-	 * Remove all the timesteps from the model.
-	 */
-	void ClearTimesteps() {
-		m_timesteps.clear();
-	}
+	void SetTimesteps(const std::vector<std::vector<Locality>>& timesteps) { m_timesteps = timesteps; }
 
 	/**
 	 * Retrieve simulation data from the model.

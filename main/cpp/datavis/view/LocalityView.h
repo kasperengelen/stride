@@ -27,6 +27,10 @@
 namespace stride {
 namespace datavis {
 
+/**
+ * Class that provides a view fir the Locality class and also produces Qt5-compatible
+ * data for Locality objects.
+ */
 class LocalityView {
 public:
 	/**

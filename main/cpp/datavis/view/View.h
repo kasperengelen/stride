@@ -28,6 +28,11 @@
 namespace stride {
 namespace datavis {
 
+/**
+ * Class that represent the view component of the MVC structure.
+ * This class can be accessed by the Qt5 interface to retrieve data to
+ * visualise the simulation data.
+ */
 class View: public QObject {
 	Q_OBJECT
 	Q_PROPERTY(QVariant epi_data READ GetEpiData)
@@ -35,8 +40,8 @@ public:
 	/**
 	 * Constructor.
 	 */
-	explicit View(QObject* parent = nullptr) :
-			QObject(parent), m_model_ptr(nullptr) {
+	explicit View(QObject* parent = nullptr)
+		: QObject(parent), m_model_ptr(nullptr) {
 	}
 
 	/**
