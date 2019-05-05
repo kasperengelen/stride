@@ -18,5 +18,5 @@
  * Implementation file for the HDF5Reader class.
  */
 
-#include "HDF5Reader.h"
+#include "HDF5EpiReader.h"
 

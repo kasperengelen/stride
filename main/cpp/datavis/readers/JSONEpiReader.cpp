@@ -18,35 +18,44 @@
  * Implementation file for the JSONReader class.
  */
 
-#include "JSONReader.h"
-
 #include "datavis/model/Locality.h"
+#include "datavis/readers/EpiReaderException.h"
+#include "JSONEpiReader.h"
 
 namespace stride {
 namespace datavis {
 
-void JSONReader::ReadIntoModel(Model& datamodel) const {
-	// clear model
-	datamodel.ClearTimesteps();
+void JSONEpiReader::ReadIntoModel(Model& datamodel) const {
 
-	// read data from JSON
-	nlohmann::json js;
-	*(this->GetInStream()) >> js;
+	try {
 
-	// add timesteps
-	for (const auto& timestep_data : js.at("Timesteps")) {
-		std::vector<Locality> timestep { };
+		std::vector<std::vector<Locality>> timesteps;
 
-		for (const auto& locality_data : timestep_data) {
-			const Locality locality = this->ReadLocality(locality_data);
-			timestep.push_back(locality);
+		// read data from JSON
+		nlohmann::json js;
+		*(this->GetInStream()) >> js;
+
+		// add timesteps
+		for (const auto& timestep_data : js.at("Timesteps")) {
+			std::vector<Locality> timestep { };
+
+			for (const auto& locality_data : timestep_data) {
+				const Locality locality = this->ReadLocality(locality_data);
+				timestep.push_back(locality);
+			}
+
+			timesteps.push_back(timestep);
 		}
 
-		datamodel.AddTimestep(timestep);
+		datamodel.SetTimesteps(timesteps);
+
+	} catch (const std::exception& e) {
+		// rethrow as our own exception.
+		throw EpiReaderException(e.what());
 	}
 }
 
-const Locality JSONReader::ReadLocality(
+const Locality JSONEpiReader::ReadLocality(
 		const nlohmann::json& localityData) const {
 	// coord
 	const std::vector<double> coord_vec = localityData.at("coordinates"); // long, lat
@@ -70,7 +79,7 @@ const Locality JSONReader::ReadLocality(
 			workplace, prim_com, sec_com, daycare, preschool);
 }
 
-const PopSection JSONReader::ReadPopSection(
+const PopSection JSONEpiReader::ReadPopSection(
 		const nlohmann::json& popCatData) const {
 	PopSection retval;
 

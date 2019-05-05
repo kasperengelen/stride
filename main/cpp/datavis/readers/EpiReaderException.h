@@ -15,8 +15,34 @@
 
 /**
  * @file
- * Implementation file for the ProtobufReader class.
+ * Header file for the EpiReaderException class.
  */
 
-#include "ProtobufReader.h"
+#pragma once
 
+#include <exception>
+#include <string>
+
+namespace stride {
+namespace datavis {
+
+/**
+ * Exception that is thrown when something does wrong in an EpiReader.
+ */
+class EpiReaderException : public std::exception
+{
+public:
+	/// Constructor based on a diagnostic message.
+	EpiReaderException(const std::string& message) : m_message{message}
+	{}
+
+	/// Returns a C-string with diagnostic information about the exception.
+	const char* what() const noexcept { return m_message.c_str(); }
+
+private:
+	/// Stores the diagnostic message.
+	const std::string m_message;
+};
+
+} // namespace datavis
+} // namespace stride
