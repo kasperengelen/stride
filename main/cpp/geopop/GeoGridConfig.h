@@ -118,10 +118,25 @@ public:
                 unsigned int count_households;
         } info;
 
+        struct
+        {
+                /// Ratios for each workplace each size range
+                std::vector<double> ratios;
+
+                /// Minimum and maximum size for each for each range
+                std::vector<std::pair<unsigned int, unsigned int>> sizes;
+        } workplaceSD;
+
+
         // -----------------------------------------------------------------------------------------
-        /// Read the househould data file, parse it and set data.
+        // Read the househould data file, parse it and set data.
         // -----------------------------------------------------------------------------------------
         void SetData(const std::string& householdsFileName);
+
+        // -----------------------------------------------------------------------------------------
+        // Read the workplace size distribution file, parse it and set data.
+        // -----------------------------------------------------------------------------------------
+        void SetWorkplaceData(const std::string& workplaceFileName);
 };
 
 } // namespace geopop

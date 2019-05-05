@@ -70,6 +70,7 @@ set(SRC
     geopop/io/HouseholdCSVReaderTest.cpp
     geopop/io/HouseholdJSONReaderTest.cpp
     geopop/io/ReaderFactoryTest.cpp
+    geopop/io/WorkplaceCSVReaderTest.cpp
     #---
     geopop/kdtree.cpp
     #---

@@ -18,6 +18,7 @@
 #include "CommutesCSVReader.h"
 #include "HouseholdCSVReader.h"
 #include "LocationsCSVReader.h"
+#include "WorkplaceCSVReader.h"
 #include "util/FileSys.h"
 
 #include <fstream>
@@ -57,6 +58,17 @@ std::shared_ptr<HouseholdReader> ReaderFactory::CreateHouseholdReader(const std:
 shared_ptr<HouseholdReader> ReaderFactory::CreateHouseholdReader(const filesys::path& path)
 {
         return make_shared<HouseholdCSVReader>(OpenFile(path));
+}
+
+
+std::shared_ptr<WorkplaceReader> ReaderFactory::CreateWorkplaceReader(const std::string& filename)
+{
+        return CreateWorkplaceReader(FileSys::GetDataDir() / filesys::path(filename));
+}
+
+std::shared_ptr<WorkplaceReader> ReaderFactory::CreateWorkplaceReader(const filesys::path& path)
+{
+        return make_shared<WorkplaceCSVReader>(OpenFile(path));
 }
 
 std::unique_ptr<std::istream> ReaderFactory::OpenFile(const filesys::path& path)

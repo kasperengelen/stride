@@ -53,8 +53,13 @@ protected:
 // Check that generator can handle empty GeoGrid.
 TEST_F(WorkplaceGeneratorTest, ZeroLocationTest)
 {
-        m_gg_config.param.pop_size        = 10000;
-        m_gg_config.info.popcount_college = 20000;
+
+        m_gg_config.param.pop_size           = 10000;
+        m_gg_config.info.popcount_college    = 20000;
+
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         EXPECT_EQ(m_geo_grid.size(), 0);
@@ -67,6 +72,9 @@ TEST_F(WorkplaceGeneratorTest, NoCommuting)
         m_gg_config.info.popcount_workplace            = static_cast<unsigned int>(0.20 * 5 * 1000 * 1000);
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0;
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -79,9 +87,9 @@ TEST_F(WorkplaceGeneratorTest, NoCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-            1342, 512,  1948, 1801, 1919, 1087, 1304, 6,    1133, 1728, 646, 441,  450, 1643, 1897, 1410, 810,
-            382,  1192, 1688, 1691, 161,  204,  1433, 1796, 1187, 1449, 201, 1540, 923, 452,  1756, 1167, 261,
-            1197, 1455, 1058, 594,  796,  868,  1355, 594,  104,  1298, 136, 94,   140, 500,  588,  1663};
+            1469, 560,  2163, 1980, 2125, 1194, 1439, 7,    1243, 1921, 723, 490,  488,  1817, 2080, 1575, 883,
+            422,  1299, 1850, 1885, 178,  224,  1594, 2004, 1308, 1607, 223, 1693, 1043, 518,  1958, 1296, 294,
+            1326, 1608, 1182, 659,  883,  975,  1511, 655,  110,  1426, 153, 104,  154,  564,  658,  1834};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());
@@ -95,6 +103,9 @@ TEST_F(WorkplaceGeneratorTest, NullCommuting)
         m_gg_config.info.popcount_workplace            = static_cast<unsigned int>(0.20 * 5 * 1000 * 1000);
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0.10;
+
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -121,9 +132,10 @@ TEST_F(WorkplaceGeneratorTest, NullCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-            1351, 521,  1960, 1798, 1907, 1088, 1301, 5,    1134, 1739, 644, 431,  447, 1650, 1894, 1409, 809,
-            377,  1198, 1685, 1692, 155,  210,  1430, 1793, 1191, 1449, 203, 1536, 928, 446,  1754, 1169, 263,
-            1194, 1456, 1058, 594,  793,  869,  1356, 591,  105,  1297, 136, 95,   139, 499,  588,  1663};
+            1479, 569,  2175, 1977, 2114, 1193, 1437, 5,    1246, 1931, 721, 480,  484,  1825, 2076, 1574, 883,
+            418,  1304, 1847, 1887, 170,  230,  1591, 2002, 1313, 1606, 224, 1690, 1047, 514,  1956, 1299, 293,
+            1325, 1608, 1182, 658,  880,  976,  1512, 652,  111,  1425, 153, 105,  153,  563,  658, 1834};
+
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());
         }
@@ -135,6 +147,9 @@ TEST_F(WorkplaceGeneratorTest, TenCommuting)
         m_gg_config.info.popcount_workplace            = static_cast<unsigned int>(0.20 * 5 * 1000 * 1000);
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0.10;
+
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -191,9 +206,9 @@ TEST_F(WorkplaceGeneratorTest, TenCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-            1328, 516,  1941, 1850, 1906, 1087, 1297, 6,    1132, 1727, 671, 428,  447, 1647, 1896, 1394, 810,
-            464,  1220, 1682, 1672, 149,  211,  1423, 1802, 1185, 1429, 213, 1530, 917, 446,  1760, 1155, 274,
-            1190, 1458, 1046, 593,  772,  873,  1355, 589,  101,  1291, 142, 93,   132, 507,  584,  1659};
+            1453, 564,  2157, 2031, 2114, 1191, 1433, 6,    1243, 1919,  749, 480,  484,  1820, 2077, 1559, 884,
+            516,  1326, 1849, 1864, 157,  234,  1582, 2011, 1305, 1588,  236, 1684, 1038, 508,  1960, 1288, 302,
+            1321, 1611, 1168, 660,  854,  980,  1510, 650,  107,  1422,  158, 102,  145,  574,  652,  1829};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());

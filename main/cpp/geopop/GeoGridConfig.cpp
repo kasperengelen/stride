@@ -32,7 +32,7 @@ using namespace stride::AgeBrackets;
 using namespace stride::ContactType;
 using stride::util::intToDottedString;
 
-GeoGridConfig::GeoGridConfig() : param{}, refHH{}, info{} {}
+GeoGridConfig::GeoGridConfig() : param{}, refHH{}, info{}, workplaceSD{} {}
 
 GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
 {
@@ -120,6 +120,12 @@ void GeoGridConfig::SetData(const string& householdsFileName)
             floor(param.particpation_workplace * (age_count_workplace - info.popcount_college)));
 
         info.count_households = static_cast<unsigned int>(floor(static_cast<double>(popSize) / averageHhSize));
+}
+
+void GeoGridConfig::SetWorkplaceData(const std::string &workplaceFileName)
+{
+        auto workplaceReader = ReaderFactory::CreateWorkplaceReader(workplaceFileName);
+        workplaceReader->SetWorkplaceData(workplaceSD.ratios, workplaceSD.sizes);
 }
 
 ostream& operator<<(ostream& out, const GeoGridConfig& config)
