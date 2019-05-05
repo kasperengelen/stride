@@ -18,6 +18,15 @@
 #include <memory>
 #include <string>
 
+#ifdef BOOST_FOUND
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+namespace filesys = boost::filesystem;
+#else
+#include <filesystem>
+namespace filesys = std::filesystem;
+#endif
+
 namespace geopop {
 
 class GeoGridWriter;
@@ -29,7 +38,7 @@ class GeoGridWriterFactory
 {
 public:
         /// Create a GeoGridWriter based on the provided extension in the filename.
-        static std::shared_ptr<GeoGridWriter> CreateGeoGridWriter(const std::string& filename, std::ostream* outputStream);
+        static std::shared_ptr<GeoGridWriter> CreateGeoGridWriter(const filesys::path& path);
 };
 
 } // namespace geopop
