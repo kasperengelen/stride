@@ -28,14 +28,12 @@ using namespace std;
 
 namespace geopop {
 
-std::shared_ptr<GeoGridWriter> GeoGridWriterFactory::CreateGeoGridWriter(const filesys::path& path)
+std::shared_ptr<GeoGridWriter> GeoGridWriterFactory::CreateGeoGridWriter(const filesys::path& path, ostream* outputStream)
 {
-
-        ofstream outputStream(path.string());
         if (path.extension().string() == ".json") {
-                return std::make_shared<GeoGridJSONWriter>(&outputStream);
+                return std::make_shared<GeoGridJSONWriter>(outputStream);
         } else if (path.extension().string() == ".proto") {
-                return std::make_shared<GeoGridProtoWriter>(&outputStream);
+                return std::make_shared<GeoGridProtoWriter>(outputStream);
         } else if (path.extension().string() == ".h5") {
                 return std::make_shared<GeoGridHDF5Writer>(path.string());
         } else {
