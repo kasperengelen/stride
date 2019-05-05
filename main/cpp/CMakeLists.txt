@@ -84,6 +84,7 @@ set(STRIDE_SRC
     #---
     geopop/io/LocationsCSVReader.cpp
     geopop/io/CommutesCSVReader.cpp
+    geopop/io/GeoGridFileWriter.h
     geopop/io/GeoGridJSONReader.cpp
     geopop/io/GeoGridJSONWriter.cpp
     geopop/io/GeoGridHDF5Reader.cpp
@@ -100,6 +101,7 @@ set(STRIDE_SRC
     geopop/io/HouseholdCSVReader.cpp
     geopop/io/HouseholdJSONReader.cpp
     geopop/io/ReaderFactory.cpp
+    geopop/io/GeoGridStreamWriter.h
     geopop/populators/CollegePopulator.cpp
     geopop/populators/DaycarePopulator.cpp
     geopop/populators/HouseholdPopulator.cpp

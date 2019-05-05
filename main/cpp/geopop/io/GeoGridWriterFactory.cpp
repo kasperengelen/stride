@@ -15,12 +15,14 @@
 
 #include "GeoGridWriterFactory.h"
 
-//#include "GeoGridJSONWriter.h"
+#include "GeoGridJSONWriter.h"
 #include "GeoGridProtoWriter.h"
+#include "GeoGridHDF5Writer.h"
 #include "GeoGridWriter.h"
 #include "util/Exception.h"
 
 #include <iostream>
+#include <memory>
 
 #ifdef BOOST_FOUND
 #include <boost/filesystem.hpp>
@@ -31,17 +33,20 @@ namespace filesys = boost::filesystem;
 namespace filesys = std::filesystem;
 #endif
 
+using namespace std;
+
 namespace geopop {
 
-std::shared_ptr<GeoGridWriter> GeoGridWriterFactory::CreateGeoGridWriter(const std::string& filename)
+std::shared_ptr<GeoGridWriter> GeoGridWriterFactory::CreateGeoGridWriter(const std::string& filename, ostream* outputStream)
 {
         filesys::path path(filename);
 
-        /*if (path.extension().string() == ".json") {
-                return std::make_shared<GeoGridJSONWriter>();
-        } else */
-        if (path.extension().string() == ".proto") {
-                return std::make_shared<GeoGridProtoWriter>();
+        if (path.extension().string() == ".json") {
+                return std::make_shared<GeoGridJSONWriter>(outputStream);
+        } else if (path.extension().string() == ".proto") {
+                return std::make_shared<GeoGridProtoWriter>(outputStream);
+        } else if (path.extension().string() == ".h5") {
+                return std::make_shared<GeoGridHDF5Writer>(filename);
         } else {
                 throw stride::util::Exception("GeoGridWriterFactory::CreateWriter> Unsupported file extension: " +
                                               path.extension().string());

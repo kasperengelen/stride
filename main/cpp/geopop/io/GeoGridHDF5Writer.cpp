@@ -1,3 +1,18 @@
+/*
+ *  This is free software: you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  any later version.
+ *  The software is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
+ */
+
 #include "GeoGridHDF5Writer.h"
 
 #include <H5Cpp.h>
@@ -16,13 +31,13 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-GeoGridHDF5Writer::GeoGridHDF5Writer() : m_persons_found() {}
+GeoGridHDF5Writer::GeoGridHDF5Writer(const std::string& filename) : GeoGridFileWriter(filename), m_persons_found() {}
 
-void GeoGridHDF5Writer::Write(GeoGrid& geoGrid, const string& filename)
+void GeoGridHDF5Writer::Write(GeoGrid& geoGrid)
 {
         /// Create file
         Exception::dontPrint();
-        H5File file(filename, H5F_ACC_TRUNC);
+        H5File file(GetFileName(), H5F_ACC_TRUNC);
 
         Group        locations(file.createGroup("Locations"));
         unsigned int count = 0;

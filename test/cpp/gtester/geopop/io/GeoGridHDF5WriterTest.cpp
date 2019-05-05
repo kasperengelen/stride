@@ -24,8 +24,8 @@ namespace {
 
 bool compareGeoGrid(GeoGrid& geoGrid, const std::string& filename)
 {
-        GeoGridHDF5Writer writer;
-        writer.Write(geoGrid, FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write");
+        GeoGridHDF5Writer writer(FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write");
+        writer.Write(geoGrid);
         auto              pop = Population::Create();
         GeoGridHDF5Reader reader(pop.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/" + filename);
         reader.Read();

@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  *  This is free software: you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License as published by
@@ -10,13 +12,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2018, Jan Broeckhove and Bistromatics group.
+ *  Copyright 2019, ACED.
  */
 
 #pragma once
 
 #include <memory>
 #include <ostream>
+#include "GeoGridWriter.h"
 
 namespace geopop {
 
@@ -26,14 +29,19 @@ class GeoGrid;
  * An interface for writing the GeoGrid to a file, can be implemented with multiple file types.
  * Protobuf and json are currently implemented.
  */
-class GeoGridWriter
+class GeoGridFileWriter : public GeoGridWriter
 {
 public:
         /// Construct the Writer.
-        virtual ~GeoGridWriter() = default;
+        explicit GeoGridFileWriter(std::string filename) : m_filename(std::move(filename)) {};
 
-        /// Write the GeoGrid.
-        virtual void Write(GeoGrid& geoGrid) = 0;
+        /// Write the GeoGrid to ostream.
+        void Write(GeoGrid& geoGrid) override = 0;
+
+        std::string GetFileName() { return m_filename; }
+
+private:
+        std::string m_filename; ///< File to write.
 };
 
 } // namespace geopop

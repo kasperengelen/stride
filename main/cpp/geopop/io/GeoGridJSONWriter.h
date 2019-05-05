@@ -15,10 +15,8 @@
 
 #pragma once
 
-#include "GeoGridWriter.h"
+#include "GeoGridStreamWriter.h"
 #include "geopop/Location.h"
-
-//#include <boost/property_tree/ptree.hpp>
 #include "util/json.hpp"
 #include <set>
 
@@ -34,14 +32,14 @@ class ContactCenter;
 /**
  * Writes a GeoGrid to a JSON file.
  */
-class GeoGridJSONWriter : public GeoGridWriter
+class GeoGridJSONWriter : public GeoGridStreamWriter
 {
 public:
         /// Construct the GeoGridJSONWriter.
-        GeoGridJSONWriter();
+        explicit GeoGridJSONWriter(std::ostream* stream);
 
         /// Write the provided GeoGrid to the proved ostream in JSON format.
-        void Write(GeoGrid& geoGrid, std::ostream& stream) override;
+        void Write(GeoGrid& geoGrid) override;
 
 private:
         /// Create a nlohmann::json containing all info needed to reconstruct a Location.
