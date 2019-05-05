@@ -56,7 +56,7 @@ const Locality JSONReader::ReadLocality(
 	const std::string name = localityData.at("name");
 
 	// retrieve populations
-	const PopSection total = this->ReadPopSection(localityData.at("Total"));
+	const PopSection total = this->ReadPopSection(localityData.at("Household")); // Note: households contain the total, so we just copy it
 	const PopSection household = this->ReadPopSection(localityData.at("Household"));
 	const PopSection k12_school = this->ReadPopSection(localityData.at("K12School"));
 	const PopSection college = this->ReadPopSection(localityData.at("College"));
