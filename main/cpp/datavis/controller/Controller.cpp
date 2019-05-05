@@ -19,35 +19,39 @@
  */
 
 #include "datavis/controller/Controller.h"
-#include "datavis/readers/JSONReader.h"
-
 #include <QString>
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include <fstream>
-#include <iostream>
+#include "../readers/JSONEpiReader.h"
+#include "datavis/readers/EpiReaderException.h"
 
 namespace stride {
 namespace datavis {
 
 void Controller::SaveFile() {
-	qDebug("save");
 	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+
+	QMessageBox::critical(parent_ptr, tr("Warning"), tr("Saving to image files is not yet supported."));
+	return;
+
 	QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "", tr("Zip file (*.zip);;GIF file (*.gif)"));
+
+
 
 	if(filename.isNull())
 	{
-		qDebug("no savefile selected.");
+		return;
 	}
-	else
-	{
-		qDebug("filename '" + filename.toLatin1() + "'");
-	}
+
+	// TODO save to file
+	// -> gif
+	// -> zip
+
+	return;
 }
 
 void Controller::OpenFile() {
-	qDebug("open");
 	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
 	QString filename = QFileDialog::getOpenFileName(parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
 
@@ -56,28 +60,32 @@ void Controller::OpenFile() {
 		return;
 	}
 
-	qDebug("filename '" + filename.toLatin1() + "'");
-
-	// TODO error handling: if an error occurred during reader => notify with QMessageBox
 	// determine HDF5, Protobuf, JSON
 	if(filename.endsWith(".json"))
 	{
-		// JSON
-		std::ifstream infile;
-		JSONReader reader(filename.toStdString());
+		try {
+			// JSON
+			JSONEpiReader reader(filename.toStdString());
 
-		reader.ReadIntoModel(*m_model_ptr);
+			reader.ReadIntoModel(*m_model_ptr);
 
-		emit this->fileReadSuccessful();
+			emit this->fileReadSuccessful();
 
-		return;
+			return;
+		} catch (const EpiReaderException& e) {
+			const QString err_msg = QString{"An error occurred while processing the specified file.\n"} + QString{e.what()};
+			QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
+			return;
+		}
 	}
 	else
 	{
 		// Unknown format
-		QMessageBox::warning(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
+		QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
 		return;
 	}
+
+	// TODO HDF5
 }
 
 }

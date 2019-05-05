@@ -26,8 +26,8 @@ namespace stride {
 namespace datavis {
 
 /**
- * Class that represents the controller component of the data visualiser
- * MVC structure.
+ * Class that represents the controller component of the data visualiser MVC structure.
+ * This class will take commands from the Qt5 interface and relay them to the Model.
  */
 class Controller: public QObject {
 	Q_OBJECT
