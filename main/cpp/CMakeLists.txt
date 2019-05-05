@@ -204,9 +204,10 @@ set(DATAVIS_SRC
     datavis/model/Locality.cpp
     datavis/model/Model.cpp
     # epi output readers
-    datavis/readers/HDF5Reader.cpp
-    datavis/readers/JSONReader.cpp
-    datavis/readers/ProtobufReader.cpp
+    datavis/readers/EpiReader.cpp
+    datavis/readers/HDF5EpiReader.cpp
+    datavis/readers/JSONEpiReader.cpp
+    datavis/readers/ProtobufEpiReader.cpp
     # main
     datavis/main.cpp
     datavis/qml.qrc
