@@ -166,10 +166,8 @@ endif()
 if(HDF5_FOUND)
     target_link_libraries(libstride PRIVATE hdf5_cpp)
 else()
-    target_link_libraries(libstride PUBLIC hdf5-static)
-    target_link_libraries(libstride PUBLIC hdf5_cpp-static)
-    target_link_libraries(libstride PUBLIC hdf5_hl-static)
-    target_link_libraries(libstride PUBLIC hdf5_hl_cpp-static)
+    target_link_libraries(libstride PRIVATE hdf5-static)
+    target_link_libraries(libstride PRIVATE hdf5_cpp-static)
 endif()
 
 set_target_properties(libstride
