@@ -28,7 +28,8 @@ using namespace std;
 
 namespace geopop {
 
-std::shared_ptr<GeoGridWriter> GeoGridWriterFactory::CreateGeoGridWriter(const filesys::path& path, ostream* outputStream)
+std::shared_ptr<GeoGridWriter> GeoGridWriterFactory::CreateGeoGridWriter(const filesys::path& path,
+                                                                         ostream*             outputStream)
 {
         if (path.extension().string() == ".json") {
                 return std::make_shared<GeoGridJSONWriter>(outputStream);
