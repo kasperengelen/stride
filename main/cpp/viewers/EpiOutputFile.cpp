@@ -65,10 +65,6 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
                 auto coordinate = (*loc_it)->GetCoordinate();
                 loc["coordinates"].push_back(coordinate.get<0>());
                 loc["coordinates"].push_back(coordinate.get<1>());
-                json total_stats = json::object();
-                total_stats["population"] = (*loc_it)->GetPopCount();
-                total_stats["infected"] = (*loc_it)->GetInfectedCount();
-                loc["total_stats"] = total_stats;
 
                 // Collect pooltype-specific information
                 for (auto type_it = ContactType::IdList.begin(); type_it != ContactType::IdList.end(); ++type_it) {
@@ -95,12 +91,12 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
                                 }
                         }
                         pool["population"] = total_pop;
-                        pool["immune"] = immune;
-                        pool["infected"] = infected;
-                        pool["infectious"] = infectious;
-                        pool["recovered"] = recovered;
-                        pool["susceptible"] = susceptible;
-                        pool["symptomatic"] = symptomatic;
+                        pool["immune"] = (double) immune / total_pop;
+                        pool["infected"] = (double) infected / total_pop;
+                        pool["infectious"] = (double) infectious / total_pop;
+                        pool["recovered"] = (double) recovered / total_pop;
+                        pool["susceptible"] = (double) susceptible / total_pop;
+                        pool["symptomatic"] = (double) symptomatic / total_pop;
                         loc[ContactType::ToString(*type_it)] = pool;
                 }
 

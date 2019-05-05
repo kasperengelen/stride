@@ -44,6 +44,7 @@ public:
 private:
         std::unique_ptr<output::EpiOutputFile>    m_epioutput_file;
         std::shared_ptr<SimRunner>                m_runner;
+        unsigned int                              m_interval;
 };
 
 } // namespace viewers
