@@ -26,9 +26,21 @@
 
 ### Data visualisation
 
-* TestEpiOutputWriteRead:
-    Using simulation output, writes a "epi-output" file, then reads it back and tests whether the data corresponds to the original data.
+* TestEpiOutputWriteReadJSON:
+    Test whether the JSON epi-output reader works correctly.
+    This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the JSON reader. The test will then check whether the correct JSON files were read correctly by manually checking the reader output. The test will also check whether invalid JSON files were detected by checking for exceptions.
     
+* TestEpiOutputWriteReadHDF5:
+    Test whether the HDF5 epi-output reader works correctly.
+    This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the HDF5 reader. The test will then check whether the correct HDF5 files were read correctly by manually checking the reader output. The test will also check whether invalid HDF5 files were detected by checking for exceptions.
+
+* TestEpiOutputWriteReadProtobuf:
+    Test whether the Protobuf epi-output reader works correctly.
+    This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the Protobuf reader. The test will then check whether the correct Protobuf files were read correctly by manually checking the reader output. The test will also check whether invalid Protobuf files were detected by checking for exceptions.
+    
+* TestLocalityView:
+    Test whether the LocalityView class produces the correct Qt5 data.
+    This is done by manually creating Locality objects and converting them to QVariantMap objects using the LocalityView class. The test then checks whether the QVariantMap contains the same data as the Locality object.
 
 ### Demographic profile
 
