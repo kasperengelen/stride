@@ -182,6 +182,34 @@ if(NOT OPENMP_FOUND)
 endif()
 
 #----------------------------------------------------------------------------
+# Qt5
+#----------------------------------------------------------------------------
+if(NOT STRIDE_FORCE_NO_QT5)
+	if(APPLE)
+	    set(CMAKE_PREFIX_PATH /usr/local/opt/qt)
+	else()
+	    set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.12.2/gcc_64)
+	endif()
+
+	set(CMAKE_AUTOMOC ON)
+	set(CMAKE_AUTOUIC ON)
+	set(CMAKE_AUTORCC ON)
+	set(CMAKE_INCLUDE_CURRENT_DIR ON)
+	find_package(Qt5 COMPONENTS Core Widgets Location Quick REQUIRED)
+
+	if(Qt5Core_FOUND AND Qt5Widgets_FOUND AND Qt5Location_FOUND AND Qt5Quick_FOUND)
+		message("Found QT5.")
+		set(DO_BUILD_DATAVIS true)
+	else()
+	    message("Did not find QT5. Not building datavis.")
+		set(DO_BUILD_DATAVIS false)
+	endif()
+else()
+	set(DO_BUILD_DATAVIS false)
+endif()
+
+
+#----------------------------------------------------------------------------
 # HDF5
 #----------------------------------------------------------------------------
 if (NOT STRIDE_FORCE_NO_HDF5)
@@ -189,9 +217,11 @@ if (NOT STRIDE_FORCE_NO_HDF5)
     find_package(HDF5)
 endif()
 if(HDF5_FOUND)
+	message("HDF5 installation found.")
     include_directories(${HDF5_INCLUDE_DIR})
     set(LIBS ${LIBS} ${HDF5_LIBRARIES})
 else()
+	message("HDF5 not installed. Switching to local build.")
     include_directories(
         ${CMAKE_HOME_DIRECTORY}/main/resources/lib/hdf5/src
         ${CMAKE_SOURCE_DIR}/main/resources/lib/hdf5/c++/src
