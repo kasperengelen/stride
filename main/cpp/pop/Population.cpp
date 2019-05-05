@@ -40,7 +40,6 @@ using namespace std;
 using namespace stride::util;
 using namespace stride::ContactType;
 
-
 namespace stride {
 
 Population::Population() : m_pool_sys(), m_contact_logger(), m_geo_grid(this) {}

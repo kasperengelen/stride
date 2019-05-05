@@ -13,7 +13,6 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-
 #include "Populator.h"
 
 #include "contact/AgeBrackets.h"
@@ -22,14 +21,13 @@
 #include "geopop/Location.h"
 #include "pop/Person.h"
 
-
 namespace geopop {
 
 using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-template<>
+template <>
 void Populator<stride::ContactType::Id::Daycare>::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
         m_logger->trace("Starting to populate Daycares");

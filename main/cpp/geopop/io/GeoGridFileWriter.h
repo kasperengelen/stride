@@ -17,9 +17,9 @@
 
 #pragma once
 
+#include "GeoGridWriter.h"
 #include <memory>
 #include <ostream>
-#include "GeoGridWriter.h"
 
 namespace geopop {
 
@@ -33,7 +33,7 @@ class GeoGridFileWriter : public GeoGridWriter
 {
 public:
         /// Construct the Writer.
-        explicit GeoGridFileWriter(std::string filename) : m_filename(std::move(filename)) {};
+        explicit GeoGridFileWriter(std::string filename) : m_filename(std::move(filename)){};
 
         /// Write the GeoGrid to ostream.
         void Write(GeoGrid& geoGrid) override = 0;
