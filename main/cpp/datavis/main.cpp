@@ -13,10 +13,12 @@ using stride::datavis::Controller;
 using stride::datavis::Model;
 using stride::datavis::View;
 
+/**
+ * Main method.
+ */
 int main(int argc, char *argv[]) {
 
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
 	QApplication app(argc, argv);
 
 	// register QML elements
