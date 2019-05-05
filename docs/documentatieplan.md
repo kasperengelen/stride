@@ -12,7 +12,7 @@ Public members and methods are documented using brief comments indicated by '///
 
 
 ## Data visualiser
-We will provide a short document explaining all the functions of the visualiser.
+We will provide a short document explaining all the functions of the visualiser. The file formats that can be read by the visualiser are also documented.
 
 
 ## Input formats
@@ -29,7 +29,9 @@ Each team member writes the documentation for his own code. Afterwards, the docu
 Each team member writes parts of the manual for the features he implemented.
 
 ### Paper
-<insert here the responsibilities for the paper chapters>.
+The introduction and the abstract will be written by the entire team.
+The team member that is responsible for a section of the paper, is also responsible for the conclusions and the introduction of that section.
+Section 2.1 of the paper prepared before the implementation of the new features was performed by Kasper Engelen.
 
 
 
