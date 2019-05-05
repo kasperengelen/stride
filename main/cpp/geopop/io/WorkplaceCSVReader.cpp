@@ -25,7 +25,7 @@ using namespace stride::util;
 
 WorkplaceCSVReader::WorkplaceCSVReader(unique_ptr<istream> inputStream) : WorkplaceReader(move(inputStream)) {}
 
-void WorkplaceCSVReader::SetWorkplaceData(std::vector<double>& ratios, std::vector<std::tuple<unsigned int, unsigned int>>& sizes) const
+void WorkplaceCSVReader::SetWorkplaceData(std::vector<double>& ratios, std::vector<std::pair<unsigned int, unsigned int>>& sizes) const
 {
         CSV  reader(*(m_inputStream.get()));
 
@@ -33,7 +33,7 @@ void WorkplaceCSVReader::SetWorkplaceData(std::vector<double>& ratios, std::vect
                 // In file: ratio,size_min,size_max
                 ratios.emplace_back(row.GetValue<double>(0));
 
-                auto range = std::make_tuple(row.GetValue<unsigned int>(1), row.GetValue<unsigned int>(2));
+                auto range = std::make_pair(row.GetValue<unsigned int>(1), row.GetValue<unsigned int>(2));
                 sizes.emplace_back(range);
         }
 }

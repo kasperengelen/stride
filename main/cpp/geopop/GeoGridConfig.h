@@ -124,7 +124,7 @@ public:
                 std::vector<double> ratios;
 
                 /// Minimum and maximum size for each for each range
-                std::vector<std::tuple<unsigned int, unsigned int>> sizes;
+                std::vector<std::pair<unsigned int, unsigned int>> sizes;
         } workplaceSD;
 
 

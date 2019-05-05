@@ -57,7 +57,7 @@ TEST_F(WorkplaceGeneratorTest, ZeroLocationTest)
         m_gg_config.info.popcount_college    = 20000;
 
         m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
@@ -72,7 +72,7 @@ TEST_F(WorkplaceGeneratorTest, NoCommuting)
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0;
         m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
@@ -104,7 +104,7 @@ TEST_F(WorkplaceGeneratorTest, NullCommuting)
         m_gg_config.param.fraction_workplace_commuters = 0.10;
 
         m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -148,7 +148,7 @@ TEST_F(WorkplaceGeneratorTest, TenCommuting)
         m_gg_config.param.fraction_workplace_commuters = 0.10;
 
         m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_tuple(1,9), make_tuple(10,49), make_tuple(50,199),make_tuple(200,400)};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,

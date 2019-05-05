@@ -42,7 +42,7 @@ TEST(WorkplaceCSVReader, test1)
 
         reader.SetWorkplaceData(geoConfig.workplaceSD.ratios, geoConfig.workplaceSD.sizes);
 
-        const vector<double>& ratios = geoConfig.workplaceSD.ratios;
+        const auto& ratios = geoConfig.workplaceSD.ratios;
 
         EXPECT_EQ(ratios.size(), 4U);
         EXPECT_EQ(ratios[0], 0.778532842256952);
@@ -50,7 +50,7 @@ TEST(WorkplaceCSVReader, test1)
         EXPECT_EQ(ratios[2], 0.041003902521095);
         EXPECT_EQ(ratios[3], 0.00856213859619);
 
-        const vector<tuple<unsigned int, unsigned int>>& sizes = geoConfig.workplaceSD.sizes;
+        const auto& sizes = geoConfig.workplaceSD.sizes;
 
         EXPECT_EQ(sizes.size(), 4U);
         EXPECT_EQ(get<0>(sizes[0]), 1);

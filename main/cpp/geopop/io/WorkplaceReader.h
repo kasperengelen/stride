@@ -37,7 +37,7 @@ public:
         virtual ~WorkplaceReader() = default;
 
         /// Add the workplace size info to the GeoGridConfig.
-        virtual void SetWorkplaceData(std::vector<double>& ratios, std::vector<std::tuple<unsigned int, unsigned int>>& sizes) const = 0;
+        virtual void SetWorkplaceData(std::vector<double>& ratios, std::vector<std::pair<unsigned int, unsigned int>>& sizes) const = 0;
 
 protected:
         std::unique_ptr<std::istream> m_inputStream; ///< The istream with the file content.

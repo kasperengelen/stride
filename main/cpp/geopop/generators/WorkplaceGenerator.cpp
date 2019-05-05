@@ -40,15 +40,15 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
 
         for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++)
         {
-                const auto min_size = get<0>(ggConfig.workplaceSD.sizes[i]);
-                const auto max_size = get<1>(ggConfig.workplaceSD.sizes[i]);
+                const auto min_size = ggConfig.workplaceSD.sizes[i].first;
+                const auto max_size = ggConfig.workplaceSD.sizes[i].second;
 
 
                 avgPplPerWorkplace += ggConfig.workplaceSD.ratios[i] * (min_size + max_size) / 2;
         }
 
         const auto WorkplacesCount =
-                static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace)));
+                static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace * 1.0858333)));
 
         // = for each location #residents + #incoming commuting people - #outgoing commuting people
         vector<double> weights;
