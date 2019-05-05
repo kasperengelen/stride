@@ -10,19 +10,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2019, ACED.
+ *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-#include "PreSchoolPopulator.h"
-#include <geopop/GeoGridConfig.h>
+
+#include "Populator.h"
 
 #include "contact/AgeBrackets.h"
 #include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/GeoGridConfig.h"
 #include "geopop/Location.h"
 #include "pop/Person.h"
-#include "util/Assert.h"
+
 
 namespace geopop {
 
@@ -30,7 +29,8 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-void PreSchoolPopulator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
+template<>
+void Populator<stride::ContactType::Id::PreSchool>::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
         m_logger->trace("Starting to populate PreSchools");
 
@@ -40,7 +40,7 @@ void PreSchoolPopulator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridCon
                         continue;
                 }
                 // 1. find all daycares in an area of 10-k*10 km
-                const vector<ContactPool*>& classes = GetNearbyPools(Id::PreSchool, geoGrid, *loc);
+                const vector<ContactPool*>& classes = geoGrid.GetNearbyPools(Id::PreSchool, *loc);
 
                 auto dist = m_rn_man.GetUniformIntGenerator(0, static_cast<int>(classes.size()), 0U);
 
@@ -48,7 +48,7 @@ void PreSchoolPopulator::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridCon
                 for (auto& pool : loc->RefPools(Id::Household)) {
                         for (Person* p : *pool) {
                                 if (AgeBrackets::PreSchool::HasAge(p->GetAge()) &&
-                                    MakeChoice(geoGridConfig.input.participation_preschool)) {
+                                    m_rn_man.MakeWeightedCoinFlip(geoGridConfig.param.participation_preschool)) {
                                         auto& c = classes[dist()];
                                         c->AddMember(p);
                                         p->SetPoolId(Id::PreSchool, c->GetId());

@@ -131,6 +131,7 @@ Coordinate GeoGridJSONReader::ParseCoordinate(const json& coordinate)
 }
 
 ContactPool* GeoGridJSONReader::ParseContactPool(const json& contactPool, ContactType::Id typeId)
+
 {
         // Don't use the id of the ContactPool but the let the Population create an id.
         auto result = m_population->RefPoolSys().CreateContactPool(typeId);

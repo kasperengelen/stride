@@ -31,9 +31,8 @@ namespace stride {
 /**
  * Store and handle person data.
  */
-class Person
-{
-public:
+class Person {
+        public:
         /// Default construction (for population vector).
         Person() : m_age(0.0), m_id(0), m_pool_ids(), m_health(), m_in_pools(), m_is_participant() {}
 
@@ -41,32 +40,31 @@ public:
         Person(unsigned int id, float age, unsigned int householdId, unsigned int k12SchoolId, unsigned int collegeId,
                unsigned int workId, unsigned int primaryCommunityId, unsigned int secondaryCommunityId,
                unsigned int daycareId, unsigned int preSchoolId)
-            : m_age(age), m_id(id), m_pool_ids{householdId,        k12SchoolId,          collegeId, workId,
-                                               primaryCommunityId, secondaryCommunityId, daycareId, preSchoolId},
-              m_health(), m_in_pools(true), m_is_participant(false)
-        {
+                : m_age(age), m_id(id), m_pool_ids{householdId,        k12SchoolId,          collegeId, workId,
+                                                   primaryCommunityId, secondaryCommunityId, daycareId, preSchoolId},
+                  m_health(), m_in_pools(true), m_is_participant(false) {
         }
 
         /// Is this person not equal to the given person?
-        bool operator!=(const Person& p) const { return p.m_id != m_id; }
+        bool operator!=(const Person &p) const { return p.m_id != m_id; }
 
         /// Get the age.
         float GetAge() const { return m_age; }
 
         /// Return person's health status.
-        Health& GetHealth() { return m_health; }
+        Health &GetHealth() { return m_health; }
 
         /// Return person's health status.
-        const Health& GetHealth() const { return m_health; }
+        const Health &GetHealth() const { return m_health; }
 
         /// Get the id.
         unsigned int GetId() const { return m_id; }
 
         /// Get ID of contactpool_type
-        unsigned int GetPoolId(const ContactType::Id& poolType) const { return m_pool_ids[poolType]; }
+        unsigned int GetPoolId(const ContactType::Id &poolType) const { return m_pool_ids[poolType]; }
 
         /// Check if a person is present today in a given contact pool
-        bool IsInPool(const ContactType::Id& poolType) const { return m_in_pools[poolType]; }
+        bool IsInPool(const ContactType::Id &poolType) const { return m_in_pools[poolType]; }
 
         /// Does this person participates in the social contact study?
         bool IsSurveyParticipant() const { return m_is_participant; }
@@ -84,14 +82,13 @@ public:
         void SetId(unsigned int id) { m_id = id; }
 
         /// Sets (for the type of ContactPool) the Id of the ContactPool the person belongs to.
-        void SetPoolId(ContactType::Id type, unsigned int poolId)
-        {
+        void SetPoolId(ContactType::Id type, unsigned int poolId) {
                 m_pool_ids[type] = poolId;
                 m_in_pools[type] = (poolId != 0); // Means present in Household, absent elsewhere.
         }
 
-private:
-        float        m_age; ///< The age..
+        private:
+        float m_age; ///< The age..
         unsigned int m_id;  ///< The id.
 
         ///< Ids (school, work, etc) of pools you belong to Id value 0 means you do not belong to any
