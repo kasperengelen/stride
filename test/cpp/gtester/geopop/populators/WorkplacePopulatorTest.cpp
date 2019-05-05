@@ -307,7 +307,7 @@ TEST_F(WorkplacePopulatorTest, NoCommutingAvailable)
 
 TEST_F(WorkplacePopulatorTest, Distribution)
 {
-        MakeGeoGrid(m_gg_config, 3, 100000, 3, 33333, 3, m_pop.get());
+        MakeGeoGrid(m_gg_config, 3, 10000, 3, 3333, 3, m_pop.get());
 
         m_gg_config.param.fraction_workplace_commuters = 0.3;
         m_gg_config.param.fraction_college_commuters   = 0;
@@ -318,7 +318,7 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
 
         double avgPplPerWorkplace = 0;
-        auto EmployeeCount = 172000;
+        auto EmployeeCount = 17200;
         for (auto i = 0; i < (int)m_gg_config.workplaceSD.ratios.size(); i++)
         {
                 const auto min_size = m_gg_config.workplaceSD.sizes[i].first;
@@ -373,8 +373,6 @@ TEST_F(WorkplacePopulatorTest, Distribution)
                         }
 
                         for (int i = 0; i < (int)m_gg_config.workplaceSD.ratios.size(); i++) {
-                                if (sizePool >= 50)
-                                        cout << sizePool << endl;
                                 if (sizePool >= m_gg_config.workplaceSD.sizes[i].first and sizePool <= m_gg_config.workplaceSD.sizes[i].second) {
                                         ranges[i]++;
                                         sizes[i] += sizePool;
@@ -385,22 +383,17 @@ TEST_F(WorkplacePopulatorTest, Distribution)
 
                         if (!setP) {
                                 other++;
-                                cout << sizePool << endl;
                         }
                 }
         }
 
-        if (totalPools == 0)
-                totalPools = 1;
-        cout << "\nPeeps: " << totalPeeps << endl;
+        EXPECT_EQ(0, zero);
+        EXPECT_EQ(742, ranges[0]);
+        EXPECT_EQ(163, ranges[1]);
+        EXPECT_EQ(39, ranges[2]);
+        EXPECT_EQ(10, ranges[3]);
+        EXPECT_EQ(0, other);
 
-
-        cout << "\nZero: " << zero << ", " << static_cast<double>(zero)/totalPools << endl;
-        for (int i = 0; i < (int)ranges.size(); i++) {
-                auto range = static_cast<double>(ranges[i]);
-                cout << "Pff: " << range << ", " << range/totalPools << endl;
-        }
-        cout << "Above: " << other << ", " << static_cast<double>(other)/totalPools << endl;
 }
 
 
