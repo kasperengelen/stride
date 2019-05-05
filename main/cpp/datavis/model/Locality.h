@@ -72,8 +72,16 @@ public:
 	 * Parametrised constructor.
 	 *
 	 * @param name The place name of the locality.
-	 * @param coord The coordinate that represents the geographical location of the locality.
-	 * @param popCatMap An std::map that maps ContactType::Id to PopCategory objects.
+	 * @param coord The coordinate that represents the geographical location of the locality. The coordinate is of the (longtidude, latitude) format.
+	 * @param totalPopData A PopSection object that represents the total population of the locality.
+	 * @param householdData A PopSection object that represents the population that is part of a household.
+	 * @param k12schoolData A PopSection object that represents the population that is part of a k12 school.
+	 * @param collegeData A PopSection object that represents the population that is part of a college.
+	 * @param workplaceData A PopSection object that represents the population that is part of a workplace.
+	 * @param primCommunityData A PopSection object that represents the population that is part of a primary community.
+	 * @param secCommunityData A PopSection object that represents the population that is part of a secondary community.
+	 * @param daycareData A PopSection object that represents the population that is part of a daycare.
+	 * @param preschoolData A PopSection object that represents the population that is part of a preschool.
 	 */
 	explicit Locality(const std::string& name, const geopop::Coordinate& coord,
 			const PopSection& totalPopData, const PopSection& householdData,
@@ -97,7 +105,7 @@ public:
 	}
 
 	/**
-	 * Retrieve the geographical coordinate of the locality.
+	 * Retrieve the geographical coordinate of the locality. The coordinate is of the (longtidude, latitude) format.
 	 */
 	const geopop::Coordinate& GetCoordinate() const {
 		return m_coordinate;
@@ -175,17 +183,37 @@ public:
 	}
 
 private:
+	/// The name of the locality
 	std::string m_name;
+
+	/// The coordinate of the locality. The coordinate is of the (longtidude, latitude) format.
 	geopop::Coordinate m_coordinate;
 
+	/// Total population
 	PopSection m_total_pop;
+
+	/// Household population
 	PopSection m_household_pop;
+
+	/// K12 school population
 	PopSection m_k12school_pop;
+
+	/// College population
 	PopSection m_college_pop;
+
+	/// Workplace population
 	PopSection m_workplace_pop;
+
+	/// Primary community population
 	PopSection m_prim_community_pop;
+
+	/// Secondary community population
 	PopSection m_sec_community_pop;
+
+	/// Daycare population
 	PopSection m_daycare_pop;
+
+	/// Preschool population
 	PopSection m_preschool_pop;
 };
 
