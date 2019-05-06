@@ -24,14 +24,17 @@ namespace {
 
 bool compareGeoGrid(GeoGrid& geoGrid, const std::string& filename)
 {
-        GeoGridHDF5Writer writer(FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write");
+        GeoGridHDF5Writer writer(FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write.h5");
         writer.Write(geoGrid);
         auto              pop = Population::Create();
         GeoGridHDF5Reader reader(pop.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/" + filename);
         reader.Read();
+        auto              pop2 = Population::Create();
+        GeoGridHDF5Reader reader2(pop2.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write.h5");
+        reader2.Read();
         GeoGridCompare c;
-        c.CompareGeoGrid(geoGrid, pop->RefGeoGrid());
-        remove((FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write").c_str());
+        c.CompareGeoGrid(pop2->RefGeoGrid(), pop->RefGeoGrid());
+        remove((FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write.h5").c_str());
         return true;
 }
 
