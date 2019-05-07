@@ -21,7 +21,7 @@
 #pragma once
 
 #include "EpiReader.h"
-#include "util/json.hpp"
+#include "json.hpp"
 
 namespace stride {
 namespace datavis {

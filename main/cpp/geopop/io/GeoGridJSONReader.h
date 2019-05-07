@@ -19,7 +19,7 @@
 #include "contact/ContactPool.h"
 #include "contact/ContactType.h"
 #include "geopop/Location.h"
-#include "util/json.hpp"
+#include "json.hpp"
 
 namespace geopop {
 

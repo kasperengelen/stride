@@ -16,7 +16,7 @@
 #pragma once
 
 #include "HouseholdReader.h"
-#include "util/json.hpp"
+#include "json.hpp"
 
 #include <vector>
 

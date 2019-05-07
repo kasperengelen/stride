@@ -17,8 +17,6 @@
 #include "util/Exception.h"
 #include <boost/lexical_cast.hpp>
 
-#include "util/json.hpp"
-
 namespace geopop {
 
 using namespace std;

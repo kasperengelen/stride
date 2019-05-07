@@ -52,7 +52,7 @@ void EpiOutputFileViewer::Update(const sim_event::Id id)
                 break;
         }
         case Id::Finished: {
-                m_epioutput_file->Finish(sim->GetPopulation());
+                m_epioutput_file->Finish();
                 break;
         }
         default: break;

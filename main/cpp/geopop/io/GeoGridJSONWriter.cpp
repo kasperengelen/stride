@@ -19,7 +19,6 @@
 #include "geopop/GeoGrid.h"
 #include "pop/Person.h"
 
-#include "util/json.hpp"
 #include <boost/property_tree/json_parser.hpp>
 #include <iostream>
 #include <omp.h>
