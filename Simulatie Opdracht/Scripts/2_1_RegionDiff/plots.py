@@ -1,117 +1,36 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import math
+from modular_plots import *
 
-# format: [REGION,SR, COUNT, DAYS]
-param_lists = [
-    ["A", "0.002",      100, 50 ],
-    ["A", "0.0003",     100, 50 ],
-    ["A", "0.00000167", 100, 50 ],
-    ["A", "0.002",      100, 500],
-    ["A", "0.0003",     100, 500],
-    ["A", "0.00000167", 100, 500],
-    ["A", "0.00000167", 500, 500],
-    ["B", "0.002",      100, 50 ],
-    ["B", "0.0003",     100, 50 ],
-    ["B", "0.00000167", 100, 50 ],
-    ["B", "0.002",      100, 500],
-    ["B", "0.0003",     100, 500],
-    ["B", "0.00000167", 100, 500],
-    ["B", "0.00000167", 500, 500]
-]
+plot1 = ["RegionA_SR=0.002_Monday_Days=50_Cnt=1000.csv",       "RegionB_SR=0.002_Monday_Days=50_Cnt=1000.csv",       "plot_compSize_SR=0.002_Days=50",       None]
+plot2 = ["RegionA_SR=0.002_Monday_Days=300_Cnt=1000.csv",      "RegionB_SR=0.002_Monday_Days=300_Cnt=1000.csv",      "plot_compSize_SR=0.002_Days=300",      None]
+plot3 = ["RegionA_SR=0.00000167_Monday_Days=300_Cnt=1000.csv", "RegionB_SR=0.00000167_Monday_Days=300_Cnt=1000.csv", "plot_compRate_SR=0.00000167_Days=300", None]
+plot4 = ["RegionA_SR=0.00000167_Monday_Days=300_Cnt=1000.csv", "RegionB_SR=0.00000167_Monday_Days=300_Cnt=1000.csv", "plot_compSize_SR=0.00000167_Days=300", 92000]
 
-def getCSVFileName(param_list):
-    """Retrieve the filename of the CSV file that was generated for the specified parameters."""
-    return "./data/" + "region{}_stan_r0=11_VC=0.8_SR={}_cnt={}_days={}.csv".format(*param_list)
-#ENDFUNCTION
+source_folder = "./count1000/"
+target_folder = "./count1000_plots/"
 
-def getSVGFileName(param_list, plot_name):
-    """Retrieve the filename of the SVG file that will contain the plot of the CSV file that was generated for the specified parameters."""
-    return "./figs/" + "region{}_stan_r0=11_VC=0.8_SR={}_cnt={}_days={}_{}.svg".format(*(param_list + [plot_name]))
-#ENDFUNCTION
+def do_comparison_plot(csv_pair):
+    """Create plot in which two datasets are compared. The parameter 'csv_pair' determines what is compared."""
+    addCSVToPlot(source_folder + csv_pair[0], plot_type="CASE_PER_DAY_AVG", pattern="g", label="RegionA")
+    addCSVToPlot(source_folder + csv_pair[1], plot_type="CASE_PER_DAY_AVG", pattern="b", label="RegionB")
 
-def plot_all(param_lists, to_file=False):
-    for param_list in param_lists:
-        print("Plotting for parameters (region, seed rate, count, days): " + str(param_list))
-        plot_csv(param_list, to_file=to_file)
-#ENDFUNCTION
-
-def plot_csv(param_list, to_file=False):
-    # Import data from csv file
-    fname = getCSVFileName(param_list)
-    df = pd.read_csv(fname, sep=",", encoding="utf-8")
-
-    # Plot cumulative cases
-    for column in df:
-        x = range(len(df[column]))
-        y = df[column]
-        plt.plot(x, y, '-')
-
-    plt.title("Cumulative cases")
-    plt.xlabel("Day")
-    plt.ylabel("Cumulative cases")
-    #plt.legend(list(df.columns))
-    if to_file:
-        plt.gcf().savefig(getSVGFileName(param_list, "CUMULATIVE"))
-    else:
-        plt.show()
-    plt.clf()
-
-    # Plot cases per day
-    new_cases = list()
-    for column in df:
-            x = range(len(df[column]))
-            y = [df[column][i] - df[column][i-1] for i in range(1, len(df[column]))]
-            y.insert(df[column][0], 0)
-            new_cases.append(y)
-            plt.plot(x, y, '-')
-
-    plt.title("Cases per day")
     plt.xlabel("Day")
     plt.ylabel("New cases")
-    #plt.legend(list(df.columns))
-    if to_file:
-        plt.gcf().savefig(getSVGFileName(param_list, "CASE_PER_DAY"))
-    else:
-        plt.show()
-    plt.clf()
+    plt.legend()
 
-    # Calculate average new cases per day
-    n_timesteps = len(new_cases[0])
-    avg_df = list()
-    for timestep in range(n_timesteps):
-            avg = 0
-            for column in new_cases:
-                    avg += column[timestep]
-            avg /= len(new_cases)
-            avg_df.append(avg)
+    save_to_file(target_folder + csv_pair[2] + "_CASE_PER_DAY_AVG.svg")
 
-    plt.title("Cases per day (averaged)")
-    plt.xlabel("Day")
-    plt.ylabel("New cases")
-    plt.plot(range(len(avg_df)), avg_df, '-')
-    if to_file:
-        plt.gcf().savefig(getSVGFileName(param_list, "CASE_PER_DAY_AVG"))
-    else:
-        plt.show()
-    plt.clf()
+    addCSVToPlot(source_folder + csv_pair[0], plot_type="FINALDAY_HIST", pattern="g", alpha=0.5, label="RegionA", threshold_hist=csv_pair[3])
+    addCSVToPlot(source_folder + csv_pair[1], plot_type="FINALDAY_HIST", pattern="b", alpha=0.5, label="RegionB", threshold_hist=csv_pair[3])
 
-    # Plot histogram of final day frequencies
-    values = list()
-    for column in df:
-            infected = int(df[column][len(df[column])-1])
-            values.append(infected)
-
-    plt.title("Final frequency histogram")
-    plt.hist(values, bins=25)
-    plt.xlabel("Total cases")
+    plt.xlabel("Amount of infected")
     plt.ylabel("Frequency")
-    if to_file:
-        plt.gcf().savefig(getSVGFileName(param_list, "FINALDAY_HIST"))
-    else:
-        plt.show()
-    plt.clf()
-#ENDFUNCTION
+    plt.legend()
+    
+    save_to_file(target_folder + csv_pair[2] + "_FINALDAY_HIST.svg")
+# ENDFUNCTION
 
-if __name__ == "__main__":
-    plot_all(param_lists, True)
+for plot in [plot1, plot2, plot3, plot4]:
+    print("plotting {}".format(plot[2]))
+    do_comparison_plot(plot)
+
+ 

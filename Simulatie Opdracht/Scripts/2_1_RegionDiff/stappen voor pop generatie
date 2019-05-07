@@ -1,7 +1,0 @@
-1. genereren door te specifieren:
-        -> household csv file aanpassen
-        -> "./bin/stride -e genpop -c run_generate_default.xml"
-        -> daarna de proto file in root plaatsen
-        -> "./bin/stride -e sim -c run_generate_2_1.xml --stan 20"
-        -> resultaten bekijken
-        
