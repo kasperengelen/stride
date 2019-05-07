@@ -17,6 +17,7 @@
 
 #include <istream>
 #include <memory>
+#include <vector>
 
 namespace geopop {
 
