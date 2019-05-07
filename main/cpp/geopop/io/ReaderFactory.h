@@ -18,6 +18,7 @@
 #include "CommutesReader.h"
 #include "HouseholdReader.h"
 #include "LocationsReader.h"
+#include "WorkplaceReader.h"
 
 #include <istream>
 #include <memory>
@@ -43,10 +44,10 @@ class ReaderFactory
 {
 public:
         /// Create a Reader based on the filename relative to the data directory.
-        static std::shared_ptr<LocationsReader> CreateLocationsReader(const std::string &filename);
+        static std::shared_ptr<LocationsReader> CreateLocationsReader(const std::string& filename);
 
         /// Create a Reader based on an absolute filesystem path for the input file.
-        static std::shared_ptr<LocationsReader> CreateLocationsReader(const filesys::path &path);
+        static std::shared_ptr<LocationsReader> CreateLocationsReader(const filesys::path& path);
 
         /// Create a CommutesReader based on the filename relative to the data directory.
         static std::shared_ptr<CommutesReader> CreateCommutesReader(const std::string& filename);
@@ -59,6 +60,12 @@ public:
 
         /// Create a HouseholdReader based on the absolute filesystem path the input file.
         static std::shared_ptr<HouseholdReader> CreateHouseholdReader(const filesys::path& path);
+
+        /// Create a HouseholdReader based on the filename relative to the data directory.
+        static std::shared_ptr<WorkplaceReader> CreateWorkplaceReader(const std::string& filename);
+
+        /// Create a HouseholdReader based on the absolute filesystem path the input file.
+        static std::shared_ptr<WorkplaceReader> CreateWorkplaceReader(const filesys::path& path);
 
 private:
         /// Create an istream based on the filesystem path.

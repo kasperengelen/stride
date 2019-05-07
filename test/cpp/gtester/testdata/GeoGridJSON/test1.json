@@ -1,42 +1,85 @@
 {
     "locations": [
         {
-            "id": "1",
-            "name": "Bavikhove",
-            "province": "4",
-            "population": "2500",
             "coordinate": {
-                "longitude": "0",
-                "latitude": "0"
+                "latitude": 0.0,
+                "longitude": 0.0
             },
-            "contactCenters": [
+            "commute": [],
+            "contactPools": [
                 {
-                    "id": "0",
-                    "type": "K12School",
-                    "pools": ""
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "Household"
                 },
                 {
-                    "id": "1",
-                    "type": "PrimaryCommunity",
-                    "pools": ""
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "K12School"
                 },
                 {
-                    "id": "2",
-                    "type": "College",
-                    "pools": ""
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "College"
                 },
                 {
-                    "id": "3",
-                    "type": "Household",
-                    "pools": ""
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "Workplace"
                 },
                 {
-                    "id": "4",
-                    "type": "Workplace",
-                    "pools": ""
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": []
+                        }
+                    ],
+                    "type": "PreSchool"
                 }
-            ]
+            ],
+            "id": 1,
+            "name": "Bavikhove",
+            "population": 2500,
+            "province": 4
         }
     ],
-    "persons": ""
+    "persons": []
 }

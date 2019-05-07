@@ -1,38 +1,140 @@
 {
-  "locations": [
-    {
-      "id": "1",
-      "name": "Bavikhove",
-      "province": "4",
-      "population": "2500",
-      "coordinate": {
-        "longitude": "0",
-        "latitude": "0"
-      },
-      "contactCenters": ""
-    },
-    {
-      "id": "2",
-      "name": "Gent",
-      "province": "3",
-      "population": "5000",
-      "coordinate": {
-        "longitude": "0",
-        "latitude": "0"
-      },
-      "contactCenters": ""
-    },
-    {
-      "id": "3",
-      "name": "Mons",
-      "province": "2",
-      "population": "2500",
-      "coordinate": {
-        "longitude": "0",
-        "latitude": "0"
-      },
-      "contactCenters": ""
-    }
-  ],
-  "persons": ""
+    "locations": [
+        {
+            "coordinate": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "commute": [],
+            "contactPools": [
+                {
+                    "pools": [],
+                    "type": "Household"
+                },
+                {
+                    "pools": [],
+                    "type": "K12School"
+                },
+                {
+                    "pools": [],
+                    "type": "College"
+                },
+                {
+                    "pools": [],
+                    "type": "Workplace"
+                },
+                {
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
+                }
+            ],
+            "id": 1,
+            "name": "Bavikhove",
+            "population": 2500,
+            "province": 4
+        },
+        {
+            "coordinate": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "commute": [],
+            "contactPools": [
+                {
+                    "pools": [],
+                    "type": "Household"
+                },
+                {
+                    "pools": [],
+                    "type": "K12School"
+                },
+                {
+                    "pools": [],
+                    "type": "College"
+                },
+                {
+                    "pools": [],
+                    "type": "Workplace"
+                },
+                {
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
+                }
+            ],
+            "id": 2,
+            "name": "Gent",
+            "population": 5000,
+            "province": 3
+        },
+        {
+            "coordinate": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "commute": [],
+            "contactPools": [
+                {
+                    "pools": [],
+                    "type": "Household"
+                },
+                {
+                    "pools": [],
+                    "type": "K12School"
+                },
+                {
+                    "pools": [],
+                    "type": "College"
+                },
+                {
+                    "pools": [],
+                    "type": "Workplace"
+                },
+                {
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
+                }
+            ],
+            "id": 3,
+            "name": "Mons",
+            "population": 2500,
+            "province": 2
+        }
+    ],
+    "persons": []
 }

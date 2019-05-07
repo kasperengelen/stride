@@ -1,3 +1,4 @@
+# HEAD
 language: cpp
 dist: xenial
 
@@ -17,7 +18,6 @@ addons:
       - ubuntu-toolchain-r-test
       - boost-latest
     packages: &default_packages
-      - libhdf5-dev
       - doxygen
       - graphviz
 
@@ -114,18 +114,48 @@ install:
         echo "Already have swig cache"
       fi
       export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
+
+      # QT 5.12.1 installation
+      # SOURCE: Stephan Binner, Laurens
+
+      # open gl for QT
+      sudo apt-get install libgl-dev
+
+      # # Stephan Binner packages
+      sudo add-apt-repository ppa:beineri/opt-qt-5.12.1-xenial -y
+      sudo apt-get update -qq
+      sudo apt-get install -y -q qt512base
+      sudo apt-get install -y -q qt512svg
+      sudo apt-get install -y -q qt512quickcontrols
+      sudo apt-get install -y -q qt512graphicaleffects
+      sudo apt-get install -y -q qt512tools
+      sudo apt-get install -y -q qt512quickcontrols2
+      sudo apt-get install -y -q qt512location
+      source /opt/qt512/bin/qt512-env.sh # not really needed, but recommended by Stephan Binner
+
+      #--- HDF5 --- SOURCE "https://stackoverflow.com/questions/31719451/install-hdf5-and-pytables-in-ubuntu"
+      sudo apt-get install libhdf5-serial-dev
     fi
     #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew upgrade python cmake
-      brew install ccache swig
+      # stride dependencies
+      brew install ccache
+      brew install swig
+
+      # install qt5 for brew # SOURCE: https://github.com/pcolby/aws-sdk-qt/blob/master/.travis.yml, laurens
+      brew install qt
+      brew link --force qt
+
+      # install HDF5
+      brew install hdf5
     fi
     #--------- All platforms
   - |
     #           STRIDE_FORCE_NO_BOOST: do not use bjam to build boost (mac+gcc problems)
-    #			STRIDE_BOOST_ROOT: specify where the correct version of boost can be found
-    #			STRIDE_BOOST_NO_SYSTEM_PATHS: should be ON to prevent mixing different versions of boost
+    #     STRIDE_BOOST_ROOT: specify where the correct version of boost can be found
+    #     STRIDE_BOOST_NO_SYSTEM_PATHS: should be ON to prevent mixing different versions of boost
     if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_ID" == "gcc" ]]; then
       export STRIDE_FORCE_NO_BOOST=ON
       export STRIDE_BOOST_NO_SYSTEM_PATHS=ON

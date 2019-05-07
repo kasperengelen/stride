@@ -1,28 +1,18 @@
-/*
- *  This is free software: you can redistribute it and/or modify it
- *  under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  any later version.
- *  The software is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *  You should have received a copy of the GNU General Public License
- *  along with the software. If not, see <http://www.gnu.org/licenses/>.
- *
- *  Copyright 2019, ACED.
- */
-
 #include "GeoGridIOUtils.h"
 
+#include "GeoGridCompare.h"
+#include "contact/ContactPool.h"
 #include "geopop/GeoGridConfig.h"
-//#include "geopop/io/GeoGridHDF5Writer.h"
+#include "geopop/io/GeoGridHDF5Reader.h"
+#include "geopop/io/GeoGridHDF5Writer.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
+#include <H5Cpp.h>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
+#include <stdio.h>
 
 using namespace std;
 using namespace geopop;
@@ -31,9 +21,61 @@ using namespace stride::ContactType;
 using namespace stride::util;
 
 namespace {
-TEST(GeoGridHDF5WriterTest, locationTest) {}
-TEST(GeoGridHDF5WriterTest, contacPoolTest) {}
-TEST(GeoGridHDF5WriterTest, peopleTest) {}
-TEST(GeoGridHDF5WriterTest, commutesTest) {}
+
+bool compareGeoGrid(GeoGrid& geoGrid, const std::string& filename)
+{
+        GeoGridHDF5Writer writer(FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write.h5");
+        writer.Write(geoGrid);
+        auto              pop = Population::Create();
+        GeoGridHDF5Reader reader(pop.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/" + filename);
+        reader.Read();
+        auto              pop2 = Population::Create();
+        GeoGridHDF5Reader reader2(pop2.get(), FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write.h5");
+        reader2.Read();
+        GeoGridCompare c;
+        c.CompareGeoGrid(pop2->RefGeoGrid(), pop->RefGeoGrid());
+        remove((FileSys::GetTestsDir().string() + "/testdata/GeoGridHDF5/write.h5").c_str());
+        return true;
+}
+
+TEST(GeoGridHDF5WriterTest, locationTest)
+{
+        const auto pop     = Population::Create();
+        auto&      geoGrid = pop->RefGeoGrid();
+        geoGrid.AddLocation(make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500));
+        geoGrid.AddLocation(make_shared<Location>(2, 3, Coordinate(0, 0), "Gent", 5000));
+        geoGrid.AddLocation(make_shared<Location>(3, 2, Coordinate(0, 0), "Mons", 2500));
+
+        EXPECT_TRUE(compareGeoGrid(geoGrid, "test0.h5"));
+}
+
+TEST(GeoGridHDF5WriterTest, contactPoolsTest)
+{
+        auto  pop     = Population::Create();
+        auto& geoGrid = pop->RefGeoGrid();
+        auto  loc     = make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
+        loc->RefPools(Id::K12School).emplace_back(pop->RefPoolSys().CreateContactPool(Id::K12School));
+        loc->RefPools(Id::PrimaryCommunity).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PrimaryCommunity));
+        loc->RefPools(Id::College).emplace_back(pop->RefPoolSys().CreateContactPool(Id::College));
+        loc->RefPools(Id::Household).emplace_back(pop->RefPoolSys().CreateContactPool(Id::Household));
+        loc->RefPools(Id::Workplace).emplace_back(pop->RefPoolSys().CreateContactPool(Id::Workplace));
+        loc->RefPools(Id::Daycare).emplace_back(pop->RefPoolSys().CreateContactPool(Id::Daycare));
+        loc->RefPools(Id::PreSchool).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PreSchool));
+        geoGrid.AddLocation(loc);
+
+        EXPECT_TRUE(compareGeoGrid(geoGrid, "test1.h5"));
+}
+
+TEST(GeoGridHDF5WriterTest, peopleTest)
+{
+        auto pop = Population::Create();
+        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get()), "test2.h5"));
+}
+
+TEST(GeoGridHDF5WriterTest, commutesTest)
+{
+        auto pop = Population::Create();
+        EXPECT_TRUE(compareGeoGrid(*GetCommutesGeoGrid(pop.get()), "test3.h5"));
+}
 
 } // namespace

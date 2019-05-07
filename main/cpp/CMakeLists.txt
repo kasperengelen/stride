@@ -83,8 +83,11 @@ set(STRIDE_SRC
     #---
     geopop/io/LocationsCSVReader.cpp
     geopop/io/CommutesCSVReader.cpp
-    #geopop/io/GeoGridJSONReader.cpp
-    #geopop/io/GeoGridJSONWriter.cpp
+    geopop/io/GeoGridFileWriter.h
+    geopop/io/GeoGridJSONReader.cpp
+    geopop/io/GeoGridJSONWriter.cpp
+    geopop/io/GeoGridHDF5Reader.cpp
+    geopop/io/GeoGridHDF5Writer.cpp
     geopop/io/GeoGridProtoReader.cpp
     geopop/io/GeoGridProtoReader.h
     geopop/io/GeoGridProtoWriter.cpp
@@ -92,10 +95,14 @@ set(STRIDE_SRC
     geopop/io/GeoGridReader.cpp
     geopop/io/GeoGridReaderFactory.cpp
     geopop/io/GeoGridReaderFactory.h
+    geopop/io/GeoGridStreamWriter.h
     geopop/io/GeoGridWriterFactory.cpp
     geopop/io/GeoGridWriterFactory.h
     geopop/io/HouseholdCSVReader.cpp
+    geopop/io/HouseholdJSONReader.cpp
     geopop/io/ReaderFactory.cpp
+    geopop/io/WorkplaceCSVReader.cpp
+    geopop/io/WorkplaceCSVReader.h
     #---
     geopop/populators/CollegePopulator.cpp
     geopop/populators/DaycarePopulator.cpp
@@ -147,6 +154,7 @@ set(STRIDE_SRC
     viewers/EpiOutputFileViewer.cpp
 )
 
+
 #============================================================================
 # Build the Stride library.
 #============================================================================
@@ -162,7 +170,8 @@ endif()
 if(HDF5_FOUND)
     target_link_libraries(libstride PRIVATE hdf5_cpp)
 else()
-    target_link_libraries(libstride PRIVATE ${_hdf5_libs})
+    target_link_libraries(libstride PRIVATE hdf5-static)
+    target_link_libraries(libstride PRIVATE hdf5_cpp-static)
 endif()
 
 set_target_properties(libstride
@@ -184,10 +193,48 @@ include(CheckIPOSupported)
 # Build the stride binary.
 #============================================================================
 add_executable(stride execs/stride.cpp)
-if(NOT HDF5_FOUND)
-        add_dependencies(stride hdf5)
-endif()
 target_link_libraries(stride libstride)
 install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
+
+#============================================================================
+# Data visualiser sources.
+#============================================================================
+# WARNING!!: MAKE SURE THESE ARE -CORRECT-, otherwise a "no sources specified" error will be shown!!
+set(DATAVIS_SRC
+	# controller
+	datavis/controller/Controller.cpp
+	# view
+	datavis/view/LocalityView.cpp
+	datavis/view/View.cpp
+    # model
+    datavis/model/Locality.cpp
+    datavis/model/Model.cpp
+    # epi output readers
+    datavis/readers/EpiReader.cpp
+    datavis/readers/HDF5EpiReader.cpp
+    datavis/readers/JSONEpiReader.cpp
+    datavis/readers/ProtobufEpiReader.cpp
+    # main
+    datavis/main.cpp
+    datavis/qml.qrc
+)
+
+#============================================================================
+# Build data visualiser binary.
+#============================================================================
+if(DO_BUILD_DATAVIS)
+	message("Adding datavis build target.")
+    add_executable(stride_datavis ${DATAVIS_SRC})
+  
+    target_link_libraries(stride_datavis libstride) # give data visualiser access to the stride library
+    
+    target_link_libraries(stride_datavis Qt5::Core)
+    target_link_libraries(stride_datavis Qt5::Widgets)
+    target_link_libraries(stride_datavis Qt5::Location)
+
+    set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
+    
+    install(TARGETS stride_datavis DESTINATION ${BIN_INSTALL_LOCATION})
+endif()
 
 #############################################################################

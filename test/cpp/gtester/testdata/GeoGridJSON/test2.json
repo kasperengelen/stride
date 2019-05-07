@@ -1,100 +1,119 @@
 {
     "locations": [
         {
-            "id": "1",
-            "name": "Bavikhove",
-            "province": "4",
-            "population": "2500",
             "coordinate": {
-                "longitude": "0",
-                "latitude": "0"
+                "latitude": 0.0,
+                "longitude": 0.0
             },
-            "contactCenters": [
+            "commute": [],
+            "contactPools": [
                 {
-                    "id": "0",
-                    "type": "K12School",
                     "pools": [
                         {
-                            "id": "2",
+                            "id": 1,
                             "people": [
-                                "0"
+                                0
                             ]
                         }
-                    ]
+                    ],
+                    "type": "Household"
                 },
                 {
-                    "id": "1",
-                    "type": "PrimaryCommunity",
                     "pools": [
                         {
-                            "id": "3",
+                            "id": 1,
                             "people": [
-                                "0"
+                                0
                             ]
                         }
-                    ]
+                    ],
+                    "type": "K12School"
                 },
                 {
-                    "id": "2",
-                    "type": "SecondaryCommunity",
                     "pools": [
                         {
-                            "id": "7",
+                            "id": 1,
                             "people": [
-                                "0"
+                                0
                             ]
                         }
-                    ]
+                    ],
+                    "type": "College"
                 },
                 {
-                    "id": "3",
-                    "type": "College",
                     "pools": [
                         {
-                            "id": "4",
+                            "id": 1,
                             "people": [
-                                "0"
+                                0
                             ]
                         }
-                    ]
+                    ],
+                    "type": "Workplace"
                 },
                 {
-                    "id": "4",
-                    "type": "Household",
                     "pools": [
                         {
-                            "id": "5",
+                            "id": 1,
                             "people": [
-                                "0"
+                                0
                             ]
                         }
-                    ]
+                    ],
+                    "type": "PrimaryCommunity"
                 },
                 {
-                    "id": "5",
-                    "type": "Workplace",
                     "pools": [
                         {
-                            "id": "6",
+                            "id": 1,
                             "people": [
-                                "0"
+                                0
                             ]
                         }
-                    ]
+                    ],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": [
+                                0
+                            ]
+                        }
+                    ],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [
+                        {
+                            "id": 1,
+                            "people": [
+                                0
+                            ]
+                        }
+                    ],
+                    "type": "PreSchool"
                 }
-            ]
+            ],
+            "id": 1,
+            "name": "Bavikhove",
+            "population": 2500,
+            "province": 4
         }
     ],
     "persons": [
         {
-            "id": "0",
-            "age": "18",
-            "K12School": "2",
-            "College": "4",
-            "Household": "5",
-            "Workplace": "6",
-            "PrimaryCommunity": "3",
-            "SecondaryCommunity": "7"
+            "College": 1,
+            "Daycare": 1,
+            "Household": 1,
+            "K12School": 1,
+            "Preschool": 1,
+            "PrimaryCommunity": 1,
+            "SecondaryCommunity": 1,
+            "Workplace": 1,
+            "age": 18.0,
+            "id": 0
         }
     ]
 }

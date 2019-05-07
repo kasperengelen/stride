@@ -43,12 +43,12 @@ public:
         /// People per unit (= Household, K12School, College, etc.) for each of the ContactTypes.
         /// Default initialization. Order in which contacttypes are listed in the
         /// definition of the enumeration must be respected!
-        stride::ContactType::IdSubscriptArray<unsigned int> people {0U, 500U, 3000U, 20U, 2000U, 2000U, 14U, 90U};
+        stride::ContactType::IdSubscriptArray<unsigned int> people{0U, 500U, 3000U, 20U, 2000U, 2000U, 14U, 90U};
 
         /// Pools per unit (= Household, K12School, College, etc.) for each of the ContactTypes.
         /// Default initialization. Order in which contacttypes are listed in the
         /// definition of the enumeration must be respected!
-        stride::ContactType::IdSubscriptArray<unsigned int> pools {1U, 25U, 20U, 1U, 1U, 1U, 1U, 6U};
+        stride::ContactType::IdSubscriptArray<unsigned int> pools{1U, 25U, 20U, 1U, 1U, 1U, 1U, 6U};
 
         // -----------------------------------------------------------------------------------------
         // Parameters set by constructor with configuration property tree.
@@ -118,10 +118,25 @@ public:
                 unsigned int count_households;
         } info;
 
+        struct
+        {
+                /// Ratios for each workplace each size range
+                std::vector<double> ratios;
+
+                /// Minimum and maximum size for each for each range
+                std::vector<std::pair<unsigned int, unsigned int>> sizes;
+        } workplaceSD;
+
+
         // -----------------------------------------------------------------------------------------
-        /// Read the househould data file, parse it and set data.
+        // Read the househould data file, parse it and set data.
         // -----------------------------------------------------------------------------------------
         void SetData(const std::string& householdsFileName);
+
+        // -----------------------------------------------------------------------------------------
+        // Read the workplace size distribution file, parse it and set data.
+        // -----------------------------------------------------------------------------------------
+        void SetWorkplaceData(const std::string& workplaceFileName);
 };
 
 } // namespace geopop

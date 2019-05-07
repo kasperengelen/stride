@@ -15,13 +15,12 @@
 
 #include "GeoGridJSONReader.h"
 
-#include "geopop/ContactCenter.h"
 #include "geopop/GeoGrid.h"
 #include "pop/Population.h"
 #include "util/Exception.h"
+#include "util/json.hpp"
 
 #include <boost/lexical_cast.hpp>
-#include <boost/property_tree/json_parser.hpp>
 #include <memory>
 
 namespace geopop {
@@ -30,6 +29,7 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 using namespace stride::util;
+using json = nlohmann::json;
 
 GeoGridJSONReader::GeoGridJSONReader(unique_ptr<istream> inputStream, Population* pop)
     : GeoGridReader(move(inputStream), pop)
@@ -38,26 +38,22 @@ GeoGridJSONReader::GeoGridJSONReader(unique_ptr<istream> inputStream, Population
 
 void GeoGridJSONReader::Read()
 {
-        boost::property_tree::ptree root;
+        json root;
         try {
-                boost::property_tree::read_json(*m_inputStream, root);
+                *m_inputStream >> root;
         } catch (runtime_error&) {
                 throw Exception("Problem parsing JSON file, check whether empty or invalid JSON.");
         }
 
         auto& geoGrid = m_population->RefGeoGrid();
-        auto  people  = root.get_child("persons");
 
-        for (auto it = people.begin(); it != people.end(); it++) {
-                auto person               = ParsePerson(it->second.get_child(""));
+        for (const auto& person_json : root["persons"]) {
+                auto person               = ParsePerson(person_json);
                 m_people[person->GetId()] = person;
         }
-        auto locations = root.get_child("locations");
 
-        for (auto it = locations.begin(); it != locations.end(); it++) {
-                shared_ptr<Location> loc;
-                loc = ParseLocation(it->second.get_child(""));
-                geoGrid.AddLocation(move(loc));
+        for (const auto& location : root["locations"]) {
+                geoGrid.AddLocation(ParseLocation(location));
         }
 
         AddCommutes(geoGrid);
@@ -65,85 +61,83 @@ void GeoGridJSONReader::Read()
         m_people.clear();
 }
 
-shared_ptr<Location> GeoGridJSONReader::ParseLocation(boost::property_tree::ptree& location)
+Person* GeoGridJSONReader::ParsePerson(const json& person)
 {
-        const auto id         = boost::lexical_cast<unsigned int>(location.get<string>("id"));
-        const auto name       = location.get<string>("name");
-        const auto province   = boost::lexical_cast<unsigned int>(location.get<string>("province"));
-        const auto population = boost::lexical_cast<unsigned int>(location.get<string>("population"));
-        const auto coordinate = ParseCoordinate(location.get_child("coordinate"));
+        const auto id   = boost::lexical_cast<unsigned int>(person["id"]);
+        const auto age  = boost::lexical_cast<float>(person["age"]);
+        const auto hhId = boost::lexical_cast<unsigned int>(person["Household"]);
+        const auto ksId = boost::lexical_cast<unsigned int>(person["K12School"]);
+        const auto coId = boost::lexical_cast<unsigned int>(person["College"]);
+        const auto wpId = boost::lexical_cast<unsigned int>(person["Workplace"]);
+        const auto pcId = boost::lexical_cast<unsigned int>(person["PrimaryCommunity"]);
+        const auto scId = boost::lexical_cast<unsigned int>(person["SecondaryCommunity"]);
+        const auto dcId = boost::lexical_cast<unsigned int>(person["Daycare"]);
+        const auto psId = boost::lexical_cast<unsigned int>(person["Preschool"]);
 
-        auto result         = make_shared<Location>(id, province, coordinate, name, population);
-        auto contactCenters = location.get_child("contactCenters");
+        return m_population->CreatePerson(id, age, hhId, ksId, coId, wpId, pcId, scId, dcId, psId);
+}
 
-        for (auto it = contactCenters.begin(); it != contactCenters.end(); it++) {
-                const auto center = ParseContactCenter(it->second.get_child(""));
-                result->AddCenter(center);
-        }
+shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
+{
+        const auto   id         = boost::lexical_cast<unsigned int>(location["id"]);
+        const string name       = location["name"];
+        const auto   province   = boost::lexical_cast<unsigned int>(location["province"]);
+        const auto   population = boost::lexical_cast<unsigned int>(location["population"]);
+        const auto   coordinate = ParseCoordinate(location["coordinate"]);
 
-        if (location.count("commutes")) {
-                boost::property_tree::ptree commutes = location.get_child("commutes");
-                for (auto it = commutes.begin(); it != commutes.end(); it++) {
-                        const auto to     = boost::lexical_cast<unsigned int>(it->first);
-                        const auto amount = boost::lexical_cast<double>(it->second.data());
-                        m_commutes.emplace_back(id, to, amount);
+        auto result = make_shared<Location>(id, province, coordinate, name, population);
+
+        for (const auto& pools : location["contactPools"]) {
+                const string type_str = pools["type"];
+                Id           type;
+                if (type_str == ToString(Id::K12School)) {
+                        type = Id::K12School;
+                } else if (type_str == ToString(Id::College)) {
+                        type = Id::College;
+                } else if (type_str == ToString(Id::Household)) {
+                        type = Id::Household;
+                } else if (type_str == ToString(Id::PrimaryCommunity)) {
+                        type = Id::PrimaryCommunity;
+                } else if (type_str == ToString(Id::SecondaryCommunity)) {
+                        type = Id::SecondaryCommunity;
+                } else if (type_str == ToString(Id::Workplace)) {
+                        type = Id::Workplace;
+                } else if (type_str == ToString(Id::Daycare)) {
+                        type = Id::Daycare;
+                } else if (type_str == ToString(Id::PreSchool)) {
+                        type = Id::PreSchool;
+                } else {
+                        throw util::Exception("No such ContactCenter type: " + type_str);
+                }
+                for (const auto& pool : pools["pools"]) {
+                        result->RegisterPool(ParseContactPool(pool, type), type);
                 }
         }
 
+        for (auto commute : location["commute"]) {
+                const auto to     = boost::lexical_cast<unsigned int>(commute["to"]);
+                const auto amount = boost::lexical_cast<double>(commute["proportion"]);
+                m_commutes.emplace_back(id, to, amount);
+        }
+
         return result;
 }
 
-Coordinate GeoGridJSONReader::ParseCoordinate(boost::property_tree::ptree& coordinate)
+Coordinate GeoGridJSONReader::ParseCoordinate(const json& coordinate)
 {
-        const auto longitude = boost::lexical_cast<double>(coordinate.get<string>("longitude"));
-        const auto latitude  = boost::lexical_cast<double>(coordinate.get<string>("latitude"));
+        const auto longitude = boost::lexical_cast<double>(coordinate["longitude"]);
+        const auto latitude  = boost::lexical_cast<double>(coordinate["latitude"]);
         return {longitude, latitude};
 }
 
-shared_ptr<ContactCenter> GeoGridJSONReader::ParseContactCenter(boost::property_tree::ptree& contactCenter)
-{
-        const auto type = contactCenter.get<string>("type");
-        const auto id   = boost::lexical_cast<unsigned int>(contactCenter.get<string>("id"));
+ContactPool* GeoGridJSONReader::ParseContactPool(const json& contactPool, ContactType::Id typeId)
 
-        ContactType::Id typeId;
-        if (type == ToString(Id::K12School)) {
-                typeId = Id::K12School;
-        } else if (type == ToString(Id::College)) {
-                typeId = Id::College;
-        } else if (type == ToString(Id::Household)) {
-                typeId = Id::Household;
-        } else if (type == ToString(Id::PrimaryCommunity)) {
-                typeId = Id::PrimaryCommunity;
-        } else if (type == ToString(Id::SecondaryCommunity)) {
-                typeId = Id::SecondaryCommunity;
-        } else if (type == ToString(Id::Workplace)) {
-                typeId = Id::Workplace;
-        } else if (type == ToString(Id::Daycare)) {
-                typeId = Id::Daycare;
-        } else if (type == ToString(Id::PreSchool)) {
-                typeId = Id::PreSchool;
-        } else {
-                throw Exception("No such ContactCenter type: " + type);
-        }
-        auto result       = make_shared<ContactCenter>(id, typeId);
-        auto contactPools = contactCenter.get_child("pools");
-
-        for (auto it = contactPools.begin(); it != contactPools.end(); it++) {
-                const auto pool = ParseContactPool(it->second.get_child(""), typeId);
-                result->RegisterPool(pool);
-        }
-
-        return result;
-}
-
-ContactPool* GeoGridJSONReader::ParseContactPool(boost::property_tree::ptree& contactPool, ContactType::Id typeId)
 {
         // Don't use the id of the ContactPool but the let the Population create an id.
         auto result = m_population->RefPoolSys().CreateContactPool(typeId);
-        auto people = contactPool.get_child("people");
 
-        for (auto it = people.begin(); it != people.end(); it++) {
-                auto person_id = boost::lexical_cast<unsigned int>(it->second.get<string>(""));
+        for (const auto& person : contactPool["people"]) {
+                auto person_id = boost::lexical_cast<unsigned int>(person);
                 if (m_people.count(person_id) == 0) {
                         throw Exception("No such person: " + to_string(person_id));
                 }
@@ -151,22 +145,6 @@ ContactPool* GeoGridJSONReader::ParseContactPool(boost::property_tree::ptree& co
         }
 
         return result;
-}
-
-Person* GeoGridJSONReader::ParsePerson(boost::property_tree::ptree& person)
-{
-        const auto id   = boost::lexical_cast<unsigned int>(person.get<string>("id"));
-        const auto age  = boost::lexical_cast<unsigned int>(person.get<string>("age"));
-        const auto hhId = boost::lexical_cast<unsigned int>(person.get<string>("Household"));
-        const auto ksId = boost::lexical_cast<unsigned int>(person.get<string>("K12School"));
-        const auto coId = boost::lexical_cast<unsigned int>(person.get<string>("College"));
-        const auto wpId = boost::lexical_cast<unsigned int>(person.get<string>("Workplace"));
-        const auto pcId = boost::lexical_cast<unsigned int>(person.get<string>("PrimaryCommunity"));
-        const auto scId = boost::lexical_cast<unsigned int>(person.get<string>("SecondaryCommunity"));
-        const auto dcId = boost::lexical_cast<unsigned int>(person.get<string>("Daycare"));
-        const auto psId = boost::lexical_cast<unsigned int>(person.get<string>("PreSchool"));
-
-        return m_population->CreatePerson(id, age, hhId, ksId, coId, wpId, pcId, scId, dcId, psId);
 }
 
 } // namespace geopop

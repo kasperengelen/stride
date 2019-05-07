@@ -21,7 +21,7 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-template<>
+template <>
 void Generator<stride::ContactType::Id::Daycare>::Apply(GeoGrid& geoGrid, const GeoGridConfig& ggConfig)
 {
         // 1. given the number of persons of school age, calculate number of schools
@@ -31,7 +31,7 @@ void Generator<stride::ContactType::Id::Daycare>::Apply(GeoGrid& geoGrid, const 
 
         const auto pupilCount = ggConfig.info.popcount_daycare;
         const auto daycareCount =
-                static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(ggConfig.people[Id::Daycare])));
+            static_cast<unsigned int>(ceil(pupilCount / static_cast<double>(ggConfig.people[Id::Daycare])));
 
         vector<double> weights;
         for (const auto& loc : geoGrid) {

@@ -13,6 +13,7 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
+#include <geopop/GeoGridConfig.h>
 #include "Generator.h"
 
 #include "util/Assert.h"
@@ -23,7 +24,7 @@ using namespace std;
 using namespace stride;
 using namespace stride::ContactType;
 
-template<>
+template <>
 void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, const GeoGridConfig& ggConfig)
 {
         // 1. active people count and the commuting people count are given
@@ -33,16 +34,29 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         // 5. assign each workplaces to a location
 
         const auto EmployeeCount = ggConfig.info.popcount_workplace;
+
+        // Calculate the average amount of people in th workplace pool with respect to the workplace ratio's and sizes
+        double avgPplPerWorkplace = 0;
+
+        for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++)
+        {
+                const auto min_size = ggConfig.workplaceSD.sizes[i].first;
+                const auto max_size = ggConfig.workplaceSD.sizes[i].second;
+
+
+                avgPplPerWorkplace += ggConfig.workplaceSD.ratios[i] * (min_size + max_size) / 2;
+        }
+
         const auto WorkplacesCount =
-            static_cast<unsigned int>(ceil(EmployeeCount / static_cast<double>(ggConfig.people[Id::Workplace])));
+                static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace * 1.0858333)));
 
         // = for each location #residents + #incoming commuting people - #outgoing commuting people
         vector<double> weights;
         for (const auto& loc : geoGrid) {
                 const double ActivePeopleCount =
-                    (loc->GetPopCount() +
-                     loc->GetIncomingCommuteCount(ggConfig.param.fraction_workplace_commuters) -
-                     loc->GetOutgoingCommuteCount(ggConfig.param.fraction_workplace_commuters) *
+                        (loc->GetPopCount() +
+                         loc->GetIncomingCommuteCount(ggConfig.param.fraction_workplace_commuters) -
+                         loc->GetOutgoingCommuteCount(ggConfig.param.fraction_workplace_commuters) *
                          ggConfig.param.particpation_workplace);
 
                 const double weight = ActivePeopleCount / EmployeeCount;

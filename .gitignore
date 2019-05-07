@@ -44,7 +44,7 @@ test/cpp/gtester/gtester
 /.settings/
 target*/
 build*/
-/CMakeLocal.cmake
+#/CMakeLocal.cmake
 /CMakeLocalProject.cmake
 
 #-----------------------------
@@ -505,3 +505,10 @@ vignettes/*.pdf
 **/.vscode
 
 installation_dir/*
+
+### HDF5
+
+main/resources/lib/hdf5/src/H5Edefin.h
+main/resources/lib/hdf5/src/H5Einit.h
+main/resources/lib/hdf5/src/H5Epubgen.h
+main/resources/lib/hdf5/src/H5Eterm.h
