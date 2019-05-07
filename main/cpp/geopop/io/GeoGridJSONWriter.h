@@ -36,7 +36,7 @@ class GeoGridJSONWriter : public GeoGridStreamWriter
 {
 public:
         /// Construct the GeoGridJSONWriter.
-        explicit GeoGridJSONWriter(std::ostream* stream);
+        explicit GeoGridJSONWriter(std::shared_ptr<std::ostream> stream);
 
         /// Write the provided GeoGrid to the proved ostream in JSON format.
         void Write(GeoGrid& geoGrid) override;

@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  *  This is free software: you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License as published by
@@ -33,7 +35,7 @@ using namespace stride::ContactType;
 using namespace stride::util;
 using json = nlohmann::json;
 
-GeoGridJSONWriter::GeoGridJSONWriter(ostream* outputStream) : GeoGridStreamWriter(outputStream), m_persons_found() {}
+GeoGridJSONWriter::GeoGridJSONWriter(shared_ptr<ostream> outputStream) : GeoGridStreamWriter(move(outputStream)), m_persons_found() {}
 
 void GeoGridJSONWriter::Write(GeoGrid& geoGrid)
 {
@@ -52,7 +54,7 @@ void GeoGridJSONWriter::Write(GeoGrid& geoGrid)
         root["persons"] = persons;
 
         m_persons_found.clear();
-        *StreamRef() << root;
+        *m_outputStream << root;
 }
 
 json GeoGridJSONWriter::WriteLocation(const Location& location)

@@ -43,7 +43,7 @@ class GeoGridProtoWriter : public GeoGridStreamWriter
 {
 public:
         /// Construct the GeoGridProtoWriter.
-        explicit GeoGridProtoWriter(std::ostream* outputStream);
+        explicit GeoGridProtoWriter(std::shared_ptr<std::ostream> outputStream);
 
         /// Write the GeoGrid to the ostream in Protobuf format.
         void Write(GeoGrid& geoGrid) override;

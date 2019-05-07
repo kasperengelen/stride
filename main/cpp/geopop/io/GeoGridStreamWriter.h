@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  *  This is free software: you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License as published by
@@ -31,15 +33,13 @@ class GeoGridStreamWriter : public GeoGridWriter
 {
 public:
         /// Construct the Writer.
-        explicit GeoGridStreamWriter(std::ostream* outputStream) : m_outputStream(outputStream){};
+        explicit GeoGridStreamWriter(std::shared_ptr<std::ostream> outputStream) : m_outputStream(std::move(outputStream)){};
 
         /// Write the GeoGrid to ostream.
         void Write(GeoGrid& geoGrid) override = 0;
 
-        std::ostream* StreamRef() { return m_outputStream; }
-
-private:
-        std::ostream* m_outputStream; ///< File to write.
+protected:
+        std::shared_ptr<std::ostream> m_outputStream; ///< File to write.
 };
 
 } // namespace geopop
