@@ -20,7 +20,7 @@
 #include "geopop/io/GeoGridJSONWriter.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
-#include "util/json.hpp"
+#include "json.hpp"
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/xml_parser.hpp>

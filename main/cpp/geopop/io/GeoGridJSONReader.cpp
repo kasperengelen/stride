@@ -18,7 +18,6 @@
 #include "geopop/GeoGrid.h"
 #include "pop/Population.h"
 #include "util/Exception.h"
-#include "util/json.hpp"
 
 #include <boost/lexical_cast.hpp>
 #include <memory>

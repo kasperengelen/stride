@@ -16,7 +16,7 @@
 #include "HouseholdJSONReader.h"
 #include <boost/lexical_cast.hpp>
 
-#include "util/json.hpp"
+#include "json.hpp"
 
 namespace geopop {
 

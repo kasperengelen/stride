@@ -17,7 +17,7 @@
 
 #include "GeoGridStreamWriter.h"
 #include "geopop/Location.h"
-#include "util/json.hpp"
+#include "json.hpp"
 #include <set>
 
 namespace stride {
