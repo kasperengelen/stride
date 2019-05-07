@@ -20,6 +20,7 @@
 #include "geopop/io/LocationsCSVReader.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
+#include "util/Exception.h"
 
 #include <gtest/gtest.h>
 #include <memory>
@@ -79,7 +80,7 @@ TEST(ReaderFactoryTest, TestHouseHolds)
         EXPECT_NE(dynamic_pointer_cast<HouseholdCSVReader>(res1), nullptr);
 
         EXPECT_THROW(ReaderFactory::CreateHouseholdReader(FileSys::GetTestsDir() / "testdata/io/empty.txt"),
-                     runtime_error);
+                     stride::util::Exception);
 }
 
 } // namespace
