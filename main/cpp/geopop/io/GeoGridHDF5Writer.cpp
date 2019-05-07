@@ -49,6 +49,7 @@ void GeoGridHDF5Writer::Write(GeoGrid& geoGrid)
 
         WritePersons(file);
         m_persons_found.clear();
+        file.close();
 }
 
 void GeoGridHDF5Writer::WriteAttribute(H5Object& object, const std::string& name, unsigned int data)
