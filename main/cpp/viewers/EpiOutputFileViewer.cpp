@@ -19,9 +19,9 @@
  */
 
 #include "EpiOutputFileViewer.h"
+#include "calendar/Calendar.h"
 #include "sim/Sim.h"
 #include "sim/SimRunner.h"
-#include "calendar/Calendar.h"
 
 using namespace std;
 using namespace stride::sim_event;
@@ -29,21 +29,20 @@ using namespace stride::sim_event;
 namespace stride {
 namespace viewers {
 
-EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, const std::string& output_prefix) 
-                : m_runner(std::move(runner)), m_interval(1)
+EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, const std::string& output_prefix)
+    : m_runner(std::move(runner)), m_interval(1)
 {
-                // Initialise EpiOutputFile with the right type
-                std::string filetype = m_runner->GetConfig().get<string>("run.output_epi_type");
-                if (filetype == "json") {
-                        m_epioutput_file = std::make_unique<output::EpiOutputJSON>(output_prefix);
-                }
-                m_interval = m_runner->GetConfig().get<int>("run.output_epi_interval", 1);
-
+        // Initialise EpiOutputFile with the right type
+        std::string filetype = m_runner->GetConfig().get<string>("run.output_epi_type");
+        if (filetype == "json") {
+                m_epioutput_file = std::make_unique<output::EpiOutputJSON>(output_prefix);
+        }
+        m_interval = m_runner->GetConfig().get<int>("run.output_epi_interval", 1);
 }
 
 void EpiOutputFileViewer::Update(const sim_event::Id id)
 {
-        const auto sim  = m_runner->GetSim();
+        const auto sim = m_runner->GetSim();
         switch (id) {
         case Id::Stepped: {
                 int sim_day = sim->GetCalendar()->GetSimulationDay();

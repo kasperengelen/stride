@@ -19,4 +19,3 @@
  */
 
 #include "ProtobufEpiReader.h"
-

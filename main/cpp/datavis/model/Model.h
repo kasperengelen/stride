@@ -30,40 +30,37 @@ namespace datavis {
 /**
  * Class that represents the model of the visualiser. This contains all the stored simulation data.
  */
-class Model {
+class Model
+{
 public:
-	/**
-	 * Constructor.
-	 */
-	explicit Model() :
-			m_timesteps() {
-	}
+        /**
+         * Constructor.
+         */
+        explicit Model() : m_timesteps() {}
 
-	/**
-	 * Deleted copy CTOR.
-	 */
-	Model(const Model&) = delete;
+        /**
+         * Deleted copy CTOR.
+         */
+        Model(const Model&) = delete;
 
-	/**
-	 * Deleted assignment operator.
-	 */
-	Model& operator=(const Model&) = delete;
+        /**
+         * Deleted assignment operator.
+         */
+        Model& operator=(const Model&) = delete;
 
-	/**
-	 * Set the timesteps contained in the model to the specified timesteps.
-	 */
-	void SetTimesteps(const std::vector<std::vector<Locality>>& timesteps) { m_timesteps = timesteps; }
+        /**
+         * Set the timesteps contained in the model to the specified timesteps.
+         */
+        void SetTimesteps(const std::vector<std::vector<Locality>>& timesteps) { m_timesteps = timesteps; }
 
-	/**
-	 * Retrieve simulation data from the model.
-	 */
-	const std::vector<std::vector<Locality>>& GetEpiData() const {
-		return m_timesteps;
-	}
+        /**
+         * Retrieve simulation data from the model.
+         */
+        const std::vector<std::vector<Locality>>& GetEpiData() const { return m_timesteps; }
 
 private:
-	/// Contains the currently stored simulation timesteps.
-	std::vector<std::vector<Locality>> m_timesteps;
+        /// Contains the currently stored simulation timesteps.
+        std::vector<std::vector<Locality>> m_timesteps;
 };
 
 } // namespace datavis

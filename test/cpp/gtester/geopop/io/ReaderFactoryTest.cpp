@@ -19,8 +19,8 @@
 #include "geopop/io/HouseholdCSVReader.h"
 #include "geopop/io/LocationsCSVReader.h"
 #include "pop/Population.h"
-#include "util/FileSys.h"
 #include "util/Exception.h"
+#include "util/FileSys.h"
 
 #include <gtest/gtest.h>
 #include <memory>

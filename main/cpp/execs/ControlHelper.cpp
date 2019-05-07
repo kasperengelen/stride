@@ -27,10 +27,10 @@
 #include "util/LogUtils.h"
 #include "util/TimeStamp.h"
 #include "viewers/CliViewer.h"
+#include "viewers/EpiOutputFileViewer.h"
 #include "viewers/InfectedFileViewer.h"
 #include "viewers/PersonsFileViewer.h"
 #include "viewers/SummaryFileViewer.h"
-#include "viewers/EpiOutputFileViewer.h"
 
 #include <boost/property_tree/xml_parser.hpp>
 #include <regex>
@@ -165,7 +165,7 @@ void ControlHelper::RegisterViewers(shared_ptr<SimRunner> runner)
         if (m_config.get<bool>("run.output_epi", false)) {
                 m_stride_logger->info("Registering EpiOutputFileViewer");
                 const auto v = make_shared<viewers::EpiOutputFileViewer>(runner, m_output_prefix);
-                runner->Register(v, bind(&viewers::EpiOutputFileViewer::Update, v, placeholders::_1));       
+                runner->Register(v, bind(&viewers::EpiOutputFileViewer::Update, v, placeholders::_1));
         }
 }
 

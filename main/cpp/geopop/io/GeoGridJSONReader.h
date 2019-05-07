@@ -57,7 +57,7 @@ private:
         /// Create a Person based on the information stored in the provided boost property tree.
         stride::Person* ParsePerson(const nlohmann::json& person);
 
-        template<typename T>
+        template <typename T>
         T json_cast(const nlohmann::json& js) const;
 };
 

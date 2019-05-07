@@ -32,16 +32,15 @@ namespace datavis {
 class EpiReaderException : public std::exception
 {
 public:
-	/// Constructor based on a diagnostic message.
-	EpiReaderException(const std::string& message) : m_message{message}
-	{}
+        /// Constructor based on a diagnostic message.
+        EpiReaderException(const std::string& message) : m_message{message} {}
 
-	/// Returns a C-string with diagnostic information about the exception.
-	const char* what() const noexcept { return m_message.c_str(); }
+        /// Returns a C-string with diagnostic information about the exception.
+        const char* what() const noexcept { return m_message.c_str(); }
 
 private:
-	/// Stores the diagnostic message.
-	const std::string m_message;
+        /// Stores the diagnostic message.
+        const std::string m_message;
 };
 
 } // namespace datavis

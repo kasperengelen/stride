@@ -31,30 +31,27 @@ namespace datavis {
  * Class that provides a view fir the Locality class and also produces Qt5-compatible
  * data for Locality objects.
  */
-class LocalityView {
+class LocalityView
+{
 public:
-	/**
-	 * Constructor that creates a view for a Locality object.
-	 */
-	explicit LocalityView(const Locality& loc);
+        /**
+         * Constructor that creates a view for a Locality object.
+         */
+        explicit LocalityView(const Locality& loc);
 
-	/**
-	 * Retrieve a QVariantMap that contains information
-	 * to display the Locality in QT.
-	 */
-	const QVariantMap& GetQVariantMap() const {
-		return m_locality_data;
-	}
+        /**
+         * Retrieve a QVariantMap that contains information
+         * to display the Locality in QT.
+         */
+        const QVariantMap& GetQVariantMap() const { return m_locality_data; }
 
 private:
+        /// Create a QVariantMap that contains information about the specified PopSection.
+        const QVariantMap CreatePopSectionView(const PopSection& popSection);
 
-	/// Create a QVariantMap that contains information about the specified PopSection.
-	const QVariantMap CreatePopSectionView(const PopSection& popSection);
-
-	/// Stores information about the locality.
-	QVariantMap m_locality_data;
+        /// Stores information about the locality.
+        QVariantMap m_locality_data;
 };
 
-}
-}
-
+} // namespace datavis
+} // namespace stride

@@ -29,24 +29,24 @@ namespace datavis {
 /**
  * Class that reads epi-output specified in the JSON data format.
  */
-class JSONEpiReader: public EpiReader {
+class JSONEpiReader : public EpiReader
+{
 public:
-	/// Construct the Reader with an istream containing the file content.
-	explicit JSONEpiReader(const std::string& path) :
-			EpiReader(path) {
-	}
+        /// Construct the Reader with an istream containing the file content.
+        explicit JSONEpiReader(const std::string& path) : EpiReader(path) {}
 
-	/// Default destructor.
-	virtual ~JSONEpiReader() = default;
+        /// Default destructor.
+        virtual ~JSONEpiReader() = default;
 
-	/// Read the epidemiological simulation data and add it to the model.
-	virtual void ReadIntoModel(Model& datamodel) const override;
+        /// Read the epidemiological simulation data and add it to the model.
+        virtual void ReadIntoModel(Model& datamodel) const override;
+
 private:
-	///< Create a Locality object from the specified information.
-	const Locality ReadLocality(const nlohmann::json& localityData) const;
+        ///< Create a Locality object from the specified information.
+        const Locality ReadLocality(const nlohmann::json& localityData) const;
 
-	///< Create a PopSection object from the specified information.
-	const PopSection ReadPopSection(const nlohmann::json& popCatData) const;
+        ///< Create a PopSection object from the specified information.
+        const PopSection ReadPopSection(const nlohmann::json& popCatData) const;
 };
 
 } // namespace datavis

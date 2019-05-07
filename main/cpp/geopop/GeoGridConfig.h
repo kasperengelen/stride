@@ -127,7 +127,6 @@ public:
                 std::vector<std::pair<unsigned int, unsigned int>> sizes;
         } workplaceSD;
 
-
         // -----------------------------------------------------------------------------------------
         // Read the househould data file, parse it and set data.
         // -----------------------------------------------------------------------------------------

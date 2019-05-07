@@ -65,8 +65,9 @@ TEST_F(WorkplacePopulatorTest, NoActive)
 
         m_gg_config.param.particpation_workplace = 0;
         m_gg_config.param.participation_college  = 1;
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios           = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         // Nobody works, everybody in the student age bracket goes to college: so workplace is empty.
         // Brasschaat and Schoten are close to each other. There is no commuting, but they are so close
@@ -95,8 +96,9 @@ TEST_F(WorkplacePopulatorTest, NoCommuting)
         m_gg_config.param.fraction_workplace_commuters = 0;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0.5;
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios                 = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         // Brasschaat and Schoten are close to each other
         // There is no commuting, but since they will still receive students from each other
@@ -173,8 +175,9 @@ TEST_F(WorkplacePopulatorTest, OnlyCommuting)
         m_gg_config.info.popcount_workplace            = 1;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0.5;
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios                 = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         // only commuting
 
@@ -235,8 +238,9 @@ TEST_F(WorkplacePopulatorTest, NoCommutingAvailable)
         m_gg_config.info.popcount_workplace            = 1;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0.5;
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios                 = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         auto brasschaat = *m_geo_grid.begin();
         brasschaat->SetCoordinate(Coordinate(51.29227, 4.49419));
@@ -311,19 +315,18 @@ TEST_F(WorkplacePopulatorTest, Distribution)
 
         m_gg_config.param.fraction_workplace_commuters = 0.3;
         m_gg_config.param.fraction_college_commuters   = 0;
-        m_gg_config.info.popcount_workplace         = 1;
+        m_gg_config.info.popcount_workplace            = 1;
         m_gg_config.param.particpation_workplace       = 1;
         m_gg_config.param.participation_college        = 0;
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios                 = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         double avgPplPerWorkplace = 0;
-        auto EmployeeCount = 17200;
-        for (auto i = 0; i < (int)m_gg_config.workplaceSD.ratios.size(); i++)
-        {
+        auto   EmployeeCount      = 17200;
+        for (auto i = 0; i < (int)m_gg_config.workplaceSD.ratios.size(); i++) {
                 const auto min_size = m_gg_config.workplaceSD.sizes[i].first;
                 const auto max_size = m_gg_config.workplaceSD.sizes[i].second;
-
 
                 avgPplPerWorkplace += m_gg_config.workplaceSD.ratios[i] * (min_size + max_size) / 2;
         }
@@ -354,8 +357,8 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         vector<unsigned long> ranges(m_gg_config.workplaceSD.ratios.size());
         vector<unsigned long> sizes(m_gg_config.workplaceSD.ratios.size());
 
-        unsigned int zero = 0;
-        unsigned int other = 0;
+        unsigned int zero       = 0;
+        unsigned int other      = 0;
         unsigned int totalPools = 0;
         unsigned int totalPeeps = 0;
         // Check pools for consistency pfff
@@ -364,7 +367,7 @@ TEST_F(WorkplacePopulatorTest, Distribution)
 
                         totalPools++;
                         totalPeeps += workPool->size();
-                        bool setP = false;
+                        bool setP     = false;
                         auto sizePool = workPool->size();
 
                         if (sizePool == 0) {
@@ -373,7 +376,8 @@ TEST_F(WorkplacePopulatorTest, Distribution)
                         }
 
                         for (int i = 0; i < (int)m_gg_config.workplaceSD.ratios.size(); i++) {
-                                if (sizePool >= m_gg_config.workplaceSD.sizes[i].first and sizePool <= m_gg_config.workplaceSD.sizes[i].second) {
+                                if (sizePool >= m_gg_config.workplaceSD.sizes[i].first and
+                                    sizePool <= m_gg_config.workplaceSD.sizes[i].second) {
                                         ranges[i]++;
                                         sizes[i] += sizePool;
                                         setP = true;
@@ -393,8 +397,6 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         EXPECT_EQ(39, ranges[2]);
         EXPECT_EQ(10, ranges[3]);
         EXPECT_EQ(0, other);
-
 }
-
 
 } // namespace

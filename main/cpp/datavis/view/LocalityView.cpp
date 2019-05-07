@@ -23,39 +23,37 @@
 namespace stride {
 namespace datavis {
 
-LocalityView::LocalityView(const Locality& loc) :
-		m_locality_data { } {
-	m_locality_data.insert("name", QString::fromStdString(loc.GetName()));
-	m_locality_data.insert("lon", loc.GetCoordinate().get<0>());
-	m_locality_data.insert("lat", loc.GetCoordinate().get<1>());
+LocalityView::LocalityView(const Locality& loc) : m_locality_data{}
+{
+        m_locality_data.insert("name", QString::fromStdString(loc.GetName()));
+        m_locality_data.insert("lon", loc.GetCoordinate().get<0>());
+        m_locality_data.insert("lat", loc.GetCoordinate().get<1>());
 
-	m_locality_data.insert("total",     this->CreatePopSectionView(loc.GetTotalPopData()));
-	m_locality_data.insert("household", this->CreatePopSectionView(loc.GetHouseholdPopData()));
-	m_locality_data.insert("k12school", this->CreatePopSectionView(loc.GetK12SchoolPopData()));
-	m_locality_data.insert("college",   this->CreatePopSectionView(loc.GetCollegePopData()));
-	m_locality_data.insert("workplace", this->CreatePopSectionView(loc.GetWorkplacePopData()));
-	m_locality_data.insert("primCom",   this->CreatePopSectionView(loc.GetPrimCommunityPopData()));
-	m_locality_data.insert("secCom",    this->CreatePopSectionView(loc.GetSecCommunityPopData()));
-	m_locality_data.insert("daycare",   this->CreatePopSectionView(loc.GetDaycarePopData()));
-	m_locality_data.insert("preschool", this->CreatePopSectionView(loc.GetPreSchoolPopData()));
+        m_locality_data.insert("total", this->CreatePopSectionView(loc.GetTotalPopData()));
+        m_locality_data.insert("household", this->CreatePopSectionView(loc.GetHouseholdPopData()));
+        m_locality_data.insert("k12school", this->CreatePopSectionView(loc.GetK12SchoolPopData()));
+        m_locality_data.insert("college", this->CreatePopSectionView(loc.GetCollegePopData()));
+        m_locality_data.insert("workplace", this->CreatePopSectionView(loc.GetWorkplacePopData()));
+        m_locality_data.insert("primCom", this->CreatePopSectionView(loc.GetPrimCommunityPopData()));
+        m_locality_data.insert("secCom", this->CreatePopSectionView(loc.GetSecCommunityPopData()));
+        m_locality_data.insert("daycare", this->CreatePopSectionView(loc.GetDaycarePopData()));
+        m_locality_data.insert("preschool", this->CreatePopSectionView(loc.GetPreSchoolPopData()));
 }
 
 const QVariantMap LocalityView::CreatePopSectionView(const PopSection& popSection)
 {
-	QVariantMap retval { };
+        QVariantMap retval{};
 
-	retval.insert("pop", popSection.pop);
-	retval.insert("immune",      popSection.immune);
-	retval.insert("infected",    popSection.infected);
-	retval.insert("infectious",  popSection.infectious);
-	retval.insert("recovered",   popSection.recovered);
-	retval.insert("susceptible", popSection.susceptible);
-	retval.insert("symptomatic", popSection.symptomatic);
+        retval.insert("pop", popSection.pop);
+        retval.insert("immune", popSection.immune);
+        retval.insert("infected", popSection.infected);
+        retval.insert("infectious", popSection.infectious);
+        retval.insert("recovered", popSection.recovered);
+        retval.insert("susceptible", popSection.susceptible);
+        retval.insert("symptomatic", popSection.symptomatic);
 
-
-	return retval;
+        return retval;
 }
 
 } // namespace datavis
 } // namespace stride
-

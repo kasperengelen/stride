@@ -122,7 +122,7 @@ void GeoGridConfig::SetData(const string& householdsFileName)
         info.count_households = static_cast<unsigned int>(floor(static_cast<double>(popSize) / averageHhSize));
 }
 
-void GeoGridConfig::SetWorkplaceData(const std::string &workplaceFileName)
+void GeoGridConfig::SetWorkplaceData(const std::string& workplaceFileName)
 {
         auto workplaceReader = ReaderFactory::CreateWorkplaceReader(workplaceFileName);
         workplaceReader->SetWorkplaceData(workplaceSD.ratios, workplaceSD.sizes);

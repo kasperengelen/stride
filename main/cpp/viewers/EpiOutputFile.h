@@ -58,7 +58,6 @@ protected:
         std::fstream m_fstream;
 };
 
-
 /**
  *  Implementation of JSON EpiOutputFile
  */
@@ -66,7 +65,6 @@ protected:
 class EpiOutputJSON : public EpiOutputFile
 {
 public:
-
         explicit EpiOutputJSON(const std::string& output_dir = "output");
 
         /// Overridden print method.

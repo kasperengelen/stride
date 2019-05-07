@@ -20,8 +20,8 @@
 #include "HouseholdJSONReader.h"
 #include "LocationsCSVReader.h"
 #include "WorkplaceCSVReader.h"
-#include "util/FileSys.h"
 #include "util/Exception.h"
+#include "util/FileSys.h"
 
 #include <fstream>
 #include <iostream>
@@ -71,7 +71,6 @@ shared_ptr<HouseholdReader> ReaderFactory::CreateHouseholdReader(const filesys::
                                               path.extension().string());
         }
 }
-
 
 std::shared_ptr<WorkplaceReader> ReaderFactory::CreateWorkplaceReader(const std::string& filename)
 {

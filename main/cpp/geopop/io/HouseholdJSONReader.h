@@ -43,7 +43,7 @@ public:
                                     std::vector<std::vector<unsigned int>>& ref_ages) override;
 
 private:
-        template<typename T>
+        template <typename T>
         T json_cast(const nlohmann::json& js) const;
 
 private:

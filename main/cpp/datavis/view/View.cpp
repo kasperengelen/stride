@@ -27,27 +27,23 @@ namespace datavis {
 
 const QVariant View::GetEpiData() const
 {
-	const auto& timesteps = m_model_ptr->GetEpiData();
+        const auto& timesteps = m_model_ptr->GetEpiData();
 
-	QVariantList retval;
+        QVariantList retval;
 
-	for(const auto& timestep : timesteps)
-	{
-		QVariantList loc_list;
+        for (const auto& timestep : timesteps) {
+                QVariantList loc_list;
 
-		for(const auto& loc : timestep)
-		{
-			const LocalityView loc_view(loc);
-			loc_list.push_back(loc_view.GetQVariantMap());
-		}
+                for (const auto& loc : timestep) {
+                        const LocalityView loc_view(loc);
+                        loc_list.push_back(loc_view.GetQVariantMap());
+                }
 
-		retval.push_back(loc_list);
-	}
+                retval.push_back(loc_list);
+        }
 
-	return QVariant::fromValue(retval);
+        return QVariant::fromValue(retval);
 }
 
 } // namespace datavis
 } // namespace stride
-
-

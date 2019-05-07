@@ -54,11 +54,12 @@ protected:
 TEST_F(WorkplaceGeneratorTest, ZeroLocationTest)
 {
 
-        m_gg_config.param.pop_size           = 10000;
-        m_gg_config.info.popcount_college    = 20000;
+        m_gg_config.param.pop_size        = 10000;
+        m_gg_config.info.popcount_college = 20000;
 
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
@@ -72,9 +73,9 @@ TEST_F(WorkplaceGeneratorTest, NoCommuting)
         m_gg_config.info.popcount_workplace            = static_cast<unsigned int>(0.20 * 5 * 1000 * 1000);
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0;
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
-
+        m_gg_config.workplaceSD.ratios                 = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -104,8 +105,9 @@ TEST_F(WorkplaceGeneratorTest, NullCommuting)
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0.10;
 
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -134,7 +136,7 @@ TEST_F(WorkplaceGeneratorTest, NullCommuting)
         array<unsigned int, sizes.size()> expected{
             1479, 569,  2175, 1977, 2114, 1193, 1437, 5,    1246, 1931, 721, 480,  484,  1825, 2076, 1574, 883,
             418,  1304, 1847, 1887, 170,  230,  1591, 2002, 1313, 1606, 224, 1690, 1047, 514,  1956, 1299, 293,
-            1325, 1608, 1182, 658,  880,  976,  1512, 652,  111,  1425, 153, 105,  153,  563,  658, 1834};
+            1325, 1608, 1182, 658,  880,  976,  1512, 652,  111,  1425, 153, 105,  153,  563,  658,  1834};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());
@@ -148,8 +150,9 @@ TEST_F(WorkplaceGeneratorTest, TenCommuting)
         m_gg_config.param.particpation_workplace       = 0.20;
         m_gg_config.param.fraction_workplace_commuters = 0.10;
 
-        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,0.00856213859618965};
-        m_gg_config.workplaceSD.sizes  = {make_pair(1,9), make_pair(10,49), make_pair(50,199),make_pair(200,400)};
+        m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
+                                          0.00856213859618965};
+        m_gg_config.workplaceSD.sizes  = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
@@ -206,9 +209,9 @@ TEST_F(WorkplaceGeneratorTest, TenCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-            1453, 564,  2157, 2031, 2114, 1191, 1433, 6,    1243, 1919,  749, 480,  484,  1820, 2077, 1559, 884,
-            516,  1326, 1849, 1864, 157,  234,  1582, 2011, 1305, 1588,  236, 1684, 1038, 508,  1960, 1288, 302,
-            1321, 1611, 1168, 660,  854,  980,  1510, 650,  107,  1422,  158, 102,  145,  574,  652,  1829};
+            1453, 564,  2157, 2031, 2114, 1191, 1433, 6,    1243, 1919, 749, 480,  484,  1820, 2077, 1559, 884,
+            516,  1326, 1849, 1864, 157,  234,  1582, 2011, 1305, 1588, 236, 1684, 1038, 508,  1960, 1288, 302,
+            1321, 1611, 1168, 660,  854,  980,  1510, 650,  107,  1422, 158, 102,  145,  574,  652,  1829};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());

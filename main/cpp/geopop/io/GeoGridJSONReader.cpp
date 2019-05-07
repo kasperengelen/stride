@@ -147,15 +147,14 @@ ContactPool* GeoGridJSONReader::ParseContactPool(const json& contactPool, Contac
         return result;
 }
 
-template<typename T>
+template <typename T>
 T GeoGridJSONReader::json_cast(const json& js) const
 {
         if (js.is_string()) {
                 return boost::lexical_cast<T>(string(js));
         } else if (js.is_number()) {
                 return static_cast<T>(js);
-        }
-        else {
+        } else {
                 return boost::lexical_cast<T>(js);
         }
 }

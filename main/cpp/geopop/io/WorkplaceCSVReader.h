@@ -15,8 +15,8 @@
 
 #pragma once
 
-#include <geopop/GeoGridConfig.h>
 #include "WorkplaceReader.h"
+#include <geopop/GeoGridConfig.h>
 
 namespace geopop {
 
@@ -32,7 +32,8 @@ public:
         explicit WorkplaceCSVReader(std::unique_ptr<std::istream> inputStream);
 
         /// Add the workplace size info to the GeoGridConfig.
-        void SetWorkplaceData(std::vector<double>& ratios, std::vector<std::pair<unsigned int, unsigned int>>& sizes) const override;
+        void SetWorkplaceData(std::vector<double>&                                ratios,
+                              std::vector<std::pair<unsigned int, unsigned int>>& sizes) const override;
 };
 
 } // namespace geopop

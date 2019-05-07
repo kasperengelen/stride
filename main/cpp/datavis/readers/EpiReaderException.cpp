@@ -19,4 +19,3 @@
  */
 
 #include "EpiReaderException.h"
-

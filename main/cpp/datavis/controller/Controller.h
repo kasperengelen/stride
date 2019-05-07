@@ -29,51 +29,48 @@ namespace datavis {
  * Class that represents the controller component of the data visualiser MVC structure.
  * This class will take commands from the Qt5 interface and relay them to the Model.
  */
-class Controller: public QObject {
-	Q_OBJECT
+class Controller : public QObject
+{
+        Q_OBJECT
 
 public:
-	explicit Controller(QObject* parent = nullptr) :
-			QObject(parent), m_model_ptr(nullptr) {
-	}
+        explicit Controller(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr) {}
 
-	/**
-	 * Deleted copy CTOR.
-	 */
-	Controller(const Controller&) = delete;
+        /**
+         * Deleted copy CTOR.
+         */
+        Controller(const Controller&) = delete;
 
-	/**
-	 * Deleted assignment operator.
-	 */
-	Controller& operator=(const Controller&) = delete;
+        /**
+         * Deleted assignment operator.
+         */
+        Controller& operator=(const Controller&) = delete;
 
-	/**
-	 * Set the pointer to the Model.
-	 */
-	void SetModelPointer(Model* modelPtr) {
-		m_model_ptr = modelPtr;
-	}
+        /**
+         * Set the pointer to the Model.
+         */
+        void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
 
 public:
-	/**
-	 * Open dialog to save to file.
-	 */
-	Q_INVOKABLE void SaveFile();
+        /**
+         * Open dialog to save to file.
+         */
+        Q_INVOKABLE void SaveFile();
 
-	/**
-	 * Open dialog to open file.
-	 */
-	Q_INVOKABLE void OpenFile();
+        /**
+         * Open dialog to open file.
+         */
+        Q_INVOKABLE void OpenFile();
 
 signals:
-	/**
-	 * Indicates that a successful file read has occurred.
-	 */
-	void fileReadSuccessful();
+        /**
+         * Indicates that a successful file read has occurred.
+         */
+        void fileReadSuccessful();
 
 private:
-	///> Pointer to model object.
-	Model* m_model_ptr;
+        ///> Pointer to model object.
+        Model* m_model_ptr;
 };
 
 } // namespace datavis

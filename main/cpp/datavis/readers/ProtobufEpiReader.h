@@ -27,13 +27,11 @@ namespace datavis {
 /**
  * Class that reads epi-output specified in the Protobuf data format.
  */
-class ProtobufEpiReader: public EpiReader {
+class ProtobufEpiReader : public EpiReader
+{
 public:
-
 private:
-
 };
 
 } // namespace datavis
 } // namespace stride
-

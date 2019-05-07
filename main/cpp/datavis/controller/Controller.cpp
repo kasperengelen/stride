@@ -19,9 +19,9 @@
  */
 
 #include "datavis/controller/Controller.h"
-#include <QString>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QString>
 
 #include "../readers/JSONEpiReader.h"
 #include "datavis/readers/EpiReaderException.h"
@@ -29,66 +29,63 @@
 namespace stride {
 namespace datavis {
 
-void Controller::SaveFile() {
-	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+void Controller::SaveFile()
+{
+        QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
 
-	QMessageBox::critical(parent_ptr, tr("Warning"), tr("Saving to image files is not yet supported."));
-	return;
+        QMessageBox::critical(parent_ptr, tr("Warning"), tr("Saving to image files is not yet supported."));
+        return;
 
-	QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "", tr("Zip file (*.zip);;GIF file (*.gif)"));
+        QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "",
+                                                        tr("Zip file (*.zip);;GIF file (*.gif)"));
 
+        if (filename.isNull()) {
+                return;
+        }
 
+        // TODO save to file
+        // -> gif
+        // -> zip
 
-	if(filename.isNull())
-	{
-		return;
-	}
-
-	// TODO save to file
-	// -> gif
-	// -> zip
-
-	return;
+        return;
 }
 
-void Controller::OpenFile() {
-	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
-	QString filename = QFileDialog::getOpenFileName(parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
+void Controller::OpenFile()
+{
+        QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+        QString  filename   = QFileDialog::getOpenFileName(
+            parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
 
-	if(filename.isNull())
-	{
-		return;
-	}
+        if (filename.isNull()) {
+                return;
+        }
 
-	// determine HDF5, Protobuf, JSON
-	if(filename.endsWith(".json"))
-	{
-		try {
-			// JSON
-			JSONEpiReader reader(filename.toStdString());
+        // determine HDF5, Protobuf, JSON
+        if (filename.endsWith(".json")) {
+                try {
+                        // JSON
+                        JSONEpiReader reader(filename.toStdString());
 
-			reader.ReadIntoModel(*m_model_ptr);
+                        reader.ReadIntoModel(*m_model_ptr);
 
-			emit this->fileReadSuccessful();
+                        emit this->fileReadSuccessful();
 
-			return;
-		} catch (const EpiReaderException& e) {
-			const QString err_msg = QString{"An error occurred while processing the specified file.\n"} + QString{e.what()};
-			QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
-			return;
-		}
-	}
-	else
-	{
-		// Unknown format
-		QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
-		return;
-	}
+                        return;
+                } catch (const EpiReaderException& e) {
+                        const QString err_msg =
+                            QString{"An error occurred while processing the specified file.\n"} + QString{e.what()};
+                        QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
+                        return;
+                }
+        } else {
+                // Unknown format
+                QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
+                return;
+        }
 
-	// TODO HDF5
+        // TODO HDF5
 }
 
-}
- // namespace datavis
-}// namespace stride
-
+} // namespace datavis
+  // namespace datavis
+} // namespace stride

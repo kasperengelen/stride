@@ -33,46 +33,41 @@ namespace datavis {
  * This class can be accessed by the Qt5 interface to retrieve data to
  * visualise the simulation data.
  */
-class View: public QObject {
-	Q_OBJECT
-	Q_PROPERTY(QVariant epi_data READ GetEpiData)
+class View : public QObject
+{
+        Q_OBJECT
+        Q_PROPERTY(QVariant epi_data READ GetEpiData)
 public:
-	/**
-	 * Constructor.
-	 */
-	explicit View(QObject* parent = nullptr)
-		: QObject(parent), m_model_ptr(nullptr) {
-	}
+        /**
+         * Constructor.
+         */
+        explicit View(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr) {}
 
-	/**
-	 * Deleted copy CTOR.
-	 */
-	View(const View&) = delete;
+        /**
+         * Deleted copy CTOR.
+         */
+        View(const View&) = delete;
 
-	/**
-	 * Deleted assignment operator.
-	 */
-	View& operator=(const View&) = delete;
+        /**
+         * Deleted assignment operator.
+         */
+        View& operator=(const View&) = delete;
 
-	/**
-	 * Set the pointer to the Model.
-	 */
-	void SetModelPointer(Model* modelPtr) {
-		m_model_ptr = modelPtr;
-	}
+        /**
+         * Set the pointer to the Model.
+         */
+        void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
 
 public:
-
-	/**
-	 * Retrieve simulation data from the model.
-	 */
-	const QVariant GetEpiData() const;
+        /**
+         * Retrieve simulation data from the model.
+         */
+        const QVariant GetEpiData() const;
 
 private:
-	///> Pointer to model object.
-	Model* m_model_ptr;
+        ///> Pointer to model object.
+        Model* m_model_ptr;
 };
 
-}
+} // namespace datavis
 } // namespace stride
-

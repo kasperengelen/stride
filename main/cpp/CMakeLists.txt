@@ -226,15 +226,15 @@ set(DATAVIS_SRC
 if(DO_BUILD_DATAVIS)
 	message("Adding datavis build target.")
     add_executable(stride_datavis ${DATAVIS_SRC})
-  
+
     target_link_libraries(stride_datavis libstride) # give data visualiser access to the stride library
-    
+
     target_link_libraries(stride_datavis Qt5::Core)
     target_link_libraries(stride_datavis Qt5::Widgets)
     target_link_libraries(stride_datavis Qt5::Location)
 
     set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
-    
+
     install(TARGETS stride_datavis DESTINATION ${BIN_INSTALL_LOCATION})
 endif()
 

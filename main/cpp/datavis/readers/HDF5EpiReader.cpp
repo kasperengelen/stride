@@ -19,4 +19,3 @@
  */
 
 #include "HDF5EpiReader.h"
-
