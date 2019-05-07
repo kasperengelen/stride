@@ -63,26 +63,26 @@ void GeoGridJSONReader::Read()
 
 Person* GeoGridJSONReader::ParsePerson(const json& person)
 {
-        const auto id   = boost::lexical_cast<unsigned int>(person["id"]);
-        const auto age  = boost::lexical_cast<float>(person["age"]);
-        const auto hhId = boost::lexical_cast<unsigned int>(person["Household"]);
-        const auto ksId = boost::lexical_cast<unsigned int>(person["K12School"]);
-        const auto coId = boost::lexical_cast<unsigned int>(person["College"]);
-        const auto wpId = boost::lexical_cast<unsigned int>(person["Workplace"]);
-        const auto pcId = boost::lexical_cast<unsigned int>(person["PrimaryCommunity"]);
-        const auto scId = boost::lexical_cast<unsigned int>(person["SecondaryCommunity"]);
-        const auto dcId = boost::lexical_cast<unsigned int>(person["Daycare"]);
-        const auto psId = boost::lexical_cast<unsigned int>(person["Preschool"]);
+        const auto id   = json_cast<unsigned int>(person["id"]);
+        const auto age  = json_cast<float>(person["age"]);
+        const auto hhId = json_cast<unsigned int>(person["Household"]);
+        const auto ksId = json_cast<unsigned int>(person["K12School"]);
+        const auto coId = json_cast<unsigned int>(person["College"]);
+        const auto wpId = json_cast<unsigned int>(person["Workplace"]);
+        const auto pcId = json_cast<unsigned int>(person["PrimaryCommunity"]);
+        const auto scId = json_cast<unsigned int>(person["SecondaryCommunity"]);
+        const auto dcId = json_cast<unsigned int>(person["Daycare"]);
+        const auto psId = json_cast<unsigned int>(person["Preschool"]);
 
         return m_population->CreatePerson(id, age, hhId, ksId, coId, wpId, pcId, scId, dcId, psId);
 }
 
 shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
 {
-        const auto   id         = boost::lexical_cast<unsigned int>(location["id"]);
+        const auto   id         = json_cast<unsigned int>(location["id"]);
         const string name       = location["name"];
-        const auto   province   = boost::lexical_cast<unsigned int>(location["province"]);
-        const auto   population = boost::lexical_cast<unsigned int>(location["population"]);
+        const auto   province   = json_cast<unsigned int>(location["province"]);
+        const auto   population = json_cast<unsigned int>(location["population"]);
         const auto   coordinate = ParseCoordinate(location["coordinate"]);
 
         auto result = make_shared<Location>(id, province, coordinate, name, population);
@@ -115,8 +115,8 @@ shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
         }
 
         for (auto commute : location["commute"]) {
-                const auto to     = boost::lexical_cast<unsigned int>(commute["to"]);
-                const auto amount = boost::lexical_cast<double>(commute["proportion"]);
+                const auto to     = json_cast<unsigned int>(commute["to"]);
+                const auto amount = json_cast<double>(commute["proportion"]);
                 m_commutes.emplace_back(id, to, amount);
         }
 
@@ -125,8 +125,8 @@ shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
 
 Coordinate GeoGridJSONReader::ParseCoordinate(const json& coordinate)
 {
-        const auto longitude = boost::lexical_cast<double>(coordinate["longitude"]);
-        const auto latitude  = boost::lexical_cast<double>(coordinate["latitude"]);
+        const auto longitude = json_cast<double>(coordinate["longitude"]);
+        const auto latitude  = json_cast<double>(coordinate["latitude"]);
         return {longitude, latitude};
 }
 
@@ -137,7 +137,7 @@ ContactPool* GeoGridJSONReader::ParseContactPool(const json& contactPool, Contac
         auto result = m_population->RefPoolSys().CreateContactPool(typeId);
 
         for (const auto& person : contactPool["people"]) {
-                auto person_id = boost::lexical_cast<unsigned int>(person);
+                auto person_id = json_cast<unsigned int>(person);
                 if (m_people.count(person_id) == 0) {
                         throw Exception("No such person: " + to_string(person_id));
                 }
@@ -145,6 +145,19 @@ ContactPool* GeoGridJSONReader::ParseContactPool(const json& contactPool, Contac
         }
 
         return result;
+}
+
+template<typename T>
+T GeoGridJSONReader::json_cast(const json& js) const
+{
+        if (js.is_string()) {
+                return boost::lexical_cast<T>(string(js));
+        } else if (js.is_number()) {
+                return static_cast<T>(js);
+        }
+        else {
+                return boost::lexical_cast<T>(js);
+        }
 }
 
 } // namespace geopop

@@ -16,6 +16,7 @@
 #pragma once
 
 #include "HouseholdReader.h"
+#include "util/json.hpp"
 
 #include <vector>
 
@@ -40,6 +41,10 @@ public:
         /// Add the locations to the GeoGrid.
         void SetReferenceHouseholds(unsigned int&                           ref_person_count,
                                     std::vector<std::vector<unsigned int>>& ref_ages) override;
+
+private:
+        template<typename T>
+        T json_cast(const nlohmann::json& js) const;
 
 private:
         /// Input stream  connected to input data file.
