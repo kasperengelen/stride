@@ -34,6 +34,7 @@ message( STATUS "------> STRIDE_FORCE_NO_OPENMP      : ${STRIDE_FORCE_NO_OPENMP}
 message( STATUS "------> STRIDE_FORCE_NO_PROTOC      : ${STRIDE_FORCE_NO_PROTOC}"   )
 message( STATUS "------> STRIDE_FORCE_NO_PYTHON      : ${STRIDE_FORCE_NO_PYTHON}"   )
 message( STATUS "------> STRIDE_FORCE_NO_HDF5        : ${STRIDE_FORCE_NO_HDF5}"     )
+message( STATUS "------> STRIDE_FORCE_NO_QT5         : ${STRIDE_FORCE_NO_QT5}"      )
 
 #
 message( STATUS " " )
@@ -82,7 +83,7 @@ if( NOT STRIDE_FORCE_NO_OPENMP )
 endif()
 #
 message( STATUS "" )
-if( Protobuf_FOUND VERSION_GREATER_EQUAL 3.0.0)
+if( Protobuf_FOUND)
 	message( STATUS "------> Protobuf_FOUND              : ${Protobuf_FOUND}"          )
 	message( STATUS "------> Protobuf_VERSION            : ${Protobuf_VERSION}"        )
 	message( STATUS "------> Protobuf_INCLUDE_DIRS       : ${Protobuf_INCLUDE_DIRS} "  )

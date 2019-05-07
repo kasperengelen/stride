@@ -42,6 +42,7 @@ using namespace boost::property_tree;
 /// Main program of the stride simulator.
 int main(int argc, char** argv)
 {
+
         int exitStatus = EXIT_SUCCESS;
 
         try {

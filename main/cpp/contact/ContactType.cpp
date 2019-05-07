@@ -66,16 +66,14 @@ Id ToId(const string& s)
 
 string ToString(Id c)
 {
-        static map<Id, string> names{
-            make_pair(Id::Household, "Household"),
-            make_pair(Id::Daycare, "Daycare"),
-            make_pair(Id::PreSchool, "PreSchool"),
-            make_pair(Id::K12School, "K12School"),
-            make_pair(Id::College, "College"),
-            make_pair(Id::Workplace, "Workplace"),
-            make_pair(Id::PrimaryCommunity, "PrimaryCommunity"),
-            make_pair(Id::SecondaryCommunity, "SecondaryCommunity")
-        };
+        static map<Id, string> names{make_pair(Id::Household, "Household"),
+                                     make_pair(Id::Daycare, "Daycare"),
+                                     make_pair(Id::PreSchool, "PreSchool"),
+                                     make_pair(Id::K12School, "K12School"),
+                                     make_pair(Id::College, "College"),
+                                     make_pair(Id::Workplace, "Workplace"),
+                                     make_pair(Id::PrimaryCommunity, "PrimaryCommunity"),
+                                     make_pair(Id::SecondaryCommunity, "SecondaryCommunity")};
         return (names.count(c) == 1) ? names[c] : throw runtime_error("ContactType::ToString> not available:");
 }
 

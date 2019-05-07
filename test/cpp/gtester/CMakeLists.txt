@@ -59,15 +59,18 @@ set(SRC
     #---
     geopop/io/CitiesCSVReaderTest.cpp
     geopop/io/CommutesCSVReaderTest.cpp
+    geopop/io/GeoGridCompare.cpp
     geopop/io/GeoGridHDF5ReaderTest.cpp
     geopop/io/GeoGridHDF5WriterTest.cpp
     geopop/io/GeoGridIOUtils.cpp
-    #geopop/io/GeoGridJSONReaderTest.cpp
-    #geopop/io/GeoGridJSONWriterTest.cpp
+    geopop/io/GeoGridJSONReaderTest.cpp
+    geopop/io/GeoGridJSONWriterTest.cpp
     geopop/io/GeoGridProtoReaderTest.cpp
     geopop/io/GeoGridProtoWriterTest.cpp
     geopop/io/HouseholdCSVReaderTest.cpp
+    geopop/io/HouseholdJSONReaderTest.cpp
     geopop/io/ReaderFactoryTest.cpp
+    geopop/io/WorkplaceCSVReaderTest.cpp
     #---
     geopop/kdtree.cpp
     #---
@@ -103,9 +106,8 @@ install(DIRECTORY testdata/ DESTINATION ${TESTS_INSTALL_LOCATION}/testdata/)
 # Define tests.
 #============================================================================
 add_test(NAME ${EXEC}
-        WORKING_DIRECTORY ${TESTS_DIR}
-        COMMAND ${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_LOCATION}/${EXEC}
-        --gtest_output=xml:gtester_all.xml
+        WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
+        COMMAND ${BIN_INSTALL_LOCATION}/${EXEC} --gtest_output=xml:${TESTS_INSTALL_LOCATION}/gtester_all.xml
 )
 
 #############################################################################

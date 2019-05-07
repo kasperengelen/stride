@@ -424,7 +424,7 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to Build Shared and Static libs, default is both
 #-----------------------------------------------------------------------------
-option (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
+option (BUILD_SHARED_LIBS "Build Shared Libraries" OFF)
 set (H5_ENABLE_SHARED_LIB NO)
 if (BUILD_SHARED_LIBS)
   set (H5_ENABLE_SHARED_LIB YES)
@@ -486,7 +486,7 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to enable/disable using pread/pwrite for VFDs
 #-----------------------------------------------------------------------------
-option (HDF5_ENABLE_PREADWRITE "Use pread/pwrite in sec2/log/core VFDs in place of read/write (when available)" ON)
+option (HDF5_ENABLE_PREADWRITE "Use pread/pwrite in sec2/log/core VFDs in place of read/write (when available)" OFF)
 mark_as_advanced (HDF5_ENABLE_PREADWRITE)
 if (HDF5_ENABLE_PREADWRITE AND H5_HAVE_PREAD AND H5_HAVE_PWRITE)
   set (H5_HAVE_PREADWRITE 1)
@@ -495,7 +495,7 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to use deprecated public API symbols
 #-----------------------------------------------------------------------------
-option (HDF5_ENABLE_DEPRECATED_SYMBOLS "Enable deprecated public API symbols" ON)
+option (HDF5_ENABLE_DEPRECATED_SYMBOLS "Enable deprecated public API symbols" OFF)
 if (HDF5_ENABLE_DEPRECATED_SYMBOLS)
   set (H5_NO_DEPRECATED_SYMBOLS 0)
 else ()
@@ -555,7 +555,7 @@ endif ()
 if (CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set (H5_HAVE_EMBEDDED_LIBINFO 0)
 else ()
-  option (HDF5_ENABLE_EMBEDDED_LIBINFO "embed library info into executables" ON)
+  option (HDF5_ENABLE_EMBEDDED_LIBINFO "embed library info into executables" OFF)
   if (HDF5_ENABLE_EMBEDDED_LIBINFO)
     set (H5_HAVE_EMBEDDED_LIBINFO 1)
   endif ()
@@ -807,7 +807,7 @@ endif ()
 # Option to build High Level API's
 #-----------------------------------------------------------------------------
 if (EXISTS "${HDF5_SOURCE_DIR}/hl" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/hl")
-  option (HDF5_BUILD_HL_LIB  "Build HIGH Level HDF5 Library" ON)
+  option (HDF5_BUILD_HL_LIB  "Build HIGH Level HDF5 Library" OFF)
   if (HDF5_BUILD_HL_LIB)
     set (H5_INCLUDE_HL 1)
     add_subdirectory (hl)
@@ -919,13 +919,5 @@ configure_file (${HDF_RESOURCES_DIR}/H5pubconf.h.in ${HDF5_BINARY_DIR}/H5pubconf
 #-----------------------------------------------------------------------------
 option (HDF5_USE_PREGEN "Use pre-generated Files" OFF)
 option (HDF5_BATCH_H5DETECT "Use a batch command for running h5detect" OFF)
-
-# To avoid tho "has no symbol warnings for empty .o's in static libs
-if(CMAKE_HOST_APPLE)
-  SET(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-  SET(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-  SET(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-  SET(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-endif()
 
 include (CMakeInstallation.cmake)

@@ -1,44 +1,50 @@
 {
     "locations": [
         {
-            "id": "1",
-            "name": "Bavikhove",
-            "province": "4",
-            "population": "2500",
             "coordinate": {
-                "x": "0",
-                "y": "0",
-                "longitude": "0",
-                "latitude": "0"
+                "latitude": 0.0,
+                "longitude": 0.0
             },
-            "contactCenters": [
+            "commute": [],
+            "contactPools": [
                 {
-                    "id": 0,
-                    "type": "K12School",
-                    "pools": ""
+                    "pools": [],
+                    "type": "Household"
                 },
                 {
-                    "id": 1,
-                    "type": "Studio",
-                    "pools": ""
+                    "pools": [],
+                    "type": "Studio"
                 },
                 {
-                    "id": 2,
-                    "type": "College",
-                    "pools": ""
+                    "pools": [],
+                    "type": "College"
                 },
                 {
-                    "id": 3,
-                    "type": "Household",
-                    "pools": ""
+                    "pools": [],
+                    "type": "Workplace"
                 },
                 {
-                    "id": 5,
-                    "type": "Workplace",
-                    "pools": ""
+                    "pools": [],
+                    "type": "PrimaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "SecondaryCommunity"
+                },
+                {
+                    "pools": [],
+                    "type": "Daycare"
+                },
+                {
+                    "pools": [],
+                    "type": "PreSchool"
                 }
-            ]
+            ],
+            "id": 1,
+            "name": "Bavikhove",
+            "population": 2500,
+            "province": 4
         }
     ],
-    "persons": ""
+    "persons": []
 }
