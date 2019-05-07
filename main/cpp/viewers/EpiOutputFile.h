@@ -23,8 +23,9 @@
 #include <fstream>
 #include <memory>
 #include <string>
+#include <H5Cpp.h>
 
-#include "util/json.hpp"
+#include "json.hpp"
 
 namespace stride {
 
@@ -48,7 +49,7 @@ public:
         virtual void Update(std::shared_ptr<const Population> population) = 0;
 
         /// Finish writing the data.
-        virtual void Finish(std::shared_ptr<const Population> population) = 0;
+        virtual void Finish() = 0;
 
 private:
         /// Generate file name and open the file stream.
@@ -73,7 +74,7 @@ public:
         virtual void Update(std::shared_ptr<const Population> population) override;
 
         /// Dump json data to file.
-        virtual void Finish(std::shared_ptr<const Population> population) override;
+        virtual void Finish() override;
 
 private:
         /// Initialize json object and open file stream.
@@ -81,6 +82,30 @@ private:
 
 private:
         nlohmann::json m_data;
+};
+
+
+class EpiOutputHDF5 : public EpiOutputFile
+{
+public:
+
+        explicit EpiOutputHDF5(const std::string& output_dir = "output");
+
+        /// Overridden print method.
+        virtual void Update(std::shared_ptr<const Population> population) override;
+
+        /// Dump json data to file.
+        virtual void Finish() override;
+
+private:
+        /// Initialize json object and open file stream.
+        virtual void Initialize(const std::string& output_dir) override;
+
+        /// Write attribute to H5Object
+        void writeAttribute(H5::H5Object& object, const std::string& name, unsigned int data, H5::PredType type);
+
+private:
+        H5::H5File m_data;
 };
 
 } // namespace output

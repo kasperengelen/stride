@@ -130,6 +130,11 @@ include_directories(SYSTEM ${CMAKE_HOME_DIRECTORY}/main/resources/lib/sha1/inclu
 set(LIBS ${LIBS} sha1)
 
 #----------------------------------------------------------------------------
+# JSON
+#----------------------------------------------------------------------------
+include_directories(SYSTEM ${CMAKE_HOME_DIRECTORY}/main/resources/lib/json)
+
+#----------------------------------------------------------------------------
 # Boost
 #----------------------------------------------------------------------------
 if (NOT STRIDE_FORCE_NO_BOOST)

@@ -138,7 +138,6 @@ set(STRIDE_SRC
     util/RunConfigManager.cpp
     util/TimeStamp.cpp
     util/TimeToString.cpp
-    util/json.hpp
     #---
     viewers/CliViewer.cpp
     viewers/InfectedFileViewer.cpp

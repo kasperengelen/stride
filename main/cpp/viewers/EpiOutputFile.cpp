@@ -26,18 +26,20 @@
 #include "pop/Population.h"
 #include "geopop/Location.h"
 #include "util/FileSys.h"
-#include "util/json.hpp"
+
 
 namespace stride {
 namespace output {
 
 using namespace std;
 using namespace stride::util;
+using namespace H5;
 using json = nlohmann::json;
 
 EpiOutputFile::EpiOutputFile() : m_fstream() {}
 
 EpiOutputFile::~EpiOutputFile() { m_fstream.close(); }
+
 
 EpiOutputJSON::EpiOutputJSON(const string& output_prefix) : EpiOutputFile(), m_data()
 { 
@@ -105,10 +107,41 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
         m_data["Timesteps"].push_back(timestep);
 }
 
-void EpiOutputJSON::Finish(std::shared_ptr<const Population> population)
+void EpiOutputJSON::Finish()
 {
         m_fstream.seekp(0); // Reset write position
         m_fstream << setw(4) << m_data << std::endl;
+}
+
+
+EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m_data()
+{
+        Initialize(output_dir);
+}
+
+void EpiOutputHDF5::Initialize(const string& output_prefix)
+{
+        string fname = "EpiOutput.h5";
+        const auto p = FileSys::BuildPath(output_prefix, fname);
+        Exception::dontPrint();
+        m_data = H5File(p.c_str(), H5F_ACC_TRUNC);
+} 
+
+void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) 
+{
+        return;
+}
+
+void EpiOutputHDF5::Finish()
+{
+        m_data.close();
+}
+
+void writeAttribute(H5Object& object, const std::string& name, unsigned int data, H5::PredType type)
+{
+        hsize_t   dim       = 1;
+        Attribute attribute = object.createAttribute(name, type, DataSpace(1, &dim));
+        attribute.write(type, &data);
 }
 
 } // namespace output
