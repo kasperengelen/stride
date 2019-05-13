@@ -137,7 +137,7 @@ void GeoGridHDF5Writer::WriteLocation(Group& locations, const Location& location
         WriteAttribute(contact_pools, "size", pool_count);
 }
 
-void GeoGridHDF5Writer::WritePersons(Group& group)
+void GeoGridHDF5Writer::WritePersons(H5File& file)
 {
         struct PersonsData
         {
@@ -184,7 +184,7 @@ void GeoGridHDF5Writer::WritePersons(Group& group)
 
         hsize_t   pers_dim[] = {m_persons_found.size()};
         DataSpace pers_ds(1, pers_dim);
-        DataSet   persons = group.createDataSet("Persons", comp_type, pers_ds);
+        DataSet   persons = file.createDataSet("Persons", comp_type, pers_ds);
         persons.write(&persons_data.front(), comp_type);
 
         WriteAttribute(persons, "size", static_cast<unsigned int>(m_persons_found.size()));

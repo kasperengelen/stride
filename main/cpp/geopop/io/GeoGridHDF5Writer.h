@@ -49,8 +49,8 @@ private:
         /// Create a H5::Group in the H5::Group containing all info needed to reconstruct a Location.
         void WriteLocation(H5::Group& locations, const Location& location, unsigned int count);
 
-        /// Create a H5::DataSet in the H5::Group containing all info needed to reconstruct the Persons.
-        void WritePersons(H5::Group& group);
+        /// Create a H5::DataSet in the H5::H5File containing all info needed to reconstruct the Persons.
+        void WritePersons(H5::H5File& file);
 
 private:
         /// The persons found when looping over the ContactPools.
