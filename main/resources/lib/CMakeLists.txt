@@ -19,14 +19,6 @@
 # Add subdirs:
 #============================================================================
 
-# To avoid tho "has no symbol warnings for empty .o's in static libs
-if(CMAKE_HOST_APPLE)
-    SET(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-    SET(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-    SET(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-    SET(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-endif()
-
 if(NOT Protobuf_FOUND)
     add_subdirectory(protobuf)
 endif()
