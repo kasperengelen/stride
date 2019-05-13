@@ -18,9 +18,9 @@
 //#include "geopop/ContactCenter.h"
 #include "geopop/GeoGridConfig.h"
 #include "geopop/io/GeoGridJSONWriter.h"
+#include "json.hpp"
 #include "pop/Population.h"
 #include "util/FileSys.h"
-#include "json.hpp"
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/xml_parser.hpp>
@@ -39,7 +39,7 @@ namespace {
 
 bool compareGeoGrid(GeoGrid& geoGrid, const string& filename)
 {
-        auto ss = make_shared<stringstream>();
+        auto              ss = make_shared<stringstream>();
         GeoGridJSONWriter writer(ss);
         writer.Write(geoGrid);
         ifstream fs(FileSys::GetTestsDir().string() + "/testdata/GeoGridJSON/" + filename);

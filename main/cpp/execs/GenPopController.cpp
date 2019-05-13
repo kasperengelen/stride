@@ -88,8 +88,9 @@ void GenPopController::Control()
         const auto popFileName = m_config.get<string>("run.population_file", "genpop.proto");
         const auto popFilePath = FileSys::BuildPath(prefix, popFileName);
         m_stride_logger->info("Population written to file {}.", popFilePath.string());
-        shared_ptr<ofstream> outputStream = make_shared<ofstream>(popFilePath.string());
-        shared_ptr<GeoGridWriter> geoGridWriter = GeoGridWriterFactory::CreateGeoGridWriter(popFilePath, move(outputStream));
+        shared_ptr<ofstream>      outputStream = make_shared<ofstream>(popFilePath.string());
+        shared_ptr<GeoGridWriter> geoGridWriter =
+            GeoGridWriterFactory::CreateGeoGridWriter(popFilePath, move(outputStream));
         geoGridWriter->Write(pop->RefGeoGrid());
 
         m_stride_logger->trace("Done writing population to file.");

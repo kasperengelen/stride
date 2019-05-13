@@ -151,7 +151,7 @@ void ComparePerson(const proto::GeoGrid_Person& protoPerson)
 
 void CompareGeoGrid(GeoGrid& geoGrid)
 {
-        auto ss = make_shared<stringstream>();
+        auto               ss = make_shared<stringstream>();
         GeoGridProtoWriter writer(ss);
         writer.Write(geoGrid);
         proto::GeoGrid protoGrid;

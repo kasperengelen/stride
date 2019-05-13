@@ -21,7 +21,7 @@ class GeoGridHDF5Reader : public GeoGridReader
 {
 public:
         /// Construct the GeoGridHDF5Reader with the istream which contains the HDF5.
-        GeoGridHDF5Reader(stride::Population* pop, const std::string& filename);
+        GeoGridHDF5Reader(stride::Population* pop, std::string filename);
 
         /// No copy constructor.
         GeoGridHDF5Reader(const GeoGridHDF5Reader&) = delete;

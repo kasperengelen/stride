@@ -20,10 +20,10 @@
 
 #pragma once
 
+#include <H5Cpp.h>
 #include <fstream>
 #include <memory>
 #include <string>
-#include <H5Cpp.h>
 
 #include "json.hpp"
 
@@ -82,11 +82,9 @@ private:
         nlohmann::json m_data;
 };
 
-
 class EpiOutputHDF5 : public EpiOutputFile
 {
 public:
-
         explicit EpiOutputHDF5(const std::string& output_dir = "output");
 
         /// Overridden print method.

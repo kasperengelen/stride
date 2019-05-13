@@ -9,7 +9,7 @@
 class GeoGridCompare
 {
 public:
-        GeoGridCompare(): m_persons_found1(), m_persons_found2() {};
+        GeoGridCompare() : m_persons_found1(), m_persons_found2(){};
 
         void CompareGeoGrid(const geopop::GeoGrid& geoGrid1, const geopop::GeoGrid& geoGrid2);
 

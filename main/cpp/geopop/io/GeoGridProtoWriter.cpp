@@ -33,7 +33,10 @@ using namespace std;
 using namespace stride::util;
 using namespace stride::ContactType;
 
-GeoGridProtoWriter::GeoGridProtoWriter(shared_ptr<ostream> outputStream) : GeoGridStreamWriter(move(outputStream)), m_persons_found() {}
+GeoGridProtoWriter::GeoGridProtoWriter(shared_ptr<ostream> outputStream)
+    : GeoGridStreamWriter(move(outputStream)), m_persons_found()
+{
+}
 
 void GeoGridProtoWriter::Write(GeoGrid& geoGrid)
 {

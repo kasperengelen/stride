@@ -27,7 +27,6 @@
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
-
 namespace stride {
 namespace output {
 
@@ -40,10 +39,7 @@ EpiOutputFile::EpiOutputFile() : m_fstream() {}
 
 EpiOutputFile::~EpiOutputFile() { m_fstream.close(); }
 
-EpiOutputJSON::EpiOutputJSON(const string& output_prefix) : EpiOutputFile(), m_data()
-{ 
-        Initialize(output_prefix); 
-}
+EpiOutputJSON::EpiOutputJSON(const string& output_prefix) : EpiOutputFile(), m_data() { Initialize(output_prefix); }
 
 void EpiOutputJSON::Initialize(const string& output_prefix)
 {
@@ -124,29 +120,19 @@ void EpiOutputJSON::Finish()
         m_fstream << setw(4) << m_data << std::endl;
 }
 
-
-EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m_data()
-{
-        Initialize(output_dir);
-}
+EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m_data() { Initialize(output_dir); }
 
 void EpiOutputHDF5::Initialize(const string& output_prefix)
 {
-        string fname = "EpiOutput.h5";
-        const auto p = FileSys::BuildPath(output_prefix, fname);
+        string     fname = "EpiOutput.h5";
+        const auto p     = FileSys::BuildPath(output_prefix, fname);
         Exception::dontPrint();
         m_data = H5File(p.c_str(), H5F_ACC_TRUNC);
-} 
-
-void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) 
-{
-        return;
 }
 
-void EpiOutputHDF5::Finish()
-{
-        m_data.close();
-}
+void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) { return; }
+
+void EpiOutputHDF5::Finish() { m_data.close(); }
 
 void writeAttribute(H5Object& object, const std::string& name, unsigned int data, H5::PredType type)
 {

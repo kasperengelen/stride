@@ -33,7 +33,8 @@ class GeoGridStreamWriter : public GeoGridWriter
 {
 public:
         /// Construct the Writer.
-        explicit GeoGridStreamWriter(std::shared_ptr<std::ostream> outputStream) : m_outputStream(std::move(outputStream)){};
+        explicit GeoGridStreamWriter(std::shared_ptr<std::ostream> outputStream)
+            : m_outputStream(std::move(outputStream)){};
 
         /// Write the GeoGrid to ostream.
         void Write(GeoGrid& geoGrid) override = 0;

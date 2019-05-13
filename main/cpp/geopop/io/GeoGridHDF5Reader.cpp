@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "GeoGridHDF5Reader.h"
 
 #include "geopop/GeoGrid.h"
@@ -15,8 +17,8 @@ using namespace stride;
 using namespace stride::ContactType;
 using namespace stride::util;
 
-GeoGridHDF5Reader::GeoGridHDF5Reader(Population* pop, const std::string& filename)
-    : GeoGridReader(unique_ptr<istream>(), pop), m_filename(filename)
+GeoGridHDF5Reader::GeoGridHDF5Reader(Population* pop, std::string filename)
+    : GeoGridReader(unique_ptr<istream>(), pop), m_filename(std::move(filename))
 {
 }
 
