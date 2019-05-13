@@ -18,15 +18,13 @@
 #pragma once
 
 #include "GeoGridWriter.h"
-#include <memory>
-#include <ostream>
 
 namespace geopop {
 
 class GeoGrid;
 
 /**
- * An interface for writing the GeoGrid to a file, can be implemented with multiple file types.
+ * An interface for writing the GeoGrid to a stream, can be implemented with multiple file types.
  * Protobuf and json are currently implemented.
  */
 class GeoGridStreamWriter : public GeoGridWriter
@@ -36,11 +34,12 @@ public:
         explicit GeoGridStreamWriter(std::shared_ptr<std::ostream> outputStream)
             : m_outputStream(std::move(outputStream)){};
 
-        /// Write the GeoGrid to ostream.
+        /// Write the GeoGrid to Stream.
         void Write(GeoGrid& geoGrid) override = 0;
 
 protected:
-        std::shared_ptr<std::ostream> m_outputStream; ///< File to write.
+        /// Stream to write to.
+        std::shared_ptr<std::ostream> m_outputStream;
 };
 
 } // namespace geopop

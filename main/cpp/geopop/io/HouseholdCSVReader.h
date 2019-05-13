@@ -16,15 +16,7 @@
 #pragma once
 
 #include "HouseholdReader.h"
-
 #include <vector>
-
-namespace stride {
-
-class ContactPool;
-class Person;
-
-} // namespace stride
 
 namespace geopop {
 

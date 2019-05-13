@@ -14,15 +14,7 @@
  */
 
 #include "GeoGridHDF5Writer.h"
-
-#include <H5Cpp.h>
-#include <H5DataSpace.h>
-#include <iostream>
-#include <string>
-
-#include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
-#include "pop/Person.h"
 
 namespace geopop {
 
@@ -37,12 +29,12 @@ void GeoGridHDF5Writer::Write(GeoGrid& geoGrid)
 {
         /// Create file
         Exception::dontPrint();
-        H5File file(GetFileName(), H5F_ACC_TRUNC);
+        H5File file(m_filename, H5F_ACC_TRUNC);
 
         Group        locations(file.createGroup("Locations"));
         unsigned int count = 0;
         for (const auto& location : geoGrid) {
-                WriteLocation(*location, locations, ++count);
+                WriteLocation(locations, *location, ++count);
         }
 
         WriteAttribute(locations, "size", count);
@@ -59,16 +51,16 @@ void GeoGridHDF5Writer::WriteAttribute(H5Object& object, const std::string& name
         attribute.write(PredType::NATIVE_UINT, &data);
 }
 
-void GeoGridHDF5Writer::WriteCoordinate(H5Object& object, const Coordinate& coordinate)
+void GeoGridHDF5Writer::WriteCoordinate(Group& loc, const Coordinate& coordinate)
 {
         hsize_t   dim[2] = {1, 2};
         DataSpace dataspace(2, dim);
-        Attribute attribute         = object.createAttribute("coordinate", PredType::NATIVE_DOUBLE, dataspace);
+        Attribute attribute         = loc.createAttribute("coordinate", PredType::NATIVE_DOUBLE, dataspace);
         double    attribute_data[2] = {boost::geometry::get<0>(coordinate), boost::geometry::get<1>(coordinate)};
         attribute.write(PredType::NATIVE_DOUBLE, attribute_data);
 }
 
-void GeoGridHDF5Writer::WriteContactPool(H5Location& loc, const ContactPool* pool, unsigned int count)
+void GeoGridHDF5Writer::WriteContactPool(Group& contact_pools, const ContactPool* pool, unsigned int count)
 {
         const auto& persons = pool->GetPool();
 
@@ -83,7 +75,7 @@ void GeoGridHDF5Writer::WriteContactPool(H5Location& loc, const ContactPool* poo
 
         hsize_t   pool_dim[] = {pool->size()};
         DataSpace pool_ds(1, pool_dim);
-        DataSet   people = loc.createDataSet("Pool" + to_string(count), comp_type, pool_ds);
+        DataSet   people = contact_pools.createDataSet("Pool" + to_string(count), comp_type, pool_ds);
         people.write(&persons_data.front(), comp_type);
 
         WriteAttribute(people, "id", pool->GetId());
@@ -94,9 +86,9 @@ void GeoGridHDF5Writer::WriteContactPool(H5Location& loc, const ContactPool* poo
         attribute.write(StrType(PredType::C_S1, ToString(pool->GetType()).size()), ToString(pool->GetType()));
 }
 
-void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& obj, unsigned int count)
+void GeoGridHDF5Writer::WriteLocation(Group& locations, const Location& location, unsigned int count)
 {
-        Group loc(obj.createGroup("Loc" + to_string(count)));
+        Group loc(locations.createGroup("Loc" + to_string(count)));
         WriteAttribute(loc, "id", location.GetID());
         WriteAttribute(loc, "province", location.GetProvince());
         WriteAttribute(loc, "population", location.GetPopCount());
@@ -145,7 +137,7 @@ void GeoGridHDF5Writer::WriteLocation(const Location& location, H5Location& obj,
         WriteAttribute(contact_pools, "size", pool_count);
 }
 
-void GeoGridHDF5Writer::WritePersons(H5Location& loc)
+void GeoGridHDF5Writer::WritePersons(Group& group)
 {
         struct PersonsData
         {
@@ -192,7 +184,7 @@ void GeoGridHDF5Writer::WritePersons(H5Location& loc)
 
         hsize_t   pers_dim[] = {m_persons_found.size()};
         DataSpace pers_ds(1, pers_dim);
-        DataSet   persons = loc.createDataSet("Persons", comp_type, pers_ds);
+        DataSet   persons = group.createDataSet("Persons", comp_type, pers_ds);
         persons.write(&persons_data.front(), comp_type);
 
         WriteAttribute(persons, "size", static_cast<unsigned int>(m_persons_found.size()));

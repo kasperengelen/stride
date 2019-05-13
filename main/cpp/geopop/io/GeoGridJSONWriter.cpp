@@ -12,20 +12,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
+ *  Copyright 2019, ACED.
  */
 
 #include "GeoGridJSONWriter.h"
-
-#include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
-#include "pop/Person.h"
+#include "util/FileSys.h"
 
-#include <boost/property_tree/json_parser.hpp>
 #include <iostream>
 #include <omp.h>
-
-#include "util/FileSys.h"
 
 namespace geopop {
 

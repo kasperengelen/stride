@@ -10,17 +10,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
+ *  Copyright 2019, ACED.
  */
 
 #include "GeoGridJSONReader.h"
-
 #include "geopop/GeoGrid.h"
 #include "pop/Population.h"
 #include "util/Exception.h"
 
 #include <boost/lexical_cast.hpp>
-#include <memory>
 
 namespace geopop {
 

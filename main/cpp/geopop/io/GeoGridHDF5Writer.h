@@ -16,13 +16,11 @@
 #pragma once
 
 #include "GeoGridFileWriter.h"
+#include "contact/ContactPool.h"
 #include "geopop/Location.h"
+#include "pop/Person.h"
 #include <H5Cpp.h>
-
-namespace stride {
-class ContactPool;
-class Person;
-} // namespace stride
+#include <set>
 
 namespace geopop {
 
@@ -39,15 +37,24 @@ public:
         void Write(GeoGrid& geoGrid) override;
 
 private:
+        /// Create a H5::Attribute in the H5::H5Object containing all info needed to reconstruct the data.
         void WriteAttribute(H5::H5Object& object, const std::string& name, unsigned int data);
-        void WriteCoordinate(H5::H5Object& object, const Coordinate& coordinate);
-        void WriteContactPool(H5::H5Location& h5_location, const stride::ContactPool* pool, unsigned int count);
-        void WriteLocation(const Location& location, H5::H5Location& h5_location, unsigned int count);
 
-        void WritePersons(H5::H5Location& h5_location);
+        /// Create a H5::Attribute in the H5::Group containing all info needed to reconstruct a Coordinate.
+        void WriteCoordinate(H5::Group& loc, const Coordinate& coordinate);
+
+        /// Create a H5::DataSet in the H5::Group containing all info needed to reconstruct a ContactPool.
+        void WriteContactPool(H5::Group& contact_pools, const stride::ContactPool* pool, unsigned int count);
+
+        /// Create a H5::Group in the H5::Group containing all info needed to reconstruct a Location.
+        void WriteLocation(H5::Group& locations, const Location& location, unsigned int count);
+
+        /// Create a H5::DataSet in the H5::Group containing all info needed to reconstruct the Persons.
+        void WritePersons(H5::Group& group);
 
 private:
-        std::set<stride::Person*> m_persons_found; ///< The persons found when looping over the ContactPools.
+        /// The persons found when looping over the ContactPools.
+        std::set<stride::Person*> m_persons_found;
 };
 
 } // namespace geopop

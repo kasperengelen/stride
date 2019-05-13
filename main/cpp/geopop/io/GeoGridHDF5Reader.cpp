@@ -1,13 +1,24 @@
-#include <utility>
+/*
+ *  This is free software: you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  any later version.
+ *  The software is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
+ */
 
 #include "GeoGridHDF5Reader.h"
 
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
 #include "pop/Population.h"
 #include "util/Exception.h"
 #include <boost/lexical_cast.hpp>
-#include <H5Cpp.h>
 
 namespace geopop {
 
@@ -29,7 +40,9 @@ void GeoGridHDF5Reader::Read()
         H5File file(m_filename, H5F_ACC_RDONLY);
 
         auto& geoGrid = m_population->RefGeoGrid();
-        ParsePersons(file);
+
+        DataSet persons(file.openDataSet("Persons"));
+        ParsePersons(persons);
 
         Group        locations(file.openGroup("Locations"));
         unsigned int size;
@@ -45,10 +58,8 @@ void GeoGridHDF5Reader::Read()
         m_people.clear();
 }
 
-void GeoGridHDF5Reader::ParsePersons(const H5::H5Location& loc)
+void GeoGridHDF5Reader::ParsePersons(const DataSet& persons)
 {
-        DataSet persons(loc.openDataSet("Persons"));
-
         struct PersonsData
         {
                 unsigned int id;
@@ -88,7 +99,7 @@ void GeoGridHDF5Reader::ParsePersons(const H5::H5Location& loc)
         }
 }
 
-Coordinate ParseCoordinate(const H5::H5Object& loc)
+Coordinate GeoGridHDF5Reader::ParseCoordinate(const Group& loc)
 {
         double coordinate[2];
         loc.openAttribute("coordinate").read(PredType::NATIVE_DOUBLE, coordinate);
@@ -97,7 +108,7 @@ Coordinate ParseCoordinate(const H5::H5Object& loc)
         return {longitude, latitude};
 }
 
-shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const H5::H5Object& loc)
+shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const Group& loc)
 {
         unsigned int id;
         loc.openAttribute("id").read(PredType::NATIVE_UINT, &id);

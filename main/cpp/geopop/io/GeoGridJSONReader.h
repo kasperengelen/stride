@@ -10,7 +10,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2018, Jan Broeckhove and Bistromatics group.
+ *  Copyright 2019, ACED.
  */
 
 #pragma once
@@ -20,6 +20,7 @@
 #include "contact/ContactType.h"
 #include "geopop/Location.h"
 #include "json.hpp"
+#include "pop/Person.h"
 
 namespace geopop {
 
@@ -45,18 +46,19 @@ public:
         void Read() override;
 
 private:
-        /// Create a ContactCenter based on the information stored in the provided boost property tree.
+        /// Create a ContactPool based on the information stored in the provided nlohmann::json.
         stride::ContactPool* ParseContactPool(const nlohmann::json& contactPool, stride::ContactType::Id typeId);
 
-        /// Create a Coordinate based on the information stored in the provided boost property tree.
+        /// Create a Coordinate based on the information stored in the provided nlohmann::json.
         Coordinate ParseCoordinate(const nlohmann::json& coordinate);
 
-        /// Create a Location based on the information stored in the provided boost property tree.
+        /// Create a Location based on the information stored in the provided nlohmann::json.
         std::shared_ptr<Location> ParseLocation(const nlohmann::json& location);
 
-        /// Create a Person based on the information stored in the provided boost property tree.
+        /// Create a Person based on the information stored in the provided nlohmann::json.
         stride::Person* ParsePerson(const nlohmann::json& person);
 
+        /// Cast the nlohmann::json to the correct type
         template <typename T>
         T json_cast(const nlohmann::json& js) const;
 };

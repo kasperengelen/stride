@@ -17,25 +17,17 @@
 
 #include "HouseholdReader.h"
 #include "json.hpp"
-
 #include <vector>
-
-namespace stride {
-
-class ContactPool;
-class Person;
-
-} // namespace stride
 
 namespace geopop {
 
 /**
- * Creates a Reader that retrieves the different Household profiles from a given CSV file.
+ * Creates a Reader that retrieves the different Household profiles from a given JSON file.
  */
 class HouseholdJSONReader : public HouseholdReader
 {
 public:
-        /// Construct the HouseholdCSVReader with an istream containing the CSV data.
+        /// Construct the HouseholdJSONReader with an istream containing the JSON data.
         explicit HouseholdJSONReader(std::unique_ptr<std::istream> inputStream);
 
         /// Add the locations to the GeoGrid.
@@ -43,11 +35,12 @@ public:
                                     std::vector<std::vector<unsigned int>>& ref_ages) override;
 
 private:
+        /// Cast the nlohmann::json to the correct type
         template <typename T>
         T json_cast(const nlohmann::json& js) const;
 
 private:
-        /// Input stream  connected to input data file.
+        /// Input stream connected to input data file.
         std::unique_ptr<std::istream> m_input_stream;
 };
 

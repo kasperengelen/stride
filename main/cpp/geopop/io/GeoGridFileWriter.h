@@ -18,8 +18,6 @@
 #pragma once
 
 #include "GeoGridWriter.h"
-#include <memory>
-#include <ostream>
 
 namespace geopop {
 
@@ -27,7 +25,7 @@ class GeoGrid;
 
 /**
  * An interface for writing the GeoGrid to a file, can be implemented with multiple file types.
- * Protobuf and json are currently implemented.
+ * HDF5 is currently implemented.
  */
 class GeoGridFileWriter : public GeoGridWriter
 {
@@ -35,13 +33,12 @@ public:
         /// Construct the Writer.
         explicit GeoGridFileWriter(std::string filename) : m_filename(std::move(filename)){};
 
-        /// Write the GeoGrid to ostream.
+        /// Write the GeoGrid to the File.
         void Write(GeoGrid& geoGrid) override = 0;
 
-        std::string GetFileName() { return m_filename; }
-
-private:
-        std::string m_filename; ///< File to write.
+protected:
+        /// Filename from File to write.
+        std::string m_filename;
 };
 
 } // namespace geopop
