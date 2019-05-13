@@ -218,6 +218,7 @@ endif()
 # HDF5
 #----------------------------------------------------------------------------
 if (NOT STRIDE_FORCE_NO_HDF5)
+    set(HDF5_FIND_COMPONENTS CXX)
     include(FindHDF5)
     find_package(HDF5)
 endif()
