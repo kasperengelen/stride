@@ -225,7 +225,6 @@ endif()
 if(HDF5_FOUND)
 	message("HDF5 installation found.")
     include_directories(${HDF5_INCLUDE_DIR})
-    set(LIBS ${LIBS} ${HDF5_LIBRARIES})
 else()
 	message("HDF5 not installed. Switching to local build.")
     include_directories(
