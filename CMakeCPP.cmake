@@ -224,7 +224,7 @@ if (NOT STRIDE_FORCE_NO_HDF5)
 endif()
 if(HDF5_FOUND)
 	message("HDF5 installation found.")
-    include_directories(${HDF5_INCLUDE_DIR})
+    include_directories(SYSTEM ${HDF5_INCLUDE_DIR})
 else()
 	message("HDF5 not installed. Switching to local build.")
     include_directories(
