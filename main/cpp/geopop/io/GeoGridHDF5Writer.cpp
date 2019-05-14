@@ -15,7 +15,6 @@
 
 #include "GeoGridHDF5Writer.h"
 #include "geopop/GeoGrid.h"
-#include "H5Cpp.h"
 
 namespace geopop {
 

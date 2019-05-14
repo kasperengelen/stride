@@ -19,7 +19,6 @@
 #include "pop/Population.h"
 #include "util/Exception.h"
 #include <boost/lexical_cast.hpp>
-#include "H5Cpp.h"
 
 namespace geopop {
 
