@@ -218,13 +218,12 @@ endif()
 # HDF5
 #----------------------------------------------------------------------------
 if (NOT STRIDE_FORCE_NO_HDF5)
-    set(HDF5_FIND_COMPONENTS C CXX)
     include(FindHDF5)
-    find_package(HDF5)
+    find_package(HDF5 COMPONENTS CXX)
 endif()
 if(HDF5_FOUND)
 	message("HDF5 installation found.")
-    include_directories(SYSTEM ${HDF5_INCLUDE_DIR})
+    include_directories(SYSTEM ${HDF5_CXX_INCLUDE_DIR})
 else()
 	message("HDF5 not installed. Switching to local build.")
     include_directories(
