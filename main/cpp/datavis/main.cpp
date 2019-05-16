@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QWindow>
+#include <QQuickItem>
 
 #include <iostream>
 
@@ -40,8 +41,14 @@ int main(int argc, char* argv[])
 
         // create model
         Model model{};
+
         ctrl_ptr->SetModelPointer(&model);
         view_ptr->SetModelPointer(&model);
 
+
         return app.exec();
 }
+
+
+
+
