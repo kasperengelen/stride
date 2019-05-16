@@ -19,36 +19,18 @@
  */
 
 #include "datavis/controller/Controller.h"
+
+#include "datavis/readers/JSONEpiReader.h"
+#include "datavis/readers/EpiReaderException.h"
+
+#include <iostream>
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QString>
 
-#include "../readers/JSONEpiReader.h"
-#include "datavis/readers/EpiReaderException.h"
-
 namespace stride {
 namespace datavis {
-
-void Controller::SaveFile()
-{
-        QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
-
-        QMessageBox::critical(parent_ptr, tr("Warning"), tr("Saving to image files is not yet supported."));
-        return;
-
-        QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "",
-                                                        tr("Zip file (*.zip);;GIF file (*.gif)"));
-
-        if (filename.isNull()) {
-                return;
-        }
-
-        // TODO save to file
-        // -> gif
-        // -> zip
-
-        return;
-}
 
 void Controller::OpenFile()
 {

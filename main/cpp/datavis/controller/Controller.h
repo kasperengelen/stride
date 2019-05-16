@@ -19,6 +19,7 @@
  */
 
 #include "datavis/model/Model.h"
+#include "datavis/view/View.h"
 
 #include <QObject>
 
@@ -52,11 +53,6 @@ public:
         void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
 
 public:
-        /**
-         * Open dialog to save to file.
-         */
-        Q_INVOKABLE void SaveFile();
-
         /**
          * Open dialog to open file.
          */

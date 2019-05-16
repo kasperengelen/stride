@@ -23,6 +23,7 @@
 #include "datavis/model/Model.h"
 
 #include <QObject>
+#include <QWidget>
 #include <QVariant>
 
 namespace stride {

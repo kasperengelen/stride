@@ -22,6 +22,9 @@
 
 #include "datavis/view/LocalityView.h"
 
+#include <QQuickItem>
+#include <QQuickItemGrabResult>
+
 namespace stride {
 namespace datavis {
 
@@ -38,6 +41,18 @@ const QVariant View::GetEpiData() const
                         const LocalityView loc_view(loc);
                         loc_list.push_back(loc_view.GetQVariantMap());
                 }
+
+                std::sort(loc_list.begin(), loc_list.end(),
+                	[](const QVariant& a, const QVariant& b) -> bool
+				{
+                	// determine whether or not "a" should go before "b"
+
+                	const QVariantMap& a_total = a.toMap()["total"].toMap();
+                	const QVariantMap& b_total = b.toMap()["total"].toMap();
+
+                	return a_total["pop"] > b_total["pop"];
+
+				});
 
                 retval.push_back(loc_list);
         }
