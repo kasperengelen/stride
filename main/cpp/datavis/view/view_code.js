@@ -65,8 +65,8 @@
 	        	+ '}', target_map);
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
 		        marker.radius = loc.total.pop
-		        marker.color  = Qt.hsva(health_frac, 1.0, 1.0, 1.0)
-		        marker.border.width = 0
+		        marker.color  = Qt.hsva(health_frac, 1.0, 1.0, 0.5)
+		        marker.border.width = 4
 		        marker.ToolTip.text = loc.name
 		        target_map.addMapItem(marker)
 		}
