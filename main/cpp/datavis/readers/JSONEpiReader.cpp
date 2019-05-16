@@ -66,8 +66,7 @@ const Locality JSONEpiReader::ReadLocality(const nlohmann::json& localityData) c
         const std::string name = localityData.at("name");
 
         // retrieve populations
-        const PopSection total = this->ReadPopSection(
-            localityData.at("Household")); // Note: households contain the total, so we just copy it
+        const PopSection total      = this->ReadPopSection(localityData.at("Household")); // Note: households contain the total, so we just copy it
         const PopSection household  = this->ReadPopSection(localityData.at("Household"));
         const PopSection k12_school = this->ReadPopSection(localityData.at("K12School"));
         const PopSection college    = this->ReadPopSection(localityData.at("College"));
@@ -77,8 +76,8 @@ const Locality JSONEpiReader::ReadLocality(const nlohmann::json& localityData) c
         const PopSection daycare    = this->ReadPopSection(localityData.at("Daycare"));
         const PopSection preschool  = this->ReadPopSection(localityData.at("PreSchool"));
 
-        return Locality(name, coord, total, household, k12_school, college, workplace, prim_com, sec_com, daycare,
-                        preschool);
+        return Locality(name, coord, total, household, k12_school, college,
+        				workplace, prim_com, sec_com, daycare, preschool);
 }
 
 const PopSection JSONEpiReader::ReadPopSection(const nlohmann::json& popCatData) const
