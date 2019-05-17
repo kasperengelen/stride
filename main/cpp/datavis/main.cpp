@@ -2,7 +2,6 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QWindow>
-#include <QQuickItem>
 
 #include <iostream>
 

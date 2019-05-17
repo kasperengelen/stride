@@ -22,9 +22,6 @@
 
 #include "datavis/view/LocalityView.h"
 
-#include <QQuickItem>
-#include <QQuickItemGrabResult>
-
 namespace stride {
 namespace datavis {
 
