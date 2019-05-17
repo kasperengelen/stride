@@ -68,6 +68,27 @@ void Controller::OpenFile()
         // TODO HDF5
 }
 
+void Controller::SaveFile()
+{
+		QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+
+		QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "",
+														tr("PNG file (*.png)"));
+
+		if (filename.isNull()) {
+				return;
+		}
+
+		if(!filename.endsWith(".png"))
+		{
+			filename += ".png";
+		}
+
+		emit this->saveMapToFile(filename);
+
+		return;
+}
+
 } // namespace datavis
   // namespace datavis
 } // namespace stride

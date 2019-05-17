@@ -38,6 +38,10 @@ Window {
 			Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
 			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
 		}
+		
+		onSaveMapToFile: {
+			Logic.saveMap(map, filename)
+		}
     }
     
     // C++ view object

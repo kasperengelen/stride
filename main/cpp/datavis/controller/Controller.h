@@ -19,7 +19,6 @@
  */
 
 #include "datavis/model/Model.h"
-#include "datavis/view/View.h"
 
 #include <QObject>
 
@@ -58,11 +57,21 @@ public:
          */
         Q_INVOKABLE void OpenFile();
 
+        /**
+         * Open dialog to save file.
+         */
+        Q_INVOKABLE void SaveFile();
+
 signals:
         /**
          * Indicates that a successful file read has occurred.
          */
         void fileReadSuccessful();
+
+        /**
+         * Indicates that the map needs to be saved to a image file.
+         */
+        void saveMapToFile(const QString& filename);
 
 private:
         ///> Pointer to model object.
