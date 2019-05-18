@@ -82,6 +82,7 @@
 	        	+ '    MouseArea {\n' // add mouse interaction
 	        	+ '        id: localityMarker_' + key + '_ma;\n'
 	        	+ '        anchors.fill: parent;\n'
+	        	+ '        cursorShape: Qt.PointingHandCursor;\n'
 	        	+ '        hoverEnabled: true;\n'
 	        	+ '        onClicked: {\n'
 	        	+ '            console.log("clicked loc ' + key + '");\n'
