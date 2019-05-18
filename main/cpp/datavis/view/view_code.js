@@ -12,6 +12,23 @@
    	}
    	
    	/**
+   	 * Retrieve the (somewhat) global position of the specified object.
+   	 *
+   	 * SOURCE: https://stackoverflow.com/questions/19392163/qml-mouse-absolute-position-in-mousearea?rq=1
+   	 */
+	function getAbsolutePosition(node) {
+		var returnPos = {};
+		returnPos.x = 0;
+		returnPos.y = 0;
+		if(node !== undefined && node !== null) {
+			var parentValue = getAbsolutePosition(node.parent);
+			returnPos.x = parentValue.x + node.x;
+			returnPos.y = parentValue.y + node.y;
+		}
+		return returnPos;
+	}
+   	
+   	/**
    	 * Retrieve the epi-data currently stored in the model. This will
      * also adjust the slider to the model data.
    	 */
@@ -50,9 +67,10 @@
 			
 			// create map marker
 	        var marker = Qt.createQmlObject(
-	        	'import QtLocation 5.3\n'
+	        	  'import QtLocation 5.3\n'
 	        	+ 'import QtQuick 2.12\n'
 	        	+ 'import QtQuick.Controls 2.5\n'
+	        	+ 'import "view_code.js" as Logic\n'
 	        	+ 'MapCircle {\n'
 	        	+ '    id: localityMarker_' + key + ';\n'
 	        	+ '    ToolTip.visible: localityMarker_' + key + '_ma.containsMouse; \n'
@@ -60,7 +78,16 @@
 	        	+ '        id: localityMarker_' + key + '_ma;\n'
 	        	+ '        anchors.fill: parent;\n'
 	        	+ '        hoverEnabled: true;\n'
-	        	+ '        onClicked: console.log("clicked loc ' + key + '");\n'
+	        	+ '        onClicked: {\n'
+	        	+ '            console.log("clicked loc ' + key + '");\n'
+	        	+ '            var component = Qt.createComponent("stat_popup.qml");\n'
+	        	+ '            var stat_popup = component.createObject(localityMarker_' + key + ');\n'
+	        	+ '            var parent_pos = Logic.getAbsolutePosition(parent);\n'
+	        	+ '            stat_popup.x = parent_pos.x;\n'
+	        	+ '            stat_popup.y = parent_pos.y;\n'
+	        	+ '            stat_popup.title = "' + loc.name + ' - Day ' + current_day + '";\n'
+	        	+ '            stat_popup.show();\n'
+	        	+ '        }\n'
 	        	+ '    }\n'
 	        	+ '}', target_map);
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
