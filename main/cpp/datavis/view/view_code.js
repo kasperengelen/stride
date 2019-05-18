@@ -48,6 +48,11 @@
    		slider.enabled = true
     }
     
+    function circleSize(pop_size)
+    {
+    	return (Math.sqrt(pop_size * 20) * 7.9) + 400
+    }
+    
     /**
      * Display the current day on the map.
      */
@@ -91,7 +96,8 @@
 	        	+ '    }\n'
 	        	+ '}', target_map);
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
-		        marker.radius = loc.total.pop
+		        marker.radius = circleSize(loc.total.pop)
+		        console.log(loc.name + " -- " + marker.radius)
 		        marker.color  = Qt.hsva(health_frac, 1.0, 1.0, 0.5)
 		        marker.border.width = 4
 		        marker.ToolTip.text = loc.name
