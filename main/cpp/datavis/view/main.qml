@@ -1,3 +1,7 @@
+/**
+ * File that contains the main window of the data visualiser application.
+ */
+
 import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.5
@@ -8,13 +12,12 @@ import QtLocation 5.3
 import QtPositioning 5.6
 import QtQuick.Dialogs 1.3
 
+// logic code in javascript
 import "view_code.js" as Logic
 
+// stride classes
 import stride.datavis.controller 1.0
 import stride.datavis.view 1.0
-
-// TODO components in seperate qml files
-// TODO render from file data
 
 // main window
 Window {
@@ -34,7 +37,7 @@ Window {
     	objectName: "controller"
     	
 		onFileReadSuccessful: {
-            // if the read was completed -> refresh data, display new data    	
+            // if the read was completed -> refresh data, display new data
 			Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
 			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
 		}
