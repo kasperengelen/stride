@@ -92,6 +92,7 @@ before_install:
       export PATH="/usr/local/bin:$PATH"
       export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
       export STRIDE_FORCE_NO_PROTOC=ON
+      export STRIDE_FORCE_NO_HDF5=ON
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "clang" ]]; then
@@ -159,7 +160,6 @@ install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_ID" == "gcc" ]]; then
       export STRIDE_FORCE_NO_BOOST=ON
       export STRIDE_BOOST_NO_SYSTEM_PATHS=ON
-      export STRIDE_FORCE_NO_HDF5=ON
     else
       export BOOST_ROOT=$HOME/deps/boost_1_69_0
       if [[ -z "$(ls -A $BOOST_ROOT)" ]]; then
