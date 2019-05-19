@@ -52,61 +52,7 @@ Window {
     	id: view
     	objectName: "view"
     }
-    
-    Rectangle {
-    	property var 
-    
-    	id: sidebar
-    	
-    	width: 300
-    	
-    	height: parent.height - toolbar.height
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
         
-        color: 'purple'
-        
-        visible: true
-        
-        onVisibleChanged: {
-        	if(!this.visible)
-        	{
-        		this.width = 0
-        	}
-        	else
-        	{
-        		this.width = 300
-        	}
-        }
-        
-        
-        
-    }
-    
-    Rectangle {
-    	id: sidebarToggleButton
-    	
-    	width: 50
-    	
-    	height: parent.height - toolbar.height
-    	
-    	color: 'red'
-    	
-        anchors.right: sidebar.left
-        anchors.bottom: parent.bottom
-        
-        MouseArea {
-        	anchors.fill: parent
-        	onClicked: {
-				sidebar.visible = !sidebar.visible
-        		console.log("click")
-        	}
-				
-        
-        }
-    
-    }
-    
     /**
      * Map that displays the localities. The map will be located at the bottom of the window.
      */
@@ -125,9 +71,183 @@ Window {
         // positioning: bottom of the window, in the place that is left over by the toolbar
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        width: parent.width - sidebar.width - sidebarToggleButton.width
+        width: parent.width
         height: parent.height - toolbar.height
     } // Map
+
+    Rectangle {    
+    	id: sidebar
+    	
+    	width: 0
+    	
+        
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        height: parent.height - toolbar.height
+        
+        color: 'lightgrey'
+        
+        visible: false
+        
+        onVisibleChanged: {
+        	if(!this.visible)
+        	{
+        		this.width = 0
+        	}
+        	else
+        	{
+        		this.width = 300
+        	}
+        }
+        
+        function setLocation(location, day)
+        {
+	        Logic.addLocationToListModel(locationModel, location)
+	        locationNameDisplay.text = location.name
+	        currentDayDisplay.text = "Day " + day
+	        
+        }
+        
+        /**
+         * Rectangle that contains the content of the sidebar. This also
+         * handles centering and margins.
+         */
+        Rectangle {
+        	id: sidebarContent
+			
+			anchors.horizontalCenter: parent.horizontalCenter;
+	        anchors.verticalCenter : parent.verticalCenter; 
+	        width: sidebar.width - 40
+	        height: sidebar.height - 40
+	        
+	        color: parent.color
+        
+				Text {
+					id: locationNameDisplay; 
+					
+					width: sidebarContent.width
+					height: 22
+					
+					anchors.top: parent.top
+
+					font.pixelSize: 20;
+				}
+				
+				Text {
+					id: currentDayDisplay
+					
+					width: sidebarContent.width
+					height: 22
+					
+					anchors.top: locationNameDisplay.bottom
+
+					font.pixelSize: 20;
+				}
+
+			
+			    ListView {
+			    
+					ScrollBar.vertical: ScrollBar {
+			       		active: true
+			       		policy: ScrollBar.AlwaysOn
+			        }
+			        
+			        boundsBehavior: Flickable.StopAtBounds
+		        	
+					height: parent.height - locationNameDisplay.height - currentDayDisplay.height
+					width: sidebarContent.width
+					
+					anchors.bottom: parent.bottom 
+			
+			        clip: true
+			
+			        model: locationModel
+			
+			        delegate: popSectionAttrDelegate
+			
+			        section.property: "popSection"
+			        section.delegate: popSectionDelegate
+			    }
+			    
+			    Component {
+			        id: popSectionAttrDelegate
+			
+			        Item {
+			            width: ListView.view.width
+			            height: 20
+			
+			            Text {
+			                anchors.left: parent.left
+			                anchors.verticalCenter: parent.verticalCenter
+			                anchors.leftMargin: 8
+			                font.pixelSize: 16
+			                text: attrName
+			                color: '#1f1f1f'
+			            }
+			            
+			            Text {
+			                anchors.right: parent.right
+			                anchors.verticalCenter: parent.verticalCenter
+			                anchors.rightMargin: 8
+			                font.pixelSize: 16
+			                text: value
+			                color: '#1f1f1f'
+			            }
+			        }
+			    }
+			
+			    Component {
+			        id: popSectionDelegate
+			
+			        Rectangle {
+			            width: ListView.view.width
+			            height: 22
+			            Text{ text: section; font.pixelSize: 20; }
+			        }
+			    }
+			
+				
+			    ListModel {
+			        id: locationModel
+			    }
+		
+		} // sidebar content
+        
+        
+        
+    } // sidebar
+    
+    Rectangle {
+    	id: sidebarToggleButton
+    	
+    	width: 25
+    	
+    	height: parent.height - toolbar.height
+    	
+    	color: 'grey'
+    	
+        anchors.right: sidebar.left
+        anchors.bottom: parent.bottom
+        
+        Text { 
+        	text : sidebar.visible ? ">" : "<";
+			font.pixelSize: 30
+			font.bold: true
+        	anchors.horizontalCenter: parent.horizontalCenter;
+        	anchors.verticalCenter : parent.verticalCenter; 
+        }
+        
+        MouseArea {
+        	anchors.fill: parent
+        	onClicked: {
+				sidebar.visible = !sidebar.visible
+        		console.log("click")
+        	}
+				
+        
+        }
+    
+    }
 
     /**
      * Toolbar that contains the controls. The toolbar will be located at the top of the window.
@@ -184,7 +304,7 @@ Window {
             	enabled: false
             	
             	onValueChanged: {
-	            	Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
+	            	Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
             	}
 
 			    background: Rectangle {
@@ -230,7 +350,7 @@ Window {
 				
 				onCurrentIndexChanged: {
 					currentHealthId = healthTypeList.get(currentIndex).internal_name
-					Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
+					Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
 				}        
             
             } // ComboBox

@@ -68,7 +68,6 @@
 		for(var key in locality_list)
 		{
 			var loc = locality_list[key]
-			var health_frac = loc.total[health_status_name]
 			
 			// create map marker
 	        var marker_component = Qt.createComponent("location_marker.qml")
@@ -82,21 +81,84 @@
 			}	
 	        
 	        // instantiate marker and pass parameters
-	        var marker = marker_component.createObject(target_map, {"location": loc, "day": current_day, "sidebar": sidebar})
-	        
-	        	// set visual effects
-		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
-		        marker.radius = circleSize(loc.total.pop)
-		        marker.color  = Qt.hsva(health_frac, 1.0, 1.0, 0.5)
-		        marker.border.width = 4
-		        
-		        target_map.addMapItem(marker)
+	        var marker = marker_component.createObject(target_map, {"location": loc, "day": current_day, "sidebar": sidebar, "health_status" : health_status_name})   
+		    target_map.addMapItem(marker)
 		}
 		
 		// if needed, adjust map view to locality positions
 		if(reset_viewport) {
 			target_map.fitViewportToMapItems()
 		}
+    }
+    
+    /**
+     * Set the specified ListModel to display the specified Location. All
+     * previously present data will be cleared.
+     */
+    function addLocationToListModel(list_model, location)
+    {
+    	list_model.clear()
+    
+    	addPopSectionToListModel(list_model, "Total", location.total)
+    	addPopSectionToListModel(list_model, "Household", location.household)
+    	addPopSectionToListModel(list_model, "K12 School", location.k12school)
+    	addPopSectionToListModel(list_model, "College", location.college)
+    	addPopSectionToListModel(list_model, "Workplace", location.workplace)
+    	addPopSectionToListModel(list_model, "Primary Community", location.primCom)
+    	addPopSectionToListModel(list_model, "Secondary Community", location.secCom)
+    	addPopSectionToListModel(list_model, "Daycare", location.daycare)
+    	addPopSectionToListModel(list_model, "Preschool", location.preschool)
+    
+    }
+    
+    function fracToPct(frac)
+    {
+    	return (frac * 100).toFixed(2) + "%"
+    }
+    
+    function addPopSectionToListModel(list_model, section_name, section_data)
+    {
+    	list_model.append({
+    		"attrName": "Population",
+    		"value": section_data.pop.toString(),
+    		"popSection": section_name
+    	})
+
+    	list_model.append({
+    		"attrName":   "Susceptible",
+    		"value":      fracToPct(section_data.susceptible),
+    		"popSection": section_name
+    	})
+   
+    	list_model.append({
+    		"attrName":   "Infected",
+    		"value":      fracToPct(section_data.infected),
+    		"popSection": section_name
+    	})
+
+    	list_model.append({
+    		"attrName":   "Symptomatic",
+    		"value":      fracToPct(section_data.symptomatic),
+    		"popSection": section_name
+    	})
+
+    	list_model.append({
+    		"attrName":   "Infectious",
+    		"value":      fracToPct(section_data.infectious),
+    		"popSection": section_name
+    	})
+
+    	list_model.append({
+    		"attrName":   "Recovered",
+    		"value":      fracToPct(section_data.recovered),
+    		"popSection": section_name
+    	})
+
+    	list_model.append({
+    		"attrName":   "Immune",
+    		"value":      fracToPct(section_data.immune),
+    		"popSection": section_name
+    	})
     }
 
 
