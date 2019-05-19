@@ -57,7 +57,7 @@ matrix:
     - os: osx
       osx_image: xcode10.1
       compiler: gcc
-      env: MATRIX_EVAL="CXX_ID=gcc && CC=gcc-8 && CXX=g++-8"
+      env: MATRIX_EVAL="CXX_ID=gcc && CC=gcc-9 && CXX=g++-9"
 
     - os: osx
       osx_image: xcode10.1
@@ -88,7 +88,7 @@ before_install:
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_ID" == "gcc" ]]; then
-      brew install gcc@8
+      brew install gcc
       export PATH="/usr/local/bin:$PATH"
       export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
       export STRIDE_FORCE_NO_PROTOC=ON
@@ -147,10 +147,8 @@ install:
       # install qt5 for brew # SOURCE: https://github.com/pcolby/aws-sdk-qt/blob/master/.travis.yml, laurens
       brew install qt
       brew link --force qt
-    fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_ID" != "gcc" ]]; then
-      # install HDF5 (not installing on gcc, mac+gcc problems)
+
+      # install HDF5
       brew install hdf5
     fi
     #--------- All platforms
