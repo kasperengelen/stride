@@ -71,37 +71,25 @@
 			var health_frac = loc.total[health_status_name]
 			
 			// create map marker
-	        var marker = Qt.createQmlObject(
-	        	  'import QtLocation 5.3\n'
-	        	+ 'import QtQuick 2.12\n'
-	        	+ 'import QtQuick.Controls 2.5\n'
-	        	+ 'import "view_code.js" as Logic\n'
-	        	+ 'MapCircle {\n'
-	        	+ '    id: localityMarker_' + key + ';\n'
-	        	+ '    ToolTip.visible: localityMarker_' + key + '_ma.containsMouse; \n'
-	        	+ '    MouseArea {\n' // add mouse interaction
-	        	+ '        id: localityMarker_' + key + '_ma;\n'
-	        	+ '        anchors.fill: parent;\n'
-	        	+ '        cursorShape: Qt.PointingHandCursor;\n'
-	        	+ '        hoverEnabled: true;\n'
-	        	+ '        onClicked: {\n'
-	        	+ '            console.log("clicked loc ' + key + '");\n'
-	        	+ '            var component = Qt.createComponent("stat_popup.qml");\n'
-	        	+ '            var stat_popup = component.createObject(localityMarker_' + key + ');\n'
-	        	+ '            var parent_pos = Logic.getAbsolutePosition(parent);\n'
-	        	+ '            stat_popup.x = parent_pos.x;\n'
-	        	+ '            stat_popup.y = parent_pos.y;\n'
-	        	+ '            stat_popup.title = "' + loc.name + ' - Day ' + current_day + '";\n'
-	        	+ '            stat_popup.show();\n'
-	        	+ '        }\n'
-	        	+ '    }\n'
-	        	+ '}', target_map);
+	        var marker_component = Qt.createComponent("location_marker.qml")
+	        
+			if(marker_component.status != Component.Ready)
+			{
+				if(marker_component.status == Component.Error)
+					console.log("Error: " + marker_component.errorString())
+				else
+					console.log("Error: unknown error.")
+			}	
+	        
+	        // instantiate marker and pass parameters
+	        var marker = marker_component.createObject(target_map, {"location": loc, "day": current_day})
+	        
+	        	// set visual effects
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
 		        marker.radius = circleSize(loc.total.pop)
-		        console.log(loc.name + " -- " + marker.radius)
 		        marker.color  = Qt.hsva(health_frac, 1.0, 1.0, 0.5)
 		        marker.border.width = 4
-		        marker.ToolTip.text = loc.name
+		        
 		        target_map.addMapItem(marker)
 		}
 		
