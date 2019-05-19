@@ -147,12 +147,11 @@ install:
       # install qt5 for brew # SOURCE: https://github.com/pcolby/aws-sdk-qt/blob/master/.travis.yml, laurens
       brew install qt
       brew link --force qt
-
-      # install HDF5
-    - |
-      if [[ "$CXX_ID" != "gcc" ]]; then
-        brew install hdf5
-      fi
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_ID" != "gcc" ]]; then
+      # install HDF5 (not installing on gcc, mac+gcc problems)
+      brew install hdf5
     fi
     #--------- All platforms
   - |
