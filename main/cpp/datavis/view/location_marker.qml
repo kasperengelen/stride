@@ -7,6 +7,7 @@ import "view_code.js" as Logic
 MapCircle {
 	property var location; // the location that the marker represents
 	property var day;      // the number of the day
+	property var sidebar;
 
 	ToolTip.visible:ma.containsMouse;
 	ToolTip.text: location.name
@@ -36,6 +37,10 @@ MapCircle {
 			stat_popup.y = parent_pos.y
 			stat_popup.title = location.name + " - Day " + day
 			stat_popup.show();
+			
+			sidebar.current_location = location
+			sidebar.visible = true
+			sidebar.width = 300
 		}
 	}
 }

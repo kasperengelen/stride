@@ -39,7 +39,7 @@ Window {
 		onFileReadSuccessful: {
             // if the read was completed -> refresh data, display new data
 			Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
-			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId)
+			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
 		}
 		
 		onSaveMapToFile: {
@@ -51,6 +51,60 @@ Window {
     View {
     	id: view
     	objectName: "view"
+    }
+    
+    Rectangle {
+    	property var 
+    
+    	id: sidebar
+    	
+    	width: 300
+    	
+    	height: parent.height - toolbar.height
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        
+        color: 'purple'
+        
+        visible: true
+        
+        onVisibleChanged: {
+        	if(!this.visible)
+        	{
+        		this.width = 0
+        	}
+        	else
+        	{
+        		this.width = 300
+        	}
+        }
+        
+        
+        
+    }
+    
+    Rectangle {
+    	id: sidebarToggleButton
+    	
+    	width: 50
+    	
+    	height: parent.height - toolbar.height
+    	
+    	color: 'red'
+    	
+        anchors.right: sidebar.left
+        anchors.bottom: parent.bottom
+        
+        MouseArea {
+        	anchors.fill: parent
+        	onClicked: {
+				sidebar.visible = !sidebar.visible
+        		console.log("click")
+        	}
+				
+        
+        }
+    
     }
     
     /**
@@ -70,7 +124,8 @@ Window {
 
         // positioning: bottom of the window, in the place that is left over by the toolbar
         anchors.bottom: parent.bottom
-        width: parent.width
+        anchors.left: parent.left
+        width: parent.width - sidebar.width - sidebarToggleButton.width
         height: parent.height - toolbar.height
     } // Map
 

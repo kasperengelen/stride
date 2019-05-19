@@ -1,11 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQml.Models 2.12
+import QtQuick.Controls 2.5
+
 
 Window {
 
 	width: 300
-	height: 200
+	height: 400
 	flags: Qt.WindowStaysOnTopHint
 	
 	Rectangle {
@@ -15,73 +17,91 @@ Window {
 	    color: "lightGrey"
 	    
 	    ListView {
+	    
+			ScrollBar.vertical: ScrollBar {
+	       		active: true
+	       		policy: ScrollBar.AlwaysOn
+	        }
+	        
+	        boundsBehavior: Flickable.StopAtBounds
+	        
 	        anchors.fill: parent
 	        anchors.margins: 20
 	
 	        clip: true
 	
-	        model: spaceMen
+	        model: localityModel
 	
-	        delegate: spaceManDelegate
+	        delegate: popSectionAttrDelegate
 	
-	        section.property: "nation"
-	        section.delegate: sectionDelegate
+	        section.property: "popSection"
+	        section.delegate: popSectionDelegate
 	    }
 	    
     Component {
-        id: spaceManDelegate
+        id: popSectionAttrDelegate
 
         Item {
             width: ListView.view.width
             height: 20
+
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 8
-                font.pixelSize: 12
-                text: name
+                font.pixelSize: 16
+                text: attrName
+                color: '#1f1f1f'
+            }
+            
+            Text {
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 8
+                font.pixelSize: 16
+                text: value
                 color: '#1f1f1f'
             }
         }
     }
 
     Component {
-        id: sectionDelegate
+        id: popSectionDelegate
 
         Rectangle {
             width: ListView.view.width
-            height: 20
-            Text{ text: section }
+            height: 22
+            Text{ text: section; font.pixelSize: 20; }
         }
     }
 
 
     ListModel {
-        id: spaceMen
+        id: localityModel
 
-        ListElement { name: "Population";  nation: "Total"; }
-        ListElement { name: "Susceptible"; nation: "Total"; }
-        ListElement { name: "Infected";    nation: "Total"; }
-        ListElement { name: "Symptomatic"; nation: "Total"; }
-        ListElement { name: "Infectious";  nation: "Total"; }
-        ListElement { name: "Recovered";   nation: "Total"; }
-        ListElement { name: "Immune";      nation: "Total"; }
+        ListElement { attrName: "Population";  popSection: "Total"; value: 10000; }
+        ListElement { attrName: "Susceptible"; popSection: "Total"; value: 0.2;   }
+        ListElement { attrName: "Infected";    popSection: "Total"; value: 0.9;   }
+        ListElement { attrName: "Symptomatic"; popSection: "Total"; value: 0.5;   }
+        ListElement { attrName: "Infectious";  popSection: "Total"; value: 0.7;   }
+        ListElement { attrName: "Recovered";   popSection: "Total"; value: 0.0;   }
+        ListElement { attrName: "Immune";      popSection: "Total"; value: 0.6;   }
         
-        ListElement { name: "Population";  nation: "College"; }
-        ListElement { name: "Susceptible"; nation: "College"; }
-        ListElement { name: "Infected";    nation: "College"; }
-        ListElement { name: "Symptomatic"; nation: "College"; }
-        ListElement { name: "Infectious";  nation: "College"; }
-        ListElement { name: "Recovered";   nation: "College"; }
-        ListElement { name: "Immune";      nation: "College"; }
+        ListElement { attrName: "Population";  popSection: "College"; value: 10000; }
+        ListElement { attrName: "Susceptible"; popSection: "College"; value: 0.2;   }
+        ListElement { attrName: "Infected";    popSection: "College"; value: 0.9;   }
+        ListElement { attrName: "Symptomatic"; popSection: "College"; value: 0.5;   }
+        ListElement { attrName: "Infectious";  popSection: "College"; value: 0.7;   }
+        ListElement { attrName: "Recovered";   popSection: "College"; value: 0.0;   }
+        ListElement { attrName: "Immune";      popSection: "College"; value: 0.6;   }
         
-        ListElement { name: "Population";  nation: "Daycare"; }
-        ListElement { name: "Susceptible"; nation: "Daycare"; }
-        ListElement { name: "Infected";    nation: "Daycare"; }
-        ListElement { name: "Symptomatic"; nation: "Daycare"; }
-        ListElement { name: "Infectious";  nation: "Daycare"; }
-        ListElement { name: "Recovered";   nation: "Daycare"; }
-        ListElement { name: "Immune";      nation: "Daycare"; }
+        ListElement { attrName: "Population";  popSection: "Daycare"; value: 10000; }
+        ListElement { attrName: "Susceptible"; popSection: "Daycare"; value: 0.2;   }
+        ListElement { attrName: "Infected";    popSection: "Daycare"; value: 0.9;   }
+        ListElement { attrName: "Symptomatic"; popSection: "Daycare"; value: 0.5;   }
+        ListElement { attrName: "Infectious";  popSection: "Daycare"; value: 0.7;   }
+        ListElement { attrName: "Recovered";   popSection: "Daycare"; value: 0.0;   }
+        ListElement { attrName: "Immune";      popSection: "Daycare"; value: 0.6;   }
     }
 	
 	}	
@@ -95,10 +115,8 @@ Window {
 	
 	onActiveChanged: {
 		currently_active = !currently_active
-		console.log("active changed.")
-		console.log("cur active: " + this.currently_active)
-		console.log("active: " + this.active)
-		if(!this.currently_active)
+		var do_single_window = false;
+		if(!this.currently_active && do_single_window)
 		{
 			this.close()
 		}

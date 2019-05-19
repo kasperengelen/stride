@@ -56,7 +56,7 @@
     /**
      * Display the current day on the map.
      */
-    function displayCurrentDay(reset_viewport, target_map, epi_data, current_day, health_status_name)
+    function displayCurrentDay(reset_viewport, target_map, epi_data, current_day, health_status_name, sidebar)
     {
     	// clear previous day
     	target_map.clearMapItems();
@@ -82,7 +82,7 @@
 			}	
 	        
 	        // instantiate marker and pass parameters
-	        var marker = marker_component.createObject(target_map, {"location": loc, "day": current_day})
+	        var marker = marker_component.createObject(target_map, {"location": loc, "day": current_day, "sidebar": sidebar})
 	        
 	        	// set visual effects
 		        marker.center = QtPositioning.coordinate(loc.lat, loc.lon)
