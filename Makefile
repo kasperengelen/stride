@@ -74,6 +74,9 @@ endif
 ifneq ($(STRIDE_FORCE_NO_PYHTON),)
 	CMAKE_ARGS += -DSTRIDE_FORCE_NO_PYTHON:BOOL=$(STRIDE_FORCE_NO_PYTHON)
 endif
+ifneq ($(STRIDE_FORCE_NO_HDF5),)
+	CMAKE_ARGS += -DSTRIDE_FORCE_NO_HDF5:BOOL=$(STRIDE_FORCE_NO_PYTHON)
+endif
 
 #============================================================================
 #   Build directory.

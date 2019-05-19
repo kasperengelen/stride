@@ -57,7 +57,7 @@ matrix:
     - os: osx
       osx_image: xcode10.1
       compiler: gcc
-      env: MATRIX_EVAL="CXX_ID=gcc && CC=gcc-8 && CXX=g++-8 && STRIDE_FORCE_NO_HDF5=ON"
+      env: MATRIX_EVAL="CXX_ID=gcc && CC=gcc-8 && CXX=g++-8"
 
     - os: osx
       osx_image: xcode10.1
@@ -92,6 +92,7 @@ before_install:
       export PATH="/usr/local/bin:$PATH"
       export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
       export STRIDE_FORCE_NO_PROTOC=ON
+      export STRIDE_FORCE_NO_HDF5=ON
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "clang" ]]; then
