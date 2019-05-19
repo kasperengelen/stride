@@ -89,7 +89,6 @@ before_install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_ID" == "gcc" ]]; then
       brew install gcc@8
-      export STRIDE_FORSE_NO_HDF5=ON
       export PATH="/usr/local/bin:$PATH"
       export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
       export STRIDE_FORCE_NO_PROTOC=ON
@@ -150,7 +149,9 @@ install:
       brew link --force qt
 
       # install HDF5
-      brew install hdf5
+      if [[ "$CXX_ID" != "gcc" ]]; then
+        brew install hdf5
+      fi
     fi
     #--------- All platforms
   - |
