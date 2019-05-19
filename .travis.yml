@@ -149,6 +149,7 @@ install:
       brew link --force qt
 
       # install HDF5
+    - |
       if [[ "$CXX_ID" != "gcc" ]]; then
         brew install hdf5
       fi
