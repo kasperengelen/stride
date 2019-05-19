@@ -92,7 +92,7 @@ before_install:
       export PATH="/usr/local/bin:$PATH"
       export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
       export STRIDE_FORCE_NO_PROTOC=ON
-      export STRIDE_FORCE_NO_HDF5=ON
+      export STRIDE_FORCE_NO_HDF5=TRUE
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "clang" ]]; then
