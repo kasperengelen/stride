@@ -28,11 +28,12 @@ Window {
     
     width: 768
     height: 768
+
+    minimumWidth : 768
+    minimumHeight : 768
     
     visible: true
     title: "Simulation visualizer"
-    
-
     
     // C++ controller object
     Controller {
@@ -82,10 +83,20 @@ Window {
      * Mouse area that handles selection of locations on the map.
      */
     MouseArea {
-    	// property
-    	property var radius_marker;
-    	property var select_mode: "DISABLED"; // can be "DISABLED", "RADIUS", "RECTANGLE"
-    	property var rad_dialog; // reference to window that helps with selection
+    	
+        // the most recently or currently selected selection mode, this can be "RADIUS", or "RECTANGLE"
+        property var select_mode; 
+    	
+        property var radius_marker;
+        property var rad_dialog; // reference to window that helps with selection
+    	
+        property var rect_marker_1;
+        property var rect_marker_2;
+        property var rect_overlay;
+        property var rect_dialog;
+
+        // marker that is currently being selected
+        property var cur_rect_marker: 0
 
     	id: selectionManager
     	
@@ -108,17 +119,74 @@ Window {
 		onExited: {
 			map.gesture.enabled = true
 		}
-			
+		
+        /**
+         * Selection is performed by clicking on the map.
+         */
 		onClicked: {
-			map.removeMapItem(radius_marker)
+            if(select_mode == "RADIUS") {
+    			map.removeMapItem(radius_marker)
 
-			radius_marker = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
-			radius_marker.center = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-			radius_marker.radius = rad_dialog.getRadius()
-			radius_marker.color = Qt.rgba(0.66, 0.84, 0.43, 0.6)
-			radius_marker.border.width = 2
-				
-			map.addMapItem(radius_marker)
+
+
+                var component = Qt.createComponent("radius_select_marker.qml")
+
+                if (!Logic.checkComponent(component))
+                {
+                    return;
+                }
+
+                radius_marker        = component.createObject(map)
+    			radius_marker.center = map.toCoordinate(Qt.point(mouse.x, mouse.y))
+    			radius_marker.radius = rad_dialog.getRadius()
+    				
+    			map.addMapItem(radius_marker)
+
+            } else if(select_mode == "RECTANGLE") {
+                // create new marker
+                var component_marker = Qt.createComponent("rect_select_marker.qml")
+
+                if (!Logic.checkComponent(component_marker))
+                {
+                    return;
+                }
+
+                // determine if we're selecting #1 or #2
+                if(cur_rect_marker == 0) {
+
+                    // clear all current markers
+                    map.removeMapItem(rect_marker_1)
+                    map.removeMapItem(rect_marker_2)
+                    map.removeMapItem(rect_overlay)
+
+                    // create first marker
+                    rect_marker_1 = component_marker.createObject(map)
+                    rect_marker_1.coordinate = map.toCoordinate(Qt.point(mouse.x, mouse.y))
+
+                    map.addMapItem(rect_marker_1)
+
+                } else {
+
+                    rect_marker_2 = component_marker.createObject(map)
+                    rect_marker_2.coordinate = map.toCoordinate(Qt.point(mouse.x, mouse.y))
+
+                    var component_overlay = Qt.createComponent("rect_select_overlay.qml")
+
+                    if (!Logic.checkComponent(component_overlay))
+                    {
+                        return;
+                    }
+
+                    rect_overlay = component_overlay.createObject(map)
+                    
+                    rect_overlay.setCorners(rect_marker_1.coordinate, rect_marker_2.coordinate)
+
+                    map.addMapItem(rect_marker_2)
+                    map.addMapItem(rect_overlay)
+                }
+
+                cur_rect_marker = (cur_rect_marker + 1) % 2 // switch to next
+            }
 		}
 
 		/**
@@ -127,6 +195,9 @@ Window {
 		 */
 		function enterCircSelectionMode()
 		{
+            // remove previous selection
+            radius_marker = null 
+
         	var component = Qt.createComponent("radius_select_dialog.qml")
         	
 			if (!Logic.checkComponent(component))
@@ -153,10 +224,27 @@ Window {
          */
 		function enterRectSelectionMode()
 		{
-            // show window
+            // remove previous selection
+            rect_marker_1 = null
+            rect_marker_2 = null
+
+            var component = Qt.createComponent("rect_select_dialog.qml")
+
+            if(!Logic.checkComponent(component))
+            {
+                return;
+            }
+
+            rect_dialog = component.createObject(selectionManager, {"selectionManager": selectionManager})
+
+            rect_dialog.x = mainWindow.x + mainWindow.width / 2
+            rect_dialog.y = mainWindow.y + mainWindow.height / 2 - rect_dialog.height / 2
+            
+            rect_dialog.show()
 
             enabled = true
             select_mode = "RECTANGLE"
+            cur_rect_marker = 0 // select first point first
             daySlider.enabled = false
 		}
 
@@ -164,17 +252,32 @@ Window {
          * Command the mouse area to exit selection mode. This will
          * remove any map markers and disable the mouse area.
          */
-		function exitSelectionMode()
+		function exitSelectionMode(do_close = true)
 		{
             if(select_mode == "RADIUS") {
     			map.removeMapItem(radius_marker)	
+
+
+                if(do_close && rect_dialog != null && rect_dialog != undefined) {
+                    rad_dialog.close()
+                }
+
+                // remove gui
     			rad_dialog = null
-			} else if (select_mode == "RECTANGLE") {
+			
+            } else if (select_mode == "RECTANGLE") {
+                map.removeMapItem(rect_marker_1)
+                map.removeMapItem(rect_marker_2)
+                map.removeMapItem(rect_overlay)
 
+                if(do_close && rect_dialog != null && rect_dialog != undefined) {
+                    rect_dialog.close()
+                }
 
+                // remove gui
+                rect_dialog = null
             }
 
-            select_mode = "DISABLED"
             enabled = false
             daySlider.enabled = true
 		}
@@ -194,7 +297,7 @@ Window {
             if(select_mode == "RADIUS") {
                 return (radius_marker != undefined && radius_marker != null)
             } else if(select_mode == "RECTANGLE") {
-                return false; // TODO update, make sure that two points are present
+                return (rect_marker_1 != undefined && rect_marker_1 != null) && (rect_marker_2 != undefined && rect_marker_2 != null)
             }
 
             return false;
@@ -210,7 +313,11 @@ Window {
                 controller.SelectRadius(coord, radius, day)
                 // TODO retrieve return value?
             } else if (select_mode == "RECTANGLE") {
+                var coord1 = rect_marker_1.coordinate
+                var coord2 = rect_marker_2.coordinate
+                var day    = daySlider.value
 
+                controller.SelectRectangular(coord1, coord2, day)
             }
         }
     } // selectionManager
@@ -449,7 +556,7 @@ Window {
         height: 50
         
         RowLayout {
-            anchors.fill: parent.top
+            anchors.fill: parent
             
 			/**
 			 * Open file button
@@ -495,7 +602,10 @@ Window {
                     anchors.margins: 4
                 }
 
-                onClicked: selectionManager.enterCircSelectionMode()
+                onClicked: {
+                    selectionManager.exitSelectionMode()
+                    selectionManager.enterCircSelectionMode()
+                }
             } // circular selection button
             
             /**
@@ -508,7 +618,10 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                onClicked: selectionManager.enterRectSelectionMode()
+                onClicked: {
+                    selectionManager.exitSelectionMode()
+                    selectionManager.enterRectSelectionMode()
+                }
             } // rectangular selection button
             
             ToolSeparator {}
@@ -523,8 +636,10 @@ Window {
             	from: 0
             	to: 2
             	stepSize: 1
-            	implicitWidth: mainWindow.width * (3/5)
+            	//implicitWidth: mainWindow.width * (3/5)
             	enabled: false
+
+                Layout.fillWidth: true
             	
             	onValueChanged: {
 	            	Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
@@ -559,8 +674,7 @@ Window {
             	
             	currentIndex: 0
             	
-            	anchors.right: parent.right
-            	anchors.top: parent.top
+                Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
             	model: ListModel {
             		id: healthTypeList

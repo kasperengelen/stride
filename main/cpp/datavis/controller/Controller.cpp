@@ -24,6 +24,7 @@
 #include "datavis/readers/EpiReaderException.h"
 
 #include <iostream>
+#include <sstream>
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -91,12 +92,24 @@ void Controller::SaveFile()
 
 void Controller::SelectRadius(QGeoCoordinate coord, float radius, unsigned int day)
 {
-	std::cout << "lat: " << coord.latitude() << ", long: " << coord.longitude() << ", radius: " << radius << ", day: " << day << std::endl;
+	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+
+	std::stringstream ss;
+
+	ss << "lat: " << coord.latitude() << "\n long: " << coord.longitude() << "\n radius: " << radius << "\n day: " << day << std::endl;
+
+	QMessageBox::information(parent_ptr, QString{"Selection"}, QString::fromStdString(ss.str()));
 }
 
 void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB, unsigned int day)
 {
-	std::cout << "pointA(lat:" << pointA.latitude() << ",long:" << pointA.longitude() << "), pointA(lat:" << pointB.latitude() << ",long:" << pointB.longitude() << "), day: " << day << std::endl;
+	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+
+	std::stringstream ss;
+
+	ss << "pointA(lat:" << pointA.latitude() << ",long:" << pointA.longitude() << ")\n pointB(lat:" << pointB.latitude() << ",long:" << pointB.longitude() << ")\n day: " << day << std::endl;
+
+	QMessageBox::information(parent_ptr, QString{"Selection"}, QString::fromStdString(ss.str()));
 }
 
 } // namespace datavis

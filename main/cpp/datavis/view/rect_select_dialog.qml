@@ -7,7 +7,7 @@ import QtQuick.Dialogs 1.3
 
 /**
  * Dialog to help the user with selecting
- * a circular area on the map.
+ * a rectangular area on the map.
  */
 Window {
 	// reference to the mouse overlay so we can access data
@@ -15,7 +15,7 @@ Window {
 
 	id: radius_select_dialog
 
-	title: "Radius Selection"
+	title: "Rectangular Selection"
 
 	width: 300
 	height: 230
@@ -56,34 +56,6 @@ Window {
 			font.bold: true
 		}
 		
-		Text {
-			Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-			
-			id: label_select_radius
-			
-			text: "Selection Radius (km)"
-
-			font.pixelSize: 18
-			font.bold: true
-		}
-		
-		
-		Slider {
-			id: radius_value_select
-			
-			Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-		
-			from: 0
-			to: 1
-			stepSize: 0.01
-			
-			value: 0.3 // 30km
-
-			onValueChanged: {
-				selectionManager.updateCircRadius()
-			}
-		}
-		
 		Item {
 			Layout.fillHeight: true
 		}
@@ -115,20 +87,10 @@ Window {
 					// cleanup before confirming!
 					selectionManager.exitSelectionMode(false)
 					radius_select_dialog.close()
-					console.log("confirming")
+
 					selectionManager.confirmSelection()
 				}
 			}
 		} // RowLayout
 	} // ColumnLayout
-	
-	/**
-	 * Returns the specied radius in meters.
-	 */ 
-	function getRadius()
-	{
-		// we use a non-linear scale so that both small and big objects
-		// can be selected.
-		return Math.pow(radius_value_select.value, 4) * 2000000
-	}
 }

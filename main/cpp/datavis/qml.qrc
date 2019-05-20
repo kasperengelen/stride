@@ -3,10 +3,15 @@
         <file>view/main.qml</file>
         <file>img/open_simulation_file.png</file>
         <file>img/save_to_image.png</file>
-        <file>img/select_rect.png</file><file>img/select_circle.png</file><file>view/logic.js</file>
+        <file>img/select_rect.png</file><file>img/select_circle.png</file><file>img/map_marker.png</file><file>view/logic.js</file>
         <file>view/stat_popup.qml</file>
         <file>view/location_marker.qml</file>
         <file>view/radius_select_dialog.qml</file>
+        <file>view/rect_select_marker.qml</file>
+        <file>view/rect_select_overlay.qml</file>
+        <file>view/radius_select_marker.qml</file>
+        <file>view/rect_select_dialog.qml</file>
+
 
     </qresource>
 </RCC>
