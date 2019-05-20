@@ -21,6 +21,7 @@
 #include "datavis/model/Model.h"
 
 #include <QObject>
+#include <QGeoCoordinate>
 
 namespace stride {
 namespace datavis {
@@ -61,6 +62,19 @@ public:
          * Open dialog to save file.
          */
         Q_INVOKABLE void SaveFile();
+
+        /**
+         * Select locations as they appeared on the selected day
+         * in a circular area with the specified radius around
+         * the specified coordinate.
+         */
+        Q_INVOKABLE void SelectRadius(QGeoCoordinate coord, float radius, unsigned int day);
+
+        /**
+         * Select locations as they appeared on the selected day
+         * in a rectangular area between the two specified coordinates.
+         */
+        Q_INVOKABLE void SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB, unsigned int day);
 
 signals:
         /**

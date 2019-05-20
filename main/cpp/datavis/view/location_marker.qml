@@ -3,7 +3,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtPositioning 5.6
 
-import "view_code.js" as Logic
+import "logic.js" as Logic
 
 MapCircle {
 	property var location; // the location that the marker represents

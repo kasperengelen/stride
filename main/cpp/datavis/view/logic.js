@@ -1,5 +1,22 @@
 
 
+
+	function checkComponent(component)
+	{
+			if(component.status != Component.Ready)
+			{
+				if(component.status == Component.Error) {
+					console.log("Error: " + component.errorString())
+					return false
+				} else {
+					console.log("Error: unknown error.")
+					return false
+				}
+			}
+			
+			return true
+	}
+
     /**
      * Save the current map contents to a file with
      * the specified filename.

@@ -10,10 +10,9 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.12
 import QtLocation 5.3
 import QtPositioning 5.6
-import QtQuick.Dialogs 1.3
 
 // logic code in javascript
-import "view_code.js" as Logic
+import "logic.js" as Logic
 
 // stride classes
 import stride.datavis.controller 1.0
@@ -86,9 +85,9 @@ Window {
     	// property
     	property var radius_marker;
     	property var select_mode: "DISABLED"; // can be "DISABLED", "RADIUS", "RECTANGLE"
-    	property var select_dialog; // reference to window that helps with selection
+    	property var rad_dialog; // reference to window that helps with selection
 
-    	id: mapMouseOverlay
+    	id: selectionManager
     	
     	// conditional size to prevent interference with normal functionality
     	height: enabled ? map.height : 0
@@ -111,15 +110,15 @@ Window {
 		}
 			
 		onClicked: {
-			map.removeMapItem(mapMouseOverlay.radius_marker)
+			map.removeMapItem(radius_marker)
 
-			mapMouseOverlay.radius_marker = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
-			mapMouseOverlay.radius_marker.center = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-			mapMouseOverlay.radius_marker.radius = select_dialog.getRadius()
-			mapMouseOverlay.radius_marker.color = Qt.rgba(0.66, 0.84, 0.43, 0.6)
-			mapMouseOverlay.radius_marker.border.width = 2
+			radius_marker = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
+			radius_marker.center = map.toCoordinate(Qt.point(mouse.x, mouse.y))
+			radius_marker.radius = rad_dialog.getRadius()
+			radius_marker.color = Qt.rgba(0.66, 0.84, 0.43, 0.6)
+			radius_marker.border.width = 2
 				
-			map.addMapItem(mapMouseOverlay.radius_marker)
+			map.addMapItem(radius_marker)
 		}
 
 		/**
@@ -128,44 +127,93 @@ Window {
 		 */
 		function enterCircSelectionMode()
 		{
-        	var select_circ_component = Qt.createComponent("select_circ.qml")
+        	var component = Qt.createComponent("radius_select_dialog.qml")
         	
-			if(select_circ_component.status != Component.Ready)
+			if (!Logic.checkComponent(component))
 			{
-				if(select_circ_component.status == Component.Error)
-					console.log("Error: " + select_circ_component.errorString())
-				else
-					console.log("Error: unknown error.")
-			}	
+				return;
+			}
 	
 			// set mouse area as parent so that it can be accessed.
-        	mapMouseOverlay.select_dialog = select_circ_component.createObject(mapMouseOverlay, {"mapMouseOverlay": mapMouseOverlay})
+        	rad_dialog = component.createObject(selectionManager, {"selectionManager": selectionManager})
         	
-        	mapMouseOverlay.select_dialog.x = mainWindow.x + mainWindow.width / 2
-        	mapMouseOverlay.select_dialog.y = mainWindow.y + mainWindow.height / 2 - mapMouseOverlay.select_dialog.height / 2
+        	rad_dialog.x = mainWindow.x + mainWindow.width / 2
+        	rad_dialog.y = mainWindow.y + mainWindow.height / 2 - rad_dialog.height / 2
         	
-        	mapMouseOverlay.select_dialog.show()
+        	rad_dialog.show()
 
-        	mapMouseOverlay.enabled = true
+        	enabled = true
+            select_mode = "RADIUS"
+            daySlider.enabled = false
 		}
 
+        /**
+         * Command the mouse area to enter rectangular selection. This will
+         * open a selection window and enable the mouse area.
+         */
 		function enterRectSelectionMode()
 		{
+            // show window
 
-
-
+            enabled = true
+            select_mode = "RECTANGLE"
+            daySlider.enabled = false
 		}
 
+        /**
+         * Command the mouse area to exit selection mode. This will
+         * remove any map markers and disable the mouse area.
+         */
 		function exitSelectionMode()
 		{
-			// called from selection window
-			map.removeMapItem(mapMouseOverlay.radius_marker)
-			mapMouseOverlay.select_mode = "DISABLED"
-			mapMouseOverlay.select_dialog = null
-			mapMouseOverlay.enabled = false
+            if(select_mode == "RADIUS") {
+    			map.removeMapItem(radius_marker)	
+    			rad_dialog = null
+			} else if (select_mode == "RECTANGLE") {
+
+
+            }
+
+            select_mode = "DISABLED"
+            enabled = false
+            daySlider.enabled = true
 		}
 
-    } // mapMouseOverlay
+        function updateCircRadius()
+        {
+            if(radius_marker != null && radius_marker != undefined) {
+                radius_marker.radius = rad_dialog.getRadius()
+            }
+        }
+
+        /**
+         * Determine whether or not a selection is finished.
+         */
+        function isSelectionMade()
+        {
+            if(select_mode == "RADIUS") {
+                return (radius_marker != undefined && radius_marker != null)
+            } else if(select_mode == "RECTANGLE") {
+                return false; // TODO update, make sure that two points are present
+            }
+
+            return false;
+        }
+
+        function confirmSelection()
+        {
+            if(select_mode == "RADIUS") {
+                var coord  = radius_marker.center
+                var radius = radius_marker.radius
+                var day    = daySlider.value
+
+                controller.SelectRadius(coord, radius, day)
+                // TODO retrieve return value?
+            } else if (select_mode == "RECTANGLE") {
+
+            }
+        }
+    } // selectionManager
 
     /**
      * Rectangle that represents the entire sidebar.
@@ -447,7 +495,7 @@ Window {
                     anchors.margins: 4
                 }
 
-                onClicked: mapMouseOverlay.enterCircSelectionMode()
+                onClicked: selectionManager.enterCircSelectionMode()
             } // circular selection button
             
             /**
@@ -460,7 +508,7 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 4
                 }
-                onClicked: mapMouseOverlay.enterRectSelectionMode()
+                onClicked: selectionManager.enterRectSelectionMode()
             } // rectangular selection button
             
             ToolSeparator {}

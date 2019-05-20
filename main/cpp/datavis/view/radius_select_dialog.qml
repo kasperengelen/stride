@@ -3,13 +3,13 @@ import QtQuick.Window 2.2
 import QtQml.Models 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-
+import QtQuick.Dialogs 1.3
 
 Window {
 	// reference to the mouse overlay so we can access data
-	property var mapMouseOverlay;
+	property var selectionManager;
 
-	id: select_circ_dialog
+	id: radius_select_dialog
 
 	title: "Radius Selection"
 
@@ -23,11 +23,25 @@ Window {
 	maximumWidth : width
 	
 	flags: Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint
+
+	// cleanup
+	onClosing: {
+		selectionManager.exitSelectionMode()
+	}
+
+	/**
+	 * Message dialog for errors.
+	 */
+	MessageDialog {
+        id: noSelectionMadeErrorDialog
+        title: "Error"
+        text: "Please make a selection before confirming."
+    }
 	
-		ColumnLayout {
-		
-			anchors.fill: parent
+	ColumnLayout {
 	
+		anchors.fill: parent
+
 		Text {
 			Layout.topMargin: 20
 			Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
@@ -43,25 +57,27 @@ Window {
 			
 			id: label_select_radius
 			
-			text: "Selection Radius"
+			text: "Selection Radius (km)"
 
 			font.pixelSize: 18
 			font.bold: true
 		}
 		
 		
-		SpinBox {
+		Slider {
 			id: radius_value_select
 			
 			Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 		
 			from: 0
-			to: 1000000
-			stepSize: 1
+			to: 1
+			stepSize: 0.01
 			
-			value: 1000
-			
-			editable: true
+			value: 0.4 // 30km
+
+			onValueChanged: {
+				selectionManager.updateCircRadius()
+			}
 		}
 		
 		Item {
@@ -77,25 +93,37 @@ Window {
 			Button {
 				text: "Cancel"
 				onClicked: {
-					mapMouseOverlay.exitSelectionMode()
-					select_circ_dialog.close()
+					selectionManager.exitSelectionMode()
+					radius_select_dialog.close()
 				}
 			}
 		
 			Button {
 				text: "Confirm"
 				onClicked: {
-					mapMouseOverlay.exitSelectionMode()
-					select_circ_dialog.close()
+
+					// check if a selection exists
+					if(!selectionManager.isSelectionMade()) {
+						noSelectionMadeErrorDialog.open()
+						return;
+					}
+
+					// confirm before exiting selection mode!
+					selectionManager.confirmSelection()
+					radius_select_dialog.close()
+					selectionManager.exitSelectionMode()
 				}
 			}
-		}
+		} // RowLayout
+	} // ColumnLayout
 	
-	}
-	
+	/**
+	 * Returns the specied radius in meters.
+	 */ 
 	function getRadius()
 	{
-		return radius_value_select.value
+		// we use a non-linear scale so that both small and big objects
+		// can be selected.
+		return Math.pow(radius_value_select.value, 4) * 2000000
 	}
-
 }

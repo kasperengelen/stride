@@ -3,7 +3,7 @@ import QtQuick.Window 2.2
 import QtQml.Models 2.12
 import QtQuick.Controls 2.5
 
-import "view_code.js" as Logic
+import "logic.js" as Logic
 
 Window {
 	property var par;
