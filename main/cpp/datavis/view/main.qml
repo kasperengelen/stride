@@ -44,6 +44,7 @@ Window {
             // if the read was completed -> refresh data, display new data
 			Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
 			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
+            sidebar.clearData()
 		}
 		
 		onSaveMapToFile: {
@@ -373,6 +374,13 @@ Window {
 	        locationNameDisplay.text = location.name
 	        currentDayDisplay.text = "Day " + day
 	        
+        }
+
+        function clearData()
+        {
+            locationModel.clear()
+            locationNameDisplay.text = ""
+            currentDayDisplay.text   = ""
         }
         
         /**
