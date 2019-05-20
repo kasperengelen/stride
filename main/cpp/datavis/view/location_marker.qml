@@ -40,6 +40,9 @@ MapCircle {
 			
 			var stat_popup = component.createObject(parent, {"par": parent, "location": location, "day": day})
 
+			stat_popup.x = Logic.getAbsolutePosition(parent).x
+			stat_popup.y = Logic.getAbsolutePosition(parent).y
+
 			stat_popup.show();
 			
 			sidebar.setLocation(location, day)

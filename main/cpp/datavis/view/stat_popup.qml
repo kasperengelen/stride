@@ -11,15 +11,18 @@ Window {
 	width:  300
 	height: 400
 	
-	x:     Logic.getAbsolutePosition(par).x
-	y:     Logic.getAbsolutePosition(par).y
+	minimumHeight: height
+	maximumHeight: height
 	
+	minimumWidth: width
+	maximumWidth : width
+	
+	flags: Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint
+
 	title: location.name + " - Day " + day
 	
 	// load the location data
 	Component.onCompleted: Logic.addLocationToListModel(locationModel, location)
-	
-	flags: Qt.WindowStaysOnTopHint
 	    
 	    ListView {
 	    
