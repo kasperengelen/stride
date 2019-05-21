@@ -20,7 +20,6 @@
 #include "GeoGridProtoReader.h"
 #include "GeoGridReader.h"
 #include "util/Exception.h"
-#include "util/FileSys.h"
 
 #include <fstream>
 
@@ -33,14 +32,12 @@ namespace filesys = boost::filesystem;
 namespace filesys = std::filesystem;
 #endif
 
-using namespace stride::util;
-
 namespace geopop {
 
 std::shared_ptr<GeoGridReader> GeoGridReaderFactory::CreateReader(const std::string&  filename,
                                                                   stride::Population* pop) const
 {
-        const filesys::path path(FileSys::GetDataDir() /= filename);
+        const filesys::path path(filename);
         if (!filesys::exists(path)) {
                 throw stride::util::Exception("GeoGridReaderFactory::CreateReader> File not found: " + path.string());
         }
