@@ -1,0 +1,148 @@
+{
+    "brackets": [
+        17,
+        18,
+        64,
+        65
+    ],
+    "provinces": {
+        "1": {
+            "province": "Antwerpen",
+            "centrumsteden": [
+                "Antwerpen",
+                "Turnhout",
+                "Mechelen"
+            ],
+            "ratios_centrumsteden": {
+                "Antwerpen": [
+                    0.226,
+                    0.608,
+                    0.166
+                ],
+                "Turnhout": [
+                    0.194,
+                    0.613,
+                    0.193
+                ],
+                "Mechelen": [
+                    0.221,
+                    0.608,
+                    0.171
+                ]
+            },
+            "ratios_default": [
+                0.1888690490028257,
+                0.6078151449747413,
+                0.20331580602243296
+            ]
+        },
+        "4": {
+            "province": "Oost-Vlaanderen",
+            "centrumsteden": [
+                "Aalst",
+                "Gent",
+                "Sint-Niklaas"
+            ],
+            "ratios_centrumsteden": {
+                "Aalst": [
+                    0.195,
+                    0.609,
+                    0.196
+                ],
+                "Gent": [
+                    0.193,
+                    0.642,
+                    0.166
+                ],
+                "Sint-Niklaas": [
+                    0.215,
+                    0.588,
+                    0.198
+                ]
+            },
+            "ratios_default": [
+                0.19405211438594872,
+                0.6039540332817872,
+                0.20307303067371388
+            ]
+        },
+        "3": {
+            "province": "West-Vlaanderen",
+            "centrumsteden": [
+                "Brugge",
+                "Kortrijk",
+                "Oostende",
+                "Roeselare"
+            ],
+            "ratios_centrumsteden": {
+                "Brugge": [
+                    0.166,
+                    0.599,
+                    0.234
+                ],
+                "Kortrijk": [
+                    0.193,
+                    0.593,
+                    0.214
+                ],
+                "Oostende": [
+                    0.155,
+                    0.568,
+                    0.278
+                ],
+                "Roeselare": [
+                    0.192,
+                    0.608,
+                    0.2
+                ]
+            },
+            "ratios_default": [
+                0.18059167534782505,
+                0.5903992453179618,
+                0.2276828437159988
+            ]
+        },
+        "7": {
+            "province": "Limburg",
+            "centrumsteden": [
+                "Genk",
+                "Hasselt"
+            ],
+            "ratios_centrumsteden": {
+                "Genk": [
+                    0.198,
+                    0.614,
+                    0.189
+                ],
+                "Hasselt": [
+                    0.168,
+                    0.615,
+                    0.218
+                ]
+            },
+            "ratios_default": [
+                0.18682964111075293,
+                0.617485416052287,
+                0.19548760793081454
+            ]
+        },
+        "2": {
+            "province": "Vlaams-Brabant",
+            "centrumsteden": [
+                "Leuven"
+            ],
+            "ratios_centrumsteden": {
+                "Leuven": [
+                    0.173,
+                    0.666,
+                    0.161
+                ]
+            },
+            "ratios_default": [
+                0.20812765104808878,
+                0.5990379151895807,
+                0.19393217285758324
+            ]
+        }
+    }
+}
