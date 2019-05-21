@@ -20,11 +20,11 @@ import stride.datavis.view 1.0
 
 // main window
 Window {
-	// keeps track of the currently loaded epi data
+    // keeps track of the currently loaded epi data
     property var epiData : [];
-	
-	id: mainWindow
-	objectName: "mainWindow"
+    
+    id: mainWindow
+    objectName: "mainWindow"
     
     width: 768
     height: 768
@@ -35,319 +35,425 @@ Window {
     visible: true
     title: "Simulation visualizer"
     
-    // C++ controller object
+    /**
+     * QML representation of the C++ Controller. This
+     * object relays all the UI commands to the C++ backend.
+     */
     Controller {
-    	id: controller
-    	objectName: "controller"
-    	
-		onFileReadSuccessful: {
-            // if the read was completed -> refresh data, display new data
-			Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
-			Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
+        id: controller
+        objectName: "controller"
+        
+        // slot to load epi data
+        onFileReadSuccessful: {
+            Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
+            Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
             sidebar.clearData()
-		}
-		
-		onSaveMapToFile: {
-			Logic.saveMap(map, filename)
-		}
+        }
+        
+        // slot to save to file.
+        onSaveMapToFile: {
+            Logic.saveMap(map, filename)
+        }
     }
     
-    // C++ view object
+    /**
+     * QML representation of the C++ View. This
+     * object presents information to the QML frontend.
+     */
     View {
-    	id: view
-    	objectName: "view"
+        id: view
+        objectName: "view"
     }
         
     /**
      * Map that displays the localities. The map will be located at the bottom of the window.
      */
-	Map {
+    Map {
         id: map
         objectName: "map"
 
         plugin: Plugin {
-	        id: mapPlugin
-	        name: "osm"
-	    }
-	    
-		// better when saving to file.
-	    copyrightsVisible: false
+            id: mapPlugin
+            name: "osm"
+        }
+        
+        // better when saving to file.
+        copyrightsVisible: false
 
         // positioning: bottom of the window, in the place that is left over by the toolbar
         anchors.bottom: parent.bottom
         anchors.left: parent.left
+
         width: parent.width
         height: parent.height - toolbar.height
-    } // Map
+
+        /**
+         * Retrieve a geographic coordinate that corresponds 
+         * with the position of the mouse on the map.
+         */
+        function mousePosToCoord(mouse)
+        {
+            return map.toCoordinate(Qt.point(mouse.x, mouse.y))
+        }
+    }
     
     /**
-     * Mouse area that handles selection of locations on the map.
+     * MouseArea that handles the radius selection.
      */
     MouseArea {
-    	
-        // the most recently or currently selected selection mode, this can be "RADIUS", or "RECTANGLE"
-        property var select_mode; 
-    	
-        property var radius_marker;
-        property var rad_dialog; // reference to window that helps with selection
-    	
-        property var rect_marker_1;
-        property var rect_marker_2;
-        property var rect_overlay;
-        property var rect_dialog;
+        property var coord1
+        property var coord2
+        property var marker
 
-        // marker that is currently being selected
-        property var cur_rect_marker: 0
+        property var dialog
 
-    	id: selectionManager
-    	
-    	// conditional size to prevent interference with normal functionality
-    	height: enabled ? map.height : 0
-    	width: enabled ? (parent.width - sidebar.width - sidebarToggleButton.width) : 0
-    	
-    	anchors.left: parent.left
-    	anchors.bottom: parent.bottom
-		
-		hoverEnabled: true
-		enabled: false // set this to true to enter radial selection mode
-		
-		cursorShape: Qt.PointingHandCursor
+        id: radSelectionManager
+        
+        // conditional size to prevent interference with normal functionality
+        height: enabled ? map.height : 0
+        width: enabled ? (parent.width - sidebar.width - sidebarToggleButton.width) : 0
+        
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        
+        hoverEnabled: false
 
-		onEntered: {
-			map.gesture.enabled = false
-		}
-			
-		onExited: {
-			map.gesture.enabled = true
-		}
-		
-        /**
-         * Selection is performed by clicking on the map.
-         */
-		onClicked: {
-            if(select_mode == "RADIUS") {
-    			map.removeMapItem(radius_marker)
+        enabled: false
+        
+        cursorShape: Qt.PointingHandCursor
 
+        acceptedButtons: Qt.RightButton
+        
+        ///// DRAG & SELECT MECHANISMS /////
 
+        onPressed: {
+            map.removeMapItem(marker)
 
-                var component = Qt.createComponent("radius_select_marker.qml")
+            coord1 = map.mousePosToCoord(mouse)
+            coord2 = map.mousePosToCoord(mouse)
 
-                if (!Logic.checkComponent(component))
-                {
-                    return;
-                }
+            var component = Qt.createComponent("radius_select_marker.qml")
 
-                radius_marker        = component.createObject(map)
-    			radius_marker.center = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-    			radius_marker.radius = rad_dialog.getRadius()
-    				
-    			map.addMapItem(radius_marker)
-
-            } else if(select_mode == "RECTANGLE") {
-                // create new marker
-                var component_marker = Qt.createComponent("rect_select_marker.qml")
-
-                if (!Logic.checkComponent(component_marker))
-                {
-                    return;
-                }
-
-                // determine if we're selecting #1 or #2
-                if(cur_rect_marker == 0) {
-
-                    // clear all current markers
-                    map.removeMapItem(rect_marker_1)
-                    map.removeMapItem(rect_marker_2)
-                    map.removeMapItem(rect_overlay)
-
-                    // create first marker
-                    rect_marker_1 = component_marker.createObject(map)
-                    rect_marker_1.coordinate = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-
-                    map.addMapItem(rect_marker_1)
-
-                } else {
-
-                    rect_marker_2 = component_marker.createObject(map)
-                    rect_marker_2.coordinate = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-
-                    var component_overlay = Qt.createComponent("rect_select_overlay.qml")
-
-                    if (!Logic.checkComponent(component_overlay))
-                    {
-                        return;
-                    }
-
-                    rect_overlay = component_overlay.createObject(map)
-                    
-                    rect_overlay.setCorners(rect_marker_1.coordinate, rect_marker_2.coordinate)
-
-                    map.addMapItem(rect_marker_2)
-                    map.addMapItem(rect_overlay)
-                }
-
-                cur_rect_marker = (cur_rect_marker + 1) % 2 // switch to next
-            }
-		}
-
-		/**
-		 * Command the mouse area to enter circular selection. This will
-		 * open a selection window and enable the mouse area.
-		 */
-		function enterCircSelectionMode()
-		{
-            // remove previous selection
-            radius_marker = null 
-
-        	var component = Qt.createComponent("radius_select_dialog.qml")
-        	
-			if (!Logic.checkComponent(component))
-			{
-				return;
-			}
-	
-			// set mouse area as parent so that it can be accessed.
-        	rad_dialog = component.createObject(selectionManager, {"selectionManager": selectionManager})
-        	
-        	rad_dialog.x = mainWindow.x + mainWindow.width / 2
-        	rad_dialog.y = mainWindow.y + mainWindow.height / 2 - rad_dialog.height / 2
-        	
-        	rad_dialog.show()
-
-        	enabled = true
-            select_mode = "RADIUS"
-            daySlider.enabled = false
-		}
-
-        /**
-         * Command the mouse area to enter rectangular selection. This will
-         * open a selection window and enable the mouse area.
-         */
-		function enterRectSelectionMode()
-		{
-            // remove previous selection
-            rect_marker_1 = null
-            rect_marker_2 = null
-
-            var component = Qt.createComponent("rect_select_dialog.qml")
-
-            if(!Logic.checkComponent(component))
+            if (!Logic.checkComponent(component))
             {
                 return;
             }
 
-            rect_dialog = component.createObject(selectionManager, {"selectionManager": selectionManager})
+            marker = component.createObject(map)
 
-            rect_dialog.x = mainWindow.x + mainWindow.width / 2
-            rect_dialog.y = mainWindow.y + mainWindow.height / 2 - rect_dialog.height / 2
-            
-            rect_dialog.show()
+            marker.center = coord1
+            marker.radius = Logic.distanceBetween(coord1, coord2)
 
+            map.addMapItem(marker)
+        }
+
+        onPositionChanged: {
+            // only do selection if the first point has been selected
+            if(coord1 != undefined && coord1 != null) {
+                coord2 = map.mousePosToCoord(mouse)
+                marker.radius = Logic.distanceBetween(coord1, coord2)
+            }
+        }
+
+        onReleased: {
+            coord2 = map.mousePosToCoord(mouse)
+            marker.radius = Logic.distanceBetween(coord1, coord2)
+        }
+
+        ///// DRAG & SELECT MECHANISMS /////
+
+        /**
+         * 
+         */
+        function enable()
+        {
             enabled = true
-            select_mode = "RECTANGLE"
-            cur_rect_marker = 0 // select first point first
-            daySlider.enabled = false
-		}
+            daySlider.disable()
 
-        /**
-         * Command the mouse area to exit selection mode. This will
-         * remove any map markers and disable the mouse area.
-         */
-		function exitSelectionMode(do_close = true)
-		{
-            if(select_mode == "RADIUS") {
-    			map.removeMapItem(radius_marker)	
+            // create dialog
+            var component = Qt.createComponent("selection_dialog.qml")
 
-
-                if(do_close && rect_dialog != null && rect_dialog != undefined) {
-                    rad_dialog.close()
-                }
-
-                // remove gui
-    			rad_dialog = null
-			
-            } else if (select_mode == "RECTANGLE") {
-                map.removeMapItem(rect_marker_1)
-                map.removeMapItem(rect_marker_2)
-                map.removeMapItem(rect_overlay)
-
-                if(do_close && rect_dialog != null && rect_dialog != undefined) {
-                    rect_dialog.close()
-                }
-
-                // remove gui
-                rect_dialog = null
+            if (!Logic.checkComponent(component))
+            {
+                return;
             }
 
+            dialog = component.createObject(radSelectionManager, {"selectionManager": radSelectionManager})
+            
+            dialog.x = mainWindow.x + mainWindow.width / 2
+            dialog.y = mainWindow.y + mainWindow.height / 2 - dialog.height / 2
+            
+            dialog.show()
+        }
+
+        /**
+         * Disable the selection manager. This will make it
+         * invisible and it will stop receiving mouse events.
+         */
+        function disable()
+        {
             enabled = false
-            daySlider.enabled = true
-		}
-
-        function updateCircRadius()
-        {
-            if(radius_marker != null && radius_marker != undefined) {
-                radius_marker.radius = rad_dialog.getRadius()
-            }
+            daySlider.enable()
         }
 
         /**
-         * Determine whether or not a selection is finished.
+         * Close this dialog if the dialog exists and is opened.
          */
-        function isSelectionMade()
+        function closeDialog()
         {
-            if(select_mode == "RADIUS") {
-                return (radius_marker != undefined && radius_marker != null)
-            } else if(select_mode == "RECTANGLE") {
-                return (rect_marker_1 != undefined && rect_marker_1 != null) && (rect_marker_2 != undefined && rect_marker_2 != null)
-            }
-
-            return false;
+            if(dialog != null && dialog != undefined)
+                dialog.close()
         }
 
-        function confirmSelection()
+        /**
+         * Clear the stored selection and remove it
+         * from the map.
+         */
+        function clear()
         {
-            if(select_mode == "RADIUS") {
-                var coord  = radius_marker.center
-                var radius = radius_marker.radius
-                var day    = daySlider.value
+            // remove selection
+            coord1 = null
+            coord2 = null
 
-                controller.SelectRadius(coord, radius, day)
-                // TODO retrieve return value?
-            } else if (select_mode == "RECTANGLE") {
-                var coord1 = rect_marker_1.coordinate
-                var coord2 = rect_marker_2.coordinate
-                var day    = daySlider.value
+            // clear map
+            map.removeMapItem(marker)
+            marker = null
+        }
 
-                controller.SelectRectangular(coord1, coord2, day)
+        /**
+         * Send the selection parameters to the C++
+         * controller, clear the selection, and optionally
+         * close the window.
+         */
+        function confirm(do_close_dialog)
+        {
+            var day = daySlider.value
+
+            var coord  = marker.center
+            var radius = marker.radius
+
+            // close the dialog, this will also call
+            // terminate()
+            if(do_close_dialog)
+                closeDialog()
+
+            controller.SelectRadius(coord, radius, day)
+        }
+
+        /**
+         * Ends the selection mode. This
+         * will also clear the selection from the map
+         * and remove any stored selection parameters.
+         */
+        function terminate(do_close_dialog)
+        {
+            if(do_close_dialog)
+                closeDialog()
+
+            // clear and disable the selection manager
+            clear()
+            disable()
+        }
+
+        /**
+         * Determine whether the selection is valid and can be confirmed.
+         */
+        function validateSelection()
+        {
+            return coord1 != undefined && coord1 != null 
+                        && coord2 != undefined && coord2 != null
+                        && marker != null
+        }
+    } // selectionTestRadius
+
+    /**
+     * MouseArea that handles the rectangular selection.
+     */
+    MouseArea {
+        property var coord1
+        property var coord2
+        property var marker
+
+        property var dialog
+
+        id: rectSelectionManager
+        
+        // conditional size to prevent interference with normal functionality
+        height: enabled ? map.height : 0
+        width: enabled ? (parent.width - sidebar.width - sidebarToggleButton.width) : 0
+        
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        
+        hoverEnabled: false
+
+        enabled: false
+        
+        cursorShape: Qt.PointingHandCursor
+
+        acceptedButtons: Qt.RightButton
+        
+        ///// DRAG & SELECT MECHANISMS /////
+
+        onPressed: {
+            map.removeMapItem(marker)
+
+            coord1 = map.mousePosToCoord(mouse)
+            coord2 = map.mousePosToCoord(mouse)
+
+            var component = Qt.createComponent("rect_select_marker.qml")
+
+            if (!Logic.checkComponent(component))
+            {
+                return;
+            }
+
+            marker = component.createObject(map)
+            marker.setCorners(coord1, coord2)
+
+            map.addMapItem(marker)
+        }
+
+        onPositionChanged: {
+            // only do selection if the first point has been selected
+            if(coord1 != undefined && coord1 != null) {
+                coord2 = map.mousePosToCoord(mouse)
+                marker.setCorners(coord1, coord2)
             }
         }
-    } // selectionManager
+
+        onReleased: {
+            coord2 = map.mousePosToCoord(mouse)
+            marker.setCorners(coord1, coord2)
+        }
+
+        ///// DRAG & SELECT MECHANISMS /////
+
+        function enable()
+        {
+            enabled = true
+            daySlider.disable()
+
+            // create dialog
+            var component = Qt.createComponent("selection_dialog.qml")
+
+            if (!Logic.checkComponent(component))
+            {
+                return;
+            }
+
+            dialog = component.createObject(rectSelectionManager, {"selectionManager": rectSelectionManager})
+            
+            dialog.x = mainWindow.x + mainWindow.width / 2
+            dialog.y = mainWindow.y + mainWindow.height / 2 - dialog.height / 2
+            
+            dialog.show()
+        }
+
+        /**
+         * Disable the selection manager. This will make it
+         * invisible and it will stop receiving mouse events.
+         */
+        function disable()
+        {
+            enabled = false
+            daySlider.enable()
+        }
+
+        /**
+         * Close this dialog if the dialog exists and is opened.
+         */
+        function closeDialog()
+        {
+            if(dialog != null && dialog != undefined)
+                dialog.close()
+        }
+
+        /**
+         * Clear the stored selection and remove it
+         * from the map.
+         */
+        function clear()
+        {
+            // remove selection
+            coord1 = null
+            coord2 = null
+
+            // clear map
+            map.removeMapItem(marker)
+            marker = null
+        }
+
+        /**
+         * Send the selection parameters to the C++
+         * controller, clear the selection, and optionally
+         * close the window.
+         */
+        function confirm(do_close_dialog)
+        {
+            var day = daySlider.value
+
+            var pointA = coord1
+            var pointB = coord2
+
+            // close the dialog, this will also call
+            // terminate()
+            if(do_close_dialog)
+                closeDialog()
+
+            controller.SelectRectangular(pointA, pointB, day)
+        }
+
+        /**
+         * Ends the selection mode. This
+         * will also clear the selection from the map
+         * and remove any stored selection parameters.
+         */
+        function terminate(do_close_dialog)
+        {
+            if(do_close_dialog)
+                closeDialog()
+
+            // clear and disable the selection manager
+            clear()
+            disable()
+        }
+
+        /**
+         * Determine whether the selection is valid and can be confirmed.
+         */
+        function validateSelection()
+        {
+            return coord1 != undefined && coord1 != null 
+                        && coord2 != undefined && coord2 != null
+        }
+    } // selectionTestRect
 
     /**
      * Rectangle that represents the entire sidebar.
      */
     Rectangle {    
-    	id: sidebar
-    	
-    	width: 0
-    	
-    	/**
-    	 * This mouse area covers the sidebar to prevent interaction with te map underneath.
-    	 * The ListView is specified on top of this, so that mouse commands are not blocked.
-    	 */
-		MouseArea {
-			anchors.fill: parent
-			hoverEnabled: true
-			
-			onEntered: {
-				map.gesture.enabled = false
-			}
-			
-			onExited: {
-				map.gesture.enabled = true
-			}
-		} // MouseArea
-    	
+        id: sidebar
+        
+        width: 0
+        
+        /**
+         * This mouse area covers the sidebar to prevent interaction with te map underneath.
+         * The ListView is specified on top of this, so that mouse commands are not blocked.
+         */
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            
+            onEntered: {
+                map.gesture.enabled = false
+            }
+            
+            onExited: {
+                map.gesture.enabled = true
+            }
+        } // MouseArea
+        
         
         anchors.bottom: parent.bottom
         anchors.right: parent.right
@@ -358,22 +464,22 @@ Window {
         visible: false
         
         onVisibleChanged: {
-        	if(!this.visible)
-        	{
-        		this.width = 0
-        	}
-        	else
-        	{
-        		this.width = 300
-        	}
+            if(!this.visible)
+            {
+                this.width = 0
+            }
+            else
+            {
+                this.width = 300
+            }
         }
         
         function setLocation(location, day)
         {
-	        Logic.addLocationToListModel(locationModel, location)
-	        locationNameDisplay.text = location.name
-	        currentDayDisplay.text = "Day " + day
-	        
+            Logic.addLocationToListModel(locationModel, location)
+            locationNameDisplay.text = location.name
+            currentDayDisplay.text = "Day " + day
+            
         }
 
         function clearData()
@@ -388,133 +494,133 @@ Window {
          * handles centering and margins.
          */
         Rectangle {
-        	id: sidebarContent
-			
-			anchors.horizontalCenter: parent.horizontalCenter;
-	        anchors.verticalCenter : parent.verticalCenter; 
-	        
-	        width: sidebar.width - 40
-	        height: sidebar.height - 40
-		        
-	        color: parent.color
+            id: sidebarContent
+            
+            anchors.horizontalCenter: parent.horizontalCenter;
+            anchors.verticalCenter : parent.verticalCenter; 
+            
+            width: sidebar.width - 40
+            height: sidebar.height - 40
+                
+            color: parent.color
         
-    		/**
-    		 * Displays the name of the location.
-    		 */
-			Text {
-				id: locationNameDisplay; 
-				
-				width: sidebarContent.width
-				height: 22
-				
-				anchors.top: parent.top
+            /**
+             * Displays the name of the location.
+             */
+            Text {
+                id: locationNameDisplay; 
+                
+                width: sidebarContent.width
+                height: 22
+                
+                anchors.top: parent.top
 
-				font.pixelSize: 20;
-			}
+                font.pixelSize: 20;
+            }
 
-    		/**
-    		 * Displays the current day.
-    		 */
-			Text {
-				id: currentDayDisplay
-				
-				width: sidebarContent.width
-				height: 22
-				
-				anchors.top: locationNameDisplay.bottom
+            /**
+             * Displays the current day.
+             */
+            Text {
+                id: currentDayDisplay
+                
+                width: sidebarContent.width
+                height: 22
+                
+                anchors.top: locationNameDisplay.bottom
 
-				font.pixelSize: 20;
-			}
+                font.pixelSize: 20;
+            }
 
-			/**
-			 * Displays the entire list.
-			 */
-		    ListView {
-		    
-				ScrollBar.vertical: ScrollBar {
-		       		active: true
-		       		policy: ScrollBar.AlwaysOn
-		        }
-		        
-		        boundsBehavior: Flickable.StopAtBounds
-	        	
-				height: parent.height - locationNameDisplay.height - currentDayDisplay.height
-				width: sidebarContent.width
-				
-				anchors.bottom: parent.bottom 
-		
-		        clip: true
-		
-		        model: locationModel
-		
-		        delegate: popSectionAttrDelegate
-		
-		        section.property: "popSection"
-		        section.delegate: popSectionDelegate
-		    }
-		    
-		    /**
-		     * Displays population section attributes.
-		     */
-		    Component {
-		        id: popSectionAttrDelegate
-		
-		        Item {
-		            width: ListView.view.width
-		            height: 20
-		
-		            Text {
-		                anchors.left: parent.left
-		                anchors.verticalCenter: parent.verticalCenter
-		                anchors.leftMargin: 8
-		                font.pixelSize: 16
-		                text: attrName
-		                color: '#1f1f1f'
-		            }
-		            
-		            Text {
-		                anchors.right: parent.right
-		                anchors.verticalCenter: parent.verticalCenter
-		                anchors.rightMargin: 8
-		                font.pixelSize: 16
-		                text: value
-		                color: '#1f1f1f'
-		            }
-		        }
-		    }
+            /**
+             * Displays the entire list.
+             */
+            ListView {
+            
+                ScrollBar.vertical: ScrollBar {
+                    active: true
+                    policy: ScrollBar.AlwaysOn
+                }
+                
+                boundsBehavior: Flickable.StopAtBounds
+                
+                height: parent.height - locationNameDisplay.height - currentDayDisplay.height
+                width: sidebarContent.width
+                
+                anchors.bottom: parent.bottom 
+        
+                clip: true
+        
+                model: locationModel
+        
+                delegate: popSectionAttrDelegate
+        
+                section.property: "popSection"
+                section.delegate: popSectionDelegate
+            }
+            
+            /**
+             * Displays population section attributes.
+             */
+            Component {
+                id: popSectionAttrDelegate
+        
+                Item {
+                    width: ListView.view.width
+                    height: 20
+        
+                    Text {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: 8
+                        font.pixelSize: 16
+                        text: attrName
+                        color: '#1f1f1f'
+                    }
+                    
+                    Text {
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.rightMargin: 8
+                        font.pixelSize: 16
+                        text: value
+                        color: '#1f1f1f'
+                    }
+                }
+            }
 
-		    /**
-			 * Displays population section names.
-			 */
-		    Component {
-		        id: popSectionDelegate
-		
-		        Rectangle {
-		            width: ListView.view.width
-		            height: 22
-		            Text{ text: section; font.pixelSize: 20; }
-		        }
-		    }
-		
-			// contains the epi data of the location
-		    ListModel {
-		        id: locationModel
-		    }
-		} // sidebar content 
+            /**
+             * Displays population section names.
+             */
+            Component {
+                id: popSectionDelegate
+        
+                Rectangle {
+                    width: ListView.view.width
+                    height: 22
+                    Text{ text: section; font.pixelSize: 20; }
+                }
+            }
+        
+            // contains the epi data of the location
+            ListModel {
+                id: locationModel
+            }
+        } // sidebar content 
     } // sidebar
     
     /**
      * Toggle button to show/hide the sidebar
      */
     Rectangle {
-    	id: sidebarToggleButton
-    	
-    	width: 25
-    	
-    	height: parent.height - toolbar.height
-    	
-    	color: 'grey'
-    	
+        id: sidebarToggleButton
+        
+        width: 25
+        
+        height: parent.height - toolbar.height
+        
+        color: 'grey'
+        
         anchors.right: sidebar.left
         anchors.bottom: parent.bottom
         
@@ -522,33 +628,33 @@ Window {
          * Arrow symbol.
          */
         Text { 
-        	text : sidebar.visible ? ">" : "<";
-			font.pixelSize: 30
-			font.bold: true
-        	anchors.horizontalCenter: parent.horizontalCenter;
-        	anchors.verticalCenter : parent.verticalCenter; 
+            text : sidebar.visible ? ">" : "<";
+            font.pixelSize: 30
+            font.bold: true
+            anchors.horizontalCenter: parent.horizontalCenter;
+            anchors.verticalCenter : parent.verticalCenter; 
         }
         
-    	/**
-    	 * This mouse area covers the sidebar toggle button to 
-    	 * prevent interaction with te map underneath.
-    	 */
+        /**
+         * This mouse area covers the sidebar toggle button to 
+         * prevent interaction with te map underneath.
+         */
         MouseArea {
-        	anchors.fill: parent
-			hoverEnabled: true
+            anchors.fill: parent
+            hoverEnabled: true
 
-        	onClicked: {
-				sidebar.visible = !sidebar.visible
-        	}
+            onClicked: {
+                sidebar.visible = !sidebar.visible
+            }
 
-			// disable map interaction when over this mousearea
-			onEntered: {
-				map.gesture.enabled = false
-			}
-			
-			onExited: {
-				map.gesture.enabled = true
-			}
+            // disable map interaction when over this mousearea
+            onEntered: {
+                map.gesture.enabled = false
+            }
+            
+            onExited: {
+                map.gesture.enabled = true
+            }
         } // MouseArea
     } // sidebarToggleButton
 
@@ -566,10 +672,13 @@ Window {
         RowLayout {
             anchors.fill: parent
             
-			/**
-			 * Open file button
-			 */
+            /**
+             * Open file button
+             */
             ToolButton {
+                ToolTip.visible: hovered
+                ToolTip.text: "Open file"
+
                 id: open_file
                 Image {
                     source: "../img/open_simulation_file.png"
@@ -577,14 +686,17 @@ Window {
                     anchors.margins: 4
                 }
                 onClicked: {
-                	controller.OpenFile() // trigger the file opening dialog and subsequent reader mechanism
+                    controller.OpenFile() // trigger the file opening dialog and subsequent reader mechanism
                 }
             } // open file button
 
-			/**
-			 * Save button
-			 */
+            /**
+             * Save button
+             */
             ToolButton {
+                ToolTip.visible: hovered
+                ToolTip.text: "Save timestep to image"
+
                 id: save_to_img
                 Image {
                     source: "../img/save_to_image.png"
@@ -592,7 +704,7 @@ Window {
                     anchors.margins: 4
                 }
                 onClicked: { 
-                	controller.SaveFile()
+                    controller.SaveFile()
                 }
             } // save button
 
@@ -602,17 +714,25 @@ Window {
              * Enter circular selection mode
              */
             ToolButton {
+                ToolTip.visible: hovered
+                ToolTip.text: "Select radius"
+
                 id: select_circ
                 
                 Image {
+                    // SOURCE: https://www.iconfinder.com/iconsets/common-toolbar
                     source: "../img/select_circle.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
 
                 onClicked: {
-                    selectionManager.exitSelectionMode()
-                    selectionManager.enterCircSelectionMode()
+                    rectSelectionManager.disable()
+                    rectSelectionManager.closeDialog()
+                    radSelectionManager.disable()
+                    radSelectionManager.closeDialog()
+
+                    radSelectionManager.enable()
                 }
             } // circular selection button
             
@@ -620,86 +740,203 @@ Window {
              * Enter rectangular selection mode
              */
             ToolButton {
+                ToolTip.visible: hovered
+                ToolTip.text: "Select box"
+
                 id: select_rect
                 Image {
+                    // SOURCE: https://www.iconfinder.com/iconsets/common-toolbar
                     source: "../img/select_rect.png"
                     anchors.fill: parent
                     anchors.margins: 4
                 }
+                
                 onClicked: {
-                    selectionManager.exitSelectionMode()
-                    selectionManager.enterRectSelectionMode()
+                    radSelectionManager.disable()
+                    radSelectionManager.closeDialog()
+                    rectSelectionManager.disable()
+                    rectSelectionManager.closeDialog()
+
+                    rectSelectionManager.enable()
                 }
             } // rectangular selection button
             
             ToolSeparator {}
+
+            /**
+             * Button to toggle the timestep timer.
+             */
+            ToolButton {
+                property var play_status: false
+
+                id: play_pause
+
+                enabled: false
+
+                ToolTip.visible: hovered
+                ToolTip.text: "Toggle autoplay"
+
+                Image {
+                    id: button_icon
+
+                    // SOURCE: https://www.iconfinder.com/iconsets/buttons-9
+                    source: "../img/play.png"
+                    anchors.fill: parent
+                    anchors.margins: 4
+                }
+
+                onClicked: {
+                    play_status = !play_status
+                }
+
+                onPlay_statusChanged: {
+                    if(play_status)
+                    {
+                        // SOURCE: https://www.iconfinder.com/iconsets/buttons-9
+                        button_icon.source = "../img/pause.png"
+                    }
+                    else
+                    {
+                        // SOURCE: https://www.iconfinder.com/iconsets/buttons-9
+                        button_icon.source = "../img/play.png"
+                    }
+                }
+            }
             
             /**
              * Slide to select a day from the simulation.
              */
             Slider {
-            	// anchor
-            	// dynamic width calculation
+                // anchor
+                // dynamic width calculation
                 id: daySlider
-            	from: 0
-            	to: 2
-            	stepSize: 1
-            	//implicitWidth: mainWindow.width * (3/5)
-            	enabled: false
+                from: 0
+                to: 2
+                stepSize: 1
+                //implicitWidth: mainWindow.width * (3/5)
+                enabled: false
+
+                function enable()
+                {
+                    enabled = true
+                    play_pause.enabled = true
+                }
+
+                function disable()
+                {
+                    enabled = false
+
+                    play_pause.enabled = false
+                    play_pause.play_status = false
+
+                    // stop timer
+                }
+
+                /**
+                 * MouseArea that handles the scroll wheel event so that the scroll
+                 * wheel can be used to scroll through timesteps.
+                 */
+                MouseArea {
+                    anchors.fill: parent
+
+                    onPressed: {
+                        // forward mouse event
+                        mouse.accepted = false
+                    }
+                    
+                    onReleased: {
+                        // forward mouse event
+                        mouse.accepted = false
+                    }
+
+                    onWheel: {
+                        console.log(wheel.pixelDelta.x)
+                        console.log(wheel.pixelDelta.y)
+
+                        console.log(wheel.angleDelta.x)
+                        console.log(wheel.angleDelta.y)
+
+                        if(wheel.angleDelta.y > 0)
+                        {
+                            daySlider.increase()
+                        }
+                        else if(wheel.angleDelta.y < 0)
+                        {
+                            daySlider.decrease()
+                        }
+                    }
+                }
+
+                /**
+                 * Time that automatically increments the slider
+                 * if enabled.
+                 */
+                Timer {
+                    interval: 500
+                    running : play_pause.play_status
+                    repeat: true
+
+                    onTriggered: {
+                        daySlider.increase()
+                    }
+                }
 
                 Layout.fillWidth: true
-            	
-            	onValueChanged: {
-	            	Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
-            	}
+                
+                onValueChanged: {
+                    Logic.displayCurrentDay(false, map, mainWindow.epiData, value, healthTypeSelector.currentHealthId, sidebar)
+                }
 
-			    background: Rectangle {
-			        x: daySlider.leftPadding
-			        y: daySlider.topPadding + daySlider.availableHeight / 2 - height / 2
-			        implicitWidth: 200
-			        implicitHeight: 4
-			        width: daySlider.availableWidth
-			        height: implicitHeight
-			        radius: 2
-			        color: "#bdbebf"
-			
-			        Rectangle {
-			            width: daySlider.visualPosition * parent.width
-			            height: parent.height
-			            color: "#21be2b"
-			            radius: 2
-			        }
-			    } // background
+                background: Rectangle {
+                    x: daySlider.leftPadding
+                    y: daySlider.topPadding + daySlider.availableHeight / 2 - height / 2
+                    implicitWidth: 200
+                    implicitHeight: 4
+                    width: daySlider.availableWidth
+                    height: implicitHeight
+                    radius: 2
+                    color: "#bdbebf"
+            
+                    Rectangle {
+                        width: daySlider.visualPosition * parent.width
+                        height: parent.height
+                        color: "#21be2b"
+                        radius: 2
+                    }
+                } // background
             } // Slider
             
             /**
              * Dropdown menu to select which health status should be displayed on the map.
              */
             ComboBox {
-            	id: healthTypeSelector
-            	
-            	property string currentHealthId: healthTypeList.get(0).internal_name
-            	
-            	currentIndex: 0
-            	
+                ToolTip.visible: hovered
+                ToolTip.text: "Select health status"
+
+                id: healthTypeSelector
+                
+                property string currentHealthId: healthTypeList.get(0).internal_name
+                
+                currentIndex: 0
+                
                 Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
-            	model: ListModel {
-            		id: healthTypeList
-            		ListElement { text: "Immune";      internal_name: "immune" }
-            		ListElement { text: "Susceptible"; internal_name: "susceptible" }
-            		ListElement { text: "Infected";    internal_name: "infected" }
-            		ListElement { text: "Symptomatic"; internal_name: "symptomatic" }
-            		ListElement { text: "Infectious";  internal_name: "infectious" }
-            		ListElement { text: "Recovered";   internal_name: "recovered" }
-            	}
-            	
-            	textRole: 'text'
-				
-				onCurrentIndexChanged: {
-					currentHealthId = healthTypeList.get(currentIndex).internal_name
-					Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
-				}        
+                model: ListModel {
+                    id: healthTypeList
+                    ListElement { text: "Immune";      internal_name: "immune" }
+                    ListElement { text: "Susceptible"; internal_name: "susceptible" }
+                    ListElement { text: "Infected";    internal_name: "infected" }
+                    ListElement { text: "Symptomatic"; internal_name: "symptomatic" }
+                    ListElement { text: "Infectious";  internal_name: "infectious" }
+                    ListElement { text: "Recovered";   internal_name: "recovered" }
+                }
+                
+                textRole: 'text'
+                
+                onCurrentIndexChanged: {
+                    currentHealthId = healthTypeList.get(currentIndex).internal_name
+                    Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
+                }        
             
             } // ComboBox
         } // RowLayout

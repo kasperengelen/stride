@@ -28,27 +28,7 @@ MapCircle {
 
 		hoverEnabled:true
 
-		onClicked: {
-			var component = Qt.createComponent("stat_popup.qml")
-			if(component.status != Component.Ready)
-			{
-				if(component.status == Component.Error)
-					console.log("Error: " + component.errorString())
-				else
-					console.log("Error: unknown error.")
-			}			
-			
-			var stat_popup = component.createObject(parent, {"par": parent, "location": location, "day": day})
-
-			stat_popup.x = Logic.getAbsolutePosition(parent).x
-			stat_popup.y = Logic.getAbsolutePosition(parent).y
-
-			stat_popup.show();
-			
-			sidebar.setLocation(location, day)
-		}
-		
-		onEntered: {
+		onClicked: {			
 			sidebar.setLocation(location, day)
 		}
 	}
