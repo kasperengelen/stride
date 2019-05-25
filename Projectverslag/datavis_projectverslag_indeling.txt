@@ -1,0 +1,41 @@
+Structuur
+=========
+
+ * Verloop van de implementatie: keuzes die gemaakt zijn, moelijkheden, zaken die geleerd zijn.
+ * Componenten van de visualiser obv de vereisten
+    -> Grafisch op het scherm
+    -> via file
+    -> Iedere localiteit heeft een cirkel
+        * straal evenredig met het bevolkingsaantal
+        * gekleurd hsv
+        * selectie van de weer te geven gezondheidstoestand
+        * overlapping van cirkels, transparantie
+        * hovering: tooltip
+        * click: info in sidebar
+        * apparte executable
+    -> conditioneel op de aanwezigheid van QT5
+    -> HDF5, JSON, Protobuf
+ * componenten achteraf
+    -> selectie dmv radius, box
+    -> MVC structuur
+    -> slider om dag te selecteren
+    -> autoplay
+    -> backend in C++
+    -> statsitieken voor elke bevolkingsgroep
+    -> bouw via CMake
+    -> automatische viewport
+
+ * te doen
+    -> testen JSON, HDF5, Protobuf, View
+    -> documentatie: eigen hoofdstuk
+        * sectie over bestandsformaat
+        * sectie over algemene layout
+        * sectie over openen en bekijken simulatie, alsook de autoplay
+        * bekijken van statistieken, selecteren van localities
+        * save naar image
+
+
+Per component: 
+    -> waar in de code: klassenaam, functienaam, etc
+    -> Documentatie in de doxygen?
+    -> Waar in de user manual?

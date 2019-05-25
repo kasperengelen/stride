@@ -1,0 +1,117 @@
+
+Implementeren van het project
+=============================
+
+Qt in Cmake
+-----------
+    De eerste stap in het implementeren van de visualiser, was het includen van Qt in het project. De koppeling verliep voornamelijk met behulp van de Cmake files die voorzien waren door Qt. Dit maakt het mogelijk om de Qt binaries te linken, alsook de qml, qrc, etc files te koppelen aan het project zonder gebruik te maken van qmake.
+
+Qt prototype
+------------
+    Om de haalbaarheid van de visualiser te verifieren was het noodzakelijk om een architectural prototype te maken waarbij de basisfunctionaliteiten van de UI aanwezig waren. In het prototype waren de knoppen om files te openen en te saven, alsook een kaart met daarop cirkels aanwezig. Er werd ook besloten om de code van het prototype te gebruiken als basis voor de implementatie voor de uiteindelijke visualiser.
+
+C++ verbinden met QML
+---------------------
+    Een andere vereiste was dat de backend geimplementeerd was in C++. Tegelijk werd te UI geimplementeerd met behulp van QML. Om deze twee zaken ver verenigen, moesten we de C++ zijde koppelen aan de QML zijde. Qt voorziet enkele functionaliteiten om dit mogelijk te maken zowel met types die voorzien zijn door Qt zelf, als met zelfgemaakte C++ types.
+
+MVC structuur in C++
+--------------------
+    Als projectstructuur werd er MVC genomen. Er is een Controller klasse die als callback voor knoppen fungeert en op basis van deze callbacks het Model update. De Model klasse bevat alle data. De model bevat een lijst van timesteps, waarbij elke timestep een lijst van locaties bevat. De View klasse voorziet een getter waarmee de QML zijde de model data kan opvragen.
+
+Werking van de UI
+-----------------
+    De UI zit omvat in een Window QML object. Dit object bevat op zijn beurt technische objecten zoals de Controller en View, alsook zichtbare elementen zoals de kaart, de toolbar en de sidebar. De sidebar voorziet d.m.v. een ListView object een lijst van statistieken, de toolbar vooziet de open file en save image knoppen, de selectieknoppen, de play/pause knop, de timestep-slider en de dropdown voor ziekteselectie, en de sidebar bevat informatie over de locaties.
+
+    Om het weer te geven tijdstip te selecteren is er een slider aanwezig. Om automatisch te bladeren doorheen de tijdstippen is er een autoplay functie aanwezig die automatisch de slider aanpast.
+
+    Daarnaast is er nog de selectie functionaliteit, welke geactiveerd kan worden d.m.v. de selectieknoppen. Deze functionaliteit wordt voorzien door een MouseArea object dat bovenop de map geplaatst wordt. Deze ontvangt dan instructies van de muis en interageerd met de map om de selectie te visualiser alsook de parameters van de selectie te bekomen.
+
+    In de specificaties wordt er gesproken van een manier om informatie op te vragen over één locatie door te hoveren over de locatie op de map waardoor er dan een popup verschijnt. Op de beta demo hebben we besloten om te kiezen voor een sidebar i.p.v. een popup. In deze sidebar verschijnt er dan informatie over de aangeklikte locatie.
+
+Verwijzingen naar verschillende componenten
+===========================================
+
+In deze sectie worden de verschillende componenten zowel vereist als niet vereist opgelijst. Voor ieder component wordt er vermeld waar in de code, documentatie, of usermanual dit component terug te vinden is.
+
+(alle paden relatief tov de root van het project)
+
+Bouw via cmake, apparte executable
+----------------------------------
+    -> te vinden in CMakeCPP.cmake onder "QT5" deel
+    -> te vinden in main/cpp/CMakeLists.txt onder "Datavis" deel
+
+Map, map markers, overlapping, kleuring dmv hsv, selectie van de weer te geven gezondheidstoestand, automatische viewport
+-------------------------------------------------------------------------------------------------------------------------
+
+    -> Map bevindt zich in main/cpp/datavis/view/main.qml
+    -> Map marker bevindt zich in main/cpp/datavis/view/location_marker.qml
+        * wordt geinstantieerd in logic.js::displayCurrentDay(...)
+        * overlapping want hsva met a = 0.5
+        * kleuring op basis van totale populatie die voldoet aan de geselecteerde ziekte status
+    -> De health status selectie bevindt zich in main/cpp/datavis/view/main.qml onder ToolBar
+        * de value hiervan wordt gebruikt in logic.js::displayCurrentDay(...)
+        * wanneer een item geselecteerd wordt, wordt logic.js::displayCurrentDay(...) opgeroepen.
+        * 
+    -> de map wordt automatisch gecentreerd rond de aanwezige locaties met behulp van Map.fitViewportToMapItems(). Deze wordt telkens opgeroepen in logic.js::displayCurrentDay(...)
+
+Sidebar, toggle van sidebar, click op location, stats, hovering tooltip
+---------------------------------------
+    -> de Sidebar bevindt zich in main/cpp/datavis/view/main.qml met id "sidebar"
+        * deze heeft een methode setLocation(loc, day) waarmee de inhoud van de sidebar aangepast kan worden.
+    -> het toggelen van de sidebar is mogelijk gemaakt door een aanklikbare Rectangle die zich bevindt in main/cpp/datavis/view/main.qml met id "sidebarToggleButton".
+    -> het klikken op locations is mogelijk door een MouseArea in main/cpp/datavis/view/location_marker.qml. Deze MouseArea past de inhoud van de sidebar aan.
+    -> Stats worden weergegeven in de sidebar, daarvoor bevat de sidebar een ListView.
+    -> De naam van een location wordt weergegeven dmv een tooltip in main/cpp/datavis/view/location_marker.qml.
+
+Slider, autoplay
+----------------
+    -> Om het gewenste tijdstip te selecteren is er een slider, met een autoplay functie.
+    -> de slider bevindt zich in main/cpp/datavis/view/main.qml
+    -> de play/pause knop bevindt zich in main/cpp/datavis/view/main.qml onder de ToolBar
+    -> de timer bevindt zich in main/cpp/datavis/view/main.qml als child van de slider.
+
+Save naar file
+--------------
+    -> hierdoor wordt de huidige view van de map weggeschreven naar een png file.
+    -> er is een save to file knop in main/cpp/datavis/view/main.qml onder de ToolBar
+    -> in main/cpp/datavis/controller/Controller.h en main/cpp/datavis/controller/Controller.cpp is er een methode Controller::SaveFile(). Deze roept een file dialog op die om een filename vraagt. Zodra deze is gevonden wordt een signal "saveMapToFile" geemit met als parameter "filename". in main/cpp/datavis/view/main.qml wordt deze signal opgevangen met een slot, waarna logic.js::saveMap(...) wordt opgeroepen.
+
+MVC
+---
+    -> de C++ backend is opgedeeld in drie klasses:
+        * View: main/cpp/datavis/view/View.h
+        * Controller: main/cpp/datavis/controller/Controller.h
+        * Model: main/cpp/datavis/model/Model.h
+    -> Het model bevat enkel timesteps met daarin locations. In elke location worden de hoeveelheid van mensen met een bepaalde ziektestatus bijgehouden
+    -> De View klasse heeft een methode GetEpiData die een QVariant object returned met daarin de informatie over location in QML formaat, deze methode kan opgeroepen worden vanuit QML
+    -> De Controller klasse vangt method calls vanuit QML op om bijv een file in te lezen, of een selectie van locations te berekenen.
+
+Selectie van localities, oproepen van geogrid functies, instellen van geogrid data
+----------------------------------------------------------------------------------
+    -> er zijn twee MouseAreas met id "radSelectionManager" voor radius selectie en "rectSelectionManager" voor rechthoekige selectie in main/cpp/datavis/view/main.qml. Deze mouseareas worden geactiveerd door de selectieknoppen. Na activatie wordt een popup geopend met instructies. Deze popup bevindt zich in main/cpp/datavis/view/selection_dialog.qml. Nadat de selectie gemaakt wordt, moet men op "Confirm" klikken, waardoor Controller::SelectRadius(...) of Controller::SelectRectangular(...) wordt gecalled.
+<METHODES VAN MODEL>
+<METHODES VAN VIEW>
+<CALLBACK VAN VIEW>
+
+Reader HDF, Reader JSON, Reader Protobuf
+----------------------------------------
+    -> De open file knop bevindt zich in main/cpp/datavis/view/main.qml Onder de toolbar. Dit roept de methode Controller::OpenFile() op.
+    -> In Controller::OpenFile() wordt er een file dialog aangemaakt. Op basis van de extentie van de filename wordt er een JSON, HDF5 of Protobuf reader aangemaakt.
+    -> De JSON reader bevindt zich in main/cpp/datavis/readers/JSONEpiReader.h
+    -> De HDF5 reader bevindt zich in main/cpp/datavis/readers/HDF5EpiReader.h
+    -> De ProtoBuf reader bevindt zich in main/cpp/datavis/readers/ProtobufEpiReader.h
+    -> De readers nemen als argument de filename van de te readen file
+    -> De readers hebben een methode ReadIntoModel(Model&) waarmee de file wordt ingelezen en vervolgens wordt het Model aangepast. Indien er een exception optreedt, is dit geen probleem en blijft het model ongewijzigd.
+
+Testen: eerst framework ineensteken!
+------------------------------------
+<TESTFRAMEWORK>
+
+
+
+
+
+
+
+
+
