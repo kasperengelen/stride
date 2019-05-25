@@ -38,9 +38,9 @@
     Test whether the Protobuf epi-output reader works correctly.
     This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the Protobuf reader. The test will then check whether the correct Protobuf files were read correctly by manually checking the reader output. The test will also check whether invalid Protobuf files were detected by checking for exceptions.
     
-* TestLocalityView:
-    Test whether the LocalityView class produces the correct Qt5 data.
-    This is done by manually creating Locality objects and converting them to QVariantMap objects using the LocalityView class. The test then checks whether the QVariantMap contains the same data as the Locality object.
+* TestPopDataView:
+    Test whether the PopDataView class produces the correct Qt5 data.
+    This is done by manually creating PopData objects and converting them to QVariantMap objects using the PopDataView class. The test then checks whether the QVariantMap contains the same data as the PopData object.
 
 ### Demographic profile
 
