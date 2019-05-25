@@ -19,6 +19,7 @@
  */
 
 #include "datavis/model/Model.h"
+#include "datavis/view/View.h"
 
 #include <QObject>
 #include <QGeoCoordinate>
@@ -35,7 +36,9 @@ class Controller : public QObject
         Q_OBJECT
 
 public:
-        explicit Controller(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr) {}
+        explicit Controller(QObject* parent = nullptr)
+        	: QObject(parent), m_model_ptr(nullptr), m_view_ptr(nullptr)
+        {}
 
         /**
          * Deleted copy CTOR.
@@ -51,6 +54,11 @@ public:
          * Set the pointer to the Model.
          */
         void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
+
+        /**
+         * Set the pointer to the View.
+         */
+        void SetViewPointer(View* viewPtr) { m_view_ptr = viewPtr; }
 
 public:
         /**
@@ -90,6 +98,9 @@ signals:
 private:
         ///> Pointer to model object.
         Model* m_model_ptr;
+
+        ///> Pointer to view object.
+        View* m_view_ptr;
 };
 
 } // namespace datavis

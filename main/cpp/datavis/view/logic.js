@@ -84,15 +84,15 @@ function circleSize(pop_size)
 }
 
 /**
- * Display the current day on the map.
+ * Display the current step on the map.
  */
-function displayCurrentDay(reset_viewport, target_map, epi_data, current_day, health_status_name, sidebar)
+function displayCurrentStep(reset_viewport, target_map, epi_data, current_step, health_status_name, sidebar)
 {
-	// clear previous day
+	// clear previous step
 	target_map.clearMapItems();
 
 	// retrieve data
-	var locality_list = epi_data[current_day]
+	var locality_list = epi_data[current_step]
 	
 	// iterate over localities and add to map
 	for(var key in locality_list)
@@ -111,7 +111,7 @@ function displayCurrentDay(reset_viewport, target_map, epi_data, current_day, he
 		}	
         
         // instantiate marker and pass parameters
-        var marker = marker_component.createObject(target_map, {"location": loc, "day": current_day, "sidebar": sidebar, "health_status" : health_status_name})   
+        var marker = marker_component.createObject(target_map, {"location": loc, "step": current_step, "sidebar": sidebar, "health_status" : health_status_name})   
         target_map.addMapItem(marker)
 	}
 	
@@ -125,7 +125,7 @@ function displayCurrentDay(reset_viewport, target_map, epi_data, current_day, he
  * Set the specified ListModel to display the specified Location. All
  * previously present data will be cleared.
  */
-function addLocationToListModel(list_model, location)
+function addPopDataToListModel(list_model, location)
 {
 	list_model.clear()
 

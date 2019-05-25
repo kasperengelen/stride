@@ -38,6 +38,9 @@ int main(int argc, char* argv[])
         // get view
         View* view_ptr = engine.rootObjects().at(0)->findChild<View*>("view");
 
+        // connect controller to view.
+        ctrl_ptr->SetViewPointer(view_ptr);
+
         // create model
         Model model{};
 

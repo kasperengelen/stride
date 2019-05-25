@@ -20,7 +20,7 @@
 
 #include "View.h"
 
-#include "datavis/view/LocalityView.h"
+#include "datavis/view/PopDataView.h"
 
 namespace stride {
 namespace datavis {
@@ -35,8 +35,14 @@ const QVariant View::GetEpiData() const
                 QVariantList loc_list;
 
                 for (const auto& loc : timestep) {
-                        const LocalityView loc_view(loc);
-                        loc_list.push_back(loc_view.GetQVariantMap());
+                        QVariantMap pop_data = PopDataView{loc.GetPopData()}.GetQVariantMap();
+
+                        // add some location info to the map.
+                        pop_data.insert("name", QString::fromStdString(loc.GetName()));
+						pop_data.insert("lon", loc.GetCoordinate().get<0>());
+                        pop_data.insert("lat", loc.GetCoordinate().get<1>());
+
+                        loc_list.push_back(pop_data);
                 }
 
                 std::sort(loc_list.begin(), loc_list.end(),
@@ -55,6 +61,11 @@ const QVariant View::GetEpiData() const
         }
 
         return QVariant::fromValue(retval);
+}
+
+void View::DisplayPopDataInSidebar(const PopData& popData)
+{
+	emit this->sidebarDataAvailble(PopDataView(popData).GetQVariantMap());
 }
 
 } // namespace datavis

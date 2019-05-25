@@ -23,14 +23,16 @@
 namespace stride {
 namespace datavis {
 
-const PopData Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius) const
+const PopData Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius, const unsigned int day) const
 {
-
+	// TODO fill with selection
+	return PopData{};
 }
 
-const PopData Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB) const
+const PopData Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB, const unsigned int day) const
 {
-
+	// TODO fill with selection
+	return PopData{};
 }
 
 } // namespace datavis

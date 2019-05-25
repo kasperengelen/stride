@@ -60,11 +60,35 @@ public:
          */
         void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
 
+        /**
+         * Command the View to display the specified population data in the sidebar.
+         */
+        void DisplayPopDataInSidebar(const PopData& popData);
+
 public:
         /**
          * Retrieve simulation data from the model.
+         *
+         * The format of the QVariant is an array of locations. Each location is
+         * a QVariantMap.
+         *
+         * See PopDataView class for the format of the map. Note that in addition
+         * to the map keys specified in the PopDataView class, the returned map also has
+         * the following extra keys:
+         * 	- name: a QString that contains the name of the location.
+         * 	- lon: a double that specifies the longitude of the location.
+         * 	- lat: a double that specifies the latitude of the location.
          */
         const QVariant GetEpiData() const;
+
+signals:
+		/**
+		 * Indicates that there is data ready to be displayed in the sidebar.
+		 *
+		 * The specified QVariantMap contains information about a population. See PopDataView
+		 * class for the format of the map.
+		 */
+		void sidebarDataAvailble(const QVariantMap& sidebarData);
 
 private:
         ///> Pointer to model object.

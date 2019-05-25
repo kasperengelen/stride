@@ -61,15 +61,17 @@ public:
 
         /**
          * Retrieve information about the part of the population that is within
-         * the specified radius of the specified coordinates.
+         * the specified radius of the specified coordinates. The selection is based
+         * on what the locations looked like on the specified day.
          */
-        const PopData GetPopulationInRadius(const geopop::Coordinate& center, const double radius) const;
+        const PopData GetPopulationInRadius(const geopop::Coordinate& center, const double radius, const unsigned int day) const;
 
         /**
          * Retrieve information about the part of the population that is within
-         * a rectangle that spans between the two specified points.
+         * a rectangle that spans between the two specified points. The selection is based
+         * on what the locations looked like on the specified day.
          */
-        const PopData GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB) const;
+        const PopData GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB, const unsigned int day) const;
 
 private:
         /// Contains the currently stored simulation timesteps.

@@ -45,9 +45,13 @@ Window {
         
         // slot to load epi data
         onFileReadSuccessful: {
-            Logic.loadEpiData(mainWindow, view, daySlider, healthTypeSelector)
-            Logic.displayCurrentDay(true, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
+            Logic.loadEpiData(mainWindow, view, stepSlider, healthTypeSelector)
+            Logic.displayCurrentStep(true, map, mainWindow.epiData, stepSlider.value, healthTypeSelector.currentHealthId, sidebar)
             sidebar.clearData()
+
+            save_to_img.enabled = true
+            select_circ.enabled = true
+            select_rect.enabled = true
         }
         
         // slot to save to file.
@@ -63,6 +67,12 @@ Window {
     View {
         id: view
         objectName: "view"
+
+        onSidebarDataAvailble: {
+        	// sidebarData
+        	sidebar.setSelectionData(sidebarData, stepSlider.value)
+
+        }
     }
         
     /**
@@ -168,7 +178,7 @@ Window {
         function enable()
         {
             enabled = true
-            daySlider.disable()
+            stepSlider.disable()
 
             // create dialog
             var component = Qt.createComponent("selection_dialog.qml")
@@ -193,7 +203,7 @@ Window {
         function disable()
         {
             enabled = false
-            daySlider.enable()
+            stepSlider.enable()
         }
 
         /**
@@ -227,7 +237,7 @@ Window {
          */
         function confirm(do_close_dialog)
         {
-            var day = daySlider.value
+            var step = stepSlider.value
 
             var coord  = marker.center
             var radius = marker.radius
@@ -237,7 +247,7 @@ Window {
             if(do_close_dialog)
                 closeDialog()
 
-            controller.SelectRadius(coord, radius, day)
+            controller.SelectRadius(coord, radius, step)
         }
 
         /**
@@ -332,7 +342,7 @@ Window {
         function enable()
         {
             enabled = true
-            daySlider.disable()
+            stepSlider.disable()
 
             // create dialog
             var component = Qt.createComponent("selection_dialog.qml")
@@ -357,7 +367,7 @@ Window {
         function disable()
         {
             enabled = false
-            daySlider.enable()
+            stepSlider.enable()
         }
 
         /**
@@ -391,7 +401,7 @@ Window {
          */
         function confirm(do_close_dialog)
         {
-            var day = daySlider.value
+            var step = stepSlider.value
 
             var pointA = coord1
             var pointB = coord2
@@ -401,7 +411,7 @@ Window {
             if(do_close_dialog)
                 closeDialog()
 
-            controller.SelectRectangular(pointA, pointB, day)
+            controller.SelectRectangular(pointA, pointB, step)
         }
 
         /**
@@ -474,19 +484,37 @@ Window {
             }
         }
         
-        function setLocation(location, day)
+        /**
+         * Set the sidebar to display information about a 
+         * certain location on the specified timestep.
+         */
+        function setLocationData(location, timestep)
         {
-            Logic.addLocationToListModel(locationModel, location)
-            locationNameDisplay.text = location.name
-            currentDayDisplay.text = "Day " + day
+            Logic.addPopDataToListModel(popdataModel, location)
+            sidebarTitle.text = location.name
+            sidebarSubTitle.text = "Timestep " + timestep
             
         }
 
+        /**
+         * Set the sidebar to display information about a
+         * selection on the specified timestep.
+         */
+        function setSelectionData(selection, timestep)
+        {
+        	Logic.addPopDataToListModel(popdataModel, selection)
+        	sidebarTitle.text = "Selection"
+        	sidebarSubTitle.text = "Timestep " + timestep
+        }
+
+        /**
+         * Clear the data contained in the sidebar.
+         */
         function clearData()
         {
-            locationModel.clear()
-            locationNameDisplay.text = ""
-            currentDayDisplay.text   = ""
+            popdataModel.clear()
+            sidebarTitle.text = ""
+            sidebarSubTitle.text = ""
         }
         
         /**
@@ -505,31 +533,31 @@ Window {
             color: parent.color
         
             /**
-             * Displays the name of the location.
+             * Title.
              */
             Text {
-                id: locationNameDisplay; 
+                id: sidebarTitle; 
                 
                 width: sidebarContent.width
-                height: 22
+                height: 26
                 
                 anchors.top: parent.top
 
-                font.pixelSize: 20;
+                font.pixelSize: 23;
             }
 
             /**
-             * Displays the current day.
+             * Subtitle.
              */
             Text {
-                id: currentDayDisplay
+                id: sidebarSubTitle
                 
                 width: sidebarContent.width
-                height: 22
+                height: 24
                 
-                anchors.top: locationNameDisplay.bottom
+                anchors.top: sidebarTitle.bottom
 
-                font.pixelSize: 20;
+                font.pixelSize: 21;
             }
 
             /**
@@ -544,14 +572,14 @@ Window {
                 
                 boundsBehavior: Flickable.StopAtBounds
                 
-                height: parent.height - locationNameDisplay.height - currentDayDisplay.height
+                height: parent.height - sidebarTitle.height - sidebarSubTitle.height - 5
                 width: sidebarContent.width
                 
                 anchors.bottom: parent.bottom 
         
                 clip: true
         
-                model: locationModel
+                model: popdataModel
         
                 delegate: popSectionAttrDelegate
         
@@ -604,7 +632,7 @@ Window {
         
             // contains the epi data of the location
             ListModel {
-                id: locationModel
+                id: popdataModel
             }
         } // sidebar content 
     } // sidebar
@@ -676,10 +704,11 @@ Window {
              * Open file button
              */
             ToolButton {
+				id: open_file
+
                 ToolTip.visible: hovered
                 ToolTip.text: "Open file"
 
-                id: open_file
                 Image {
                     source: "../img/open_simulation_file.png"
                     anchors.fill: parent
@@ -694,10 +723,13 @@ Window {
              * Save button
              */
             ToolButton {
-                ToolTip.visible: hovered
+                id: save_to_img
+
+                enabled: false
+
+				ToolTip.visible: hovered
                 ToolTip.text: "Save timestep to image"
 
-                id: save_to_img
                 Image {
                     source: "../img/save_to_image.png"
                     anchors.fill: parent
@@ -714,10 +746,12 @@ Window {
              * Enter circular selection mode
              */
             ToolButton {
+                id: select_circ
+
+                enabled: false
+
                 ToolTip.visible: hovered
                 ToolTip.text: "Select radius"
-
-                id: select_circ
                 
                 Image {
                     // SOURCE: https://www.iconfinder.com/iconsets/common-toolbar
@@ -740,10 +774,13 @@ Window {
              * Enter rectangular selection mode
              */
             ToolButton {
+                id: select_rect
+
+                enabled: false
+
                 ToolTip.visible: hovered
                 ToolTip.text: "Select box"
 
-                id: select_rect
                 Image {
                     // SOURCE: https://www.iconfinder.com/iconsets/common-toolbar
                     source: "../img/select_rect.png"
@@ -804,15 +841,16 @@ Window {
             }
             
             /**
-             * Slide to select a day from the simulation.
+             * Slide to select a step from the simulation.
              */
             Slider {
                 // anchor
                 // dynamic width calculation
-                id: daySlider
+                id: stepSlider
+
                 from: 0
                 stepSize: 1
-                //implicitWidth: mainWindow.width * (3/5)
+
                 enabled: false
 
                 function enable()
@@ -832,7 +870,7 @@ Window {
                 }
 
                 onValueChanged: {
-                    Logic.displayCurrentDay(false, map, mainWindow.epiData, value, healthTypeSelector.currentHealthId, sidebar)
+                    Logic.displayCurrentStep(false, map, mainWindow.epiData, value, healthTypeSelector.currentHealthId, sidebar)
                     if(value == to) {
                     	play_pause.enabled = false
                     	play_pause.play_status = false
@@ -867,11 +905,11 @@ Window {
 
                         if(wheel.angleDelta.y > 0)
                         {
-                            daySlider.increase()
+                            stepSlider.increase()
                         }
                         else if(wheel.angleDelta.y < 0)
                         {
-                            daySlider.decrease()
+                            stepSlider.decrease()
                         }
                     }
                 }
@@ -886,24 +924,24 @@ Window {
                     repeat: true
 
                     onTriggered: {
-                        daySlider.increase()
+                        stepSlider.increase()
                     }
                 }
 
                 Layout.fillWidth: true
 
                 background: Rectangle {
-                    x: daySlider.leftPadding
-                    y: daySlider.topPadding + daySlider.availableHeight / 2 - height / 2
+                    x: stepSlider.leftPadding
+                    y: stepSlider.topPadding + stepSlider.availableHeight / 2 - height / 2
                     implicitWidth: 200
                     implicitHeight: 4
-                    width: daySlider.availableWidth
+                    width: stepSlider.availableWidth
                     height: implicitHeight
                     radius: 2
                     color: "#bdbebf"
             
                     Rectangle {
-                        width: daySlider.visualPosition * parent.width
+                        width: stepSlider.visualPosition * parent.width
                         height: parent.height
                         color: "#21be2b"
                         radius: 2
@@ -940,7 +978,7 @@ Window {
                 
                 onCurrentIndexChanged: {
                     currentHealthId = healthTypeList.get(currentIndex).internal_name
-                    Logic.displayCurrentDay(false, map, mainWindow.epiData, daySlider.value, healthTypeSelector.currentHealthId, sidebar)
+                    Logic.displayCurrentStep(false, map, mainWindow.epiData, stepSlider.value, healthTypeSelector.currentHealthId, sidebar)
                 }        
             
             } // ComboBox

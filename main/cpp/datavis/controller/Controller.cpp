@@ -92,24 +92,21 @@ void Controller::SaveFile()
 
 void Controller::SelectRadius(QGeoCoordinate coord, float radius, unsigned int day)
 {
-	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+	const geopop::Coordinate stride_coord = {coord.longitude(), coord.latitude()};
 
-	std::stringstream ss;
+	const PopData popdata = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
 
-	ss << "lat: " << coord.latitude() << "\n long: " << coord.longitude() << "\n radius: " << radius << "\n day: " << day << std::endl;
-
-	QMessageBox::information(parent_ptr, QString{"Selection"}, QString::fromStdString(ss.str()));
+	m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
 void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB, unsigned int day)
 {
-	QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+	const geopop::Coordinate stride_pointA = {pointA.longitude(), pointA.latitude()};
+	const geopop::Coordinate stride_pointB = {pointB.longitude(), pointB.latitude()};
 
-	std::stringstream ss;
+	const PopData popdata = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
 
-	ss << "pointA(lat:" << pointA.latitude() << ",long:" << pointA.longitude() << ")\n pointB(lat:" << pointB.latitude() << ",long:" << pointB.longitude() << ")\n day: " << day << std::endl;
-
-	QMessageBox::information(parent_ptr, QString{"Selection"}, QString::fromStdString(ss.str()));
+	m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
 } // namespace datavis

@@ -18,29 +18,30 @@
  * Implementation file for the Locality class.
  */
 
-#include "LocalityView.h"
+#include "PopDataView.h"
 
 namespace stride {
 namespace datavis {
 
-LocalityView::LocalityView(const Locality& loc) : m_locality_data{}
+PopDataView::PopDataView(const PopData& popData) : m_pop_data{}
 {
-        m_locality_data.insert("name", QString::fromStdString(loc.GetName()));
-        m_locality_data.insert("lon", loc.GetCoordinate().get<0>());
-        m_locality_data.insert("lat", loc.GetCoordinate().get<1>());
+		// TODO find a way to use this!
+		//m_pop_data.insert("name", QString::fromStdString(loc.GetName()));
+		//m_pop_data.insert("lon", loc.GetCoordinate().get<0>());
+		//m_pop_data.insert("lat", loc.GetCoordinate().get<1>());
 
-        m_locality_data.insert("total",     this->CreatePopSectionView(loc.GetPopData().total));
-        m_locality_data.insert("household", this->CreatePopSectionView(loc.GetPopData().household));
-        m_locality_data.insert("k12school", this->CreatePopSectionView(loc.GetPopData().k12school));
-        m_locality_data.insert("college",   this->CreatePopSectionView(loc.GetPopData().college));
-        m_locality_data.insert("workplace", this->CreatePopSectionView(loc.GetPopData().workplace));
-        m_locality_data.insert("primCom",   this->CreatePopSectionView(loc.GetPopData().primCom));
-        m_locality_data.insert("secCom",    this->CreatePopSectionView(loc.GetPopData().secCom));
-        m_locality_data.insert("daycare",   this->CreatePopSectionView(loc.GetPopData().daycare));
-        m_locality_data.insert("preschool", this->CreatePopSectionView(loc.GetPopData().preschool));
+		m_pop_data.insert("total",     this->CreatePopSectionView(popData.total));
+		m_pop_data.insert("household", this->CreatePopSectionView(popData.household));
+		m_pop_data.insert("k12school", this->CreatePopSectionView(popData.k12school));
+		m_pop_data.insert("college",   this->CreatePopSectionView(popData.college));
+		m_pop_data.insert("workplace", this->CreatePopSectionView(popData.workplace));
+		m_pop_data.insert("primCom",   this->CreatePopSectionView(popData.primCom));
+		m_pop_data.insert("secCom",    this->CreatePopSectionView(popData.secCom));
+        m_pop_data.insert("daycare",   this->CreatePopSectionView(popData.daycare));
+        m_pop_data.insert("preschool", this->CreatePopSectionView(popData.preschool));
 }
 
-const QVariantMap LocalityView::CreatePopSectionView(const PopSection& popSection)
+const QVariantMap PopDataView::CreatePopSectionView(const PopSection& popSection)
 {
         QVariantMap retval{};
 

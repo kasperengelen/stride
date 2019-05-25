@@ -7,7 +7,7 @@ import "logic.js" as Logic
 
 MapCircle {
 	property var location; // the location that the marker represents
-	property var day;      // the number of the day
+	property var step;      // the number of the timestep
 	property var sidebar;  // reference to the sidebar so that the epi-data in the sidebar can be updated
 	property var health_status; // the health status that is being displayed by this marker
 
@@ -30,7 +30,7 @@ MapCircle {
 		hoverEnabled:true
 
 		onClicked: {			
-			sidebar.setLocation(location, day)
+			sidebar.setLocationData(location, step)
 		}
 	}
 }

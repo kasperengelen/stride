@@ -28,29 +28,52 @@ namespace stride {
 namespace datavis {
 
 /**
- * Class that provides a view fir the Locality class and also produces Qt5-compatible
- * data for Locality objects.
+ * Class that provides a view for PopData objects. This class
+ * can produce a QML-compatible QVariantMap that contains all the
+ * information in the PopData object.
  */
-class LocalityView
+class PopDataView
 {
 public:
         /**
          * Constructor that creates a view for a Locality object.
          */
-        explicit LocalityView(const Locality& loc);
+        explicit PopDataView(const PopData& popData);
 
         /**
          * Retrieve a QVariantMap that contains information
-         * to display the Locality in QT.
+         * to display the Population in QT.
+         *
+         * This map has 9 members, each of which represents a subpopulation:
+         *   - total: The total population.
+         *   - household: The part of the population that is part of a household.
+         *   - k12school: The part of the population that is part of a k12 school.
+         *   - college: The part of the population that is part of a college.
+         *   - workplace: The part of the population that is part of a workplace.
+         *   - primCom: The part of the population that is part of a primary community.
+         *   - secCom: The part of the population that is part of a secondary community.
+         *   - daycare: The part of the population that is part of a daycare.
+         *   - preschool: The part of the population that is part of a preschool.
+         *
+         * Each subpopulation member has the following members:
+         *   - pop: the number of individuals in the subpopulation
+         *   - immune: The fraction of the population that is immune.
+         *   - infected: The fraction of the population that is infected.
+         *   - infectious: The fraction of the population that is infectious.
+         *   - recovered: The fraction of the population that is recovered.
+         *   - susceptible: The fraction of the population that is susceptible.
+         *   - symptomatic: The fraction of the population that is symptomatic.
+         *
+         *  Note that all fractions are between 0 and 1 inclusive.
          */
-        const QVariantMap& GetQVariantMap() const { return m_locality_data; }
+        const QVariantMap& GetQVariantMap() const { return m_pop_data; }
 
 private:
         /// Create a QVariantMap that contains information about the specified PopSection.
         const QVariantMap CreatePopSectionView(const PopSection& popSection);
 
-        /// Stores information about the locality.
-        QVariantMap m_locality_data;
+        /// Stores information about the population.
+        QVariantMap m_pop_data;
 };
 
 } // namespace datavis
