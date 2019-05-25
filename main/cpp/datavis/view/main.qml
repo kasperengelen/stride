@@ -811,7 +811,6 @@ Window {
                 // dynamic width calculation
                 id: daySlider
                 from: 0
-                to: 2
                 stepSize: 1
                 //implicitWidth: mainWindow.width * (3/5)
                 enabled: false
@@ -830,6 +829,16 @@ Window {
                     play_pause.play_status = false
 
                     // stop timer
+                }
+
+                onValueChanged: {
+                    Logic.displayCurrentDay(false, map, mainWindow.epiData, value, healthTypeSelector.currentHealthId, sidebar)
+                    if(value == to) {
+                    	play_pause.enabled = false
+                    	play_pause.play_status = false
+                    } else {
+                    	play_pause.enabled = true
+                    }
                 }
 
                 /**
@@ -882,10 +891,6 @@ Window {
                 }
 
                 Layout.fillWidth: true
-                
-                onValueChanged: {
-                    Logic.displayCurrentDay(false, map, mainWindow.epiData, value, healthTypeSelector.currentHealthId, sidebar)
-                }
 
                 background: Rectangle {
                     x: daySlider.leftPadding
