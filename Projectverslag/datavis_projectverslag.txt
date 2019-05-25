@@ -83,15 +83,16 @@ MVC
         * Controller: main/cpp/datavis/controller/Controller.h
         * Model: main/cpp/datavis/model/Model.h
     -> Het model bevat enkel timesteps met daarin locations. In elke location worden de hoeveelheid van mensen met een bepaalde ziektestatus bijgehouden
-    -> De View klasse heeft een methode GetEpiData die een QVariant object returned met daarin de informatie over location in QML formaat, deze methode kan opgeroepen worden vanuit QML
-    -> De Controller klasse vangt method calls vanuit QML op om bijv een file in te lezen, of een selectie van locations te berekenen.
+    -> De View klasse heeft een methode GetEpiData die een QVariant object returned met daarin de informatie over locations in QML formaat, deze methode kan opgeroepen worden vanuit QML
+    -> De Controller klasse vangt method calls vanuit QML op om bijv een file in te lezen, een selectie van locaties te berekenen, etc.
 
 Selectie van localities, oproepen van geogrid functies, instellen van geogrid data
 ----------------------------------------------------------------------------------
     -> er zijn twee MouseAreas met id "radSelectionManager" voor radius selectie en "rectSelectionManager" voor rechthoekige selectie in main/cpp/datavis/view/main.qml. Deze mouseareas worden geactiveerd door de selectieknoppen. Na activatie wordt een popup geopend met instructies. Deze popup bevindt zich in main/cpp/datavis/view/selection_dialog.qml. Nadat de selectie gemaakt wordt, moet men op "Confirm" klikken, waardoor Controller::SelectRadius(...) of Controller::SelectRectangular(...) wordt gecalled.
-<METHODES VAN MODEL>
-<METHODES VAN VIEW>
-<CALLBACK VAN VIEW>
+
+    -> Model heeft twee methodes Model::GetPopulationInRadius(...) en Model::GetPopulationInBox(...). Deze methodes returnen op basis van enkele selectieparameters PopData objecten met daarin informatie over de geselectecteerde populatie.
+
+    -> View heeft een methode View::DisplayPopDataInSidebar(const PopData&) die de gespecifieerde PopData doorstuurt naar QML met behulp van de "View::sidebarDataAvailble(const QVariantMap&)" signal. Deze signal wordt ontvangen met een slot aan de QML zijde die de gespecifieerde PopData in de sidebar stopt.
 
 Reader HDF, Reader JSON, Reader Protobuf
 ----------------------------------------
