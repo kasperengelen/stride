@@ -89,6 +89,11 @@ set(SRC
     myhayai/class_delivery.cpp
     myhayai/flex_delivery.cpp
     #---
+    datavis/TestEpiOutputHDF5Reader.cpp
+    datavis/TestEpiOutputJSONReader.cpp
+    datavis/TestEpiOutputProtobufReader.cpp
+    datavis/TestPopDataView.cpp
+    #---
     main.cpp
 )
 
