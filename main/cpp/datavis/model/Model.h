@@ -21,6 +21,7 @@
 #pragma once
 
 #include "datavis/model/Locality.h"
+#include "geopop/Coordinate.h"
 
 #include <vector>
 
@@ -57,6 +58,18 @@ public:
          * Retrieve simulation data from the model.
          */
         const std::vector<std::vector<Locality>>& GetEpiData() const { return m_timesteps; }
+
+        /**
+         * Retrieve information about the part of the population that is within
+         * the specified radius of the specified coordinates.
+         */
+        const PopData GetPopulationInRadius(const geopop::Coordinate& center, const double radius) const;
+
+        /**
+         * Retrieve information about the part of the population that is within
+         * a rectangle that spans between the two specified points.
+         */
+        const PopData GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB) const;
 
 private:
         /// Contains the currently stored simulation timesteps.

@@ -24,7 +24,7 @@
 #include "disease/Health.h"
 #include "geopop/Coordinate.h"
 
-#include <QVariant>
+#include "PopData.h"
 
 #include <map>
 #include <string>
@@ -33,42 +33,13 @@ namespace stride {
 namespace datavis {
 
 /**
- * Struct that keeps track of a section of the population inside a
- * locality. Note that the fractions of people who are immune, infected, etc.
- * don't add up to 1.0, since people can belong to many disease categories
- * simultaneously.
- */
-struct PopSection
-{
-        /// Total number of individuals that belong to this type of contact pool
-        unsigned int pop;
-
-        /// The fraction of individuals that return true for HealthStatus::IsImmune().
-        double immune;
-
-        /// The fraction of individuals that return true for HealthStatus::IsInfected().
-        double infected;
-
-        /// The fraction of individuals that return true for HealthStatus::IsInfectious().
-        double infectious;
-
-        /// The fraction of individuals that return true for HealthStatus::IsRecovered().
-        double recovered;
-
-        /// The fraction of individuals that return true for HealthStatus::IsSusceptible().
-        double susceptible;
-
-        /// The fraction of individuals that return true for HealthStatus::isSymptomatic().
-        double symptomatic;
-};
-
-/**
  * Class that represents a locality. This is a geographical location
  * that has a population, of which a certain fraction can be infected.
  */
 class Locality
 {
 public:
+	// TODO: adjust this to use PopData instead of all the PopSection objects.
         /**
          * Parametrised constructor.
          *

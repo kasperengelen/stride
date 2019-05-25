@@ -28,6 +28,8 @@
 namespace stride {
 namespace datavis {
 
+// TODO add signal for displaying selection data in sidebar
+
 /**
  * Class that represent the view component of the MVC structure.
  * This class can be accessed by the Qt5 interface to retrieve data to

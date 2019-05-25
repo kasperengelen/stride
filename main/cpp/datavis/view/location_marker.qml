@@ -16,6 +16,7 @@ MapCircle {
 	
 	center: QtPositioning.coordinate(location.lat, location.lon)
 	radius: Logic.circleSize(location.total.pop)
+	// note: "location.total[health_status]" is already a value in [0-1]
 	color:  Qt.hsva(location.total[health_status], 1.0, 1.0, 0.5)
 	border.width: 4
 

@@ -19,6 +19,7 @@
  */
 
 #include "JSONEpiReader.h"
+#include "datavis/model/PopData.h"
 #include "datavis/model/Locality.h"
 #include "datavis/readers/EpiReaderException.h"
 

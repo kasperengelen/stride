@@ -23,5 +23,15 @@
 namespace stride {
 namespace datavis {
 
+const PopData Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius) const
+{
+
+}
+
+const PopData Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB) const
+{
+
+}
+
 } // namespace datavis
 } // namespace stride
