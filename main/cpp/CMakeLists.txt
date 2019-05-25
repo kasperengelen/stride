@@ -204,7 +204,7 @@ set(DATAVIS_SRC
 	# controller
 	datavis/controller/Controller.cpp
 	# view
-	datavis/view/LocalityView.cpp
+	datavis/view/PopDataView.cpp
 	datavis/view/View.cpp
     # model
     datavis/model/Locality.cpp
