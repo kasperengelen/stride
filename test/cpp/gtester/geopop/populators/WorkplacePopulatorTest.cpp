@@ -357,16 +357,12 @@ TEST_F(WorkplacePopulatorTest, Distribution)
 
         unsigned int zero = 0;
         unsigned int other = 0;
-        unsigned int totalPools = 0;
-        unsigned int totalPeeps = 0;
         // Check pools for consistency pfff
         for (const auto& loc : m_geo_grid) {
                 for (auto& workPool : loc->RefPools(Id::Workplace)) {
 
-                        totalPools++;
-                        totalPeeps += workPool->size();
-                        bool setP = false;
                         auto sizePool = workPool->size();
+                        bool setP = false;
 
                         if (sizePool == 0) {
                                 zero++;
@@ -389,10 +385,10 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         }
 
         EXPECT_EQ(0, zero);
-        EXPECT_EQ(804, ranges[0]);
-        EXPECT_EQ(170, ranges[1]);
-        EXPECT_EQ(51, ranges[2]);
-        EXPECT_EQ(10, ranges[3]);
+        EXPECT_EQ(803, ranges[0]);
+        EXPECT_EQ(172, ranges[1]);
+        EXPECT_EQ(48, ranges[2]);
+        EXPECT_EQ(12, ranges[3]);
         EXPECT_EQ(0, other);
 
 }

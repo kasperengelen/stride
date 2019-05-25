@@ -57,7 +57,6 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         vector<ContactPool*> nearbyWp{};
         vector<Location*>    commuteLocations{};
 
-        const auto participCollege      = geoGridConfig.param.participation_college;
         const auto participWorkplace    = geoGridConfig.param.particpation_workplace;
         const auto popCollege           = geoGridConfig.info.popcount_college;
         const auto popWorkplace         = geoGridConfig.info.popcount_workplace;
@@ -69,6 +68,8 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
 
         map<unsigned int, WorkplaceInfo> workplaceInfo;
 
+        // Commuting fraction in student population estimated to obtain commuting fraction in
+        // workplace population from commute data.
         double fracCommuteStudents = 0.0;
         if (static_cast<bool>(fracWorkplaceCommute) && popWorkplace) {
                 fracCommuteStudents = (popCollege * fracCollegeCommute) / (popWorkplace * fracWorkplaceCommute);
@@ -118,16 +119,28 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                                 auto max_size = workplaceSizes[j].second;
 
                                 // Starting weight for current size
-                                auto weight1 = static_cast<double>(1 - w);
-
+                                double weight1;
                                 // Weight when target reached
-                                auto weight2 = weight1 / pools_current_size;
-
+                                double weight2;
                                 double weight3;
-                                if (max_size == max_size_workplace)
-                                        weight3 = weight2 / pools_current_size;
-                                else
-                                        weight3 = 0.0;
+
+                                if (w == 1) {
+                                        weight1 = 1;
+                                        weight2 = 1;
+                                        weight3 = 1;
+                                }
+                                else {
+                                        // Starting weight for current size
+                                        weight1 = static_cast<double>(1 - w);
+
+                                        // Weight when target reached
+                                        weight2 = weight1 / pools_current_size;
+
+                                        if (max_size == max_size_workplace)
+                                                weight3 = weight2 / pools_current_size;
+                                        else
+                                                weight3 = 0.0;
+                                }
 
                                 // For every workplace generate a target size
                                 auto target_draw = rn_man.GetUniformIntGenerator(min_size, max_size, 0U);
@@ -232,14 +245,19 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 // --------------------------------------------------------------------------------
                 for (auto& hhPool : loc->RefPools(Id::Household)) {
                         for (auto person : *hhPool) {
-                                if (!Workplace::HasAge(person->GetAge())) {
+
+                                // NOTICE: logic below requires that CollegePopulator has already executed
+                                // such that we can identify the college students.
+                                // If this person is not in the age bracket for college/work/unemployed
+                                // or if the perosn is in the age bracket but is a student we are done here.
+                                if (!Workplace::HasAge(person->GetAge()) || (person->GetPoolId(Id::College) != 0)) {
                                         continue;
                                 }
 
-                                bool isStudent      = m_rn_man.MakeWeightedCoinFlip(participCollege);
+                                // We are dealing with a non-student person of the age bracket for work,
+                                // flip coin to decide whether they are actually employed.
                                 bool isActiveWorker = m_rn_man.MakeWeightedCoinFlip(participWorkplace);
-
-                                if ((College::HasAge(person->GetAge()) && !isStudent) || isActiveWorker) {
+                                if (isActiveWorker) {
                                         // ---------------------------------------------
                                         // this person is employed
                                         // ---------------------------------------------
@@ -282,11 +300,6 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                                                                 workplaceWeights, 0U);
                                                 }
                                         }
-                                } else {
-                                        // -----------------------------
-                                        // this person has no employment
-                                        // -----------------------------
-                                        person->SetPoolId(Id::Workplace, 0);
                                 }
                         }
                 }
