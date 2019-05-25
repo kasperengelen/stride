@@ -104,9 +104,13 @@ Reader HDF, Reader JSON, Reader Protobuf
     -> De readers nemen als argument de filename van de te readen file
     -> De readers hebben een methode ReadIntoModel(Model&) waarmee de file wordt ingelezen en vervolgens wordt het Model aangepast. Indien er een exception optreedt, is dit geen probleem en blijft het model ongewijzigd.
 
-Testen: eerst framework ineensteken!
+Testen
 ------------------------------------
-<TESTFRAMEWORK>
+    Voor de GUI moesten er geen testen voorzien worden. Desondanks was er functionaliteit aanwezig in de visualiser die getest kon worden, waaronder de file readers en bepaalde componenten van de MVC structuur.
+    -> De HDF5 reader werd getest. Deze test kan gevonden worden in "test/cpp/gtester/datavis/TestEpiOutputHDF5Reader.cpp".
+    -> De JSON reader werd getest. Deze test kan gevonden worden in "test/cpp/gtester/datavis/TestEpiOutputJSONReader.cpp".
+    -> De Protobuf reader werd getest. Deze test kan gevonden worden in "test/cpp/gtester/datavis/TestEpiOutputProtoBufReader.cpp".
+    -> De PopDataView klasse werd getest. Deze test kan gevonden worden in "test/cpp/gtester/datavis/TestPopDataView.cpp".
 
 
 
