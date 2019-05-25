@@ -26,15 +26,15 @@
 
 ### Data visualisation
 
-* TestEpiOutputWriteReadJSON:
+* TestEpiOutputJSONReader:
     Test whether the JSON epi-output reader works correctly.
     This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the JSON reader. The test will then check whether the correct JSON files were read correctly by manually checking the reader output. The test will also check whether invalid JSON files were detected by checking for exceptions.
     
-* TestEpiOutputWriteReadHDF5:
+* TestEpiOutputHDF5Reader:
     Test whether the HDF5 epi-output reader works correctly.
     This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the HDF5 reader. The test will then check whether the correct HDF5 files were read correctly by manually checking the reader output. The test will also check whether invalid HDF5 files were detected by checking for exceptions.
 
-* TestEpiOutputWriteReadProtobuf:
+* TestEpiOutputProtobufReader:
     Test whether the Protobuf epi-output reader works correctly.
     This is done by first manually making a handful of test files, some of which are correct, some of which are invalid. These are then read by the Protobuf reader. The test will then check whether the correct Protobuf files were read correctly by manually checking the reader output. The test will also check whether invalid Protobuf files were detected by checking for exceptions.
     
