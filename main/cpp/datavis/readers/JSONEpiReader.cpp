@@ -77,8 +77,19 @@ const Locality JSONEpiReader::ReadLocality(const nlohmann::json& localityData) c
         const PopSection daycare    = this->ReadPopSection(localityData.at("Daycare"));
         const PopSection preschool  = this->ReadPopSection(localityData.at("PreSchool"));
 
-        return Locality(name, coord, total, household, k12_school, college,
-        				workplace, prim_com, sec_com, daycare, preschool);
+        const PopData population = {
+        		total,
+				household,
+				k12_school,
+				college,
+				workplace,
+				prim_com,
+				sec_com,
+				daycare,
+				preschool
+        };
+
+        return Locality(name, coord, population);
 }
 
 const PopSection JSONEpiReader::ReadPopSection(const nlohmann::json& popCatData) const
