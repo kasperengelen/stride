@@ -53,9 +53,9 @@ void Populator<stride::ContactType::Id::Daycare>::Apply(GeoGrid& geoGrid, const 
                                 }
                         }
                 }
-
-                m_logger->trace("Done populating Daycares");
         }
+
+        m_logger->trace("Done populating Daycares");
 }
 
 } // namespace geopop

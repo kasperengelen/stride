@@ -53,9 +53,9 @@ void Populator<stride::ContactType::Id::PreSchool>::Apply(GeoGrid& geoGrid, cons
                                 }
                         }
                 }
-
-                m_logger->trace("Done populating PreSchools");
         }
+
+        m_logger->trace("Done populating PreSchools");
 }
 
 } // namespace geopop
