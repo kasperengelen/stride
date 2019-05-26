@@ -106,6 +106,4 @@ TEST_F(DaycareGeneratorTest, FiveLocationsTest)
         }
 }
 
-TEST_F(DaycareGeneratorTest, ParticipationTest) {}
-
 } // namespace

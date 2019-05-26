@@ -52,6 +52,24 @@ add_test(NAME smoke_sim_import
 	COMMAND ${BIN_INSTALL_LOCATION}/stride -c run_generate_default.xml -o population_type=import -o population_file=tests/smoke_genpop/genpop.proto
 	-o output_prefix=tests/smoke_sim_import
 	)
+add_test(NAME smoke_genpop_smoke_json
+	WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
+	COMMAND ${BIN_INSTALL_LOCATION}/stride -e genpop -c run_generate_default.xml --override output_prefix=tests/smoke_genpop_json -o population_file=genpop.json
+	)
+add_test(NAME smoke_sim_import_json
+	WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
+	COMMAND ${BIN_INSTALL_LOCATION}/stride -c run_generate_default.xml -o population_type=import -o population_file=tests/smoke_genpop_json/genpop.json
+	-o output_prefix=tests/smoke_sim_import
+	)
+add_test(NAME smoke_genpop_smoke_hdf5
+	WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
+	COMMAND ${BIN_INSTALL_LOCATION}/stride -e genpop -c run_generate_default.xml --override output_prefix=tests/smoke_genpop_hdf5 -o population_file=genpop.h5
+	)
+add_test(NAME smoke_sim_import_hdf5
+	WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
+	COMMAND ${BIN_INSTALL_LOCATION}/stride -c run_generate_default.xml -o population_type=import -o population_file=tests/smoke_genpop_hdf5/genpop.h5
+	-o output_prefix=tests/smoke_sim_import
+	)
 
 #============================================================================
 # Add subdirectories:

@@ -20,12 +20,13 @@
 
 #pragma once
 
+#include "geopop/Location.h"
+#include "json.hpp"
+
 #include <H5Cpp.h>
 #include <fstream>
 #include <memory>
 #include <string>
-
-#include "json.hpp"
 
 namespace stride {
 
@@ -68,7 +69,7 @@ class EpiOutputJSON : public EpiOutputFile
 public:
         explicit EpiOutputJSON(const std::string& output_dir = "output");
 
-        /// Overridden print method.
+        /// Overridden update method.
         virtual void Update(std::shared_ptr<const Population> population) override;
 
         /// Dump json data to file.
@@ -87,21 +88,25 @@ class EpiOutputHDF5 : public EpiOutputFile
 public:
         explicit EpiOutputHDF5(const std::string& output_dir = "output");
 
-        /// Overridden print method.
+        /// Overridden update method.
         virtual void Update(std::shared_ptr<const Population> population) override;
 
-        /// Dump json data to file.
+        /// Close H5 file.
         virtual void Finish() override;
 
 private:
-        /// Initialize json object and open file stream.
+        /// Initialize H5 file.
         virtual void Initialize(const std::string& output_dir) override;
 
         /// Write attribute to H5Object
-        void writeAttribute(H5::H5Object& object, const std::string& name, unsigned int data, H5::PredType type);
+        void WriteAttribute(H5::H5Object& object, const std::string& name, unsigned int data);
+
+        /// Write coordinate to H5Object
+        void WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate);
 
 private:
-        H5::H5File m_data;
+        H5::H5File* m_data;
+        int         m_timestep;
 };
 
 } // namespace output
