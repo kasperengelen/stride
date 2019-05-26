@@ -22,8 +22,9 @@
 #include "geopop/Location.h"
 #include "util/Assert.h"
 
-#include <geopop/GeoGridConfig.h>
 #include <utility>
+#include <geopop/GeoGridConfig.h>
+#include <map>
 
 namespace geopop {
 
@@ -33,8 +34,144 @@ using namespace stride::ContactType;
 using namespace stride::AgeBrackets;
 using namespace util;
 
-template <>
-void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
+struct WorkplaceInfo {
+        double weight1;
+        double weight2;
+        double weight3;
+        unsigned int target;
+        unsigned int max_size;
+};
+
+/**
+ * Initialize weights and size targets used for weighted drawing of workplace pools.
+ * The weights are calculated using the defined workplace size distribution ratio's, sizes
+ * and the amount of pools for each size.
+ * A target size is used as a soft cap, after which the weight is lowered and thus that pool will get less people assigned afterwards.
+ * The max_size represents a hard cap for all but the biggest defined workplace size.
+ */
+void init_workplace_weights(GeoGrid &geoGrid, const vector<double> &workplaceRatios,
+                            const std::vector<std::pair<unsigned int, unsigned int>> &workplaceSizes,
+                            stride::util::RnMan &rn_man,
+                            map<unsigned int, WorkplaceInfo> &workplaceInfo)
+{
+        unsigned int max_size_workplace = 0;
+        if (not workplaceSizes.empty()) {
+                max_size_workplace = workplaceSizes[0].second;
+        }
+        for (auto &size : workplaceSizes) {
+                if (size.second > max_size_workplace)
+                        max_size_workplace = size.second;
+        }
+
+        for (const auto &loc : geoGrid) {
+                if (loc->GetPopCount() == 0) {
+                        continue;
+                }
+
+                auto &pools = loc->RefPools(Id::Workplace);
+
+                unsigned int amount_pools = pools.size();
+                unsigned int pools_left = amount_pools;
+
+                unsigned int pool_counter = 0;
+
+                // Iterate over each workplace size / ratio
+                for (auto j = 0; j < (int) workplaceRatios.size(); j++) {
+                        auto w = workplaceRatios[j];
+
+                        // This should be expected amount of workplaces for the given size
+                        auto pools_current_size = static_cast<unsigned int>(floor(w * amount_pools));
+                        if (j == (int) workplaceRatios.size() - 1)
+                                pools_current_size = pools_left;
+
+                        if (pools_current_size == 0)
+                                continue;
+
+                        auto min_size = workplaceSizes[j].first;
+                        auto max_size = workplaceSizes[j].second;
+
+                        // Starting weight for current size
+                        double weight1;
+                        // Weight when target reached
+                        double weight2;
+                        double weight3;
+
+                        if (w == 1) {
+                                weight1 = 1;
+                                weight2 = 1;
+                                weight3 = 1;
+                        } else {
+                                // Starting weight for current size
+                                weight1 = static_cast<double>(1 - w);
+
+                                // Weight when target reached
+                                weight2 = weight1 / pools_current_size;
+
+                                if (max_size == max_size_workplace)
+                                        weight3 = weight2 / pools_current_size;
+                                else
+                                        weight3 = 0.0;
+                        }
+
+                        // For every workplace generate a target size
+                        auto target_draw = rn_man.GetUniformIntGenerator(min_size, max_size, 0U);
+                        for (unsigned int i = 0; i < pools_current_size; i++) {
+                                auto target = target_draw();
+
+                                WorkplaceInfo wInfo{};
+
+                                wInfo.weight1 = weight1;
+                                wInfo.weight2 = weight2;
+                                wInfo.weight3 = weight3;
+                                wInfo.target = target;
+                                wInfo.max_size = max_size;
+
+                                auto poolID = pools[pool_counter++]->GetId();
+
+                                workplaceInfo[poolID] = wInfo;
+                        }
+
+                        pools_left -= pools_current_size;
+                }
+        }
+}
+
+/**
+ * Gather the weights for the given workplaces while accounting for the current of each workplace.
+ */
+void get_weights(const map<unsigned int, WorkplaceInfo> &workplaceInfo, const vector<ContactPool *> &workplaces,
+                 vector<double> &weights)
+{
+        bool all_zero = true;
+        for (auto workplace : workplaces) {
+                double weight;
+                unsigned int wSize = workplace->size();
+
+                auto wInfo = workplaceInfo.at(workplace->GetId());
+
+                if (wSize < wInfo.target) {
+                        weight = wInfo.weight1;
+                        all_zero = false;
+                } else if (wSize < wInfo.max_size) {
+                        weight = wInfo.weight2;
+                        all_zero = false;
+                } else {
+                        weight = 0.0;
+                }
+
+                weights.emplace_back(weight);
+        }
+
+        if (all_zero) {
+                for (int i = 0; i < (int) workplaces.size(); i++) {
+                        weights[i] = workplaceInfo.at(workplaces[i]->GetId()).weight3;
+                }
+        }
+}
+
+
+template<>
+void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, const GeoGridConfig &geoGridConfig)
 {
         m_logger->trace("Starting to populate Workplaces");
 
@@ -44,8 +181,8 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         auto genWorkplaceDistr{function<int()>()};
         auto genWorkplaceComDistr{function<int()>()};
 
-        vector<ContactPool*> nearbyWp{};
-        vector<Location*>    commuteLocations{};
+        vector<ContactPool *> nearbyWp{};
+        vector<Location *> commuteLocations{};
 
         const auto participWorkplace    = geoGridConfig.param.particpation_workplace;
         const auto popCollege           = geoGridConfig.info.popcount_college;
@@ -56,73 +193,22 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         const auto workplaceSizes       = geoGridConfig.workplaceSD.sizes;
         auto&      rn_man               = m_rn_man;
 
+        // Determine target workplace sizes to match workplace size and ratio information
+        map<unsigned int, WorkplaceInfo> workplaceInfo;
+
         // Commuting fraction in student population estimated to obtain commuting fraction in
         // workplace population from commute data.
         double fracCommuteStudents = 0.0;
         if (static_cast<bool>(fracWorkplaceCommute) && popWorkplace) {
-                fracCommuteStudents = (popCollege * fracCollegeCommute) / (popWorkplace * fracWorkplaceCommute);
+                fracCommuteStudents = (popCollege * fracCollegeCommute) /(popWorkplace * fracWorkplaceCommute);
         }
 
-        // --------------------------------------------------------------------------------
-        //  Data needed for workplace size distribution
-        // --------------------------------------------------------------------------------
-
-        // --------------------------------------------------------------------------------
-        //  Cool function dude
-        // --------------------------------------------------------------------------------
-
-        auto get_weights = [&workplaceRatios, &workplaceSizes,
-                            &rn_man](const vector<ContactPool*>& nearbyWp, vector<double>& weights,
-                                     vector<double>&                           weights_target_reached,
-                                     vector<pair<unsigned int, unsigned int>>& targets) {
-                unsigned int amount_pools = nearbyWp.size();
-                unsigned int pools_left   = amount_pools;
-
-                // Iterate over each workplace size / ratio
-                for (auto j = 0; j < (int)workplaceRatios.size(); j++) {
-                        auto w = workplaceRatios[j];
-
-                        // This should be expected amount of workplaces for the given size
-                        auto pools_current_size = static_cast<unsigned int>(floor(w * amount_pools));
-                        if (j == (int)workplaceRatios.size() - 1)
-                                pools_current_size = pools_left;
-
-                        if (pools_current_size == 0)
-                                continue;
-
-                        auto min_size = workplaceSizes[j].first;
-                        auto max_size = workplaceSizes[j].second;
-
-                        // Starting weight for current size
-                        auto weight = static_cast<double>(1 - w);
-
-                        // Weight when target reached
-                        auto weight_target_reached = weight / pools_current_size;
-
-                        // For every workplace generate a target size
-                        auto target_draw = rn_man.GetUniformIntGenerator(min_size, max_size, 0U);
-                        for (unsigned int i = 0; i < pools_current_size; i++) {
-                                auto target = target_draw();
-
-                                if (nearbyWp[weights.size()]->size() == max_size)
-                                        weights.emplace_back(0);
-                                else if ((int)nearbyWp[weights.size()]->size() >= target)
-                                        weights.emplace_back(weight_target_reached);
-                                else
-                                        weights.emplace_back(weight);
-
-                                weights_target_reached.emplace_back(weight_target_reached);
-                                targets.emplace_back(make_pair(target, max_size));
-                        }
-
-                        pools_left -= pools_current_size;
-                }
-        };
+        init_workplace_weights(geoGrid, workplaceRatios, workplaceSizes, rn_man, workplaceInfo);
 
         // --------------------------------------------------------------------------------
         // For every location, if populated ...
         // --------------------------------------------------------------------------------
-        for (const auto& loc : geoGrid) {
+        for (const auto &loc : geoGrid) {
                 if (loc->GetPopCount() == 0) {
                         continue;
                 }
@@ -134,8 +220,8 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 genCommute = function<int()>();
 
                 vector<double> commutingWeights;
-                for (const pair<Location*, double>& commute : loc->CRefOutgoingCommutes()) {
-                        const auto& workplaces = commute.first->RefPools(Id::Workplace);
+                for (const pair<Location *, double> &commute : loc->CRefOutgoingCommutes()) {
+                        const auto &workplaces = commute.first->RefPools(Id::Workplace);
                         if (!workplaces.empty()) {
                                 commuteLocations.push_back(commute.first);
                                 const auto weight = commute.second - (commute.second * fracCommuteStudents);
@@ -155,10 +241,11 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 nearbyWp             = geoGrid.GetNearbyPools(Id::Workplace, *loc);
                 genUniformNonCommute = m_rn_man.GetUniformIntGenerator(0, static_cast<int>(nearbyWp.size()), 0U);
 
-                vector<double>                           workplaceWeights;
-                vector<double>                           workplaceWeightsTR;
-                vector<pair<unsigned int, unsigned int>> workplaceTargets;
-                get_weights(nearbyWp, workplaceWeights, workplaceWeightsTR, workplaceTargets);
+                // --------------------------------------------------------------------------------
+                // Get weights for the NearbyWorkspacePools used for weighted drawing of pools
+                // --------------------------------------------------------------------------------
+                vector<double> workplaceWeights;
+                get_weights(workplaceInfo, nearbyWp, workplaceWeights);
 
                 if (!workplaceWeights.empty()) {
                         genDiscreteNonCommute = m_rn_man.GetDiscreteGenerator(workplaceWeights, 0U);
@@ -189,14 +276,13 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                                                 // --------------------------------------------------------------
                                                 // this person commutes to the Location and in particular to Pool
                                                 // --------------------------------------------------------------
-                                                auto& pools = commuteLocations[genCommute()]->RefPools(Id::Workplace);
+                                                auto &pools = commuteLocations[genCommute()]->RefPools(Id::Workplace);
 
-                                                vector<double>                           wWeights;
-                                                vector<double>                           wWeightsTR;
-                                                vector<pair<unsigned int, unsigned int>> wTargets;
-                                                vector<ContactPool*>                     vector_pools;
+                                                // Get weights for the NearbyWorkspacePools used for weighted drawing of pools
+                                                vector<double> wWeights;
+                                                vector<ContactPool *> vector_pools;
                                                 vector_pools.insert(vector_pools.end(), pools.begin(), pools.end());
-                                                get_weights(vector_pools, wWeights, wWeightsTR, wTargets);
+                                                get_weights(workplaceInfo, vector_pools, wWeights);
 
                                                 auto gen  = m_rn_man.GetDiscreteGenerator(wWeights, 0U);
                                                 auto pool = pools[gen()];
@@ -212,11 +298,13 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                                                 person->SetPoolId(Id::Workplace, nearbyWp[idraw]->GetId());
 
                                                 // update weight if target or max size reached
-                                                if (nearbyWp[idraw]->size() == workplaceTargets[idraw].first) {
-                                                        workplaceWeights[idraw] = workplaceWeightsTR[idraw];
-                                                        genDiscreteNonCommute =
-                                                            m_rn_man.GetDiscreteGenerator(workplaceWeights, 0U);
-                                                } else if (nearbyWp[idraw]->size() == workplaceTargets[idraw].second) {
+                                                if (nearbyWp[idraw]->size() ==
+                                                    workplaceInfo[nearbyWp[idraw]->GetId()].target) {
+                                                        workplaceWeights[idraw] = workplaceInfo[nearbyWp[idraw]->GetId()].weight2;
+                                                        genDiscreteNonCommute = m_rn_man.GetDiscreteGenerator(
+                                                                workplaceWeights, 0U);
+                                                } else if (nearbyWp[idraw]->size() ==
+                                                           workplaceInfo[nearbyWp[idraw]->GetId()].target) {
                                                         workplaceWeights[idraw] = 0.0;
                                                         genDiscreteNonCommute =
                                                             m_rn_man.GetDiscreteGenerator(workplaceWeights, 0U);
