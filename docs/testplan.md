@@ -6,13 +6,13 @@
 ### Daycare & Preschool
 
 * DaycareGeneratorTest:
-    Tests wether the DaycareGenerator can handle various amounts of locations.
+    Tests whether the DaycareGenerator can handle various amounts of locations.
     * OneLocationTest
     * ZeroLocationTest
     * FiveLocationTest
 
 * PreSchoolGeneratorTest:
-    Tests wether the PreSchoolGenerator can handle various amounts of locations.
+    Tests whether the PreSchoolGenerator can handle various amounts of locations.
     * OneLocationTest
     * ZeroLocationTest
     * FiveLocationTest
@@ -64,7 +64,7 @@
     
 * WorkplacePopulatorTest:
     Existing tests are updated to reflect the changes in the algorithm for populating pools.
-    * Distribution: By
+    * Distribution: Tests, after populating the workplaces, if the amounts of pools per size class gets close to the specified ratios
 
 ## Responsibilities
 The teammember that is responsible for implementing a feature, is also responsible for testing that feature. The tests are verified when the pull request for the feature is processed.
