@@ -331,7 +331,7 @@ TEST_F(WorkplacePopulatorTest, Distribution)
                 avgPplPerWorkplace += m_gg_config.workplaceSD.ratios[i] * (min_size + max_size) / 2;
         }
 
-        int pools = static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace * (3 * 1.0858333))));
+        int pools = static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace * (3))));
 
         auto brasschaat = *m_geo_grid.begin();
         brasschaat->SetCoordinate(Coordinate(51.29227, 4.49419));
@@ -348,7 +348,7 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         auto kortrijk = *(m_geo_grid.begin() + 2);
         kortrijk->SetCoordinate(Coordinate(50.82900246, 3.264406009));
         for (int _ = 0; _ < pools; _++) {
-                m_workplace_generator.AddPools(*schoten, m_pop.get(), m_gg_config);
+                m_workplace_generator.AddPools(*kortrijk, m_pop.get(), m_gg_config);
         }
 
         m_geo_grid.Finalize();
@@ -357,18 +357,14 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         vector<unsigned long> ranges(m_gg_config.workplaceSD.ratios.size());
         vector<unsigned long> sizes(m_gg_config.workplaceSD.ratios.size());
 
-        unsigned int zero       = 0;
-        unsigned int other      = 0;
-        unsigned int totalPools = 0;
-        unsigned int totalPeeps = 0;
-        // Check pools for consistency pfff
+        unsigned int zero  = 0;
+        unsigned int other = 0;
+        // Check pools for consistency
         for (const auto& loc : m_geo_grid) {
                 for (auto& workPool : loc->RefPools(Id::Workplace)) {
 
-                        totalPools++;
-                        totalPeeps += workPool->size();
-                        bool setP     = false;
                         auto sizePool = workPool->size();
+                        bool setP     = false;
 
                         if (sizePool == 0) {
                                 zero++;
@@ -392,10 +388,10 @@ TEST_F(WorkplacePopulatorTest, Distribution)
         }
 
         EXPECT_EQ(0, zero);
-        EXPECT_EQ(742, ranges[0]);
-        EXPECT_EQ(163, ranges[1]);
-        EXPECT_EQ(39, ranges[2]);
-        EXPECT_EQ(10, ranges[3]);
+        EXPECT_EQ(803, ranges[0]);
+        EXPECT_EQ(172, ranges[1]);
+        EXPECT_EQ(48, ranges[2]);
+        EXPECT_EQ(12, ranges[3]);
         EXPECT_EQ(0, other);
 }
 
