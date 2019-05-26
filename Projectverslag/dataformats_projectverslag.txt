@@ -1,0 +1,79 @@
+GeoGrid
+=======
+
+* Een GeoGrid kan weggeschreven worden naar een file, en kan ook worden ingelezen van een file.
+* De filetypes die worden ondersteund zijn HDF5, Json en Protobuf. Deze laatste werd reeds ondersteund.
+
+Writer
+------
+    -> De aangepaste en betrokken files voor het wegschrijven naar het juiste type zijn:
+        - main/cpp/geopop/io/GeoGridWriter.h
+        - main/cpp/geopop/io/GeoGridFileWriter.h
+        - main/cpp/geopop/io/GeoGridStreamWriter.h
+        - main/cpp/geopop/io/GeoGridWriterFactory [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridHDF5Writer [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridJSONWriter [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridProtoWriter [.h/.cpp]
+    -> De werking wordt beschreven in:
+        - User Manual
+    -> Documentatie wordt voorzien in:
+        - Doxigen
+
+Reader
+------
+    -> De aangepaste en betrokken files voor het wegschrijven naar het juiste type zijn:
+        - main/cpp/geopop/io/GeoGridReader [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridReaderFactory [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridHDF5Reader [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridJSONReader [.h/.cpp]
+        - main/cpp/geopop/io/GeoGridProtoReader [.h/.cpp]
+        -> De werking wordt beschreven in:
+            - User Manual
+        -> Documentatie wordt voorzien in:
+            - Doxigen
+
+Testen
+------
+    -> De verschillende Writers en Readers worden getest in volgende files:
+        - test/cpp/gtester/geopop/io/GeoGridHDF5ReaderTest.cpp
+        - test/cpp/gtester/geopop/io/GeoGridHDF5WriterTest.cpp
+        - test/cpp/gtester/geopop/io/GeoGridJSONReaderTest.cpp
+        - test/cpp/gtester/geopop/io/GeoGridJSONWriterTest.cpp
+    -> Verder worden input- en outputtests getest in:
+        - test/cpp/CMakeLists.txt
+    -> Verder zijn volgende files betrokken bij het testen:
+        - test/cpp/gtester/geopop/io/GeoGridCompare [.h/.cpp]
+    -> Documentatie wordt voorzien in:
+        - Doxigen
+
+
+Household
+=========
+
+* Een Household kan worden ingelezen van een file.
+* De filetypes die worden ondersteund zijn JSON en CSV. Deze laatste werd reeds ondersteund.
+
+    -> De aangepaste en betrokken files zijn:
+        - main/cpp/geopop/io/HouseholdJSONReader [.h/.cpp]
+        - main/cpp/geopop/io/ReaderFactory [.h/.cpp]
+    -> De werking wordt beshreven in:
+        - User Manual
+    -> Documentatie wordt voorzien in:
+        - Doxigen
+
+Testen
+------
+
+    De Reader wordt getest in:
+        - test/cpp/gtester/geopop/io/HouseholdJSONReaderTest.cpp
+
+
+HDF5 en JSON
+============
+
+* Voor de dataformats zijn JSON en HDF5 toegevoegd.
+
+    - HDF5 wordt toegevoegd in main/recources/lib/hdf5
+    - JSON wordt toegevoegd in main/recources/lib/json
+    - Beiden worden gelinkt in CMakeCPP.cmake
+    - HDF5 wordt individueel nog eens gelinkt in main/cpp/CMakeLists.txt
