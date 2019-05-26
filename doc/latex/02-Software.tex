@@ -90,7 +90,7 @@ The Stride software supports different file formats:
     \item [Proto] \ \\
     Protocol Buffers, used for exporting and importing the generated population and geographical grid.
     \item [HDF5]
-    Hierarchical Data Format, a filesystem-like format used for exporting and importing geographical grids and epidemiological information. 
+    Hierarchical Data Format, a filesystem-like format used for exporting and importing geographical grids and epidemiological information.
 \end{compactdesc}
 
 
@@ -109,7 +109,7 @@ They are activated when the application is built in debug mode and can be used t
 \section{Results}
 \label{section:Results}
 
-The software can generates different output files:
+The software can generate different output files:
 \begin{compactdesc}
 	\item [cases.csv] \ \\
 	Cumulative number of cases per day.
@@ -121,6 +121,8 @@ The software can generates different output files:
 	Details on transmission and/or social contacts events.
     \item [gengeopop {[.proto/.h5/.json]}] \ \\
     Generated population and geographical grid. The file format can be edited in the configuration file.
+    \item [EpiOutput]
+    Generated epidemiological data (locations' health status over time). Supported formats: JSON, HDF5
 \end{compactdesc}
 
 
