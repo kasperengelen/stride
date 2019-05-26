@@ -1,0 +1,44 @@
+Daycare/Preschool - verwijzingen naar componenten
+=========================================================
+
+2 nieuwe ContactTypes (Daycare en PreSchool) en hun populators/generators zijn toegevoegd.
+Deze werken op gelijkaardige manier als de K12School rekening houdend met de 
+participation in de pools.
+
+- De aangepaste/betrokken bestanden in de code zijn:
+
+    -main/cpp/geopop/generators/DaycareGenerator.cpp
+    -main/cpp/geopop/populators/PreschoolPopulator.cpp
+    -main/cpp/geopop/GeoGridConfig [.h/.cpp]
+
+    -main/cpp/geopop/io/GeoGridHDF5Writer.cpp
+    -main/cpp/geopop/io/GeoGridHDF5Reader.cpp    
+    -main/cpp/geopop/io/GeoGridJSONWriter.cpp
+    -main/cpp/geopop/io/GeoGridJSONReader.cpp    
+    -main/cpp/geopop/io/GeoGridProtoWriter.cpp
+    -main/cpp/geopop/io/GeoGridProtoReader.cpp
+    -main/cpp/geopop/io/proto/geogrid.proto
+    -main/cpp/geopop/io/proto_pb/geogrid_pb [.h/.cc]
+
+    -main/cpp/contact/AgeContactProfile.cpp
+    -main/cpp/contact/ContactType [.h/.cpp]
+    -main/cpp/contact/Infector.cpp
+    
+    -main/cpp/pop/DefaultPopBuilder.cpp
+    -main/cpp/pop/GeoPopBuilder.cpp
+    -main/cpp/pop/Person [.h/cpp]
+    -main/cpp/pop/Population [.h/.cpp]
+    -main/cpp/pop/SurveySeeder.cpp
+    
+    -main/cpp/sim/Sim.cpp
+    
+    -test/cpp/gtester/geopop/generators/DaycareGeneratorTest.cpp
+    -test/cpp/gtester/geopop/populators/DaycarePopulatorTest.cpp
+    -test/cpp/gtester/geopop/generators/PreSchoolGeneratorTest.cpp
+    -test/cpp/gtester/geopop/populators/PreSchoolPopulatorTest.cpp
+    
+
+- Gebruikersinformatie wordt beschreven in:
+    - user manual:
+        - Simulator
+        - Concepts
