@@ -357,7 +357,7 @@ TEST_F(WorkplacePopulatorTest, Distribution)
 
         unsigned int zero = 0;
         unsigned int other = 0;
-        // Check pools for consistency pfff
+        // Check pools for consistency
         for (const auto& loc : m_geo_grid) {
                 for (auto& workPool : loc->RefPools(Id::Workplace)) {
 

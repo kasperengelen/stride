@@ -35,7 +35,7 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
 
         const auto EmployeeCount = ggConfig.info.popcount_workplace;
 
-        // Calculate the average amount of people in th workplace pool with respect to the workplace ratio's and sizes
+        // Calculate the average amount of people in the workplace pool with respect to the workplace ratio's and sizes
         double avgPplPerWorkplace = 0;
 
         for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++)
