@@ -18,14 +18,14 @@
  * Header file for the Controller class.
  */
 
-#include "datavis/model/Model.h"
-#include "datavis/view/View.h"
+#include "visualiser/model/Model.h"
+#include "visualiser/view/View.h"
 
 #include <QObject>
 #include <QGeoCoordinate>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * @class Controller 
@@ -107,5 +107,5 @@ private:
         View* m_view_ptr;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

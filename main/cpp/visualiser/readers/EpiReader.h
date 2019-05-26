@@ -15,49 +15,54 @@
 
 /**
  * @file
- * Header file for the JSONReader class.
+ * Header file for the Reader class.
  */
 
 #pragma once
 
-#include "EpiReader.h"
-#include "json.hpp"
+#include "visualiser/model/Model.h"
+
+#include <fstream>
+#include <istream>
+#include <memory>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
- * @class JSONEpiReader
- * Class that reads epi-output specified in the JSON data format.
+ * @class EpiReader
+ * Base class for epi-output readers.
  */
-class JSONEpiReader : public EpiReader
+class EpiReader
 {
 public:
-        /**
-         * Constructor.
- 	     * 
- 	     * @param path An std::string that contains the path to the JSON file.
-         */
-        explicit JSONEpiReader(const std::string& path) : EpiReader(path) {}
+		/**
+		 * Constructor.
+		 *
+		 * @param path An std::string that contains the path to the file.
+		 */
+        explicit EpiReader(const std::string& path) : m_path(path){};
 
         /**
          * Default destructor.
          */
-        virtual ~JSONEpiReader() = default;
+        virtual ~EpiReader() = default;
 
         /**
          * Read the epidemiological information contained in the file and add it to the
          * specified model.
          */
-        virtual void ReadIntoModel(Model& datamodel) const override;
+        virtual void ReadIntoModel(Model& datamodel) const = 0;
+
+protected:
+        /// Retrieve the istream that contains the file contents
+        const std::unique_ptr<std::ifstream> GetInStream() const { return std::make_unique<std::ifstream>(m_path); }
 
 private:
-        ///< Create a Locality object from the specified JSON data.
-        const Locality ReadLocality(const nlohmann::json& localityData) const;
-
-        ///< Create a PopSection object from the specified JSON data.
-        const PopSection ReadPopSection(const nlohmann::json& popCatData) const;
+        /// stores that path to the file
+        const std::string m_path;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
+

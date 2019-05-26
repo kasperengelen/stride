@@ -19,12 +19,12 @@
  */
 
 #include "JSONEpiReader.h"
-#include "datavis/model/PopData.h"
-#include "datavis/model/Locality.h"
-#include "datavis/readers/EpiReaderException.h"
+#include "visualiser/model/PopData.h"
+#include "visualiser/model/Locality.h"
+#include "visualiser/readers/EpiReaderException.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 {
@@ -107,5 +107,5 @@ const PopSection JSONEpiReader::ReadPopSection(const nlohmann::json& popCatData)
         return retval;
 }
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

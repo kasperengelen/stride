@@ -20,10 +20,10 @@
 
 #include "View.h"
 
-#include "datavis/view/PopDataView.h"
+#include "visualiser/view/PopDataView.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 const QVariant View::GetEpiData() const
 {
@@ -68,5 +68,5 @@ void View::DisplayPopDataInSidebar(const PopData& popData)
 	emit this->sidebarDataAvailble(PopDataView(popData).GetQVariantMap());
 }
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

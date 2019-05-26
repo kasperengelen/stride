@@ -15,25 +15,25 @@
 
 /**
  * @file
- * Header file for the HDF5Reader class.
+ * Implementation file for the DataModel class.
  */
 
-#pragma once
-
-#include "EpiReader.h"
+#include "Model.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
-/**
- * @class HDF5EpiReader
- * Class that reads epi-output specified in the HDF5 data format.
- */
-class HDF5EpiReader : public EpiReader
+const PopData Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius, const unsigned int day) const
 {
-public:
-private:
-};
+	// TODO fill with selection
+	return PopData{};
+}
 
-} // namespace datavis
+const PopData Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB, const unsigned int day) const
+{
+	// TODO fill with selection
+	return PopData{};
+}
+
+} // namespace visualiser
 } // namespace stride

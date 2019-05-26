@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include "datavis/model/Locality.h"
+#include "visualiser/model/Locality.h"
 
 #include <QVariant>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * Class that provides a view for PopData objects. This class
@@ -76,5 +76,6 @@ private:
         QVariantMap m_pop_data;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
+

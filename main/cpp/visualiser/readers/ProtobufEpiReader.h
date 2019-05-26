@@ -12,16 +12,27 @@
  *
  *  Copyright 2019, ACED.
  */
-
 /**
  * @file
- * Implementation file for the Reader class.
+ * Header file for the ProtobufReader class.
  */
+
+#pragma once
 
 #include "EpiReader.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
-} // namespace datavis
+/**
+ * @class ProtobufEpiReader
+ * Class that reads epi-output specified in the Protobuf data format.
+ */
+class ProtobufEpiReader : public EpiReader
+{
+public:
+private:
+};
+
+} // namespace visualiser
 } // namespace stride

@@ -18,10 +18,10 @@
  * Implementation file for the Controller class.
  */
 
-#include "datavis/controller/Controller.h"
+#include "visualiser/controller/Controller.h"
 
-#include "datavis/readers/JSONEpiReader.h"
-#include "datavis/readers/EpiReaderException.h"
+#include "visualiser/readers/JSONEpiReader.h"
+#include "visualiser/readers/EpiReaderException.h"
 
 #include <iostream>
 #include <sstream>
@@ -31,7 +31,7 @@
 #include <QString>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 void Controller::OpenFile()
 {
@@ -109,5 +109,5 @@ void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB,
 		m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

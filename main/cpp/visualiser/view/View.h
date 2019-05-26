@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include "datavis/model/Model.h"
+#include "visualiser/model/Model.h"
 
 #include <QObject>
 #include <QVariant>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * @class View
@@ -100,5 +100,6 @@ private:
         Model* m_model_ptr;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
+

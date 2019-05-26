@@ -24,7 +24,7 @@
 #include <string>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * @class EpiReaderException
@@ -50,5 +50,6 @@ private:
         const std::string m_message;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
+

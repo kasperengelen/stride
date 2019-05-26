@@ -21,7 +21,7 @@
 #pragma once
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * @struct PopSection
@@ -89,5 +89,6 @@ struct PopData
 	PopSection preschool;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
+

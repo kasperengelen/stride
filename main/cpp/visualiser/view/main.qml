@@ -15,8 +15,8 @@ import QtPositioning 5.6
 import "logic.js" as Logic
 
 // stride classes
-import stride.datavis.controller 1.0
-import stride.datavis.view 1.0
+import stride.visualiser.controller 1.0
+import stride.visualiser.view 1.0
 
 // main window
 Window {

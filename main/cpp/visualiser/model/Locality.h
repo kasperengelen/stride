@@ -31,7 +31,7 @@
 #include <algorithm>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * @class Locality
@@ -75,5 +75,5 @@ private:
         PopData m_popdata;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

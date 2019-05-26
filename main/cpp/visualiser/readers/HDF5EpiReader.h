@@ -12,9 +12,10 @@
  *
  *  Copyright 2019, ACED.
  */
+
 /**
  * @file
- * Header file for the ProtobufReader class.
+ * Header file for the HDF5Reader class.
  */
 
 #pragma once
@@ -22,17 +23,18 @@
 #include "EpiReader.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
- * @class ProtobufEpiReader
- * Class that reads epi-output specified in the Protobuf data format.
+ * @class HDF5EpiReader
+ * Class that reads epi-output specified in the HDF5 data format.
  */
-class ProtobufEpiReader : public EpiReader
+class HDF5EpiReader : public EpiReader
 {
 public:
 private:
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
+

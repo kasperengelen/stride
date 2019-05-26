@@ -200,41 +200,41 @@ install(TARGETS stride DESTINATION ${BIN_INSTALL_LOCATION})
 # Data visualiser sources.
 #============================================================================
 # WARNING!!: MAKE SURE THESE ARE -CORRECT-, otherwise a "no sources specified" error will be shown!!
-set(DATAVIS_SRC
+set(VISUALISER_SOURCE
 	# controller
-	datavis/controller/Controller.cpp
+	visualiser/controller/Controller.cpp
 	# view
-	datavis/view/PopDataView.cpp
-	datavis/view/View.cpp
+	visualiser/view/PopDataView.cpp
+	visualiser/view/View.cpp
     # model
-    datavis/model/Locality.cpp
-    datavis/model/Model.cpp
+    visualiser/model/Locality.cpp
+    visualiser/model/Model.cpp
     # epi output readers
-    datavis/readers/EpiReader.cpp
-    datavis/readers/HDF5EpiReader.cpp
-    datavis/readers/JSONEpiReader.cpp
-    datavis/readers/ProtobufEpiReader.cpp
+    visualiser/readers/EpiReader.cpp
+    visualiser/readers/HDF5EpiReader.cpp
+    visualiser/readers/JSONEpiReader.cpp
+    visualiser/readers/ProtobufEpiReader.cpp
     # main
-    datavis/main.cpp
-    datavis/qml.qrc
+    visualiser/main.cpp
+    visualiser/qml.qrc
 )
 
 #============================================================================
 # Build data visualiser binary.
 #============================================================================
 if(DO_BUILD_DATAVIS)
-	message("Adding datavis build target.")
-    add_executable(stride_datavis ${DATAVIS_SRC})
+	message("Adding visualiser build target.")
+    add_executable(stride_visualiser ${VISUALISER_SOURCE})
 
-    target_link_libraries(stride_datavis libstride) # give data visualiser access to the stride library
+    target_link_libraries(stride_visualiser libstride) # give data visualiser access to the stride library
 
-    target_link_libraries(stride_datavis Qt5::Core)
-    target_link_libraries(stride_datavis Qt5::Widgets)
-    target_link_libraries(stride_datavis Qt5::Location)
+    target_link_libraries(stride_visualiser Qt5::Core)
+    target_link_libraries(stride_visualiser Qt5::Widgets)
+    target_link_libraries(stride_visualiser Qt5::Location)
 
     set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
 
-    install(TARGETS stride_datavis DESTINATION ${BIN_INSTALL_LOCATION})
+    install(TARGETS stride_visualiser DESTINATION ${BIN_INSTALL_LOCATION})
 endif()
 
 #############################################################################

@@ -21,7 +21,7 @@
 #include "PopDataView.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 PopDataView::PopDataView(const PopData& popData) : m_pop_data{}
 {
@@ -56,5 +56,5 @@ const QVariantMap PopDataView::CreatePopSectionView(const PopSection& popSection
         return retval;
 }
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

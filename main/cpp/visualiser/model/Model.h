@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include "datavis/model/Locality.h"
+#include "visualiser/model/Locality.h"
 #include "geopop/Coordinate.h"
 
 #include <vector>
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
 /**
  * @class Model
@@ -79,5 +79,5 @@ private:
         std::vector<std::vector<Locality>> m_timesteps;
 };
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride

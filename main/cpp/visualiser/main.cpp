@@ -5,13 +5,13 @@
 
 #include <iostream>
 
-#include "datavis/controller/Controller.h"
-#include "datavis/model/Model.h"
-#include "datavis/view/View.h"
+#include "visualiser/controller/Controller.h"
+#include "visualiser/model/Model.h"
+#include "visualiser/view/View.h"
 
-using stride::datavis::Controller;
-using stride::datavis::Model;
-using stride::datavis::View;
+using stride::visualiser::Controller;
+using stride::visualiser::Model;
+using stride::visualiser::View;
 
 /**
  * Main method.
@@ -23,8 +23,8 @@ int main(int argc, char* argv[])
         QApplication app(argc, argv);
 
         // register QML elements
-        qmlRegisterType<Controller>("stride.datavis.controller", 1, 0, "Controller");
-        qmlRegisterType<View>("stride.datavis.view", 1, 0, "View");
+        qmlRegisterType<Controller>("stride.visualiser.controller", 1, 0, "Controller");
+        qmlRegisterType<View>("stride.visualiser.view", 1, 0, "View");
 
         // create engine
         QQmlApplicationEngine engine;

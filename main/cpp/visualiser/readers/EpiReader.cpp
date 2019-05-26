@@ -15,13 +15,13 @@
 
 /**
  * @file
- * Implementation file for the Locality class.
+ * Implementation file for the Reader class.
  */
 
-#include "Locality.h"
+#include "EpiReader.h"
 
 namespace stride {
-namespace datavis {
+namespace visualiser {
 
-} // namespace datavis
+} // namespace visualiser
 } // namespace stride
