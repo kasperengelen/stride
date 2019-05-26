@@ -15,7 +15,8 @@ Writer
         - main/cpp/geopop/io/GeoGridJSONWriter [.h/.cpp]
         - main/cpp/geopop/io/GeoGridProtoWriter [.h/.cpp]
     -> De werking wordt beschreven in:
-        - User Manual
+        - User Manual:
+            - Software
     -> Documentatie wordt voorzien in:
         - Doxigen
 
@@ -28,7 +29,8 @@ Reader
         - main/cpp/geopop/io/GeoGridJSONReader [.h/.cpp]
         - main/cpp/geopop/io/GeoGridProtoReader [.h/.cpp]
         -> De werking wordt beschreven in:
-            - User Manual
+            - User Manual:
+                - Software
         -> Documentatie wordt voorzien in:
             - Doxigen
 
@@ -57,7 +59,8 @@ Household
         - main/cpp/geopop/io/HouseholdJSONReader [.h/.cpp]
         - main/cpp/geopop/io/ReaderFactory [.h/.cpp]
     -> De werking wordt beshreven in:
-        - User Manual
+        - User Manual:
+            - Software
     -> Documentatie wordt voorzien in:
         - Doxigen
 
