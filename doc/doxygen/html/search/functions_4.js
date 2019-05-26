@@ -7,8 +7,8 @@ var searchData=
   ['end',['end',['../classstride_1_1_contact_pool.html#a59eb79bf2d47f73de6ece95400106f2f',1,'stride::ContactPool::end()'],['../classgeopop_1_1_geo_grid.html#a93555874d435b056f60f42d1d2b69c96',1,'geopop::GeoGrid::end()'],['../classstride_1_1util_1_1_segmented_vector.html#a904ec0aae93c8dbd345607378f141898',1,'stride::util::SegmentedVector::end()'],['../classstride_1_1util_1_1_segmented_vector.html#ab0048400ca8aa1d2f63c893cf9ebb04e',1,'stride::util::SegmentedVector::end() const']]],
   ['epioutputfile',['EpiOutputFile',['../classstride_1_1output_1_1_epi_output_file.html#afba0e468493f2e97f5bbf908ecbf6353',1,'stride::output::EpiOutputFile']]],
   ['epioutputfileviewer',['EpiOutputFileViewer',['../classstride_1_1viewers_1_1_epi_output_file_viewer.html#a1b79c67dd763a3719af64f5e501c727c',1,'stride::viewers::EpiOutputFileViewer']]],
-  ['epireader',['EpiReader',['../classstride_1_1datavis_1_1_epi_reader.html#ad638f1cf28159b9e65125022279770a0',1,'stride::datavis::EpiReader']]],
-  ['epireaderexception',['EpiReaderException',['../classstride_1_1datavis_1_1_epi_reader_exception.html#a9356be76aa8b0a4256554f2c5f530a2f',1,'stride::datavis::EpiReaderException']]],
+  ['epireader',['EpiReader',['../classstride_1_1visualiser_1_1_epi_reader.html#a61b049f371a6a26a9510016fd573d5c3',1,'stride::visualiser::EpiReader']]],
+  ['epireaderexception',['EpiReaderException',['../classstride_1_1visualiser_1_1_epi_reader_exception.html#a5a5325cfd2d4ad4db1cc2ba2c1cc4b6c',1,'stride::visualiser::EpiReaderException']]],
   ['exception',['Exception',['../classstride_1_1util_1_1_exception.html#ada9a96369897608bd84b0fdb33c23a7f',1,'stride::util::Exception']]],
   ['exec',['Exec',['../classstride_1_1_public_health_agency.html#a5096270693bc78b306cc236d6dcfb747',1,'stride::PublicHealthAgency']]]
 ];

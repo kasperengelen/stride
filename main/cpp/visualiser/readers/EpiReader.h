@@ -36,11 +36,11 @@ namespace visualiser {
 class EpiReader
 {
 public:
-		/**
-		 * Constructor.
-		 *
-		 * @param path An std::string that contains the path to the file.
-		 */
+        /**
+         * Constructor.
+         *
+         * @param path An std::string that contains the path to the file.
+         */
         explicit EpiReader(const std::string& path) : m_path(path){};
 
         /**
@@ -65,4 +65,3 @@ private:
 
 } // namespace visualiser
 } // namespace stride
-

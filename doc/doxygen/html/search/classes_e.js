@@ -5,10 +5,12 @@ var searchData=
   ['personsfile',['PersonsFile',['../classstride_1_1output_1_1_persons_file.html',1,'stride::output']]],
   ['personsfileviewer',['PersonsFileViewer',['../classstride_1_1viewers_1_1_persons_file_viewer.html',1,'stride::viewers']]],
   ['polygonpolicy',['PolygonPolicy',['../classgeopop_1_1_polygon_policy.html',1,'geopop']]],
-  ['popsection',['PopSection',['../structstride_1_1datavis_1_1_pop_section.html',1,'stride::datavis']]],
+  ['popdata',['PopData',['../structstride_1_1visualiser_1_1_pop_data.html',1,'stride::visualiser']]],
+  ['popdataview',['PopDataView',['../classstride_1_1visualiser_1_1_pop_data_view.html',1,'stride::visualiser']]],
+  ['popsection',['PopSection',['../structstride_1_1visualiser_1_1_pop_section.html',1,'stride::visualiser']]],
   ['population',['Population',['../classstride_1_1_population.html',1,'stride']]],
   ['populator',['Populator',['../classgeopop_1_1_populator.html',1,'geopop']]],
   ['preschool',['PreSchool',['../structstride_1_1_age_brackets_1_1_pre_school.html',1,'stride::AgeBrackets']]],
-  ['protobufepireader',['ProtobufEpiReader',['../classstride_1_1datavis_1_1_protobuf_epi_reader.html',1,'stride::datavis']]],
+  ['protobufepireader',['ProtobufEpiReader',['../classstride_1_1visualiser_1_1_protobuf_epi_reader.html',1,'stride::visualiser']]],
   ['publichealthagency',['PublicHealthAgency',['../classstride_1_1_public_health_agency.html',1,'stride']]]
 ];

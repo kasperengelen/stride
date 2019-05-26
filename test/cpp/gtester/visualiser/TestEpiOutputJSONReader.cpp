@@ -20,8 +20,4 @@
 
 #include <gtest/gtest.h>
 
-TEST(TestEpiOutputJSONReader, test1)
-{
-
-}
-
+TEST(TestEpiOutputJSONReader, test1) {}

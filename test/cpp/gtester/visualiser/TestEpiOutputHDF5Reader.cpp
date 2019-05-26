@@ -20,8 +20,4 @@
 
 #include <gtest/gtest.h>
 
-TEST(TestEpiOutputHDF5Reader, test1)
-{
-
-}
-
+TEST(TestEpiOutputHDF5Reader, test1) {}

@@ -33,11 +33,11 @@ namespace visualiser {
 class EpiReaderException : public std::exception
 {
 public:
-		/**
-		 * Constructor.
-		 *
-		 * @param message An std::string that contains a diagnostic message.
-		 */
+        /**
+         * Constructor.
+         *
+         * @param message An std::string that contains a diagnostic message.
+         */
         EpiReaderException(const std::string& message) : m_message{message} {}
 
         /**
@@ -52,4 +52,3 @@ private:
 
 } // namespace visualiser
 } // namespace stride
-

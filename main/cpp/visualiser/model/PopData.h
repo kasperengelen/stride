@@ -61,34 +61,33 @@ struct PopSection
  */
 struct PopData
 {
-	/// The total population.
-	PopSection total;
+        /// The total population.
+        PopSection total;
 
-	/// Part of the population that is part of a household ContactPool.
-	PopSection household;
+        /// Part of the population that is part of a household ContactPool.
+        PopSection household;
 
-	/// Part of the population that is part of a k12-school ContactPool.
-	PopSection k12school;
+        /// Part of the population that is part of a k12-school ContactPool.
+        PopSection k12school;
 
-	/// Part of the population that is part of a college ContactPool.
-	PopSection college;
+        /// Part of the population that is part of a college ContactPool.
+        PopSection college;
 
-	/// Part of the population that is part of a workplace ContactPool.
-	PopSection workplace;
+        /// Part of the population that is part of a workplace ContactPool.
+        PopSection workplace;
 
-	/// Part of the population that is part of a primary community ContactPool.
-	PopSection primCom;
+        /// Part of the population that is part of a primary community ContactPool.
+        PopSection primCom;
 
-	/// Part of the population that is part of a secondary community ContactPool.
-	PopSection secCom;
+        /// Part of the population that is part of a secondary community ContactPool.
+        PopSection secCom;
 
-	/// Part of the population that is part of a daycare ContactPool.
-	PopSection daycare;
+        /// Part of the population that is part of a daycare ContactPool.
+        PopSection daycare;
 
-	/// Part of the population that is part of a pre-school ContactPool.
-	PopSection preschool;
+        /// Part of the population that is part of a pre-school ContactPool.
+        PopSection preschool;
 };
 
 } // namespace visualiser
 } // namespace stride
-

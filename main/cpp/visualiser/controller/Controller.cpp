@@ -20,8 +20,8 @@
 
 #include "visualiser/controller/Controller.h"
 
-#include "visualiser/readers/JSONEpiReader.h"
 #include "visualiser/readers/EpiReaderException.h"
+#include "visualiser/readers/JSONEpiReader.h"
 
 #include <iostream>
 #include <sstream>
@@ -71,42 +71,41 @@ void Controller::OpenFile()
 
 void Controller::SaveFile()
 {
-		QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
+        QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
 
-		QString filename = QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "",
-														tr("PNG file (*.png)"));
+        QString filename =
+            QFileDialog::getSaveFileName(parent_ptr, tr("Save visualisation"), "", tr("PNG file (*.png)"));
 
-		if (filename.isNull()) {
-				return;
-		}
+        if (filename.isNull()) {
+                return;
+        }
 
-		if(!filename.endsWith(".png"))
-		{
-			filename += ".png";
-		}
+        if (!filename.endsWith(".png")) {
+                filename += ".png";
+        }
 
-		emit this->saveMapToFile(filename);
+        emit this->saveMapToFile(filename);
 
-		return;
+        return;
 }
 
 void Controller::SelectRadius(QGeoCoordinate coord, float radius, unsigned int day)
 {
-		const geopop::Coordinate stride_coord = {coord.longitude(), coord.latitude()};
+        const geopop::Coordinate stride_coord = {coord.longitude(), coord.latitude()};
 
-		const PopData popdata = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
+        const PopData popdata = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
 
-		m_view_ptr->DisplayPopDataInSidebar(popdata);
+        m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
 void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB, unsigned int day)
 {
-		const geopop::Coordinate stride_pointA = {pointA.longitude(), pointA.latitude()};
-		const geopop::Coordinate stride_pointB = {pointB.longitude(), pointB.latitude()};
+        const geopop::Coordinate stride_pointA = {pointA.longitude(), pointA.latitude()};
+        const geopop::Coordinate stride_pointB = {pointB.longitude(), pointB.latitude()};
 
-		const PopData popdata = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
+        const PopData popdata = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
 
-		m_view_ptr->DisplayPopDataInSidebar(popdata);
+        m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
 } // namespace visualiser

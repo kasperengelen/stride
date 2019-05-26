@@ -20,7 +20,4 @@
 
 #include <gtest/gtest.h>
 
-TEST(TestEpiOutputProtobufReader, test1)
-{
-
-}
+TEST(TestEpiOutputProtobufReader, test1) {}
