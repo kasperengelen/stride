@@ -27,25 +27,35 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class JSONEpiReader
  * Class that reads epi-output specified in the JSON data format.
  */
 class JSONEpiReader : public EpiReader
 {
 public:
-        /// Construct the Reader with an istream containing the file content.
+        /**
+         * Constructor.
+ 	     * 
+ 	     * @param path An std::string that contains the path to the JSON file.
+         */
         explicit JSONEpiReader(const std::string& path) : EpiReader(path) {}
 
-        /// Default destructor.
+        /**
+         * Default destructor.
+         */
         virtual ~JSONEpiReader() = default;
 
-        /// Read the epidemiological simulation data and add it to the model.
+        /**
+         * Read the epidemiological information contained in the file and add it to the
+         * specified model.
+         */
         virtual void ReadIntoModel(Model& datamodel) const override;
 
 private:
-        ///< Create a Locality object from the specified information.
+        ///< Create a Locality object from the specified JSON data.
         const Locality ReadLocality(const nlohmann::json& localityData) const;
 
-        ///< Create a PopSection object from the specified information.
+        ///< Create a PopSection object from the specified JSON data.
         const PopSection ReadPopSection(const nlohmann::json& popCatData) const;
 };
 

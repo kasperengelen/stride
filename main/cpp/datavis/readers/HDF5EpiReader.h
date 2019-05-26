@@ -26,6 +26,7 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class HDF5EpiReader
  * Class that reads epi-output specified in the HDF5 data format.
  */
 class HDF5EpiReader : public EpiReader

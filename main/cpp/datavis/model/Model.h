@@ -29,6 +29,7 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class Model
  * Class that represents the model of the visualiser. This contains all the stored simulation data.
  */
 class Model

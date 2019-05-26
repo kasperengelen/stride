@@ -30,18 +30,28 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class EpiReader
  * Base class for epi-output readers.
  */
 class EpiReader
 {
 public:
-        /// Construct the Reader with an istream containing the file content.
+		/**
+		 * Constructor.
+		 *
+		 * @param path An std::string that contains the path to the file.
+		 */
         explicit EpiReader(const std::string& path) : m_path(path){};
 
-        /// Default destructor.
+        /**
+         * Default destructor.
+         */
         virtual ~EpiReader() = default;
 
-        /// Read the epidemiological simulation data and add it to the specified model.
+        /**
+         * Read the epidemiological information contained in the file and add it to the
+         * specified model.
+         */
         virtual void ReadIntoModel(Model& datamodel) const = 0;
 
 protected:

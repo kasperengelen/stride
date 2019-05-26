@@ -27,15 +27,22 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class EpiReaderException
  * Exception that is thrown when something does wrong in an EpiReader.
  */
 class EpiReaderException : public std::exception
 {
 public:
-        /// Constructor based on a diagnostic message.
+		/**
+		 * Constructor.
+		 *
+		 * @param message An std::string that contains a diagnostic message.
+		 */
         EpiReaderException(const std::string& message) : m_message{message} {}
 
-        /// Returns a C-string with diagnostic information about the exception.
+        /**
+         * Getter that returns a c-string with diagnostic information about the exception.
+         */
         const char* what() const noexcept { return m_message.c_str(); }
 
 private:

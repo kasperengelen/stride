@@ -25,6 +25,7 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class ProtobufEpiReader
  * Class that reads epi-output specified in the Protobuf data format.
  */
 class ProtobufEpiReader : public EpiReader

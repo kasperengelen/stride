@@ -92,21 +92,21 @@ void Controller::SaveFile()
 
 void Controller::SelectRadius(QGeoCoordinate coord, float radius, unsigned int day)
 {
-	const geopop::Coordinate stride_coord = {coord.longitude(), coord.latitude()};
+		const geopop::Coordinate stride_coord = {coord.longitude(), coord.latitude()};
 
-	const PopData popdata = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
+		const PopData popdata = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
 
-	m_view_ptr->DisplayPopDataInSidebar(popdata);
+		m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
 void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB, unsigned int day)
 {
-	const geopop::Coordinate stride_pointA = {pointA.longitude(), pointA.latitude()};
-	const geopop::Coordinate stride_pointB = {pointB.longitude(), pointB.latitude()};
+		const geopop::Coordinate stride_pointA = {pointA.longitude(), pointA.latitude()};
+		const geopop::Coordinate stride_pointB = {pointB.longitude(), pointB.latitude()};
 
-	const PopData popdata = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
+		const PopData popdata = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
 
-	m_view_ptr->DisplayPopDataInSidebar(popdata);
+		m_view_ptr->DisplayPopDataInSidebar(popdata);
 }
 
 } // namespace datavis

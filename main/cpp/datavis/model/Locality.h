@@ -34,6 +34,7 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @class Locality
  * Class that represents a locality. This is a geographical location
  * that has a population, of which a certain fraction can be infected.
  */

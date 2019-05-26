@@ -24,6 +24,7 @@ namespace stride {
 namespace datavis {
 
 /**
+ * @struct PopSection
  * Struct that keeps track of a section of the population inside a
  * locality. Note that the fractions of people who are immune, infected, etc.
  * don't add up to 1.0, since people can belong to many disease categories
@@ -54,6 +55,7 @@ struct PopSection
 };
 
 /**
+ * @struct PopData
  * Struct that contains information about a population, such as total population statistics,
  * the statistics of each section of the population, etc.
  */
