@@ -28,9 +28,8 @@
 namespace stride {
 namespace datavis {
 
-// TODO add signal for displaying selection data in sidebar
-
 /**
+ * @class View
  * Class that represent the view component of the MVC structure.
  * This class can be accessed by the Qt5 interface to retrieve data to
  * visualise the simulation data.
@@ -42,6 +41,8 @@ class View : public QObject
 public:
         /**
          * Constructor.
+         *
+         * @param parent Pointer to QObject parent object.
          */
         explicit View(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr) {}
 
@@ -62,6 +63,8 @@ public:
 
         /**
          * Command the View to display the specified population data in the sidebar.
+         *
+         * @param popData A PopData object that contains the information that is to be displayed.
          */
         void DisplayPopDataInSidebar(const PopData& popData);
 
@@ -87,6 +90,8 @@ signals:
 		 *
 		 * The specified QVariantMap contains information about a population. See PopDataView
 		 * class for the format of the map.
+		 *
+		 * @param sidebarData The data that is to be sent to the QML side.
 		 */
 		void sidebarDataAvailble(const QVariantMap& sidebarData);
 
