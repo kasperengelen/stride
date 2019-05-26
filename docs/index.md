@@ -14,7 +14,7 @@ As the project progresses, more data will become available here. Contact info is
  * [Test Plan](https://kasperengelen.github.io/stride/testplan) (deadline: 31/03)
  * [Documentation Plan](https://kasperengelen.github.io/stride/documentatieplan) (deadline: 31/03)
  * [Alpha](https://github.com/kasperengelen/stride/releases/tag/Alpha)
-
+ * [Doxygen](../doc/doxygen/index.html)
 
 ### Contact
 
