@@ -106,6 +106,4 @@ TEST_F(PreSchoolGeneratorTest, FiveLocationsTest)
         }
 }
 
-TEST_F(PreSchoolGeneratorTest, ParticipationTest) {}
-
 } // namespace

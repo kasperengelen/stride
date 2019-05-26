@@ -32,13 +32,15 @@ using namespace geopop;
  * each having the same number of persons.
  * @param locCount          The number of Locations.
  * @param locPop            The population count at each Location.
+ * @param daycareCount      The number of Daycares at each Location.
+ * @param preschoolCount    The number of PreSchool at each Location.
  * @param schoolCount       The number of K12Schools at each Location.
  * @param houseHoldCount    The number of households at each Location.
  * @param personCount       The number of persons per Household.
  * @param pop               The population carrying this GeoGrid.
  */
-void MakeGeoGrid(const GeoGridConfig&, int locCount, int locPop, int schoolCount, int houseHoldCount, int personCount,
-                 Population* pop)
+void MakeGeoGrid(const GeoGridConfig&, int locCount, int locPop, int daycareCount, int preschoolCount, int schoolCount,
+                 int houseHoldCount, int personCount, Population* pop)
 {
         vector<unsigned int> populationSample = {
             17, 27, 65, 40, 29, 76, 27, 50, 28, 62, 50, 14, 30, 36, 12, 31, 25, 72, 62, 4,  40, 52, 55, 50, 62,
@@ -58,6 +60,8 @@ void MakeGeoGrid(const GeoGridConfig&, int locCount, int locPop, int schoolCount
         GeoGridConfig      config{};
         auto&              geoGrid = pop->RefGeoGrid();
         RnMan              rnMan(RnInfo{});
+        DaycareGenerator   daycareGen(rnMan);
+        PreSchoolGenerator preschoolGen(rnMan);
         K12SchoolGenerator k12Gen(rnMan);
         HouseholdGenerator hhGen(rnMan);
 
@@ -66,10 +70,18 @@ void MakeGeoGrid(const GeoGridConfig&, int locCount, int locPop, int schoolCount
         for (int locI = 0; locI < locCount; locI++) {
                 auto loc = make_shared<Location>(locI, 1, Coordinate(0.0, 0.0), "", locPop);
 
+                for (int dI = 0; dI < daycareCount; dI++) {
+                        daycareGen.AddPools(*loc, pop, config);
+                }
+
+                for (int psI = 0; psI < preschoolCount; psI++) {
+                        preschoolGen.AddPools(*loc, pop, config);
+                }
+
                 for (int schI = 0; schI < schoolCount; schI++) {
                         k12Gen.AddPools(*loc, pop, config);
                 }
-
+                
                 for (int hI = 0; hI < houseHoldCount; hI++) {
                         hhGen.AddPools(*loc, pop, config);
                         auto contactPool = loc->RefPools(Id::Household).back();
