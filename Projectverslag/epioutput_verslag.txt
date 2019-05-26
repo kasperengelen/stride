@@ -1,0 +1,16 @@
+Epioutput - verwijzingen naar componenten
+=========================================
+
+De Epioutput wordt gegenereerd a.d.h.v. een viewer die als observer van de Runner wordt geregistreerd.
+De viewer in kwestie maakt gebruik van een EpiOutputFile (een basisklasse waarvan de concrete implementaties zijn afgeleid). 
+
+- De aangepaste/betrokken bestanden in de code zijn:
+
+    - main/cpp/execs/ControlHelper.cpp (ControlHelper::RegisterViewers)
+    - main/cpp/viewers/EpiOutputFileViewer [.h/.cpp]
+    - main/cpp/viewers/EpiOutputFile [.h/.cpp]
+
+- Gebruikersinformatie wordt beschreven in:
+    - user manual:
+        - Software
+        - Configuratie
