@@ -30,4 +30,5 @@
  * @param personCount       The number of persons per Household.
  * @param pop               The population carrying this GeoGrid.
  */
-void MakeGeoGrid(const geopop::GeoGridConfig& , int locCount, int locPop, int daycareCount, int preschoolCount, int schoolCount, int houseHoldCount, int personCount, stride::Population* pop);
+void MakeGeoGrid(const geopop::GeoGridConfig&, int locCount, int locPop, int daycareCount, int preschoolCount,
+                 int schoolCount, int houseHoldCount, int personCount, stride::Population* pop);

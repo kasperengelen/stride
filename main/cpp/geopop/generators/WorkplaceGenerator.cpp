@@ -13,8 +13,8 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-#include <geopop/GeoGridConfig.h>
 #include "Generator.h"
+#include <geopop/GeoGridConfig.h>
 
 #include "util/Assert.h"
 
@@ -38,25 +38,21 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         // Calculate the average amount of people in the workplace pool with respect to the workplace ratio's and sizes
         double avgPplPerWorkplace = 0;
 
-        for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++)
-        {
+        for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++) {
                 const auto min_size = ggConfig.workplaceSD.sizes[i].first;
                 const auto max_size = ggConfig.workplaceSD.sizes[i].second;
-
 
                 avgPplPerWorkplace += ggConfig.workplaceSD.ratios[i] * (min_size + max_size) / 2;
         }
 
-        const auto WorkplacesCount =
-                static_cast<unsigned int>(ceil(EmployeeCount / avgPplPerWorkplace));
+        const auto WorkplacesCount = static_cast<unsigned int>(ceil(EmployeeCount / avgPplPerWorkplace));
 
         // = for each location #residents + #incoming commuting people - #outgoing commuting people
         vector<double> weights;
         for (const auto& loc : geoGrid) {
                 const double ActivePeopleCount =
-                        (loc->GetPopCount() +
-                         loc->GetIncomingCommuteCount(ggConfig.param.fraction_workplace_commuters) -
-                         loc->GetOutgoingCommuteCount(ggConfig.param.fraction_workplace_commuters) *
+                    (loc->GetPopCount() + loc->GetIncomingCommuteCount(ggConfig.param.fraction_workplace_commuters) -
+                     loc->GetOutgoingCommuteCount(ggConfig.param.fraction_workplace_commuters) *
                          ggConfig.param.particpation_workplace);
 
                 const double weight = ActivePeopleCount / EmployeeCount;

@@ -53,8 +53,8 @@ protected:
 // Check that generator can handle empty GeoGrid.
 TEST_F(WorkplaceGeneratorTest, ZeroLocationTest)
 {
-        m_gg_config.param.pop_size           = 10000;
-        m_gg_config.info.popcount_college    = 20000;
+        m_gg_config.param.pop_size        = 10000;
+        m_gg_config.info.popcount_college = 20000;
 
         m_gg_config.workplaceSD.ratios = {0.778532842256952, 0.171901116625764, 0.0410039025210945,
                                           0.00856213859618965};
@@ -76,7 +76,6 @@ TEST_F(WorkplaceGeneratorTest, NoCommuting)
                                           0.00856213859618965};
         m_gg_config.workplaceSD.sizes = {make_pair(1, 9), make_pair(10, 49), make_pair(50, 199), make_pair(200, 400)};
 
-
         array<unsigned int, 50> sizes{128331, 50784,  191020, 174476, 186595, 105032, 136388, 577,   111380, 171014,
                                       63673,  49438,  45590,  164666, 185249, 141389, 82525,  40397, 123307, 168128,
                                       172937, 15581,  22891,  143505, 178516, 116959, 144659, 20775, 156009, 91951,
@@ -88,9 +87,9 @@ TEST_F(WorkplaceGeneratorTest, NoCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-                1588, 612,  2352, 2160, 2299, 1286, 1574, 7,    1350, 2080, 784, 529,  523,  1969, 2267, 1742, 953,
-                462,  1416, 1984, 2055, 188,  248,  1731, 2161, 1415, 1762, 242, 1868, 1124, 571,  2135, 1393, 321,
-                1437, 1731, 1278, 708,  972,  1053, 1640, 707,  120,  1554, 163, 111,  167,  616,  728,  1970};
+            1588, 612,  2352, 2160, 2299, 1286, 1574, 7,    1350, 2080, 784, 529,  523,  1969, 2267, 1742, 953,
+            462,  1416, 1984, 2055, 188,  248,  1731, 2161, 1415, 1762, 242, 1868, 1124, 571,  2135, 1393, 321,
+            1437, 1731, 1278, 708,  972,  1053, 1640, 707,  120,  1554, 163, 111,  167,  616,  728,  1970};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());
@@ -134,9 +133,9 @@ TEST_F(WorkplaceGeneratorTest, NullCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-                1598, 623,  2365, 2154, 2291, 1285, 1571, 5,    1352, 2091, 780, 519,  519,  1979, 2264, 1738, 954,
-                459,  1419, 1984, 2054, 181,  255,  1726, 2160, 1419, 1762, 245, 1862, 1128, 568,  2132, 1397, 319,
-                1436, 1731, 1278, 708,  969,  1053, 1641, 704,  121,  1553, 163, 112,  166,  615,  728,  1970};
+            1598, 623,  2365, 2154, 2291, 1285, 1571, 5,    1352, 2091, 780, 519,  519,  1979, 2264, 1738, 954,
+            459,  1419, 1984, 2054, 181,  255,  1726, 2160, 1419, 1762, 245, 1862, 1128, 568,  2132, 1397, 319,
+            1436, 1731, 1278, 708,  969,  1053, 1641, 704,  121,  1553, 163, 112,  166,  615,  728,  1970};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());
@@ -209,9 +208,9 @@ TEST_F(WorkplaceGeneratorTest, TenCommuting)
         m_workplace_generator.Apply(m_geo_grid, m_gg_config);
 
         array<unsigned int, sizes.size()> expected{
-                1571, 615,  2345, 2214, 2291, 1283, 1567, 6,    1349, 2077, 810, 522,  516,  1975, 2264, 1723, 954,
-                563,  1444, 1985, 2032, 167,  263,  1713, 2170, 1410, 1742, 263, 1854, 1115, 564,  2131, 1387, 331,
-                1428, 1738, 1261, 713,  937,  1057, 1642, 701,  116,  1549, 169, 108,  159,  625,  723,  1964};
+            1571, 615,  2345, 2214, 2291, 1283, 1567, 6,    1349, 2077, 810, 522,  516,  1975, 2264, 1723, 954,
+            563,  1444, 1985, 2032, 167,  263,  1713, 2170, 1410, 1742, 263, 1854, 1115, 564,  2131, 1387, 331,
+            1428, 1738, 1261, 713,  937,  1057, 1642, 701,  116,  1549, 169, 108,  159,  625,  723,  1964};
 
         for (auto i = 0U; i < sizes.size(); i++) {
                 EXPECT_EQ(expected[i] * m_ppwp, m_geo_grid[i]->CRefPools(Id::Workplace).size());

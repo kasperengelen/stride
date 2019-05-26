@@ -106,7 +106,7 @@ private:
 
 private:
         H5::H5File* m_data;
-        int m_timestep;
+        int         m_timestep;
 };
 
 } // namespace output

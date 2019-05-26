@@ -119,7 +119,10 @@ void EpiOutputJSON::Finish()
         m_fstream << setw(4) << m_data << std::endl;
 }
 
-EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m_data(), m_timestep(0) { Initialize(output_dir); }
+EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m_data(), m_timestep(0)
+{
+        Initialize(output_dir);
+}
 
 void EpiOutputHDF5::Initialize(const string& output_prefix)
 {
@@ -129,17 +132,17 @@ void EpiOutputHDF5::Initialize(const string& output_prefix)
         m_data = new H5File(p.c_str(), H5F_ACC_TRUNC);
 }
 
-void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
+void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
+{
 
         // Create timestep info
         string timestep_name = to_string(m_timestep);
-        Group* timestep = new Group(m_data->createGroup(timestep_name));
+        Group* timestep      = new Group(m_data->createGroup(timestep_name));
         m_timestep++;
-        
+
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
         for (auto loc_it = geogrid.cbegin(); loc_it != geogrid.cend(); ++loc_it) {
-                try
-                {
+                try {
                         // Use name that doesn't contain "/" (see HDF5 spec)
                         string loc_name = (*loc_it)->GetName();
                         std::replace(loc_name.begin(), loc_name.end(), '/', '|');
@@ -147,28 +150,37 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
                         WriteCoordinate(*loc, (*loc_it)->GetCoordinate());
 
                         // Collect pooltype-specific information
-                        struct PoolTypeData 
+                        struct PoolTypeData
                         {
                                 unsigned int population;
-                                double immune;
-                                double infected;
-                                double infectious;
-                                double recovered;
-                                double susceptible;
-                                double symptomatic;
+                                double       immune;
+                                double       infected;
+                                double       infectious;
+                                double       recovered;
+                                double       susceptible;
+                                double       symptomatic;
                         };
 
-                        for (auto type_it = ContactType::IdList.begin(); type_it != ContactType::IdList.end(); ++type_it) {
-                                stride::util::SegmentedVector<stride::ContactPool*>& pools      = (*loc_it)->RefPools(*type_it);
-                                CompType                                                          comp_type(sizeof(PoolTypeData));
-                                PoolTypeData* data                                              = new PoolTypeData();
-                                comp_type.insertMember("population",  HOFFSET(PoolTypeData, population),   PredType::NATIVE_UINT);
-                                comp_type.insertMember("immune",      HOFFSET(PoolTypeData, immune),      PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("infected",    HOFFSET(PoolTypeData, infected),    PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("infectious",  HOFFSET(PoolTypeData, infectious),  PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("recovered",   HOFFSET(PoolTypeData, recovered),   PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("susceptible", HOFFSET(PoolTypeData, susceptible), PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("symptomatic", HOFFSET(PoolTypeData, symptomatic), PredType::NATIVE_DOUBLE);
+                        for (auto type_it = ContactType::IdList.begin(); type_it != ContactType::IdList.end();
+                             ++type_it) {
+                                stride::util::SegmentedVector<stride::ContactPool*>& pools =
+                                    (*loc_it)->RefPools(*type_it);
+                                CompType      comp_type(sizeof(PoolTypeData));
+                                PoolTypeData* data = new PoolTypeData();
+                                comp_type.insertMember("population", HOFFSET(PoolTypeData, population),
+                                                       PredType::NATIVE_UINT);
+                                comp_type.insertMember("immune", HOFFSET(PoolTypeData, immune),
+                                                       PredType::NATIVE_DOUBLE);
+                                comp_type.insertMember("infected", HOFFSET(PoolTypeData, infected),
+                                                       PredType::NATIVE_DOUBLE);
+                                comp_type.insertMember("infectious", HOFFSET(PoolTypeData, infectious),
+                                                       PredType::NATIVE_DOUBLE);
+                                comp_type.insertMember("recovered", HOFFSET(PoolTypeData, recovered),
+                                                       PredType::NATIVE_DOUBLE);
+                                comp_type.insertMember("susceptible", HOFFSET(PoolTypeData, susceptible),
+                                                       PredType::NATIVE_DOUBLE);
+                                comp_type.insertMember("symptomatic", HOFFSET(PoolTypeData, symptomatic),
+                                                       PredType::NATIVE_DOUBLE);
                                 for (auto pool_it = pools.begin(); pool_it != pools.end(); ++pool_it) {
                                         data->population += (*pool_it)->size();
                                         // Iterate over population to collect data
@@ -195,34 +207,31 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
                                         }
                                 }
 
-                                data->immune      /= data->population;
-                                data->infected    /= data->population;
-                                data->infectious  /= data->population;
-                                data->recovered   /= data->population;
+                                data->immune /= data->population;
+                                data->infected /= data->population;
+                                data->infectious /= data->population;
+                                data->recovered /= data->population;
                                 data->susceptible /= data->population;
                                 data->symptomatic /= data->population;
 
                                 hsize_t   dim = 1;
                                 DataSpace pool_ds(1, &dim);
-                                DataSet   pool = loc->createDataSet(ContactType::ToString(*type_it), comp_type, pool_ds);
+                                DataSet pool = loc->createDataSet(ContactType::ToString(*type_it), comp_type, pool_ds);
                                 pool.write(data, comp_type);
                                 delete data;
                         }
                         delete loc;
-                }
-                catch( ... )
-                {
+                } catch (...) {
                         // Ignore locations that can't be written
                         continue;
                 }
         }
         delete timestep;
 }
-        
 
-void EpiOutputHDF5::Finish() 
-{ 
-        m_data->close(); 
+void EpiOutputHDF5::Finish()
+{
+        m_data->close();
         delete m_data;
 }
 

@@ -22,9 +22,9 @@
 #include "geopop/Location.h"
 #include "util/Assert.h"
 
-#include <utility>
 #include <geopop/GeoGridConfig.h>
 #include <map>
+#include <utility>
 
 namespace geopop {
 
@@ -34,10 +34,11 @@ using namespace stride::ContactType;
 using namespace stride::AgeBrackets;
 using namespace util;
 
-struct WorkplaceInfo {
-        double weight1;
-        double weight2;
-        double weight3;
+struct WorkplaceInfo
+{
+        double       weight1;
+        double       weight2;
+        double       weight3;
         unsigned int target;
         unsigned int max_size;
 };
@@ -46,42 +47,41 @@ struct WorkplaceInfo {
  * Initialize weights and size targets used for weighted drawing of workplace pools.
  * The weights are calculated using the defined workplace size distribution ratio's, sizes
  * and the amount of pools for each size.
- * A target size is used as a soft cap, after which the weight is lowered and thus that pool will get less people assigned afterwards.
- * The max_size represents a hard cap for all but the biggest defined workplace size.
+ * A target size is used as a soft cap, after which the weight is lowered and thus that pool will get less people
+ * assigned afterwards. The max_size represents a hard cap for all but the biggest defined workplace size.
  */
-void init_workplace_weights(GeoGrid &geoGrid, const vector<double> &workplaceRatios,
-                            const std::vector<std::pair<unsigned int, unsigned int>> &workplaceSizes,
-                            stride::util::RnMan &rn_man,
-                            map<unsigned int, WorkplaceInfo> &workplaceInfo)
+void init_workplace_weights(GeoGrid& geoGrid, const vector<double>& workplaceRatios,
+                            const std::vector<std::pair<unsigned int, unsigned int>>& workplaceSizes,
+                            stride::util::RnMan& rn_man, map<unsigned int, WorkplaceInfo>& workplaceInfo)
 {
         unsigned int max_size_workplace = 0;
         if (not workplaceSizes.empty()) {
                 max_size_workplace = workplaceSizes[0].second;
         }
-        for (auto &size : workplaceSizes) {
+        for (auto& size : workplaceSizes) {
                 if (size.second > max_size_workplace)
                         max_size_workplace = size.second;
         }
 
-        for (const auto &loc : geoGrid) {
+        for (const auto& loc : geoGrid) {
                 if (loc->GetPopCount() == 0) {
                         continue;
                 }
 
-                auto &pools = loc->RefPools(Id::Workplace);
+                auto& pools = loc->RefPools(Id::Workplace);
 
                 unsigned int amount_pools = pools.size();
-                unsigned int pools_left = amount_pools;
+                unsigned int pools_left   = amount_pools;
 
                 unsigned int pool_counter = 0;
 
                 // Iterate over each workplace size / ratio
-                for (auto j = 0; j < (int) workplaceRatios.size(); j++) {
+                for (auto j = 0; j < (int)workplaceRatios.size(); j++) {
                         auto w = workplaceRatios[j];
 
                         // This should be expected amount of workplaces for the given size
                         auto pools_current_size = static_cast<unsigned int>(floor(w * amount_pools));
-                        if (j == (int) workplaceRatios.size() - 1)
+                        if (j == (int)workplaceRatios.size() - 1)
                                 pools_current_size = pools_left;
 
                         if (pools_current_size == 0)
@@ -120,10 +120,10 @@ void init_workplace_weights(GeoGrid &geoGrid, const vector<double> &workplaceRat
 
                                 WorkplaceInfo wInfo{};
 
-                                wInfo.weight1 = weight1;
-                                wInfo.weight2 = weight2;
-                                wInfo.weight3 = weight3;
-                                wInfo.target = target;
+                                wInfo.weight1  = weight1;
+                                wInfo.weight2  = weight2;
+                                wInfo.weight3  = weight3;
+                                wInfo.target   = target;
                                 wInfo.max_size = max_size;
 
                                 auto poolID = pools[pool_counter++]->GetId();
@@ -139,21 +139,21 @@ void init_workplace_weights(GeoGrid &geoGrid, const vector<double> &workplaceRat
 /**
  * Gather the weights for the given workplaces while accounting for the current of each workplace.
  */
-void get_weights(const map<unsigned int, WorkplaceInfo> &workplaceInfo, const vector<ContactPool *> &workplaces,
-                 vector<double> &weights)
+void get_weights(const map<unsigned int, WorkplaceInfo>& workplaceInfo, const vector<ContactPool*>& workplaces,
+                 vector<double>& weights)
 {
         bool all_zero = true;
         for (auto workplace : workplaces) {
-                double weight;
+                double       weight;
                 unsigned int wSize = workplace->size();
 
                 auto wInfo = workplaceInfo.at(workplace->GetId());
 
                 if (wSize < wInfo.target) {
-                        weight = wInfo.weight1;
+                        weight   = wInfo.weight1;
                         all_zero = false;
                 } else if (wSize < wInfo.max_size) {
-                        weight = wInfo.weight2;
+                        weight   = wInfo.weight2;
                         all_zero = false;
                 } else {
                         weight = 0.0;
@@ -163,15 +163,14 @@ void get_weights(const map<unsigned int, WorkplaceInfo> &workplaceInfo, const ve
         }
 
         if (all_zero) {
-                for (int i = 0; i < (int) workplaces.size(); i++) {
+                for (int i = 0; i < (int)workplaces.size(); i++) {
                         weights[i] = workplaceInfo.at(workplaces[i]->GetId()).weight3;
                 }
         }
 }
 
-
-template<>
-void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, const GeoGridConfig &geoGridConfig)
+template <>
+void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, const GeoGridConfig& geoGridConfig)
 {
         m_logger->trace("Starting to populate Workplaces");
 
@@ -181,8 +180,8 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, cons
         auto genWorkplaceDistr{function<int()>()};
         auto genWorkplaceComDistr{function<int()>()};
 
-        vector<ContactPool *> nearbyWp{};
-        vector<Location *> commuteLocations{};
+        vector<ContactPool*> nearbyWp{};
+        vector<Location*>    commuteLocations{};
 
         const auto participWorkplace    = geoGridConfig.param.particpation_workplace;
         const auto popCollege           = geoGridConfig.info.popcount_college;
@@ -200,7 +199,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, cons
         // workplace population from commute data.
         double fracCommuteStudents = 0.0;
         if (static_cast<bool>(fracWorkplaceCommute) && popWorkplace) {
-                fracCommuteStudents = (popCollege * fracCollegeCommute) /(popWorkplace * fracWorkplaceCommute);
+                fracCommuteStudents = (popCollege * fracCollegeCommute) / (popWorkplace * fracWorkplaceCommute);
         }
 
         init_workplace_weights(geoGrid, workplaceRatios, workplaceSizes, rn_man, workplaceInfo);
@@ -208,7 +207,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, cons
         // --------------------------------------------------------------------------------
         // For every location, if populated ...
         // --------------------------------------------------------------------------------
-        for (const auto &loc : geoGrid) {
+        for (const auto& loc : geoGrid) {
                 if (loc->GetPopCount() == 0) {
                         continue;
                 }
@@ -220,8 +219,8 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, cons
                 genCommute = function<int()>();
 
                 vector<double> commutingWeights;
-                for (const pair<Location *, double> &commute : loc->CRefOutgoingCommutes()) {
-                        const auto &workplaces = commute.first->RefPools(Id::Workplace);
+                for (const pair<Location*, double>& commute : loc->CRefOutgoingCommutes()) {
+                        const auto& workplaces = commute.first->RefPools(Id::Workplace);
                         if (!workplaces.empty()) {
                                 commuteLocations.push_back(commute.first);
                                 const auto weight = commute.second - (commute.second * fracCommuteStudents);
@@ -276,11 +275,12 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, cons
                                                 // --------------------------------------------------------------
                                                 // this person commutes to the Location and in particular to Pool
                                                 // --------------------------------------------------------------
-                                                auto &pools = commuteLocations[genCommute()]->RefPools(Id::Workplace);
+                                                auto& pools = commuteLocations[genCommute()]->RefPools(Id::Workplace);
 
-                                                // Get weights for the NearbyWorkspacePools used for weighted drawing of pools
-                                                vector<double> wWeights;
-                                                vector<ContactPool *> vector_pools;
+                                                // Get weights for the NearbyWorkspacePools used for weighted drawing of
+                                                // pools
+                                                vector<double>       wWeights;
+                                                vector<ContactPool*> vector_pools;
                                                 vector_pools.insert(vector_pools.end(), pools.begin(), pools.end());
                                                 get_weights(workplaceInfo, vector_pools, wWeights);
 
@@ -300,9 +300,10 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid &geoGrid, cons
                                                 // update weight if target or max size reached
                                                 if (nearbyWp[idraw]->size() ==
                                                     workplaceInfo[nearbyWp[idraw]->GetId()].target) {
-                                                        workplaceWeights[idraw] = workplaceInfo[nearbyWp[idraw]->GetId()].weight2;
-                                                        genDiscreteNonCommute = m_rn_man.GetDiscreteGenerator(
-                                                                workplaceWeights, 0U);
+                                                        workplaceWeights[idraw] =
+                                                            workplaceInfo[nearbyWp[idraw]->GetId()].weight2;
+                                                        genDiscreteNonCommute =
+                                                            m_rn_man.GetDiscreteGenerator(workplaceWeights, 0U);
                                                 } else if (nearbyWp[idraw]->size() ==
                                                            workplaceInfo[nearbyWp[idraw]->GetId()].target) {
                                                         workplaceWeights[idraw] = 0.0;

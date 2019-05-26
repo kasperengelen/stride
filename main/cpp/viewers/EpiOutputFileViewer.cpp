@@ -37,9 +37,9 @@ EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, cons
         if (filetype == "json") {
                 m_epioutput_file = std::make_unique<output::EpiOutputJSON>(output_prefix);
         } else if (filetype == "hdf5") {
-               m_epioutput_file = std::make_unique<output::EpiOutputHDF5>(output_prefix);
+                m_epioutput_file = std::make_unique<output::EpiOutputHDF5>(output_prefix);
         }
-        
+
         m_interval = m_runner->GetConfig().get<int>("run.output_epi_interval", 1);
 }
 

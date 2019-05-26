@@ -82,8 +82,8 @@ TEST_F(PreSchoolPopulatorTest, OneLocationTest)
                 EXPECT_EQ(usedCapacity[pool->GetId()], pool->size());
 
                 for (Person* person : *pool) {
-                EXPECT_LE(person->GetAge(), 6);
-                EXPECT_GE(person->GetAge(), 3);
+                        EXPECT_LE(person->GetAge(), 6);
+                        EXPECT_GE(person->GetAge(), 3);
                 }
         }
         cout << endl;

@@ -81,7 +81,7 @@ void MakeGeoGrid(const GeoGridConfig&, int locCount, int locPop, int daycareCoun
                 for (int schI = 0; schI < schoolCount; schI++) {
                         k12Gen.AddPools(*loc, pop, config);
                 }
-                
+
                 for (int hI = 0; hI < houseHoldCount; hI++) {
                         hhGen.AddPools(*loc, pop, config);
                         auto contactPool = loc->RefPools(Id::Household).back();
