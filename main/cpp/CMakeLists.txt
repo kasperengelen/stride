@@ -235,6 +235,19 @@ if(DO_BUILD_DATAVIS)
     set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
 
     install(TARGETS stride_visualiser DESTINATION ${BIN_INSTALL_LOCATION})
+    
+    
+    # export as library to link with tests
+    message("Adding visualiser library build target.")
+    add_library(libvis ${VISUALISER_SOURCE})
+    
+    target_link_libraries(libvis libstride) # give data visualiser access to the stride library
+
+    target_link_libraries(libvis Qt5::Core)
+    target_link_libraries(libvis Qt5::Widgets)
+    target_link_libraries(libvis Qt5::Location)
+    
+	set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
 endif()
 
 #############################################################################
