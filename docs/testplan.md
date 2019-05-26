@@ -5,12 +5,18 @@
 
 ### Daycare & Preschool
 
-* TestDaycareParticipation:
-    Tests whether the actual daycare participation corresponds with a given configuration file.
-    
-* TestPreschoolParticipation:
-    Tests whether the actual daycare participation corresponds with a given configuration file.
-    
+* DaycareGeneratorTest:
+    Tests wether the DaycareGenerator can handle various amounts of locations.
+    * OneLocationTest
+    * ZeroLocationTest
+    * FiveLocationTest
+
+* PreSchoolGeneratorTest:
+    Tests wether the PreSchoolGenerator can handle various amounts of locations.
+    * OneLocationTest
+    * ZeroLocationTest
+    * FiveLocationTest
+
 
 ### Data formats
 
@@ -48,16 +54,17 @@
     Using several testing sets, create a population and test whether it has been properly sampled (wrt locations)
     
     
-### Workplace size
+### Workplace size distribution
 
-* TestWorkplaceDistributionReader:
+* WorkplaceCSVeaderTest:
     Tests if the reader reads the correct data.
     
-* TestWorkplaceDistributionGenerator:
-    Tests if the generated distribution corresponds to the given distribution.
+* WorkplaceGeneratorTest:
+    Existing tests are updated to reflect the changes in the algorithm for generated pools.
     
-* TestWorkplacePopulator:
-    ???
+* WorkplacePopulatorTest:
+    Existing tests are updated to reflect the changes in the algorithm for populating pools.
+    * Distribution: By
 
 ## Responsibilities
 The teammember that is responsible for implementing a feature, is also responsible for testing that feature. The tests are verified when the pull request for the feature is processed.
