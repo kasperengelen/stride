@@ -30,7 +30,7 @@ namespace stride {
 namespace viewers {
 
 EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, const std::string& output_prefix)
-    : m_runner(std::move(runner)), m_interval(1)
+    : m_epioutput_file(), m_runner(std::move(runner)), m_interval(1)
 {
         // Initialise EpiOutputFile with the right type
         std::string filetype = m_runner->GetConfig().get<string>("run.output_epi_type");

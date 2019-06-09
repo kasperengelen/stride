@@ -126,14 +126,14 @@ void EpiOutputHDF5::Initialize(const string& output_prefix)
         string     fname = "EpiOutput.h5";
         const auto p     = FileSys::BuildPath(output_prefix, fname);
         Exception::dontPrint();
-        m_data = new H5File(p.c_str(), H5F_ACC_TRUNC);
+        m_data = H5File(p.c_str(), H5F_ACC_TRUNC);
 }
 
 void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
 
         // Create timestep info
         string timestep_name = to_string(m_timestep);
-        Group* timestep = new Group(m_data->createGroup(timestep_name));
+        Group* timestep = new Group(m_data.createGroup(timestep_name));
         m_timestep++;
         int loc_ctr = 0;
         
@@ -239,8 +239,7 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
 
 void EpiOutputHDF5::Finish() 
 { 
-        m_data->close(); 
-        delete m_data;
+        m_data.close(); 
 }
 
 void EpiOutputHDF5::WriteAttribute(H5Object& object, const std::string& name, unsigned int data)
