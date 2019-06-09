@@ -135,15 +135,22 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
         string timestep_name = to_string(m_timestep);
         Group* timestep = new Group(m_data->createGroup(timestep_name));
         m_timestep++;
+        int loc_ctr = 0;
         
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
         for (auto loc_it = geogrid.cbegin(); loc_it != geogrid.cend(); ++loc_it) {
                 try
                 {
                         // Use name that doesn't contain "/" (see HDF5 spec)
-                        string loc_name = (*loc_it)->GetName();
-                        std::replace(loc_name.begin(), loc_name.end(), '/', '|');
+                        string loc_name = "loc" + to_string(loc_ctr++);// (*loc_it)->GetName();
+                        //std::replace(loc_name.begin(), loc_name.end(), '/', '|');
                         Group* loc = new Group(timestep->createGroup(loc_name));
+                        DataSpace attr_ds = DataSpace(H5S_SCALAR);
+                        StrType str_dt(PredType::C_S1, 256);
+                        const H5std_string attr_name("name");
+                        const H5std_string loc_name_buff((*loc_it)->GetName());
+                        Attribute name_attr = loc->createAttribute(attr_name, str_dt, attr_ds);
+                        name_attr.write(str_dt, loc_name_buff);
                         WriteCoordinate(*loc, (*loc_it)->GetCoordinate());
 
                         // Collect pooltype-specific information
@@ -195,12 +202,22 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
                                         }
                                 }
 
-                                data->immune      /= data->population;
-                                data->infected    /= data->population;
-                                data->infectious  /= data->population;
-                                data->recovered   /= data->population;
-                                data->susceptible /= data->population;
-                                data->symptomatic /= data->population;
+                                if (data->population > 0) {
+                                        data->immune      /= data->population;
+                                        data->infected    /= data->population;
+                                        data->infectious  /= data->population;
+                                        data->recovered   /= data->population;
+                                        data->susceptible /= data->population;
+                                        data->symptomatic /= data->population;
+                                } else {
+                                        // All fractions to 0 by convention
+                                        data->immune      = 0.0;
+                                        data->infected    = 0.0;
+                                        data->infectious  = 0.0;
+                                        data->recovered   = 0.0;
+                                        data->susceptible = 0.0;
+                                        data->symptomatic = 0.0;
+                                }
 
                                 hsize_t   dim = 1;
                                 DataSpace pool_ds(1, &dim);
