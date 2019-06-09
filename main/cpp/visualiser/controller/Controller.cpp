@@ -21,6 +21,7 @@
 #include "visualiser/controller/Controller.h"
 
 #include "visualiser/readers/JSONEpiReader.h"
+#include "visualiser/readers/HDF5EpiReader.h"
 #include "visualiser/readers/EpiReaderException.h"
 
 #include <iostream>
@@ -60,6 +61,23 @@ void Controller::OpenFile()
                         QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
                         return;
                 }
+        } else if (filename.endsWith(".h5") or filename.endsWith(".hdf5")) {
+        	try {
+                // JSON
+                HDF5EpiReader reader(filename.toStdString());
+
+                reader.ReadIntoModel(*m_model_ptr);
+
+                emit this->fileReadSuccessful();
+
+                return;
+            } catch (const EpiReaderException& e) {
+                    const QString err_msg =
+                        QString{"An error occurred while processing the specified file.\n"} + QString{e.what()};
+                    QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
+                    return;
+            }
+
         } else {
                 // Unknown format
                 QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));

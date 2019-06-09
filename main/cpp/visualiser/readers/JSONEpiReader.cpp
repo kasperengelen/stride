@@ -26,6 +26,9 @@
 namespace stride {
 namespace visualiser {
 
+const PopSection ReadPopSection(const nlohmann::json& popCatData);
+const Locality ReadLocality(const nlohmann::json& localityData);
+
 void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 {
 
@@ -42,7 +45,7 @@ void JSONEpiReader::ReadIntoModel(Model& datamodel) const
                         std::vector<Locality> timestep{};
 
                         for (const auto& locality_data : timestep_data) {
-                                const Locality locality = this->ReadLocality(locality_data);
+                                const Locality locality = ReadLocality(locality_data);
                                 timestep.push_back(locality);
                         }
 
@@ -57,7 +60,7 @@ void JSONEpiReader::ReadIntoModel(Model& datamodel) const
         }
 }
 
-const Locality JSONEpiReader::ReadLocality(const nlohmann::json& localityData) const
+const Locality ReadLocality(const nlohmann::json& localityData)
 {
         // coord
         const std::vector<double> coord_vec = localityData.at("coordinates");     // long, lat
@@ -67,15 +70,15 @@ const Locality JSONEpiReader::ReadLocality(const nlohmann::json& localityData) c
         const std::string name = localityData.at("name");
 
         // retrieve populations
-        const PopSection total      = this->ReadPopSection(localityData.at("Household")); // Note: households contain the total, so we just copy it
-        const PopSection household  = this->ReadPopSection(localityData.at("Household"));
-        const PopSection k12_school = this->ReadPopSection(localityData.at("K12School"));
-        const PopSection college    = this->ReadPopSection(localityData.at("College"));
-        const PopSection workplace  = this->ReadPopSection(localityData.at("Workplace"));
-        const PopSection prim_com   = this->ReadPopSection(localityData.at("PrimaryCommunity"));
-        const PopSection sec_com    = this->ReadPopSection(localityData.at("SecondaryCommunity"));
-        const PopSection daycare    = this->ReadPopSection(localityData.at("Daycare"));
-        const PopSection preschool  = this->ReadPopSection(localityData.at("PreSchool"));
+        const PopSection total      = ReadPopSection(localityData.at("Household")); // Note: households contain the total, so we just copy it
+        const PopSection household  = ReadPopSection(localityData.at("Household"));
+        const PopSection k12_school = ReadPopSection(localityData.at("K12School"));
+        const PopSection college    = ReadPopSection(localityData.at("College"));
+        const PopSection workplace  = ReadPopSection(localityData.at("Workplace"));
+        const PopSection prim_com   = ReadPopSection(localityData.at("PrimaryCommunity"));
+        const PopSection sec_com    = ReadPopSection(localityData.at("SecondaryCommunity"));
+        const PopSection daycare    = ReadPopSection(localityData.at("Daycare"));
+        const PopSection preschool  = ReadPopSection(localityData.at("PreSchool"));
 
         const PopData population = {
         		total,
@@ -92,7 +95,7 @@ const Locality JSONEpiReader::ReadLocality(const nlohmann::json& localityData) c
         return Locality(name, coord, population);
 }
 
-const PopSection JSONEpiReader::ReadPopSection(const nlohmann::json& popCatData) const
+const PopSection ReadPopSection(const nlohmann::json& popCatData)
 {
         PopSection retval;
 

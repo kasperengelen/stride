@@ -55,6 +55,9 @@ public:
         virtual void ReadIntoModel(Model& datamodel) const = 0;
 
 protected:
+        /// Retrieve the path to the file.
+        const std::string& GetPath() const { return m_path; }
+
         /// Retrieve the istream that contains the file contents
         const std::unique_ptr<std::ifstream> GetInStream() const { return std::make_unique<std::ifstream>(m_path); }
 

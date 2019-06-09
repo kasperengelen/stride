@@ -50,13 +50,6 @@ public:
          * specified model.
          */
         virtual void ReadIntoModel(Model& datamodel) const override;
-
-private:
-        ///< Create a Locality object from the specified JSON data.
-        const Locality ReadLocality(const nlohmann::json& localityData) const;
-
-        ///< Create a PopSection object from the specified JSON data.
-        const PopSection ReadPopSection(const nlohmann::json& popCatData) const;
 };
 
 } // namespace visualiser

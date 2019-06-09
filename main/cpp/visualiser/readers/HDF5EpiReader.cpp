@@ -19,3 +19,125 @@
  */
 
 #include "HDF5EpiReader.h"
+
+#include "visualiser/model/PopData.h"
+#include "visualiser/readers/EpiReaderException.h"
+#include "contact/ContactType.h"
+
+#include <H5Cpp.h>
+
+namespace stride {
+namespace visualiser {
+
+const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id& poolType);
+
+void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
+{
+    try {
+        H5::Exception::dontPrint();
+        const H5::H5File& file{this->GetPath(), H5F_ACC_RDONLY};
+
+        std::vector<std::vector<Locality>> timesteps;
+
+        for(int timestep_nr = 0; timestep_nr < file.getNumAttrs(); timestep_nr++)
+        {
+        	std::vector<Locality> locations{};
+
+        	const std::string timestep_label = std::to_string(timestep_nr);
+
+        	// check if group is present
+        	// 	if not: HDF5 file contains 75 groups but timestep #5 is not present. Timesteps 0-74 expected to be present.
+
+        	const H5::Group& timestep = file.openGroup(timestep_label);
+
+        	for(int loc_nr = 0; loc_nr < timestep.getNumAttrs(); loc_nr++)
+        	{
+        		const H5::Group& location = timestep.openGroup("Loc" + std::to_string(loc_nr));
+
+        		// get name
+        		// SOURCE: https://support.hdfgroup.org/ftp/HDF5/examples/misc-examples/stratt.cpp
+        		const H5::Attribute& name_attr = location.openAttribute("name");
+
+        		H5::StrType str_type(H5::PredType::C_S1, 256);
+        		std::string name ("");
+        		name_attr.read(str_type, name);
+
+        		// get coordinate
+        		const H5::Attribute& coord_attr = location.openAttribute("coordinate");
+        		double coordinate[2];
+        		location.openAttribute("coordinate").read(H5::PredType::NATIVE_DOUBLE, coordinate);
+        		const geopop::Coordinate coord = {coordinate[0], coordinate[1]};
+
+        		// get pools
+        		const PopSection total     = ReadPopSection(location, ContactType::Id::Household);
+        		const PopSection household = ReadPopSection(location, ContactType::Id::Household);
+        		const PopSection k12school = ReadPopSection(location, ContactType::Id::K12School);
+        		const PopSection college   = ReadPopSection(location, ContactType::Id::College);
+        		const PopSection workplace = ReadPopSection(location, ContactType::Id::Workplace);
+        		const PopSection prim_com  = ReadPopSection(location, ContactType::Id::PrimaryCommunity);
+        		const PopSection sec_com   = ReadPopSection(location, ContactType::Id::SecondaryCommunity);
+        		const PopSection daycare   = ReadPopSection(location, ContactType::Id::Daycare);
+        		const PopSection preschool = ReadPopSection(location, ContactType::Id::PreSchool);
+
+                const PopData population = {
+                		total,
+        				household,
+						k12school,
+        				college,
+        				workplace,
+        				prim_com,
+        				sec_com,
+        				daycare,
+        				preschool
+                };
+
+                locations.push_back(Locality{name, coord, population});
+        	}
+
+        	// add timestep
+        	timesteps.push_back(locations);
+        }
+
+        datamodel.SetTimesteps(timesteps);
+
+    } catch (const std::exception& e) {
+    	throw EpiReaderException(e.what());
+    }
+
+
+	// iterate over timesteps
+	// 	   iterate over localities
+	//        -> read each popsectio
+	//		  => add locality
+	//	   => add timestep
+
+	// set timestep vector
+
+}
+
+const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id& poolType)
+{
+	const H5::DataSet& pop_household = location.openDataSet(ContactType::ToString(poolType));
+
+	H5::CompType comp_type{sizeof(PopSection)};
+
+	comp_type.insertMember("population",  HOFFSET(PopSection, pop), H5::PredType::NATIVE_UINT);
+
+	comp_type.insertMember("immune",      HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("infected",    HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("infectious",  HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+
+	comp_type.insertMember("recovered",   HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("susceptible", HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("symptomatic", HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+
+	PopSection pop_section;
+
+	pop_household.read(&pop_section, comp_type);
+
+	return pop_section;
+}
+
+} // namespace visualiser
+} // namespace stride
+
