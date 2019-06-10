@@ -34,12 +34,14 @@ const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id
 void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 {
     try {
-        H5::Exception::dontPrint();
+        //H5::Exception::dontPrint();
         const H5::H5File& file{this->GetPath(), H5F_ACC_RDONLY};
 
         std::vector<std::vector<Locality>> timesteps;
 
-        for(int timestep_nr = 0; timestep_nr < file.getNumAttrs(); timestep_nr++)
+        std::cout << "Num timestep: " << file.getNumObjs() << std::endl;
+
+        for(int timestep_nr = 0; timestep_nr < file.getNumObjs(); timestep_nr++)
         {
         	std::vector<Locality> locations{};
 
@@ -50,7 +52,9 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 
         	const H5::Group& timestep = file.openGroup(timestep_label);
 
-        	for(int loc_nr = 0; loc_nr < timestep.getNumAttrs(); loc_nr++)
+        	std::cout << "Timestep #" << timestep_nr << ": Loc count: " << timestep.getNumAttrs() << std::endl;
+
+        	for(int loc_nr = 0; loc_nr < timestep.getNumObjs(); loc_nr++)
         	{
         		const H5::Group& location = timestep.openGroup("Loc" + std::to_string(loc_nr));
 
