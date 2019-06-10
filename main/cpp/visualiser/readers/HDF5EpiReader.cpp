@@ -39,8 +39,6 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 
         std::vector<std::vector<Locality>> timesteps;
 
-        std::cout << "Num timestep: " << file.getNumObjs() << std::endl;
-
         for(int timestep_nr = 0; timestep_nr < file.getNumObjs(); timestep_nr++)
         {
         	std::vector<Locality> locations{};
@@ -52,15 +50,9 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 
         	const H5::Group& timestep = file.openGroup(timestep_label);
 
-        	std::cout << "Timestep #" << timestep_nr << ": Loc count: " << timestep.getNumAttrs() << std::endl;
-
         	for(int loc_nr = 0; loc_nr < timestep.getNumObjs(); loc_nr++)
         	{
-        	    std::cout << "Processing loc #" << loc_nr << ", for timestep #" << timestep_nr << std::endl;
         		const H5::Group& location = timestep.openGroup("loc" + std::to_string(loc_nr));
-
-
-        		std::cout << "name" << std::endl;
 
         		// get name
         		// SOURCE: https://support.hdfgroup.org/ftp/HDF5/examples/misc-examples/stratt.cpp
@@ -69,15 +61,11 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
         		std::string name ("");
         		name_attr.read(str_type, name);
 
-        		std::cout << "coord" << std::endl;
-
         		// get coordinate
         		const H5::Attribute& coord_attr = location.openAttribute("coordinate");
         		double coordinate[2];
         		location.openAttribute("coordinate").read(H5::PredType::NATIVE_DOUBLE, coordinate);
         		const geopop::Coordinate coord = {coordinate[0], coordinate[1]};
-
-        		std::cout << "pool" << std::endl;
 
         		// get pools
         		const PopSection total     = ReadPopSection(location, ContactType::Id::Household);
