@@ -38,7 +38,7 @@ void Controller::OpenFile()
 {
         QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
         QString  filename   = QFileDialog::getOpenFileName(
-            parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
+            parent_ptr, tr("Open epi-data"), "", tr("All (*.*);;JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
 
         if (filename.isNull()) {
                 return;

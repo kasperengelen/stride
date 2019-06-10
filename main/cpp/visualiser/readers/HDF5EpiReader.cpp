@@ -56,21 +56,28 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 
         	for(int loc_nr = 0; loc_nr < timestep.getNumObjs(); loc_nr++)
         	{
-        		const H5::Group& location = timestep.openGroup("Loc" + std::to_string(loc_nr));
+        	    std::cout << "Processing loc #" << loc_nr << ", for timestep #" << timestep_nr << std::endl;
+        		const H5::Group& location = timestep.openGroup("loc" + std::to_string(loc_nr));
+
+
+        		std::cout << "name" << std::endl;
 
         		// get name
         		// SOURCE: https://support.hdfgroup.org/ftp/HDF5/examples/misc-examples/stratt.cpp
         		const H5::Attribute& name_attr = location.openAttribute("name");
-
         		H5::StrType str_type(H5::PredType::C_S1, 256);
         		std::string name ("");
         		name_attr.read(str_type, name);
+
+        		std::cout << "coord" << std::endl;
 
         		// get coordinate
         		const H5::Attribute& coord_attr = location.openAttribute("coordinate");
         		double coordinate[2];
         		location.openAttribute("coordinate").read(H5::PredType::NATIVE_DOUBLE, coordinate);
         		const geopop::Coordinate coord = {coordinate[0], coordinate[1]};
+
+        		std::cout << "pool" << std::endl;
 
         		// get pools
         		const PopSection total     = ReadPopSection(location, ContactType::Id::Household);
@@ -107,16 +114,6 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
     } catch (const std::exception& e) {
     	throw EpiReaderException(e.what());
     }
-
-
-	// iterate over timesteps
-	// 	   iterate over localities
-	//        -> read each popsectio
-	//		  => add locality
-	//	   => add timestep
-
-	// set timestep vector
-
 }
 
 const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id& poolType)
@@ -125,15 +122,15 @@ const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id
 
 	H5::CompType comp_type{sizeof(PopSection)};
 
-	comp_type.insertMember("population",  HOFFSET(PopSection, pop), H5::PredType::NATIVE_UINT);
+	comp_type.insertMember("population",  HOFFSET(PopSection, pop),         H5::PredType::NATIVE_UINT);
 
-	comp_type.insertMember("immune",      HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("infected",    HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("infectious",  HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("immune",      HOFFSET(PopSection, immune),      H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("infected",    HOFFSET(PopSection, infected),    H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("infectious",  HOFFSET(PopSection, infectious),  H5::PredType::NATIVE_DOUBLE);
 
-	comp_type.insertMember("recovered",   HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("susceptible", HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("symptomatic", HOFFSET(PopSection, pop), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("recovered",   HOFFSET(PopSection, recovered),   H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("susceptible", HOFFSET(PopSection, susceptible), H5::PredType::NATIVE_DOUBLE);
+	comp_type.insertMember("symptomatic", HOFFSET(PopSection, symptomatic), H5::PredType::NATIVE_DOUBLE);
 
 	PopSection pop_section;
 
