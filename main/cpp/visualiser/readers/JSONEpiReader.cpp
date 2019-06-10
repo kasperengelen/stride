@@ -22,11 +22,14 @@
 #include "visualiser/model/PopData.h"
 #include "visualiser/model/Locality.h"
 #include "visualiser/readers/EpiReaderException.h"
+#include "contact/ContactType.h"
+
+
 
 namespace stride {
 namespace visualiser {
 
-const PopSection ReadPopSection(const nlohmann::json& popCatData);
+const PopSection ReadPopSection(const nlohmann::json& localityData, const ContactType::Id& poolType);
 const Locality ReadLocality(const nlohmann::json& localityData);
 
 void JSONEpiReader::ReadIntoModel(Model& datamodel) const
@@ -70,15 +73,15 @@ const Locality ReadLocality(const nlohmann::json& localityData)
         const std::string name = localityData.at("name");
 
         // retrieve populations
-        const PopSection total      = ReadPopSection(localityData.at("Household")); // Note: households contain the total, so we just copy it
-        const PopSection household  = ReadPopSection(localityData.at("Household"));
-        const PopSection k12_school = ReadPopSection(localityData.at("K12School"));
-        const PopSection college    = ReadPopSection(localityData.at("College"));
-        const PopSection workplace  = ReadPopSection(localityData.at("Workplace"));
-        const PopSection prim_com   = ReadPopSection(localityData.at("PrimaryCommunity"));
-        const PopSection sec_com    = ReadPopSection(localityData.at("SecondaryCommunity"));
-        const PopSection daycare    = ReadPopSection(localityData.at("Daycare"));
-        const PopSection preschool  = ReadPopSection(localityData.at("PreSchool"));
+        const PopSection total      = ReadPopSection(localityData, ContactType::Id::Household); // Note: households contain the total, so we just copy it
+        const PopSection household  = ReadPopSection(localityData, ContactType::Id::Household);
+        const PopSection k12_school = ReadPopSection(localityData, ContactType::Id::K12School);
+        const PopSection college    = ReadPopSection(localityData, ContactType::Id::College);
+        const PopSection workplace  = ReadPopSection(localityData, ContactType::Id::Workplace);
+        const PopSection prim_com   = ReadPopSection(localityData, ContactType::Id::PrimaryCommunity);
+        const PopSection sec_com    = ReadPopSection(localityData, ContactType::Id::SecondaryCommunity);
+        const PopSection daycare    = ReadPopSection(localityData, ContactType::Id::Daycare);
+        const PopSection preschool  = ReadPopSection(localityData, ContactType::Id::PreSchool);
 
         const PopData population = {
         		total,
@@ -95,17 +98,19 @@ const Locality ReadLocality(const nlohmann::json& localityData)
         return Locality(name, coord, population);
 }
 
-const PopSection ReadPopSection(const nlohmann::json& popCatData)
+const PopSection ReadPopSection(const nlohmann::json& localityData, const ContactType::Id& poolType)
 {
+        const nlohmann::json& popsection_data = localityData.at(ContactType::ToString(poolType));
+
         PopSection retval;
 
-        retval.pop         = popCatData.at("population");
-        retval.immune      = popCatData.at("immune");
-        retval.infected    = popCatData.at("infected");
-        retval.infectious  = popCatData.at("infectious");
-        retval.recovered   = popCatData.at("recovered");
-        retval.susceptible = popCatData.at("susceptible");
-        retval.symptomatic = popCatData.at("symptomatic");
+        retval.pop         = popsection_data.at("population");
+        retval.immune      = popsection_data.at("immune");
+        retval.infected    = popsection_data.at("infected");
+        retval.infectious  = popsection_data.at("infectious");
+        retval.recovered   = popsection_data.at("recovered");
+        retval.susceptible = popsection_data.at("susceptible");
+        retval.symptomatic = popsection_data.at("symptomatic");
 
         return retval;
 }
