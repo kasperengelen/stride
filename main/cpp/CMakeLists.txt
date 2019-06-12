@@ -18,9 +18,14 @@
 #============================================================================
 # Protocol Buffer sources.
 #============================================================================
+# TODO make universal protobuf .proto files location
+# TODO make universal protobuf .c and .h API files location for use when no protobuf is installed
 if(Protobuf_FOUND)
+    message("Generating Protobuf C++ APIs.")
     protobuf_generate_cpp(PROTO_SRC PROTO_HDR geopop/io/proto/geogrid.proto)
+    protobuf_generate_cpp(PROTO_SRC PROTO_HDR visualiser/readers/ProtobufEpiFormat.proto)
 else()
+    message("Using default Protobuf C++ APIs.")
     set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc)
     set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h)
 endif()
@@ -112,7 +117,7 @@ set(STRIDE_SRC
     geopop/populators/PrimaryCommunityPopulator.cpp
     geopop/populators/SecondaryCommunityPopulator.cpp
     geopop/populators/WorkplacePopulator.cpp
-    #---
+    # protobuf files
     ${PROTO_HEADER}
     ${PROTO_SRC}
     #---
@@ -214,6 +219,9 @@ set(VISUALISER_SOURCE
     visualiser/readers/HDF5EpiReader.cpp
     visualiser/readers/JSONEpiReader.cpp
     visualiser/readers/ProtobufEpiReader.cpp
+    # protobuf files
+    ${PROTO_HEADER}
+    ${PROTO_SRC}
     # main
     visualiser/main.cpp
     visualiser/qml.qrc
@@ -240,8 +248,10 @@ if(DO_BUILD_DATAVIS)
     # export as library to link with tests
     message("Adding visualiser library build target.")
     add_library(libvis ${VISUALISER_SOURCE})
-    
-    target_link_libraries(libvis libstride) # give data visualiser access to the stride library
+
+    # give data visualiser access to the stride library
+    # this also links to HDF5, Protobuf, etc.
+    target_link_libraries(libvis libstride)
 
     target_link_libraries(libvis Qt5::Core)
     target_link_libraries(libvis Qt5::Widgets)
