@@ -34,7 +34,7 @@ const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id
 void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 {
     try {
-        //H5::Exception::dontPrint();
+        H5::Exception::dontPrint();
         const H5::H5File& file{this->GetPath(), H5F_ACC_RDONLY};
 
         std::vector<std::vector<Locality>> timesteps;
