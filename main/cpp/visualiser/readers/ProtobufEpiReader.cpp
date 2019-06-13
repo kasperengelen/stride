@@ -20,7 +20,7 @@
 
 #include "ProtobufEpiReader.h"
 
-#include "visualiser/readers/ProtobufEpiFormat.pb.h"
+#include "protobuf/epiformat.pb.h"
 #include "visualiser/readers/EpiReaderException.h"
 
 namespace stride {

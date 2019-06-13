@@ -34,6 +34,127 @@ using namespace stride::util;
 using namespace H5;
 using json = nlohmann::json;
 
+/**
+ * Struct that contains information about the population that belongs to one type of contact pool.
+ */
+struct PoolTypeData
+{
+        unsigned int population  = 0;
+        double       immune      = 0;
+        double       infected    = 0;
+        double       infectious  = 0;
+        double       recovered   = 0;
+        double       susceptible = 0;
+        double       symptomatic = 0;
+};
+
+/**
+ * Struct that contains information about the population inside a location.
+ */
+struct LocationPopData
+{
+        PoolTypeData household;
+        PoolTypeData k12_school;
+        PoolTypeData college;
+        PoolTypeData workplace;
+        PoolTypeData prim_com;
+        PoolTypeData sec_com;
+        PoolTypeData daycare;
+        PoolTypeData preschool;
+
+        PoolTypeData& GetPool(const ContactType::Id& poolId)
+        {
+                switch(poolId)
+                {
+                        case ContactType::Id::Household:
+                                return this->household;
+                        case ContactType::Id::K12School:
+                                return this->k12_school;
+                        case ContactType::Id::College:
+                                return this->college;
+                        case ContactType::Id::Workplace:
+                                return this->workplace;
+                        case ContactType::Id::PrimaryCommunity:
+                                return this->prim_com;
+                        case ContactType::Id::SecondaryCommunity:
+                                return this->sec_com;
+                        case ContactType::Id::Daycare:
+                                return this->daycare;
+                        case ContactType::Id::PreSchool:
+                                return this->preschool;
+                }
+        }
+};
+
+/**
+ * Given a Location object, process the population inside that location and produce a PopData object.
+ * @param loc The location whose population will be processed.
+ * @return The LocationPopData that contains a representation of the population of the location.
+ */
+const LocationPopData ProcessPopulation(const geopop::Location& loc)
+{
+        LocationPopData retval;
+
+        // Collect pooltype-specific information
+        for(const ContactType::Id& pool_type : ContactType::IdList)
+        {
+                // retrieve reference to current pool stats
+                PoolTypeData& pool_stats = retval.GetPool(pool_type);
+
+                // retrieve pools of this type.
+                const auto& pools = loc.CRefPools(pool_type);
+
+                // init counters to zero
+                int  immune      = 0;
+                int  infected    = 0;
+                int  infectious  = 0;
+                int  recovered   = 0;
+                int  susceptible = 0;
+                int  symptomatic = 0;
+                int  total_pop   = 0;
+
+                for(const auto& pool: pools) {
+                        total_pop += pool->size();
+
+                        // Iterate over population to collect data
+                        for(const auto& person: *pool)
+                        {
+                                const auto health = person->GetHealth();
+
+                                if (health.IsImmune())      immune++;
+
+                                if (health.IsInfected())    infected++;
+
+                                if (health.IsInfectious())  infectious++;
+
+                                if (health.IsRecovered())   recovered++;
+
+                                if (health.IsSusceptible()) susceptible++;
+
+                                if (health.IsSymptomatic()) symptomatic++;
+                        }
+                }
+
+                pool_stats.population  = total_pop;
+
+                // prevent division by zero.
+                if(total_pop == 0)
+                        total_pop = 1;
+
+                pool_stats.immune      = (double)immune / total_pop;
+                pool_stats.infected    = (double)infected / total_pop;
+                pool_stats.infectious  = (double)infectious / total_pop;
+                pool_stats.recovered   = (double)recovered / total_pop;
+                pool_stats.susceptible = (double)susceptible / total_pop;
+                pool_stats.symptomatic = (double)symptomatic / total_pop;
+        }
+
+        return retval;
+}
+
+
+// function to calculate the fractions per-contactpool
+
 EpiOutputFile::EpiOutputFile() : m_fstream() {}
 
 EpiOutputFile::~EpiOutputFile() { m_fstream.close(); }
@@ -47,6 +168,8 @@ void EpiOutputJSON::Initialize(const string& output_prefix)
         m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out);
         m_data["Timesteps"] = json::array();
 }
+
+// TODO use common code.
 
 void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
 {
@@ -131,6 +254,8 @@ void EpiOutputHDF5::Initialize(const string& output_prefix)
         Exception::dontPrint();
         m_data = H5File(p.c_str(), H5F_ACC_TRUNC);
 }
+
+// TODO use common code.
 
 void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
 {
@@ -267,6 +392,8 @@ void EpiOutputHDF5::WriteCoordinate(H5::Group& loc, const geopop::Coordinate& co
         double    attribute_data[2] = {boost::geometry::get<0>(coordinate), boost::geometry::get<1>(coordinate)};
         attribute.write(PredType::NATIVE_DOUBLE, attribute_data);
 }
+
+// TODO add protobuf writer
 
 } // namespace output
 } // namespace stride

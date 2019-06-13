@@ -18,16 +18,15 @@
 #============================================================================
 # Protocol Buffer sources.
 #============================================================================
-# TODO make universal protobuf .proto files location
-# TODO make universal protobuf .c and .h API files location for use when no protobuf is installed
+
 if(Protobuf_FOUND)
     message("Generating Protobuf C++ APIs.")
-    protobuf_generate_cpp(PROTO_SRC PROTO_HDR geopop/io/proto/geogrid.proto)
-    protobuf_generate_cpp(PROTO_SRC PROTO_HDR visualiser/readers/ProtobufEpiFormat.proto)
+    protobuf_generate_cpp(PROTO_SRC PROTO_HDR main∕resources/protobuf_formats/geogrid.proto)
+    protobuf_generate_cpp(PROTO_SRC PROTO_HDR main∕resources/protobuf_formats/ProtobufEpiFormat.proto)
 else()
     message("Using default Protobuf C++ APIs.")
-    set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc)
-    set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h)
+    set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc ${Protobuf_PBS_DIR}/epiformat.pb.cc)
+    set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h  ${Protobuf_PBS_DIR}/epiformat.pb.h)
 endif()
 
 set_source_files_properties(
