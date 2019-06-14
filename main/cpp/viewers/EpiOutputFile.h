@@ -105,8 +105,8 @@ private:
         void WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate);
 
 private:
-        H5::H5File* m_data;
-        int         m_timestep;
+        H5::H5File m_data;
+        int m_timestep;
 };
 
 } // namespace output

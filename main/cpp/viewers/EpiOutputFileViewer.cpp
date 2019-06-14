@@ -30,7 +30,7 @@ namespace stride {
 namespace viewers {
 
 EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, const std::string& output_prefix)
-    : m_runner(std::move(runner)), m_interval(1)
+    : m_epioutput_file(), m_runner(std::move(runner)), m_interval(1)
 {
         // Initialise EpiOutputFile with the right type
         std::string filetype = m_runner->GetConfig().get<string>("run.output_epi_type");
@@ -38,6 +38,8 @@ EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, cons
                 m_epioutput_file = std::make_unique<output::EpiOutputJSON>(output_prefix);
         } else if (filetype == "hdf5") {
                 m_epioutput_file = std::make_unique<output::EpiOutputHDF5>(output_prefix);
+        } else {
+                throw "Invalid EpiOutput format specified in configuration.";
         }
 
         m_interval = m_runner->GetConfig().get<int>("run.output_epi_interval", 1);
