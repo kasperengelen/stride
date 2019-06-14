@@ -19,6 +19,10 @@
  */
 
 #include "EpiOutputFileViewer.h"
+
+#include "viewers/EpiOutputHDF5.h"
+#include "viewers/EpiOutputJSON.h"
+
 #include "calendar/Calendar.h"
 #include "sim/Sim.h"
 #include "sim/SimRunner.h"
@@ -39,7 +43,7 @@ EpiOutputFileViewer::EpiOutputFileViewer(std::shared_ptr<SimRunner> runner, cons
         } else if (filetype == "hdf5") {
                m_epioutput_file = std::make_unique<output::EpiOutputHDF5>(output_prefix);
         } else {
-                throw "Invalid EpiOutput format specified in configuration.";
+                throw std::runtime_error{"Invalid EpiOutput format specified in configuration."};
         }
 
         m_interval = m_runner->GetConfig().get<int>("run.output_epi_interval", 1);

@@ -14,37 +14,37 @@
  */
 
 /**
- * @file Header for the EpiOutputJSON class.
+ * @file Header for the EpiOutputHDF5 class.
  */
 
 #pragma once
 
 #include "EpiOutputFile.h"
 
-#include "json.hpp"
+#include <H5Cpp.h>
 
 namespace stride {
 namespace output {
 
-class EpiOutputJSON : public EpiOutputFile
+class EpiOutputHDF5 : public EpiOutputFile
 {
 public:
-    explicit EpiOutputJSON(const std::string& output_dir = "output");
+    explicit EpiOutputHDF5(const std::string& output_dir = "output");
 
     /// Overridden update method.
     virtual void Update(std::shared_ptr<const Population> population) override;
 
-    /// Dump json data to file.
+    /// Close H5 file.
     virtual void Finish() override;
 
 private:
-    /// Initialize json object and open file stream.
+    /// Initialize H5 file.
     virtual void Initialize(const std::string& output_dir) override;
 
 private:
-    nlohmann::json m_data;
+    H5::H5File m_data;
+    int m_timestep;
 };
 
 } // namespace output
 } // namespace stride
-

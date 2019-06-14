@@ -124,6 +124,8 @@ set(STRIDE_SRC
     viewers/PersonsFile.cpp
     viewers/SummaryFile.cpp
     viewers/EpiOutputFile.cpp
+    viewers/EpiOutputJSON.cpp
+    viewers/EpiOutputHDF5.cpp
     #---
     pop/AbstractPopBuilder.cpp
     pop/Person.cpp

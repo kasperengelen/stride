@@ -14,16 +14,14 @@
  */
 
 /**
- * @file
- * Header for the EpiOutputFile class.
+ * @file Header for the EpiOutputFile class.
  */
 
 #pragma once
 
+#include "contact/ContactType.h"
 #include "geopop/Location.h"
-#include "json.hpp"
 
-#include <H5Cpp.h>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -35,7 +33,7 @@ class Population;
 namespace output {
 
 /**
- * Produces a file that gives the epidemiological status per timestep .
+ * Base class for viewers that produce a file that gives the epidemiological status per timestep.
  */
 class EpiOutputFile
 {
@@ -61,53 +59,61 @@ protected:
 };
 
 /**
- *  Implementation of JSON EpiOutputFile
+ * Struct that contains information about the population that belongs to one type of contact pool.
  */
-
-class EpiOutputJSON : public EpiOutputFile
+struct PoolTypeData
 {
-public:
-        explicit EpiOutputJSON(const std::string& output_dir = "output");
-
-        /// Overridden update method.
-        virtual void Update(std::shared_ptr<const Population> population) override;
-
-        /// Dump json data to file.
-        virtual void Finish() override;
-
-private:
-        /// Initialize json object and open file stream.
-        virtual void Initialize(const std::string& output_dir) override;
-
-private:
-        nlohmann::json m_data;
+    unsigned int population  = 0;
+    double       immune      = 0;
+    double       infected    = 0;
+    double       infectious  = 0;
+    double       recovered   = 0;
+    double       susceptible = 0;
+    double       symptomatic = 0;
 };
 
-class EpiOutputHDF5 : public EpiOutputFile
+/**
+* Struct that contains information about the population inside a location.
+*/
+struct LocationPopData
 {
+private:
+        PoolTypeData household;
+        PoolTypeData k12_school;
+        PoolTypeData college;
+        PoolTypeData workplace;
+        PoolTypeData prim_com;
+        PoolTypeData sec_com;
+        PoolTypeData daycare;
+        PoolTypeData preschool;
+
 public:
-        explicit EpiOutputHDF5(const std::string& output_dir = "output");
+    /**
+     * Constructor. Initialises all the stats to zero.
+     */
+    LocationPopData()
+        : household{}, k12_school{}, college{}, workplace{}, prim_com{}, sec_com{}, daycare{}, preschool{}
+    {}
 
-        /// Overridden update method.
-        virtual void Update(std::shared_ptr<const Population> population) override;
+    /**
+     * Retrieve a const reference to the PoolTypeData object that keeps track of the
+     * contact pools of the specified type.
+     */
+    const PoolTypeData& GetPool(const ContactType::Id& poolId) const;
 
-        /// Close H5 file.
-        virtual void Finish() override;
-
-private:
-        /// Initialize H5 file.
-        virtual void Initialize(const std::string& output_dir) override;
-
-        /// Write attribute to H5Object
-        void WriteAttribute(H5::H5Object& object, const std::string& name, unsigned int data);
-
-        /// Write coordinate to H5Object
-        void WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate);
-
-private:
-        H5::H5File m_data;
-        int m_timestep;
+    /**
+     * Retrieve a non-const reference to the PoolTypeData object that keeps track of the
+     * contact pools of the specified type.
+     */
+    PoolTypeData& GetPool(const ContactType::Id& poolId);
 };
+
+/**
+ * Given a Location object, process the population inside that location and produce a PopData object.
+ * @param loc The location whose population will be processed.
+ * @return The LocationPopData that contains a representation of the population of the location.
+ */
+const LocationPopData ProcessPopulation(const geopop::Location& loc);
 
 } // namespace output
 } // namespace stride
