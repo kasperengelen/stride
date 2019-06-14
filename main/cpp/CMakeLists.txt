@@ -29,11 +29,19 @@ else()
     message("Using default Protobuf C++ APIs.")
     set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc ${Protobuf_PBS_DIR}/epiformat.pb.cc)
     set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h  ${Protobuf_PBS_DIR}/epiformat.pb.h)
+    message("Protobuf HDR & SRC:")
+    message(${PROTO_HDR})
+    message(${PROTO_SRC})
 endif()
+
+# TODO make comment in cpp files where this is stored!
 
 set_source_files_properties(
     geopop/io/GeoGridProtoReader.cpp
     geopop/io/GeoGridProtoWriter.cpp
+    viewers/EpiOutputProto.cpp
+    visualiser/readers/ProtobufEpiReader.cpp
+    viewers/EpiOutputFileViewer.cpp
     PROPERTIES
     COMPILE_FLAGS "-I${Protobuf_PBS_DIR}"
 )
