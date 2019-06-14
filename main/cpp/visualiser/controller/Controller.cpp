@@ -22,6 +22,7 @@
 
 #include "visualiser/readers/JSONEpiReader.h"
 #include "visualiser/readers/HDF5EpiReader.h"
+#include "visualiser/readers/ProtobufEpiReader.h"
 #include "visualiser/readers/EpiReaderException.h"
 
 #include <iostream>
@@ -50,6 +51,8 @@ void Controller::OpenFile()
             reader_ptr = std::make_unique<JSONEpiReader>(filename.toStdString());
         } else if (filename.endsWith(".h5") or filename.endsWith(".hdf5")) {
             reader_ptr = std::make_unique<HDF5EpiReader>(filename.toStdString());
+        } else if (filename.endsWith(".proto")) {
+            reader_ptr = std::make_unique<ProtobufEpiReader>(filename.toStdString());
         } else {
             // Unknown format
             QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));

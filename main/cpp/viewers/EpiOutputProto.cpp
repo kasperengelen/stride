@@ -31,6 +31,25 @@
 namespace stride {
 namespace output {
 
+/**
+ * Given a PoolStats object, this will return a pointer to a proto::PopSection object
+ * that contains the same information in protobuf format.
+ */
+proto::PopSection* SerializePopSection(const PoolTypeData& pool_stats)
+{
+    proto::PopSection* retval = new proto::PopSection{};
+
+    retval->set_population(pool_stats.population);
+    retval->set_immune(pool_stats.immune);
+    retval->set_infected(pool_stats.infected);
+    retval->set_infectious(pool_stats.infectious);
+    retval->set_recovered(pool_stats.recovered);
+    retval->set_susceptible(pool_stats.susceptible);
+    retval->set_symptomatic(pool_stats.symptomatic);
+
+    return retval;
+}
+
 EpiOutputProto::EpiOutputProto(const std::string &output_prefix) : EpiOutputFile(), m_proto_file{} {
     Initialize(output_prefix);
 }
@@ -42,33 +61,37 @@ void EpiOutputProto::Initialize(const std::string &output_prefix) {
 
 void EpiOutputProto::Update(std::shared_ptr<const Population> population) {
 
-    proto::Timestep timestep;
-
-
+    proto::Timestep* timestep = m_proto_file.add_timesteps();
 
     const geopop::GeoGrid &geogrid = population->CRefGeoGrid();
     for (const auto& location: geogrid) {
-        const LocationPopData popdata{*location};
-
-        proto::Location proto_loc;
+        // add location to timestep
+        proto::Location* proto_loc = timestep->add_locations();
 
         // set name
-        proto_loc.set_name(location->GetName());
+        proto_loc->set_name(location->GetName());
 
         // set coordinate
-        proto::Coordinate coord;
-        coord.set_longitude(location->GetCoordinate().get<0>());
-        coord.set_latitude(location->GetCoordinate().get<1>());
+        // NOTE: no need to delete object, protobuf takes ownership!
+        proto::Coordinate* coord = new proto::Coordinate{};
+        coord->set_longitude(location->GetCoordinate().get<0>());
+        coord->set_latitude(location->GetCoordinate().get<1>());
+        proto_loc->set_allocated_coord(coord);
 
 
+        // determine population stats
+        const LocationPopData popdata{*location};
 
-        // TODO set pools
-
-
-        // TODO add location to timestep
+        // set pool stats
+        proto_loc->set_allocated_household(SerializePopSection(popdata.GetPool(ContactType::Id::Household)));
+        proto_loc->set_allocated_college(  SerializePopSection(popdata.GetPool(ContactType::Id::College)));
+        proto_loc->set_allocated_daycare(  SerializePopSection(popdata.GetPool(ContactType::Id::Daycare)));
+        proto_loc->set_allocated_k12school(SerializePopSection(popdata.GetPool(ContactType::Id::K12School)));
+        proto_loc->set_allocated_preschool(SerializePopSection(popdata.GetPool(ContactType::Id::PreSchool)));
+        proto_loc->set_allocated_primcom(  SerializePopSection(popdata.GetPool(ContactType::Id::PrimaryCommunity)));
+        proto_loc->set_allocated_seccom(   SerializePopSection(popdata.GetPool(ContactType::Id::SecondaryCommunity)));
+        proto_loc->set_allocated_workplace(SerializePopSection(popdata.GetPool(ContactType::Id::Workplace)));
     }
-
-    // TODO add timestep to file
 }
 
 void EpiOutputProto::Finish()
