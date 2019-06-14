@@ -39,7 +39,7 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 
         std::vector<std::vector<Locality>> timesteps;
 
-        for(int timestep_nr = 0; timestep_nr < file.getNumObjs(); timestep_nr++)
+        for(unsigned int timestep_nr = 0; timestep_nr < file.getNumObjs(); timestep_nr++)
         {
         	std::vector<Locality> locations{};
 
@@ -50,7 +50,7 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 
         	const H5::Group& timestep = file.openGroup(timestep_label);
 
-        	for(int loc_nr = 0; loc_nr < timestep.getNumObjs(); loc_nr++)
+        	for(unsigned int loc_nr = 0; loc_nr < timestep.getNumObjs(); loc_nr++)
         	{
         		const H5::Group& location = timestep.openGroup("loc" + std::to_string(loc_nr));
 

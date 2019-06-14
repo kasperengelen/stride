@@ -10,7 +10,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2019, Meyer J
+ *  Copyright 2019, ACED
  */
 
 /**
@@ -29,7 +29,6 @@
 namespace stride {
 namespace output {
 
-using namespace std;
 using namespace stride::util;
 using namespace H5;
 using json = nlohmann::json;
@@ -53,6 +52,7 @@ struct PoolTypeData
  */
 struct LocationPopData
 {
+private:
         PoolTypeData household;
         PoolTypeData k12_school;
         PoolTypeData college;
@@ -62,7 +62,11 @@ struct LocationPopData
         PoolTypeData daycare;
         PoolTypeData preschool;
 
-        PoolTypeData& GetPool(const ContactType::Id& poolId)
+public:
+        LocationPopData() : household{}, k12_school{}, college{}, workplace{}, prim_com{}, sec_com{}, daycare{}, preschool{}
+        {}
+
+        const PoolTypeData& GetPool(const ContactType::Id& poolId) const
         {
                 switch(poolId)
                 {
@@ -83,8 +87,16 @@ struct LocationPopData
                         case ContactType::Id::PreSchool:
                                 return this->preschool;
                 }
+
+                throw std::runtime_error{"Error: GetPool called on unknown pool type '" + ContactType::ToString(poolId) + "' which is not handled "};
         }
-};
+
+        PoolTypeData& GetPool(const ContactType::Id& poolId)
+        {
+                // do const cast to prevent code duplication.
+                return const_cast<PoolTypeData&>(const_cast<const LocationPopData&>(*this).GetPool(poolId));
+        }
+    };
 
 /**
  * Given a Location object, process the population inside that location and produce a PopData object.
@@ -96,7 +108,7 @@ const LocationPopData ProcessPopulation(const geopop::Location& loc)
         LocationPopData retval;
 
         // Collect pooltype-specific information
-        for(const ContactType::Id& pool_type : ContactType::IdList)
+        for(const auto& pool_type : ContactType::IdList)
         {
                 // retrieve reference to current pool stats
                 PoolTypeData& pool_stats = retval.GetPool(pool_type);
@@ -159,17 +171,14 @@ EpiOutputFile::EpiOutputFile() : m_fstream() {}
 
 EpiOutputFile::~EpiOutputFile() { m_fstream.close(); }
 
-EpiOutputJSON::EpiOutputJSON(const string& output_prefix) : EpiOutputFile(), m_data() { Initialize(output_prefix); }
+EpiOutputJSON::EpiOutputJSON(const std::string& output_prefix) : EpiOutputFile(), m_data() { Initialize(output_prefix); }
 
-void EpiOutputJSON::Initialize(const string& output_prefix)
+void EpiOutputJSON::Initialize(const std::string& output_prefix)
 {
-        string     fname = "EpiOutput.json";
-        const auto p     = FileSys::BuildPath(output_prefix, fname);
+        const auto p            = FileSys::BuildPath(output_prefix, "EpiOutput.json");
         m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out);
         m_data["Timesteps"] = json::array();
 }
-
-// TODO use common code.
 
 void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
 {
@@ -177,61 +186,35 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
         json timestep = json::array();
 
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
-        for (auto loc_it = geogrid.cbegin(); loc_it != geogrid.cend(); ++loc_it) {
-                json loc           = json::object();
-                loc["name"]        = (*loc_it)->GetName();
-                loc["coordinates"] = json::array();
-                auto coordinate    = (*loc_it)->GetCoordinate();
-                loc["coordinates"].push_back(coordinate.get<0>());
-                loc["coordinates"].push_back(coordinate.get<1>());
+        for(const auto& location: geogrid) {
+                const LocationPopData popdata = ProcessPopulation(*location);
 
-                // Collect pooltype-specific information
-                for (auto type_it = ContactType::IdList.begin(); type_it != ContactType::IdList.end(); ++type_it) {
-                        stride::util::SegmentedVector<stride::ContactPool*>& pools      = (*loc_it)->RefPools(*type_it);
-                        json                                                 pool       = json::object();
-                        int                                                  immune     = 0;
-                        int                                                  infected   = 0;
-                        int                                                  infectious = 0;
-                        int                                                  recovered  = 0;
-                        int                                                  susceptible = 0;
-                        int                                                  symptomatic = 0;
-                        int                                                  total_pop   = 0;
-                        for (auto pool_it = pools.begin(); pool_it != pools.end(); ++pool_it) {
-                                total_pop += (*pool_it)->size();
-                                // Iterate over population to collect data
-                                for (auto mem_it = (*pool_it)->begin(); mem_it != (*pool_it)->end(); ++mem_it) {
-                                        auto health = (*mem_it)->GetHealth();
-                                        if (health.IsImmune()) {
-                                                immune++;
-                                        }
-                                        if (health.IsInfected()) {
-                                                infected++;
-                                        }
-                                        if (health.IsInfectious()) {
-                                                infectious++;
-                                        }
-                                        if (health.IsRecovered()) {
-                                                recovered++;
-                                        }
-                                        if (health.IsSusceptible()) {
-                                                susceptible++;
-                                        }
-                                        if (health.IsSymptomatic()) {
-                                                symptomatic++;
-                                        }
-                                }
-                        }
-                        pool["population"]                   = total_pop;
-                        pool["immune"]                       = (double)immune / total_pop;
-                        pool["infected"]                     = (double)infected / total_pop;
-                        pool["infectious"]                   = (double)infectious / total_pop;
-                        pool["recovered"]                    = (double)recovered / total_pop;
-                        pool["susceptible"]                  = (double)susceptible / total_pop;
-                        pool["symptomatic"]                  = (double)symptomatic / total_pop;
-                        loc[ContactType::ToString(*type_it)] = pool;
+                json loc_json           = json::object();
+                loc_json["name"]        = location->GetName();
+
+                loc_json["coordinates"] = json::array();
+                const auto coordinate   = location->GetCoordinate();
+                loc_json["coordinates"].push_back(coordinate.get<0>());
+                loc_json["coordinates"].push_back(coordinate.get<1>());
+
+                for(const auto& pool_type: ContactType::IdList)
+                {
+                        const PoolTypeData& pool_stats = popdata.GetPool(pool_type);
+
+                        json pool_json = json::object();
+
+                        pool_json["population"]  = pool_stats.population;
+                        pool_json["immune"]      = pool_stats.immune;
+                        pool_json["infected"]    = pool_stats.infected;
+                        pool_json["infectious"]  = pool_stats.infectious;
+                        pool_json["recovered"]   = pool_stats.recovered;
+                        pool_json["susceptible"] = pool_stats.susceptible;
+                        pool_json["symptomatic"] = pool_stats.symptomatic;
+
+                        loc_json[ContactType::ToString(pool_type)] = pool_json;
                 }
 
-                timestep.push_back(loc);
+                timestep.push_back(loc_json);
         }
         m_data["Timesteps"].push_back(timestep);
 }
@@ -239,7 +222,7 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
 void EpiOutputJSON::Finish()
 {
         m_fstream.seekp(0); // Reset write position
-        m_fstream << setw(4) << m_data << std::endl;
+        m_fstream << std::setw(4) << m_data << std::endl;
 }
 
 EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m_data(), m_timestep(0)
@@ -247,10 +230,9 @@ EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile(), m
         Initialize(output_dir);
 }
 
-void EpiOutputHDF5::Initialize(const string& output_prefix)
+void EpiOutputHDF5::Initialize(const std::string& output_prefix)
 {
-        string     fname = "EpiOutput.h5";
-        const auto p     = FileSys::BuildPath(output_prefix, fname);
+        const auto p     = FileSys::BuildPath(output_prefix, "EpiOutput.h5");
         Exception::dontPrint();
         m_data = H5File(p.c_str(), H5F_ACC_TRUNC);
 }
@@ -259,129 +241,60 @@ void EpiOutputHDF5::Initialize(const string& output_prefix)
 
 void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
 {
+        // data layout
+        CompType comp_type(sizeof(PoolTypeData));
+
+        comp_type.insertMember("population", HOFFSET(PoolTypeData, population),   PredType::NATIVE_UINT);
+        comp_type.insertMember("immune", HOFFSET(PoolTypeData, immune),           PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("infected", HOFFSET(PoolTypeData, infected),       PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("infectious", HOFFSET(PoolTypeData, infectious),   PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("recovered", HOFFSET(PoolTypeData, recovered),     PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("susceptible", HOFFSET(PoolTypeData, susceptible), PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("symptomatic", HOFFSET(PoolTypeData, symptomatic), PredType::NATIVE_DOUBLE);
 
         // Create timestep info
-        string timestep_name = to_string(m_timestep);
+        const std::string timestep_name = std::to_string(m_timestep);
 
-        Group* timestep = new Group(m_data.createGroup(timestep_name));
+        Group timestep = m_data.createGroup(timestep_name);
         m_timestep++;
-        int loc_ctr = 0;
 
+        int loc_ctr = 0;
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
-        for (auto loc_it = geogrid.cbegin(); loc_it != geogrid.cend(); ++loc_it) {
+        for(const auto& location : geogrid) {
                 try {
-                        // Use name that doesn't contain "/" (see HDF5 spec)
-                        string loc_name = "loc" + to_string(loc_ctr++);// (*loc_it)->GetName();
-                        //std::replace(loc_name.begin(), loc_name.end(), '/', '|');
-                        Group* loc = new Group(timestep->createGroup(loc_name));
+                        // init group that contains location data
+                        const std::string loc_name = "loc" + std::to_string(loc_ctr++);
+                        Group loc_group = timestep.createGroup(loc_name);
+
+                        // add location name
                         DataSpace attr_ds = DataSpace(H5S_SCALAR);
                         StrType str_dt(PredType::C_S1, 256);
-                        const H5std_string attr_name("name");
-                        const H5std_string loc_name_buff((*loc_it)->GetName());
-                        Attribute name_attr = loc->createAttribute(attr_name, str_dt, attr_ds);
-                        name_attr.write(str_dt, loc_name_buff);
-                        WriteCoordinate(*loc, (*loc_it)->GetCoordinate());
+                        Attribute name_attr = loc_group.createAttribute("name", str_dt, attr_ds);
+                        name_attr.write(str_dt, location->GetName());
 
-                        // Collect pooltype-specific information
-                        struct PoolTypeData
-                        {
-                                unsigned int population;
-                                double       immune;
-                                double       infected;
-                                double       infectious;
-                                double       recovered;
-                                double       susceptible;
-                                double       symptomatic;
-                        };
+                        // add coordinate
+                        WriteCoordinate(loc_group, location->GetCoordinate());
 
-                        for (auto type_it = ContactType::IdList.begin(); type_it != ContactType::IdList.end();
-                             ++type_it) {
-                                stride::util::SegmentedVector<stride::ContactPool*>& pools =
-                                    (*loc_it)->RefPools(*type_it);
-                                CompType      comp_type(sizeof(PoolTypeData));
-                                PoolTypeData* data = new PoolTypeData();
-                                comp_type.insertMember("population", HOFFSET(PoolTypeData, population),
-                                                       PredType::NATIVE_UINT);
-                                comp_type.insertMember("immune", HOFFSET(PoolTypeData, immune),
-                                                       PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("infected", HOFFSET(PoolTypeData, infected),
-                                                       PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("infectious", HOFFSET(PoolTypeData, infectious),
-                                                       PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("recovered", HOFFSET(PoolTypeData, recovered),
-                                                       PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("susceptible", HOFFSET(PoolTypeData, susceptible),
-                                                       PredType::NATIVE_DOUBLE);
-                                comp_type.insertMember("symptomatic", HOFFSET(PoolTypeData, symptomatic),
-                                                       PredType::NATIVE_DOUBLE);
-                                for (auto pool_it = pools.begin(); pool_it != pools.end(); ++pool_it) {
-                                        data->population += (*pool_it)->size();
-                                        // Iterate over population to collect data
-                                        for (auto mem_it = (*pool_it)->begin(); mem_it != (*pool_it)->end(); ++mem_it) {
-                                                auto health = (*mem_it)->GetHealth();
-                                                if (health.IsImmune()) {
-                                                        data->immune++;
-                                                }
-                                                if (health.IsInfected()) {
-                                                        data->infected++;
-                                                }
-                                                if (health.IsInfectious()) {
-                                                        data->infectious++;
-                                                }
-                                                if (health.IsRecovered()) {
-                                                        data->recovered++;
-                                                }
-                                                if (health.IsSusceptible()) {
-                                                        data->susceptible++;
-                                                }
-                                                if (health.IsSymptomatic()) {
-                                                        data->symptomatic++;
-                                                }
-                                        }
-                                }
-
-                                if (data->population > 0) {
-                                        data->immune      /= data->population;
-                                        data->infected    /= data->population;
-                                        data->infectious  /= data->population;
-                                        data->recovered   /= data->population;
-                                        data->susceptible /= data->population;
-                                        data->symptomatic /= data->population;
-                                } else {
-                                        // All fractions to 0 by convention
-                                        data->immune      = 0.0;
-                                        data->infected    = 0.0;
-                                        data->infectious  = 0.0;
-                                        data->recovered   = 0.0;
-                                        data->susceptible = 0.0;
-                                        data->symptomatic = 0.0;
-                                }
+                        // add population data
+                        const LocationPopData popdata = ProcessPopulation(*location);
+                        for(const auto& pool_type : ContactType::IdList) {
+                                const PoolTypeData& pool_stats = popdata.GetPool(pool_type);
 
                                 hsize_t   dim = 1;
                                 DataSpace pool_ds(1, &dim);
-                                DataSet pool = loc->createDataSet(ContactType::ToString(*type_it), comp_type, pool_ds);
-                                pool.write(data, comp_type);
-                                delete data;
+                                DataSet pool = loc_group.createDataSet(ContactType::ToString(pool_type), comp_type, pool_ds);
+                                pool.write(&pool_stats, comp_type);
                         }
-                        delete loc;
                 } catch (...) {
                         // Ignore locations that can't be written
                         continue;
                 }
         }
-        delete timestep;
 }
 
 void EpiOutputHDF5::Finish()
 { 
         m_data.close();
-}
-
-void EpiOutputHDF5::WriteAttribute(H5Object& object, const std::string& name, unsigned int data)
-{
-        hsize_t   dim       = 1;
-        Attribute attribute = object.createAttribute(name, PredType::NATIVE_UINT, DataSpace(1, &dim));
-        attribute.write(PredType::NATIVE_UINT, &data);
 }
 
 void EpiOutputHDF5::WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate)

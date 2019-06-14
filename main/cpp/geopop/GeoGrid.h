@@ -108,6 +108,10 @@ public:
         /// Iterator to the end of the Location storage.
         iterator end() { return m_locations.end(); }
 
+        const_iterator begin() const { return this->cbegin(); }
+
+        const_iterator end() const   { return this->cend(); }
+
         /// Const Iterator to first Location.
         const_iterator cbegin() const { return m_locations.cbegin(); }
 
