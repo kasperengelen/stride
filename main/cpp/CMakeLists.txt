@@ -21,8 +21,7 @@
 
 if(Protobuf_FOUND)
     message("Generating Protobuf C++ APIs.")
-    protobuf_generate_cpp(PROTO_SRC PROTO_HDR main∕resources/protobuf_formats/geogrid.proto)
-    protobuf_generate_cpp(PROTO_SRC PROTO_HDR main∕resources/protobuf_formats/ProtobufEpiFormat.proto)
+    protobuf_generate_cpp(PROTO_SRC PROTO_HDR protobuf_formats/epiformat.proto protobuf_formats/geogrid.proto)
 else()
     message("Using default Protobuf C++ APIs.")
     set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc ${Protobuf_PBS_DIR}/epiformat.pb.cc)
