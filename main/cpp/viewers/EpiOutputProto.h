@@ -20,6 +20,9 @@
 #pragma once
 
 #include "viewers/EpiOutputFile.h"
+
+// NOTE: this is defined in CMakeLists.txt under "set_source_files_properties".
+// DO NOT CHANGE!
 #include "epiformat.pb.h"
 
 namespace stride {

@@ -40,8 +40,8 @@ set_source_files_properties(
     geopop/io/GeoGridProtoReader.cpp
     geopop/io/GeoGridProtoWriter.cpp
     viewers/EpiOutputProto.cpp
-    visualiser/readers/ProtobufEpiReader.cpp
     viewers/EpiOutputFileViewer.cpp
+    visualiser/readers/ProtobufEpiReader.cpp
     PROPERTIES
     COMPILE_FLAGS "-I${Protobuf_PBS_DIR}"
 )

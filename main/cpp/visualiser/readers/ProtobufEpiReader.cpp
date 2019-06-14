@@ -20,6 +20,8 @@
 
 #include "ProtobufEpiReader.h"
 
+// NOTE: this is defined in CMakeLists.txt under "set_source_files_properties".
+// DO NOT CHANGE!
 #include "epiformat.pb.h"
 #include "visualiser/readers/EpiReaderException.h"
 
