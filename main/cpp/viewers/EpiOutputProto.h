@@ -20,7 +20,7 @@
 #pragma once
 
 #include "viewers/EpiOutputFile.h"
-#include "protobuf/epiformat.pb.h"
+#include "epiformat.pb.h"
 
 namespace stride {
 namespace output {

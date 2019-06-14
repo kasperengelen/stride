@@ -21,8 +21,6 @@
 
 #include "viewers/LocationPopStats.h"
 
-#include "protobuf/epiformat.pb.h"
-
 #include "contact/ContactType.h"
 #include "pop/Population.h"
 #include "geopop/Location.h"

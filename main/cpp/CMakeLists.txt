@@ -22,6 +22,9 @@
 if(Protobuf_FOUND)
     message("Generating Protobuf C++ APIs.")
     protobuf_generate_cpp(PROTO_SRC PROTO_HDR protobuf_formats/epiformat.proto protobuf_formats/geogrid.proto)
+    message("Protobuf HDR & SRC:")
+    message(${PROTO_HDR})
+    message(${PROTO_SRC})
 else()
     message("Using default Protobuf C++ APIs.")
     set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc ${Protobuf_PBS_DIR}/epiformat.pb.cc)
@@ -116,7 +119,6 @@ set(STRIDE_SRC
     geopop/populators/SecondaryCommunityPopulator.cpp
     geopop/populators/WorkplacePopulator.cpp
     # protobuf files
-    ${PROTO_HEADER}
     ${PROTO_SRC}
     #---
     viewers/InfectedFile.cpp
@@ -222,7 +224,7 @@ set(VISUALISER_SOURCE
     visualiser/readers/JSONEpiReader.cpp
     visualiser/readers/ProtobufEpiReader.cpp
     # protobuf files
-    ${PROTO_HEADER}
+    ${PROTO_HDR}
     ${PROTO_SRC}
     # main
     visualiser/main.cpp
