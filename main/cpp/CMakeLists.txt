@@ -126,6 +126,8 @@ set(STRIDE_SRC
     viewers/EpiOutputFile.cpp
     viewers/EpiOutputJSON.cpp
     viewers/EpiOutputHDF5.cpp
+    viewers/EpiOutputProto.cpp
+    viewers/LocationPopStats.cpp
     #---
     pop/AbstractPopBuilder.cpp
     pop/Person.cpp

@@ -14,19 +14,36 @@
  */
 
 /**
- * @file Implementation of the EpiOutputFile class.
+ * @file
  */
 
-#include "EpiOutputFile.h"
+#pragma once
 
-#include <iostream>
+#include "viewers/EpiOutputFile.h"
+#include "protobuf/epiformat.pb.h"
 
 namespace stride {
 namespace output {
 
-EpiOutputFile::EpiOutputFile() : m_fstream() {}
+class EpiOutputProto : public EpiOutputFile
+{
+public:
+        explicit EpiOutputProto(const std::string& output_dir = "output");
 
-EpiOutputFile::~EpiOutputFile() { m_fstream.close(); }
+        /// Overridden update method.
+        virtual void Update(std::shared_ptr<const Population> population) override;
+
+        /// Dump json data to file.
+        virtual void Finish() override;
+
+private:
+        /// Initialize json object and open file stream.
+        virtual void Initialize(const std::string& output_dir) override;
+
+private:
+        proto::EpiFile m_proto_file;
+};
 
 } // namespace output
 } // namespace stride
+

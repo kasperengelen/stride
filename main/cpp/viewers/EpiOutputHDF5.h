@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "EpiOutputFile.h"
+#include "viewers/EpiOutputFile.h"
 
 #include <H5Cpp.h>
 

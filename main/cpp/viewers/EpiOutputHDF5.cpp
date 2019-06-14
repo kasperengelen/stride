@@ -20,6 +20,8 @@
 
 #include "EpiOutputHDF5.h"
 
+#include "viewers/LocationPopStats.h"
+
 #include "contact/ContactType.h"
 #include "pop/Population.h"
 #include "geopop/Location.h"
@@ -48,8 +50,6 @@ void EpiOutputHDF5::Initialize(const std::string& output_prefix)
     H5::Exception::dontPrint();
     m_data = H5::H5File(p.c_str(), H5F_ACC_TRUNC);
 }
-
-// TODO use common code.
 
 void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
 {
@@ -88,7 +88,7 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
             WriteCoordinate(loc_group, location->GetCoordinate());
 
             // add population data
-            const LocationPopData popdata = ProcessPopulation(*location);
+            const LocationPopData popdata{*location};
             for(const auto& pool_type : ContactType::IdList) {
                 const PoolTypeData& pool_stats = popdata.GetPool(pool_type);
 
