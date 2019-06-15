@@ -33,7 +33,7 @@ namespace output {
  * Given a PoolStats object, this will return a pointer to a proto::PopSection object
  * that contains the same information in protobuf format.
  */
-proto::PopSection* SerializePopSection(const PoolTypeData& pool_stats)
+proto::PopSection* SerializePopSection(const PoolStats& pool_stats)
 {
     proto::PopSection* retval = new proto::PopSection{};
 

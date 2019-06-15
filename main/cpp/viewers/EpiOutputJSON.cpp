@@ -61,7 +61,7 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population) {
                 loc_json["coordinates"].push_back(coordinate.get<1>());
 
                 for (const auto &pool_type: ContactType::IdList) {
-                        const PoolTypeData &pool_stats = popdata.GetPool(pool_type);
+                        const PoolStats &pool_stats = popdata.GetPool(pool_type);
 
                         json pool_json = json::object();
 
