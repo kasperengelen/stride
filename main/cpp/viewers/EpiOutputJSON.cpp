@@ -28,6 +28,7 @@
 #include "util/FileSys.h"
 
 #include <iomanip>
+#include <iostream>
 
 namespace stride {
 namespace output {
@@ -35,21 +36,23 @@ namespace output {
 using json = nlohmann::json;
 
 EpiOutputJSON::EpiOutputJSON(const std::string &output_prefix) : EpiOutputFile(), m_data() {
-    Initialize(output_prefix);
+        Initialize(output_prefix);
 }
 
 void EpiOutputJSON::Initialize(const std::string &output_prefix) {
-    const auto p = util::FileSys::BuildPath(output_prefix, "EpiOutput.json");
-    m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out);
-    m_data["Timesteps"] = json::array();
+        const auto p = util::FileSys::BuildPath(output_prefix, "EpiOutput.json");
+        m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out);
+        m_data["Timesteps"] = json::array();
 }
 
 void EpiOutputJSON::Update(std::shared_ptr<const Population> population) {
+
         // Create timestep info
         json timestep = json::array();
 
         const geopop::GeoGrid &geogrid = population->CRefGeoGrid();
-        for (const auto &location: geogrid) {
+        for (const auto &location: geogrid)
+        {
                 const LocationPopData popdata{*location};
 
                 json loc_json = json::object();
@@ -60,7 +63,8 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population) {
                 loc_json["coordinates"].push_back(coordinate.get<0>());
                 loc_json["coordinates"].push_back(coordinate.get<1>());
 
-                for (const auto &pool_type: ContactType::IdList) {
+                for (const auto &pool_type: ContactType::IdList)
+                {
                         const PoolStats &pool_stats = popdata.GetPool(pool_type);
 
                         json pool_json = json::object();

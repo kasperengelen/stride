@@ -31,7 +31,7 @@ LocationPopData::LocationPopData(const geopop::Location &loc)
 {
     for (const auto &pool_type : ContactType::IdList) {
         // retrieve reference to current pool stats
-        PoolTypeData &pool_stats = this->GetPool(pool_type);
+        PoolStats &pool_stats = this->GetPool(pool_type);
 
         // retrieve pools of this type.
         const auto &pools = loc.CRefPools(pool_type);
@@ -72,16 +72,16 @@ LocationPopData::LocationPopData(const geopop::Location &loc)
         if (total_pop == 0)
             total_pop = 1;
 
-        pool_stats.immune = (double) immune / total_pop;
-        pool_stats.infected = (double) infected / total_pop;
-        pool_stats.infectious = (double) infectious / total_pop;
-        pool_stats.recovered = (double) recovered / total_pop;
+        pool_stats.immune      = (double) immune / total_pop;
+        pool_stats.infected    = (double) infected / total_pop;
+        pool_stats.infectious  = (double) infectious / total_pop;
+        pool_stats.recovered   = (double) recovered / total_pop;
         pool_stats.susceptible = (double) susceptible / total_pop;
         pool_stats.symptomatic = (double) symptomatic / total_pop;
     }
 }
 
-const PoolTypeData& LocationPopData::GetPool(const ContactType::Id &poolId) const {
+const PoolStats& LocationPopData::GetPool(const ContactType::Id &poolId) const {
     switch (poolId) {
         case ContactType::Id::Household:
             return this->m_household;
@@ -105,9 +105,9 @@ const PoolTypeData& LocationPopData::GetPool(const ContactType::Id &poolId) cons
                              "' which is not handled "};
 }
 
-PoolTypeData& LocationPopData::GetPool(const ContactType::Id &poolId) {
+PoolStats& LocationPopData::GetPool(const ContactType::Id &poolId) {
     // do const cast to prevent code duplication.
-    return const_cast<PoolTypeData &>(const_cast<const LocationPopData &>(*this).GetPool(poolId));
+    return const_cast<PoolStats &>(const_cast<const LocationPopData &>(*this).GetPool(poolId));
 }
 
 }

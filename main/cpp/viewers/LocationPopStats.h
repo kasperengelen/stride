@@ -28,7 +28,7 @@ namespace output {
 /**
 * Struct that contains information about the population that belongs to one type of contact pool.
 */
-struct PoolTypeData {
+struct PoolStats {
         unsigned int population = 0;
         double immune = 0;
         double infected = 0;
@@ -53,23 +53,23 @@ public:
          * Retrieve a const reference to the PoolTypeData object that keeps track of the
          * contact pools of the specified type.
          */
-        const PoolTypeData &GetPool(const ContactType::Id &poolId) const;
+        const PoolStats &GetPool(const ContactType::Id &poolId) const;
 
         /**
          * Retrieve a non-const reference to the PoolTypeData object that keeps track of the
          * contact pools of the specified type.
          */
-        PoolTypeData &GetPool(const ContactType::Id &poolId);
+        PoolStats &GetPool(const ContactType::Id &poolId);
 
 private:
-        PoolTypeData m_household;
-        PoolTypeData m_k12_school;
-        PoolTypeData m_college;
-        PoolTypeData m_workplace;
-        PoolTypeData m_prim_com;
-        PoolTypeData m_sec_com;
-        PoolTypeData m_daycare;
-        PoolTypeData m_preschool;
+        PoolStats m_household;
+        PoolStats m_k12_school;
+        PoolStats m_college;
+        PoolStats m_workplace;
+        PoolStats m_prim_com;
+        PoolStats m_sec_com;
+        PoolStats m_daycare;
+        PoolStats m_preschool;
 };
 
 }
