@@ -7,7 +7,7 @@
     ],
     "provinces": {
         "1": {
-            "province": "Antwerpen",
+            "province": "antwerp",
             "centrumsteden": [
                 "Antwerpen",
                 "Turnhout",
@@ -37,7 +37,7 @@
             ]
         },
         "4": {
-            "province": "Oost-Vlaanderen",
+            "province": "east_flanders",
             "centrumsteden": [
                 "Aalst",
                 "Gent",
@@ -67,7 +67,7 @@
             ]
         },
         "3": {
-            "province": "West-Vlaanderen",
+            "province": "west_flanders",
             "centrumsteden": [
                 "Brugge",
                 "Kortrijk",
@@ -103,7 +103,7 @@
             ]
         },
         "7": {
-            "province": "Limburg",
+            "province": "limburg",
             "centrumsteden": [
                 "Genk",
                 "Hasselt"
@@ -127,7 +127,7 @@
             ]
         },
         "2": {
-            "province": "Vlaams-Brabant",
+            "province": "flemish_brabant",
             "centrumsteden": [
                 "Leuven"
             ],
@@ -142,6 +142,46 @@
                 0.20812765104808878,
                 0.5990379151895807,
                 0.19393217285758324
+            ]
+        },
+        "5": {
+            "province": "hainaut",
+            "centrumsteden": [],
+            "ratios_centrumsteden": {},
+            "ratios_default": [
+                0.20891517502767126,
+                0.6076100607835903,
+                0.18347476418873845
+            ]
+        },
+        "6": {
+            "province": "liege",
+            "centrumsteden": [],
+            "ratios_centrumsteden": {},
+            "ratios_default": [
+                0.20550498224053357,
+                0.6097142381523641,
+                0.18478077960710235
+            ]
+        },
+        "8": {
+            "province": "luxemburg",
+            "centrumsteden": [],
+            "ratios_centrumsteden": {},
+            "ratios_default": [
+                0.2202826707905673,
+                0.6116719098108584,
+                0.16804541939857429
+            ]
+        },
+        "9": {
+            "province": "namur",
+            "centrumsteden": [],
+            "ratios_centrumsteden": {},
+            "ratios_default": [
+                0.20590054616659195,
+                0.6116254591105171,
+                0.18247399472289094
             ]
         }
     }
