@@ -80,9 +80,11 @@ set(STRIDE_SRC
     #geopop/ContactCenter.cpp
     geopop/Coordinate.h
     geopop/GeoGrid.cpp
+    geopop/GeoGridBase.cpp
     geopop/GeoGridConfig.cpp
     geopop/Location.cpp
-    #---
+    geopop/LocationBase.cpp
+        #---
     geopop/geo/GeoGridKdTree.cpp
     geopop/geo/KdTree2DPoint.cpp
     #---
