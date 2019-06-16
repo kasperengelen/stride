@@ -7,17 +7,32 @@
 
 * DaycareGeneratorTest:
     Tests whether the DaycareGenerator can handle various amounts of locations.
+    This is done by first adding locations to the geogrid and then allowing the generator to add households to the locations based on the size of the population. The test can then compare the generated amount of households to an expected amount.
     * OneLocationTest
     * ZeroLocationTest
     * FiveLocationTest
 
 * PreSchoolGeneratorTest:
     Tests whether the PreSchoolGenerator can handle various amounts of locations.
+    This is done by first adding locations to the geogrid and then allowing the generator to add households to the locations based on the size of the population. The test can then compare the generated amount of households to an expected amount.
     * OneLocationTest
     * ZeroLocationTest
     * FiveLocationTest
 
+* DaycarePopulatorTest:
+    Tests whether the DaycarePopulator can handle various amounts of locations.
+    This is done by first manually adding households to locations, then allowing the populator to populate the daycares. The test then checks that each person in the daycare is of the correct age.
+    * NoPopulation
+    * OneLocationTest
+    * TwoLocationTest
 
+* PreSchoolPopulatorTest:
+    Tests whether the PreSchoolPopulator can handle various amounts of locations.
+    This is done by first manually adding households to locations, then allowing the populator to populate the preschools. The test then checks that each person in the preschool is of the correct age.
+    * NoPopulation
+    * OneLocationTest
+    * TwoLocationTest
+    
 ### Data formats
 
 * TestGeoGridJSONWriteRead:
@@ -56,15 +71,15 @@
     
 ### Workplace size distribution
 
-* WorkplaceCSVeaderTest:
-    Tests if the reader reads the correct data.
+* WorkplaceCSVReaderTest:
+    Tests if the reader reads the correct data. Then the test will check whether the CSV files were read correctly by manually checking the reader output.
     
 * WorkplaceGeneratorTest:
     Existing tests are updated to reflect the changes in the algorithm for generated pools.
     
 * WorkplacePopulatorTest:
     Existing tests are updated to reflect the changes in the algorithm for populating pools.
-    * Distribution: Tests, after populating the workplaces, if the amounts of pools per size class gets close to the specified ratios
+    * Distribution: Tests, after populating the workplaces, if the amounts of pools per size class gets close to the specified ratios.
 
 ## Responsibilities
 The teammember that is responsible for implementing a feature, is also responsible for testing that feature. The tests are verified when the pull request for the feature is processed.
