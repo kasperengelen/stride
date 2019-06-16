@@ -18,16 +18,30 @@
 #============================================================================
 # Protocol Buffer sources.
 #============================================================================
+
 if(Protobuf_FOUND)
-    protobuf_generate_cpp(PROTO_SRC PROTO_HDR geopop/io/proto/geogrid.proto)
+    message("Generating Protobuf C++ APIs.")
+    protobuf_generate_cpp(PROTO_SRC PROTO_HDR protobuf_formats/epiformat.proto protobuf_formats/geogrid.proto)
+    message("Protobuf HDR & SRC:")
+    message(${PROTO_HDR})
+    message(${PROTO_SRC})
 else()
-    set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc)
-    set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h)
+    message("Using default Protobuf C++ APIs.")
+    set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc ${Protobuf_PBS_DIR}/epiformat.pb.cc)
+    set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h  ${Protobuf_PBS_DIR}/epiformat.pb.h)
+    message("Protobuf HDR & SRC:")
+    message(${PROTO_HDR})
+    message(${PROTO_SRC})
 endif()
+
+# TODO make comment in cpp files where this is stored!
 
 set_source_files_properties(
     geopop/io/GeoGridProtoReader.cpp
     geopop/io/GeoGridProtoWriter.cpp
+    viewers/EpiOutputProto.cpp
+    viewers/EpiOutputFileViewer.cpp
+    visualiser/readers/ProtobufEpiReader.cpp
     PROPERTIES
     COMPILE_FLAGS "-I${Protobuf_PBS_DIR}"
 )
@@ -112,14 +126,17 @@ set(STRIDE_SRC
     geopop/populators/PrimaryCommunityPopulator.cpp
     geopop/populators/SecondaryCommunityPopulator.cpp
     geopop/populators/WorkplacePopulator.cpp
-    #---
-    ${PROTO_HEADER}
+    # protobuf files
     ${PROTO_SRC}
     #---
     viewers/InfectedFile.cpp
     viewers/PersonsFile.cpp
     viewers/SummaryFile.cpp
     viewers/EpiOutputFile.cpp
+    viewers/EpiOutputJSON.cpp
+    viewers/EpiOutputHDF5.cpp
+    viewers/EpiOutputProto.cpp
+    viewers/LocationPopStats.cpp
     #---
     pop/AbstractPopBuilder.cpp
     pop/Person.cpp
@@ -214,6 +231,9 @@ set(VISUALISER_SOURCE
     visualiser/readers/HDF5EpiReader.cpp
     visualiser/readers/JSONEpiReader.cpp
     visualiser/readers/ProtobufEpiReader.cpp
+    # protobuf files
+    ${PROTO_HDR}
+    ${PROTO_SRC}
     # main
     visualiser/main.cpp
     visualiser/qml.qrc
@@ -241,7 +261,9 @@ if(DO_BUILD_DATAVIS)
     message("Adding visualiser library build target.")
     add_library(libvis ${VISUALISER_SOURCE})
 
-    target_link_libraries(libvis libstride) # give data visualiser access to the stride library
+    # give data visualiser access to the stride library
+    # this also links to HDF5, Protobuf, etc.
+    target_link_libraries(libvis libstride)
 
     target_link_libraries(libvis Qt5::Core)
     target_link_libraries(libvis Qt5::Widgets)

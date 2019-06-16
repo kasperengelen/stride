@@ -69,7 +69,7 @@ private:
         /// The name of the locality
         std::string m_name;
 
-        /// The coordinate of the locality. The coordinate is of the (longtidude, latitude) format.
+        /// The coordinate of the locality. The coordinate is of the (longitude, latitude) format.
         geopop::Coordinate m_coordinate;
 
         /// The population that lives inside the locality

@@ -20,4 +20,17 @@
 
 #include <gtest/gtest.h>
 
-TEST(TestEpiOutputJSONReader, test1) {}
+#include "ModelPopDataChecker.h"
+#include "ModelTimestepOrderChecker.h"
+
+#include "visualiser/readers/JSONEpiReader.h"
+
+TEST(TestEpiOutputJSONReader, testPopdata)
+{
+    TestPopData<stride::visualiser::JSONEpiReader>();
+}
+
+TEST(TestEpiOutputJSONReader, testTimestepOrder)
+{
+    TestTimestepOrder<stride::visualiser::JSONEpiReader>();
+}

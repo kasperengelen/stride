@@ -20,6 +20,9 @@
 
 #include "visualiser/controller/Controller.h"
 
+#include "visualiser/readers/JSONEpiReader.h"
+#include "visualiser/readers/HDF5EpiReader.h"
+#include "visualiser/readers/ProtobufEpiReader.h"
 #include "visualiser/readers/EpiReaderException.h"
 #include "visualiser/readers/JSONEpiReader.h"
 
@@ -37,36 +40,35 @@ void Controller::OpenFile()
 {
         QWidget* parent_ptr = dynamic_cast<QWidget*>(this->parent());
         QString  filename   = QFileDialog::getOpenFileName(
-            parent_ptr, tr("Open epi-data"), "", tr("JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
+            parent_ptr, tr("Open epi-data"), "", tr("All (*.*);;JSON file (*.json);;HDF5 file (*.h5);;Protobuf file (*.proto)"));
 
         if (filename.isNull()) {
                 return;
         }
 
-        // determine HDF5, Protobuf, JSON
+        std::unique_ptr<EpiReader> reader_ptr;
+
         if (filename.endsWith(".json")) {
-                try {
-                        // JSON
-                        JSONEpiReader reader(filename.toStdString());
-
-                        reader.ReadIntoModel(*m_model_ptr);
-
-                        emit this->fileReadSuccessful();
-
-                        return;
-                } catch (const EpiReaderException& e) {
-                        const QString err_msg =
-                            QString{"An error occurred while processing the specified file.\n"} + QString{e.what()};
-                        QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
-                        return;
-                }
+            reader_ptr = std::make_unique<JSONEpiReader>(filename.toStdString());
+        } else if (filename.endsWith(".h5") or filename.endsWith(".hdf5")) {
+            reader_ptr = std::make_unique<HDF5EpiReader>(filename.toStdString());
+        } else if (filename.endsWith(".proto")) {
+            reader_ptr = std::make_unique<ProtobufEpiReader>(filename.toStdString());
         } else {
-                // Unknown format
-                QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
-                return;
+            // Unknown format
+            QMessageBox::critical(parent_ptr, tr("Warning"), tr("Specified file format is not supported."));
+            return;
         }
 
-        // TODO HDF5
+        try {
+            reader_ptr->ReadIntoModel(*m_model_ptr);
+
+            emit this->fileReadSuccessful();
+        } catch(const EpiReaderException& e) {
+            const QString err_msg =
+                    QString{"An error occurred while processing the specified file.\n"} + QString{e.what()};
+            QMessageBox::critical(parent_ptr, QString{"Error"}, err_msg);
+        }
 }
 
 void Controller::SaveFile()
