@@ -88,7 +88,7 @@ def plotCases(R0_vals, seed):
         plt.plot(days, cases)
     plt.xlabel("Simulation day")
     plt.ylabel("New cases per day")
-    legend = ["Reference"] + [str(r0) for r0 in R0_vals]
+    legend = ["Reference"] + ["R0 = " + str(r0) for r0 in R0_vals]
     plt.legend(legend)
     #plt.show()
     plotname = "R0_plot.svg"
