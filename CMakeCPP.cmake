@@ -102,7 +102,6 @@ find_package(Threads)
 # ProtoBuf
 #----------------------------------------------------------------------------
 set(Protobuf_USE_STATIC_LIBS ON)
-set(STRIDE_FORCE_NO_PROTOC False)
 if(NOT STRIDE_FORCE_NO_PROTOC)
     include(FindProtobuf)
     find_package(Protobuf)
