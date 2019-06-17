@@ -19,14 +19,17 @@
 #include "geopop/io/HouseholdReader.h"
 #include "geopop/io/ReaderFactory.h"
 #include "util/StringUtils.h"
+#include "util/FileSys.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <cmath>
 #include <iomanip>
+#include <numeric>
 
 namespace geopop {
 
 using namespace std;
+using namespace stride::util;
 using namespace boost::property_tree;
 using namespace stride::AgeBrackets;
 using namespace stride::ContactType;
@@ -59,40 +62,58 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
 
 void GeoGridConfig::SetData(const string& householdsFileName)
 {
-        auto householdsReader = ReaderFactory::CreateHouseholdReader(householdsFileName);
-        householdsReader->SetReferenceHouseholds(refHH.person_count, refHH.ages);
+        if (filesys::path(householdsFileName).extension().string() == ".xml") {
+                ptree configFile = FileSys::ReadPtreeFile(FileSys::GetConfigDir() /= householdsFileName);
+                for (const auto& file : configFile.get_child("household_file")) {
+                        auto id = configFile.get<unsigned int>("household_file." + file.first + ".<xmlattr>.id");
+                        auto householdsReader = ReaderFactory::CreateHouseholdReader(configFile.get<string>("household_file." + file.first));
+                        householdsReader->SetReferenceHouseholds(refHH.person_count[id], refHH.ages[id]);
+                        refHH.multiHH = true;
+                }
+        }
+        else {
+                auto householdsReader = ReaderFactory::CreateHouseholdReader(householdsFileName);
+                householdsReader->SetReferenceHouseholds(refHH.person_count[0], refHH.ages[0]);
+                refHH.multiHH = false;
+
+        }
         const auto popSize = param.pop_size;
 
         //----------------------------------------------------------------
         // Determine age makeup of reference houshold population.
         //----------------------------------------------------------------
-        const auto ref_p_count   = refHH.person_count;
-        const auto averageHhSize = static_cast<double>(ref_p_count) / static_cast<double>(refHH.ages.size());
-
+        const auto ref_p_count = accumulate(refHH.person_count.begin(), refHH.person_count.end(), 0,
+                [](const unsigned int prev, const auto& elem) { return prev + elem.second; });
+        const auto ref_ages_size = accumulate(refHH.ages.begin(), refHH.ages.end(), 0,
+                                            [](const unsigned int prev, const auto& elem) { return prev + elem.second.size(); });
+        const auto averageHhSize = static_cast<double>(ref_p_count) / static_cast<double>(ref_ages_size);
         auto ref_preschool = 0U;
         auto ref_daycare   = 0U;
         auto ref_k12school = 0U;
         auto ref_college   = 0U;
         auto ref_workplace = 0U;
         for (const auto& hhAgeProfile : refHH.ages) {
-                for (const auto& age : hhAgeProfile) {
-                        if (Daycare::HasAge(age)) {
-                                ref_daycare++;
-                        }
-                        if (PreSchool::HasAge(age)) {
-                                ref_preschool++;
-                        }
-                        if (K12School::HasAge(age)) {
-                                ref_k12school++;
-                        }
-                        if (College::HasAge(age)) {
-                                ref_college++;
-                        }
-                        if (Workplace::HasAge(age)) {
-                                ref_workplace++;
+                for (const auto& refAges : hhAgeProfile.second) {
+                        for (const auto& age : refAges) {
+                                if (Daycare::HasAge(age)) {
+                                        ref_daycare++;
+                                }
+                                if (PreSchool::HasAge(age)) {
+                                        ref_preschool++;
+                                }
+                                if (K12School::HasAge(age)) {
+                                        ref_k12school++;
+                                }
+                                if (College::HasAge(age)) {
+                                        ref_college++;
+                                }
+                                if (Workplace::HasAge(age)) {
+                                        ref_workplace++;
+                                }
                         }
                 }
         }
+
         //----------------------------------------------------------------
         // Scale up to the generated population size.
         //----------------------------------------------------------------

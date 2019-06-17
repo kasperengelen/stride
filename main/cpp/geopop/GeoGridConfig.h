@@ -21,6 +21,7 @@
 #include <boost/property_tree/ptree_fwd.hpp>
 
 #include <memory>
+#include <map>
 #include <ostream>
 
 namespace geopop {
@@ -84,10 +85,13 @@ public:
         struct
         {
                 /// Number of persons in the reference household set.
-                unsigned int person_count = 0U;
+                std::map<unsigned int, unsigned int> person_count{};
 
                 /// Age profile per reference household.
-                std::vector<std::vector<unsigned int>> ages{};
+                std::map<unsigned int, std::vector<std::vector<unsigned int>>> ages{};
+
+                /// indicator for multiple householdfiles.
+                bool multiHH = false;
         } refHH;
 
         // -----------------------------------------------------------------------------------------
