@@ -88,12 +88,12 @@ dates = time_to_datetime(times, "%M:%S:%f")
 imm = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 plt.plot(imm, dates, marker='o')
 
-times = ["01:04:848",
-         "01:04:794",
-         "01:03:841",
-         "01:03:329",
+times = ["05:30:319",
+         "03:25:408",
+         "02:42:241",
+         "01:52:134",
          "01:01:007",
-         "01:02:708"]
+         "00:38:640"]
 dates = time_to_datetime(times, "%M:%S:%f")
 imm = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
@@ -103,7 +103,7 @@ ax.yaxis.set_major_formatter(xfmt)
 
 plt.xlabel("Immunity rate")
 plt.ylabel("Wall clock time in seconds")
-plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("5", "%S")])
+plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("17", "%S")])
 
 plt.plot(imm, dates, marker='o')
 plt.legend(["Generating a population", "Generating and simulating"])

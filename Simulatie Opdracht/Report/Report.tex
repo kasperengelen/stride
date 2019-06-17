@@ -402,8 +402,9 @@ on the performance of the Stride software.
 \end{figure}
 
 \subsection{Immunity rate}
-\paragraph{} Varying the immunity rate does not seem to affect the total execution time.
-In the case of generating a population this happens as for each person you need to determine whether they are immune to the disease, regardless of the immunity rate.
+\paragraph{} Varying the immunity rate does not seem to affect the generation time.
+Simulating however is greatly affected by this parameter. The lower the immunity rate, the longer the time needed to complete the simulation.
+This can be explained by the fact that the less people are immune, the more people will become infected. Now there are more people for which contact with others has to be handled.
 
 \begin{figure}[h!]
 \centering
