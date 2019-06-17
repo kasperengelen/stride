@@ -86,7 +86,7 @@ void GeoGridHDF5Writer::WriteContactPool(Group& contact_pools, const ContactPool
         attribute.write(StrType(PredType::C_S1, ToString(pool->GetType()).size()), ToString(pool->GetType()));
 }
 
-void GeoGridHDF5Writer::WriteLocation(Group& locations, const Location& location, unsigned int count)
+void GeoGridHDF5Writer::WriteLocation(Group& locations, const SimLocation& location, unsigned int count)
 {
         Group loc(locations.createGroup("Loc" + to_string(count)));
         WriteAttribute(loc, "id", location.GetID());

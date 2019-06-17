@@ -21,7 +21,7 @@
 #pragma once
 
 #include "geopop/Coordinate.h"
-#include "visualiser/model/Locality.h"
+#include "geopop/VisLocation.h"
 
 #include <vector>
 
@@ -53,19 +53,19 @@ public:
         /**
          * Set the timesteps contained in the model to the specified timesteps.
          */
-        void SetTimesteps(const std::vector<std::vector<Locality>>& timesteps) { m_timesteps = timesteps; }
+        void SetTimesteps(const std::vector<std::vector<geopop::VisLocation>>& timesteps) { m_timesteps = timesteps; }
 
         /**
          * Retrieve simulation data from the model.
          */
-        const std::vector<std::vector<Locality>>& GetEpiData() const { return m_timesteps; }
+        const std::vector<std::vector<geopop::VisLocation>>& GetEpiData() const { return m_timesteps; }
 
         /**
          * Retrieve information about the part of the population that is within
          * the specified radius of the specified coordinates. The selection is based
          * on what the locations looked like on the specified day.
          */
-        const PopData GetPopulationInRadius(const geopop::Coordinate& center, const double radius,
+        const geopop::PopStats GetPopulationInRadius(const geopop::Coordinate& center, const double radius,
                                             const unsigned int day) const;
 
         /**
@@ -73,12 +73,12 @@ public:
          * a rectangle that spans between the two specified points. The selection is based
          * on what the locations looked like on the specified day.
          */
-        const PopData GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB,
+        const geopop::PopStats GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB,
                                          const unsigned int day) const;
 
 private:
         /// Contains the currently stored simulation timesteps.
-        std::vector<std::vector<Locality>> m_timesteps;
+        std::vector<std::vector<geopop::VisLocation>> m_timesteps;
 };
 
 } // namespace visualiser

@@ -108,7 +108,7 @@ Coordinate GeoGridHDF5Reader::ParseCoordinate(const Group& loc)
         return {longitude, latitude};
 }
 
-shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const Group& loc)
+shared_ptr<SimLocation> GeoGridHDF5Reader::ParseLocation(const Group& loc)
 {
         unsigned int id;
         loc.openAttribute("id").read(PredType::NATIVE_UINT, &id);
@@ -122,7 +122,7 @@ shared_ptr<Location> GeoGridHDF5Reader::ParseLocation(const Group& loc)
         loc.openAttribute("province").read(PredType::NATIVE_UINT, &province);
         Coordinate coordinate = ParseCoordinate(loc);
 
-        auto location = make_shared<Location>(id, province, coordinate, name, population);
+        auto location = make_shared<SimLocation>(id, province, coordinate, name, population);
 
         DataSet commute = loc.openDataSet("Commute");
         struct CommuteData

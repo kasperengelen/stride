@@ -17,7 +17,7 @@
 
 #include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Person.h"
 
 using namespace std;
@@ -30,7 +30,7 @@ void Populator<stride::ContactType::Id::PrimaryCommunity>::Apply(GeoGrid& geoGri
 {
         m_logger->trace("Starting to populate Primary Communities");
 
-        for (const shared_ptr<Location>& loc : geoGrid) {
+        for (const shared_ptr<SimLocation>& loc : geoGrid) {
                 if (loc->GetPopCount() == 0) {
                         continue;
                 }

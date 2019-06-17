@@ -17,7 +17,7 @@
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 
 namespace geopop {
@@ -34,7 +34,7 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
         auto hh_dist   = m_rn_man.GetUniformIntGenerator(0, static_cast<int>(geoGridConfig.refHH.ages.size()), 0U);
         auto pop       = geoGrid.GetPopulation();
 
-        for (const shared_ptr<Location>& loc : geoGrid) {
+        for (const shared_ptr<SimLocation>& loc : geoGrid) {
                 for (auto& pool : loc->RefPools(Id::Household)) {
                         const auto hDraw = static_cast<unsigned int>(hh_dist());
                         for (const auto& age : geoGridConfig.refHH.ages[hDraw]) {

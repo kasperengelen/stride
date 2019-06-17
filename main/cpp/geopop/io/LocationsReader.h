@@ -16,7 +16,7 @@
 #pragma once
 
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 
 #include <map>
 #include <memory>

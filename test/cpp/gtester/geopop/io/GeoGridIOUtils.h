@@ -17,7 +17,7 @@
 
 #include "contact/ContactType.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 
 namespace proto {
 class GeoGrid;
@@ -44,7 +44,7 @@ void CompareContactPools(stride::ContactType::Id                                
 
 void CompareCoordinate(const Coordinate& coordinate, const proto::GeoGrid_Location_Coordinate& protoCoordinate);
 
-void CompareLocation(const Location& location, const proto::GeoGrid_Location& protoLocation);
+void CompareLocation(const SimLocation& location, const proto::GeoGrid_Location& protoLocation);
 
 void ComparePerson(const proto::GeoGrid_Person& protoPerson);
 

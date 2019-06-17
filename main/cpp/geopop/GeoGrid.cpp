@@ -16,7 +16,7 @@
 #include "GeoGrid.h"
 
 #include "contact/ContactPool.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 
 #include <queue>
@@ -29,10 +29,17 @@ using namespace std;
 using stride::ContactPool;
 using stride::ContactType::Id;
 
-GeoGrid::GeoGrid(stride::Population* population) : m_population(population)
+GeoGrid::GeoGrid(stride::Population* population) : m_population{population}, m_id_to_index{}
 {}
 
-vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const Location& start, double startRadius) const
+void GeoGrid::AddLocation(std::shared_ptr<SimLocation> location)
+{
+    GeoGridBase::AddLocation(location);
+
+    m_id_to_index[location->GetID()] = static_cast<unsigned int>(size() - 1);
+}
+
+vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const SimLocation& start, double startRadius) const
 {
         double               currentRadius = startRadius;
         vector<ContactPool*> pools;
@@ -50,11 +57,11 @@ vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const Location& start, doubl
         return pools;
 }
 
-vector<Location*> GeoGrid::TopK(size_t k) const
+vector<SimLocation*> GeoGrid::TopK(size_t k) const
 {
-        auto cmp = [](Location* rhs, Location* lhs) { return rhs->GetPopCount() > lhs->GetPopCount(); };
+        auto cmp = [](SimLocation* rhs, SimLocation* lhs) { return rhs->GetPopCount() > lhs->GetPopCount(); };
 
-        priority_queue<Location*, vector<Location*>, decltype(cmp)> queue(cmp);
+        priority_queue<SimLocation*, vector<SimLocation*>, decltype(cmp)> queue(cmp);
         for (const auto& loc : *this) {
                 queue.push(loc.get());
                 if (queue.size() > k) {
@@ -62,7 +69,7 @@ vector<Location*> GeoGrid::TopK(size_t k) const
                 }
         }
 
-        vector<Location*> topLocations;
+        vector<SimLocation*> topLocations;
         while (!queue.empty()) {
                 auto loc = queue.top();
                 topLocations.push_back(loc);

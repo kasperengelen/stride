@@ -20,7 +20,7 @@
 
 #include "View.h"
 
-#include "visualiser/view/PopDataView.h"
+#include "visualiser/view/PopStatsView.h"
 
 namespace stride {
 namespace visualiser {
@@ -35,7 +35,7 @@ const QVariant View::GetEpiData() const
                 QVariantList loc_list;
 
                 for (const auto& loc : timestep) {
-                        QVariantMap pop_data = PopDataView{loc.GetPopData()}.GetQVariantMap();
+                        QVariantMap pop_data = PopStatsView{loc.GetPopStats()}.GetQVariantMap();
 
                         // add some location info to the map.
                         pop_data.insert("name", QString::fromStdString(loc.GetName()));
@@ -60,9 +60,9 @@ const QVariant View::GetEpiData() const
         return QVariant::fromValue(retval);
 }
 
-void View::DisplayPopDataInSidebar(const PopData& popData)
+void View::DisplayPopStatsInSidebar(const geopop::PopStats& popStats)
 {
-        emit this->sidebarDataAvailble(PopDataView(popData).GetQVariantMap());
+        emit this->sidebarDataAvailble(PopStatsView(popStats).GetQVariantMap());
 }
 
 } // namespace visualiser

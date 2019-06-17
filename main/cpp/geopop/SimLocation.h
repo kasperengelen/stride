@@ -13,6 +13,10 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
+/**
+ *
+ */
+
 #pragma once
 
 #include "contact/ContactType.h"
@@ -37,25 +41,32 @@ class ContactPool;
 namespace geopop {
 
 /**
- * Location for use within the GeoGrid, contains Coordinate and index to ContactPools.
+ * Class that represents a location for use in the simulations. This class will be used
+ * by GeoGrid.
  */
-class Location : public LocationBase
+class SimLocation : public LocationBase
 {
 public:
         /// Parametrized constructor with population count.
-        Location(unsigned int id, unsigned int province, Coordinate coordinate = Coordinate(0.0, 0.0),
+        SimLocation(unsigned int id, unsigned int province, Coordinate coordinate = Coordinate{0.0, 0.0},
                  std::string name = "", unsigned int popCount = 0U);
 
         /// Perform a full comparison with the other location.
-        bool operator==(const Location& other) const;
+        bool operator==(const SimLocation& other) const;
+
+        /// Gets ID of this Location.
+        unsigned int GetID() const { return m_id; }
+
+        /// Gets the province.
+        unsigned int GetProvince() const { return m_province; }
 
         /// Adds a Location and a proportion to the incoming commute vector.
         /// I.e. fraction of commuting population at otherLocation commuting to this Location.
-        void AddIncomingCommute(std::shared_ptr<Location> otherLocation, double fraction);
+        void AddIncomingCommute(std::shared_ptr<SimLocation> otherLocation, double fraction);
 
         /// Adds a Location and a fraction to the outgoing commute vector.
         /// I.e. fraction of commuting population at this Location commuting to otherLocation.
-        void AddOutgoingCommute(std::shared_ptr<Location> otherLocation, double fraction);
+        void AddOutgoingCommute(std::shared_ptr<SimLocation> otherLocation, double fraction);
 
         /// Calculates number of incomming commuters, given the fraction of the population that commutes.
         int GetIncomingCommuteCount(double fractionCommuters) const;
@@ -129,20 +140,22 @@ public:
 
 public:
         /// References incoming commute Locations + fraction of commutes to that Location.
-        const std::vector<std::pair<Location*, double>>& CRefIncomingCommutes() const { return m_inCommutes; }
+        const std::vector<std::pair<SimLocation*, double>>& CRefIncomingCommutes() const { return m_inCommutes; }
 
         /// References outgoing commute Locations + fraction of commutes to that Location.
-        const std::vector<std::pair<Location*, double>>& CRefOutgoingCommutes() const { return m_outCommutes; }
+        const std::vector<std::pair<SimLocation*, double>>& CRefOutgoingCommutes() const { return m_outCommutes; }
 
 private:
+        unsigned int m_id = 0U;      ///< Id.
+        unsigned int m_province;     ///< Province id.
         unsigned int m_pop_count;    ///< Population count (number of individuals) at this Location.
         double       m_pop_fraction; ///< Fraction of whole population at this Location.
 
         /// Incomming commutes stored as pair of Location and fraction of population at that Location.
-        std::vector<std::pair<Location*, double>> m_inCommutes;
+        std::vector<std::pair<SimLocation*, double>> m_inCommutes;
 
         ///< Outgoing commutes stored as pair of Location and fraction of population to this this Location.
-        std::vector<std::pair<Location*, double>> m_outCommutes;
+        std::vector<std::pair<SimLocation*, double>> m_outCommutes;
 
         ///< The system holding pointers to the contactpools (for each type id) at this Location.
         stride::ContactType::IdSubscriptArray<stride::util::SegmentedVector<stride::ContactPool*>> m_pool_index;

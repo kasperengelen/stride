@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "geopop/geo/GeoAggregator.h"
 #include "geopop/geo/GeoGridKdTree.h"
 
@@ -35,7 +35,8 @@ class GeoAggregator;
 
 /**
  * @brief
- * Class that serves as a generalized base class for GeoGrid.
+ * Class that serves as a generalized base class for GeoGrid. This class can also
+ * be used in the visualiser.
  */
 template <typename LocationType>
 class GeoGridBase {
@@ -46,17 +47,16 @@ public:
     /// No copy constructor.
     GeoGridBase(const GeoGridBase&) = delete;
 
+    virtual ~GeoGridBase() {}
+
     /// No copy assignment.
     GeoGridBase operator=(const GeoGridBase&) = delete;
 
     /// Adds a location to this GeoGrid.
-    void AddLocation(std::shared_ptr<LocationType> location);
+    virtual void AddLocation(std::shared_ptr<LocationType> location);
 
     /// Disables the addLocation method and builds the kdtree.
     void Finalize();
-
-    /// Gets a Location by Id and check if the Id exists.
-    std::shared_ptr<LocationType> GetById(unsigned int id) const { return m_locations[m_id_to_index.at(id)]; }
 
     /// Search for locations in \p radius (in km) around \p start.
     std::vector<const LocationType*> LocationsInRadius(const LocationType& start, double radius) const;
@@ -124,9 +124,6 @@ private:
     ///< Container for Locations in GeoGrid.
     std::vector<std::shared_ptr<LocationType>> m_locations;
 
-    ///< Associative container maps Location Id to index in m_locations.
-    std::unordered_map<unsigned int, unsigned int> m_id_to_index;
-
     ///< Is the GeoGrid finalized (ready for use) yet?
     bool m_finalized;
 
@@ -136,7 +133,7 @@ private:
 
 template <typename LocationType>
 GeoGridBase<LocationType>::GeoGridBase()
-        : m_locations(), m_id_to_index(), m_finalized(false), m_tree()
+        : m_locations(), m_finalized(false), m_tree()
 {}
 
 template <typename LocationType>
@@ -146,7 +143,7 @@ void GeoGridBase<LocationType>::AddLocation(std::shared_ptr<LocationType> locati
         throw std::runtime_error("Calling addLocation while GeoGrid is finalized not supported!");
     }
     m_locations.emplace_back(location);
-    m_id_to_index[location->GetID()] = static_cast<unsigned int>(m_locations.size() - 1);
+
 }
 
 template <typename LocationType>

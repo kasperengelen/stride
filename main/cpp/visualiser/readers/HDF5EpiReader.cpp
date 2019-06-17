@@ -29,7 +29,10 @@
 namespace stride {
 namespace visualiser {
 
-const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id& poolType);
+using geopop::PopStats;
+using geopop::PoolStats;
+
+void ReadPoolIntoPopStats(PopStats& popStats, const H5::Group& location, const ContactType::Id& poolType);
 
 void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
 {
@@ -37,11 +40,11 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
         H5::Exception::dontPrint();
         const H5::H5File& file{this->GetPath(), H5F_ACC_RDONLY};
 
-        std::vector<std::vector<Locality>> timesteps;
+        std::vector<std::vector<geopop::VisLocation>> timesteps;
 
         for(unsigned int timestep_nr = 0; timestep_nr < file.getNumObjs(); timestep_nr++)
         {
-        	std::vector<Locality> locations{};
+        	std::vector<geopop::VisLocation> locations{};
 
         	const std::string timestep_label = std::to_string(timestep_nr);
 
@@ -67,30 +70,19 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
         		location.openAttribute("coordinate").read(H5::PredType::NATIVE_DOUBLE, coordinate);
         		const geopop::Coordinate coord = {coordinate[0], coordinate[1]};
 
-        		// get pools
-        		const PopSection total     = ReadPopSection(location, ContactType::Id::Household);
-        		const PopSection household = ReadPopSection(location, ContactType::Id::Household);
-        		const PopSection k12school = ReadPopSection(location, ContactType::Id::K12School);
-        		const PopSection college   = ReadPopSection(location, ContactType::Id::College);
-        		const PopSection workplace = ReadPopSection(location, ContactType::Id::Workplace);
-        		const PopSection prim_com  = ReadPopSection(location, ContactType::Id::PrimaryCommunity);
-        		const PopSection sec_com   = ReadPopSection(location, ContactType::Id::SecondaryCommunity);
-        		const PopSection daycare   = ReadPopSection(location, ContactType::Id::Daycare);
-        		const PopSection preschool = ReadPopSection(location, ContactType::Id::PreSchool);
 
-                const PopData population = {
-                		total,
-        				household,
-						k12school,
-        				college,
-        				workplace,
-        				prim_com,
-        				sec_com,
-        				daycare,
-        				preschool
-                };
+        		PopStats popstats;
 
-                locations.push_back(Locality{name, coord, population});
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::Household);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::K12School);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::College);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::Workplace);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::PrimaryCommunity);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::SecondaryCommunity);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::Daycare);
+                ReadPoolIntoPopStats(popstats, location, ContactType::Id::PreSchool);
+
+                locations.push_back(geopop::VisLocation{coord, name, popstats});
         	}
 
         	// add timestep
@@ -104,27 +96,23 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
     }
 }
 
-const PopSection ReadPopSection(const H5::Group& location, const ContactType::Id& poolType)
+void ReadPoolIntoPopStats(PopStats& popStats, const H5::Group& location, const ContactType::Id& poolType)
 {
-	const H5::DataSet& pop_household = location.openDataSet(ContactType::ToString(poolType));
+    const H5::DataSet& pop_household = location.openDataSet(ContactType::ToString(poolType));
 
-	H5::CompType comp_type{sizeof(PopSection)};
+    H5::CompType comp_type{sizeof(PoolStats)};
 
-	comp_type.insertMember("population",  HOFFSET(PopSection, pop),         H5::PredType::NATIVE_UINT);
+    comp_type.insertMember("population",  HOFFSET(geopop::PoolStats, population),  H5::PredType::NATIVE_UINT);
 
-	comp_type.insertMember("immune",      HOFFSET(PopSection, immune),      H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("infected",    HOFFSET(PopSection, infected),    H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("infectious",  HOFFSET(PopSection, infectious),  H5::PredType::NATIVE_DOUBLE);
+    comp_type.insertMember("immune",      HOFFSET(geopop::PoolStats, immune),      H5::PredType::NATIVE_DOUBLE);
+    comp_type.insertMember("infected",    HOFFSET(geopop::PoolStats, infected),    H5::PredType::NATIVE_DOUBLE);
+    comp_type.insertMember("infectious",  HOFFSET(geopop::PoolStats, infectious),  H5::PredType::NATIVE_DOUBLE);
 
-	comp_type.insertMember("recovered",   HOFFSET(PopSection, recovered),   H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("susceptible", HOFFSET(PopSection, susceptible), H5::PredType::NATIVE_DOUBLE);
-	comp_type.insertMember("symptomatic", HOFFSET(PopSection, symptomatic), H5::PredType::NATIVE_DOUBLE);
+    comp_type.insertMember("recovered",   HOFFSET(geopop::PoolStats, recovered),   H5::PredType::NATIVE_DOUBLE);
+    comp_type.insertMember("susceptible", HOFFSET(geopop::PoolStats, susceptible), H5::PredType::NATIVE_DOUBLE);
+    comp_type.insertMember("symptomatic", HOFFSET(geopop::PoolStats, symptomatic), H5::PredType::NATIVE_DOUBLE);
 
-	PopSection pop_section;
-
-	pop_household.read(&pop_section, comp_type);
-
-	return pop_section;
+    pop_household.read(&popStats.GetPool(poolType), comp_type);
 }
 
 } // namespace visualiser

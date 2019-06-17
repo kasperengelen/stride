@@ -27,35 +27,30 @@
 namespace geopop {
 
 /**
- * Base class for the Location and VisLocation classes.
+ * Location for use within the GeoGrid, contains Coordinate and index to ContactPools.
+ * This class serves as a base class for the SimLocation and VisLocation classes and will
+ * be used by GeoGridBase.
  */
 class LocationBase {
 public:
-    LocationBase(unsigned int id, unsigned int province, Coordinate coordinate = Coordinate(0.0, 0.0), std::string name = "");
+        /// Parametrized constructor.
+        explicit LocationBase(Coordinate coordinate = Coordinate{0.0, 0.0}, std::string name = "");
 
-    /// Perform a full comparison with the other location.
-    bool operator==(const LocationBase& other) const;
+        /// Perform a full comparison with the other location.
+        bool operator==(const LocationBase& other) const;
 
-    /// Gets the Coordinate of this Location.
-    const Coordinate GetCoordinate() const { return m_coordinate; }
+        /// Gets the Coordinate of this Location.
+        const Coordinate GetCoordinate() const { return m_coordinate; }
 
-    /// Gets ID of this Location.
-    unsigned int GetID() const { return m_id; }
+        /// Gets the name.
+        std::string GetName() const { return m_name; }
 
-    /// Gets the name.
-    std::string GetName() const { return m_name; }
-
-    /// Gets the province.
-    unsigned int GetProvince() const { return m_province; }
-
-    /// Sets the Coordinate of this Location.
-    void SetCoordinate(const Coordinate& coordinate) { m_coordinate = coordinate; }
+        /// Sets the Coordinate of this Location.
+        void SetCoordinate(const Coordinate& coordinate) { m_coordinate = coordinate; }
 
 private:
-    Coordinate   m_coordinate;   ///< Coordinate of the Location.
-    unsigned int m_id = 0U;      ///< Id.
-    std::string  m_name;         ///< Name.
-    unsigned int m_province;     ///< Province id.
+        Coordinate   m_coordinate;   ///< Coordinate of the Location.
+        std::string  m_name;         ///< Name.
 };
 
 } // namespace geopop

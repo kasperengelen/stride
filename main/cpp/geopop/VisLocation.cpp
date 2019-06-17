@@ -10,22 +10,20 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2019, ACED.
+ *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-#include "LocationBase.h"
+/**
+ * @file
+ * Implementation file for the VisLocation class.
+ */
+
+#include "VisLocation.h"
 
 namespace geopop {
 
-LocationBase::LocationBase(Coordinate coordinate, std::string name)
-    : m_coordinate{coordinate}, m_name{move(name)}
+VisLocation::VisLocation(Coordinate coordinate, std::string name, PopStats stats)
+    : LocationBase{coordinate, name}, m_popstats{stats}
 {}
-
-bool LocationBase::operator==(const LocationBase& other) const
-{
-    return GetName() == other.GetName()
-            && GetCoordinate().get<0>() == other.GetCoordinate().get<0>()
-            && GetCoordinate().get<1>() == other.GetCoordinate().get<1>();
-}
 
 } // namespace geopop

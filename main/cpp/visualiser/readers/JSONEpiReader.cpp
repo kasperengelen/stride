@@ -29,27 +29,32 @@
 namespace stride {
 namespace visualiser {
 
-const PopSection ReadPopSection(const nlohmann::json& localityData, const ContactType::Id& poolType);
-const Locality ReadLocality(const nlohmann::json& localityData);
+using geopop::PopStats;
+using geopop::PoolStats;
+using geopop::VisLocation;
+using nlohmann::json;
+
+const VisLocation ReadLocation(const json& locationData);
+void ReadPoolIntoPopStats(PopStats& popStats, const json& locationData, const ContactType::Id& poolType);
 
 void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 {
 
         try {
 
-                std::vector<std::vector<Locality>> timesteps;
+                std::vector<std::vector<VisLocation>> timesteps;
 
                 // read data from JSON
-                nlohmann::json js;
+                json js;
                 *(this->GetInStream()) >> js;
 
                 // add timesteps
                 for (const auto& timestep_data : js.at("Timesteps")) {
-                        std::vector<Locality> timestep{};
+                        std::vector<VisLocation> timestep{};
 
                         for (const auto& locality_data : timestep_data) {
-                                const Locality locality = ReadLocality(locality_data);
-                                timestep.push_back(locality);
+                                const VisLocation location = ReadLocation(locality_data);
+                                timestep.push_back(location);
                         }
 
                         timesteps.push_back(timestep);
@@ -63,48 +68,48 @@ void JSONEpiReader::ReadIntoModel(Model& datamodel) const
         }
 }
 
-const Locality ReadLocality(const nlohmann::json& localityData)
+const VisLocation ReadLocation(const json& locationData)
 {
-        // coord
-        const std::vector<double> coord_vec = localityData.at("coordinates");     // long, lat
-        const geopop::Coordinate  coord     = {coord_vec.at(0), coord_vec.at(1)}; // long, lat
+    // coord
+    const std::vector<double> coord_vec = locationData.at("coordinates");     // long, lat
+    const geopop::Coordinate  coord     = {coord_vec.at(0), coord_vec.at(1)}; // long, lat
 
-        // name
-        const std::string name = localityData.at("name");
+    // name
+    const std::string name = locationData.at("name");
 
-        // retrieve populations
-        const PopSection total      = ReadPopSection(localityData, ContactType::Id::Household); // Note: households contain the total, so we just copy it
-        const PopSection household  = ReadPopSection(localityData, ContactType::Id::Household);
-        const PopSection k12_school = ReadPopSection(localityData, ContactType::Id::K12School);
-        const PopSection college    = ReadPopSection(localityData, ContactType::Id::College);
-        const PopSection workplace  = ReadPopSection(localityData, ContactType::Id::Workplace);
-        const PopSection prim_com   = ReadPopSection(localityData, ContactType::Id::PrimaryCommunity);
-        const PopSection sec_com    = ReadPopSection(localityData, ContactType::Id::SecondaryCommunity);
-        const PopSection daycare    = ReadPopSection(localityData, ContactType::Id::Daycare);
-        const PopSection preschool  = ReadPopSection(localityData, ContactType::Id::PreSchool);
 
-        const PopData population = {total,    household, k12_school, college,  workplace,
-                                    prim_com, sec_com,   daycare,    preschool};
+    // population
+    PopStats popstats;
 
-        return Locality(name, coord, population);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Household);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::K12School);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::College);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Workplace);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::PrimaryCommunity);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::SecondaryCommunity);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Daycare);
+    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::PreSchool);
+
+    return VisLocation{coord, name, popstats};
 }
 
-const PopSection ReadPopSection(const nlohmann::json& localityData, const ContactType::Id& poolType)
+void ReadPoolIntoPopStats(PopStats& popStats, const json& locationData, const ContactType::Id& poolType)
 {
-        const nlohmann::json& popsection_data = localityData.at(ContactType::ToString(poolType));
+    const nlohmann::json& popsection_data = locationData.at(ContactType::ToString(poolType));
 
-        PopSection retval;
+    PoolStats poolstats;
 
-        retval.pop         = popsection_data.at("population");
-        retval.immune      = popsection_data.at("immune");
-        retval.infected    = popsection_data.at("infected");
-        retval.infectious  = popsection_data.at("infectious");
-        retval.recovered   = popsection_data.at("recovered");
-        retval.susceptible = popsection_data.at("susceptible");
-        retval.symptomatic = popsection_data.at("symptomatic");
+    poolstats.population  = popsection_data.at("population");
+    poolstats.immune      = popsection_data.at("immune");
+    poolstats.infected    = popsection_data.at("infected");
+    poolstats.infectious  = popsection_data.at("infectious");
+    poolstats.recovered   = popsection_data.at("recovered");
+    poolstats.susceptible = popsection_data.at("susceptible");
+    poolstats.symptomatic = popsection_data.at("symptomatic");
 
-        return retval;
+    popStats.SetPool(poolType, poolstats);
 }
+
 
 } // namespace visualiser
 } // namespace stride

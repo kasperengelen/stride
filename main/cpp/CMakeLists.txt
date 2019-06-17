@@ -20,21 +20,13 @@
 #============================================================================
 
 if(Protobuf_FOUND)
-    message("Generating Protobuf C++ APIs.")
+    message("Protobuf: Generating Protobuf C++ APIs.")
     protobuf_generate_cpp(PROTO_SRC PROTO_HDR protobuf_formats/epiformat.proto protobuf_formats/geogrid.proto)
-    message("Protobuf HDR & SRC:")
-    message(${PROTO_HDR})
-    message(${PROTO_SRC})
 else()
-    message("Using default Protobuf C++ APIs.")
+    message("Protobuf: Using default Protobuf C++ APIs.")
     set(PROTO_SRC ${Protobuf_PBS_DIR}/geogrid.pb.cc ${Protobuf_PBS_DIR}/epiformat.pb.cc)
     set(PROTO_HDR ${Protobuf_PBS_DIR}/geogrid.pb.h  ${Protobuf_PBS_DIR}/epiformat.pb.h)
-    message("Protobuf HDR & SRC:")
-    message(${PROTO_HDR})
-    message(${PROTO_SRC})
 endif()
-
-# TODO make comment in cpp files where this is stored!
 
 set_source_files_properties(
     geopop/io/GeoGridProtoReader.cpp
@@ -82,7 +74,7 @@ set(STRIDE_SRC
     geopop/GeoGrid.cpp
     geopop/GeoGridBase.cpp
     geopop/GeoGridConfig.cpp
-    geopop/Location.cpp
+        geopop/SimLocation.cpp
     geopop/LocationBase.cpp
         #---
     geopop/geo/GeoGridKdTree.cpp
@@ -138,7 +130,7 @@ set(STRIDE_SRC
     viewers/EpiOutputJSON.cpp
     viewers/EpiOutputHDF5.cpp
     viewers/EpiOutputProto.cpp
-    viewers/LocationPopStats.cpp
+    geopop/PopStats.cpp
     #---
     pop/AbstractPopBuilder.cpp
     pop/Person.cpp
@@ -223,9 +215,11 @@ set(VISUALISER_SOURCE
 	# controller
 	visualiser/controller/Controller.cpp
 	# view
-	visualiser/view/PopDataView.cpp
+        visualiser/view/PopStatsView.cpp
 	visualiser/view/View.cpp
     # model
+    geopop/PopStats.cpp
+    geopop/VisLocation.cpp
     visualiser/model/Locality.cpp
     visualiser/model/Model.cpp
     # epi output readers

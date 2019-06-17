@@ -13,7 +13,7 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-#include "Location.h"
+#include "SimLocation.h"
 #include "contact/ContactPool.h"
 #include "contact/ContactType.h"
 #include "disease/Health.h"
@@ -27,13 +27,13 @@ namespace geopop {
 using namespace std;
 using namespace stride::ContactType;
 
-Location::Location(unsigned int id, unsigned int province, Coordinate coordinate, string name, unsigned int popCount)
-    : LocationBase{id, province, coordinate, name}, m_pop_count(popCount), m_pop_fraction(0.0),
-      m_inCommutes(), m_outCommutes(), /* m_cc(),*/ m_pool_index()
+SimLocation::SimLocation(unsigned int id, unsigned int province, Coordinate coordinate, string name, unsigned int popCount)
+    : LocationBase{coordinate, name}, m_id{id}, m_province{province}, m_pop_count{popCount},
+      m_pop_fraction{0.0}, m_inCommutes{}, m_outCommutes{}, /* m_cc(),*/ m_pool_index{}
 {
 }
 
-bool Location::operator==(const Location& other) const
+bool SimLocation::operator==(const SimLocation& other) const
 {
         // check base class equality
         if(not LocationBase::operator==(other))
@@ -48,22 +48,25 @@ bool Location::operator==(const Location& other) const
         for (Id typ : IdList) {
                 temp = temp && (CRefPools(typ) == other.CRefPools(typ));
         }
-        return temp && GetPopCount() == other.GetPopCount() &&
-               CRefIncomingCommutes() == other.CRefIncomingCommutes() &&
-               CRefOutgoingCommutes() == other.CRefOutgoingCommutes();
+        return temp
+                && GetID() == other.GetID()
+                && GetProvince() == other.GetProvince()
+                && GetPopCount() == other.GetPopCount()
+                && CRefIncomingCommutes() == other.CRefIncomingCommutes()
+                && CRefOutgoingCommutes() == other.CRefOutgoingCommutes();
 }
 
-void Location::AddIncomingCommute(shared_ptr<Location> otherLocation, double fraction)
+void SimLocation::AddIncomingCommute(shared_ptr<SimLocation> otherLocation, double fraction)
 {
         m_inCommutes.emplace_back(otherLocation.get(), fraction);
 }
 
-void Location::AddOutgoingCommute(shared_ptr<Location> otherLocation, double fraction)
+void SimLocation::AddOutgoingCommute(shared_ptr<SimLocation> otherLocation, double fraction)
 {
         m_outCommutes.emplace_back(otherLocation.get(), fraction);
 }
 
-int Location::GetIncomingCommuteCount(double fractionCommuters) const
+int SimLocation::GetIncomingCommuteCount(double fractionCommuters) const
 {
         double value = 0;
         for (const auto& locProportion : m_inCommutes) {
@@ -73,7 +76,7 @@ int Location::GetIncomingCommuteCount(double fractionCommuters) const
         return static_cast<int>(floor(value));
 }
 
-unsigned int Location::GetInfectedCount() const
+unsigned int SimLocation::GetInfectedCount() const
 {
         unsigned int total{0U};
         for (const auto& pool : CRefPools<Id::Household>()) {
@@ -85,7 +88,7 @@ unsigned int Location::GetInfectedCount() const
         return total;
 }
 
-unsigned int Location::GetOutgoingCommuteCount(double fractionCommuters) const
+unsigned int SimLocation::GetOutgoingCommuteCount(double fractionCommuters) const
 {
         double totalProportion = 0;
         for (const auto& locProportion : m_outCommutes) {
@@ -95,12 +98,12 @@ unsigned int Location::GetOutgoingCommuteCount(double fractionCommuters) const
         return static_cast<unsigned int>(floor(totalProportion * (fractionCommuters * m_pop_count)));
 }
 
-double Location::GetPopFraction() const { return m_pop_fraction; }
+double SimLocation::GetPopFraction() const { return m_pop_fraction; }
 
-void Location::SetPopCount(unsigned int totalPopCount)
+void SimLocation::SetPopCount(unsigned int totalPopCount)
 {
         m_pop_count = static_cast<unsigned int>(floor(m_pop_fraction * totalPopCount));
 }
-void Location::SetPopFraction(double relativePopulation) { m_pop_fraction = relativePopulation; }
+void SimLocation::SetPopFraction(double relativePopulation) { m_pop_fraction = relativePopulation; }
 
 } // namespace geopop

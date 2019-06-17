@@ -23,18 +23,18 @@
 namespace stride {
 namespace visualiser {
 
-const PopData Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius,
+const geopop::PopStats Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius,
                                            const unsigned int day) const
 {
         // TODO fill with selection
-        return PopData{};
+        return geopop::PopStats{};
 }
 
-const PopData Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB,
+const geopop::PopStats Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB,
                                         const unsigned int day) const
 {
         // TODO fill with selection
-        return PopData{};
+        return geopop::PopStats{};
 }
 
 } // namespace visualiser
