@@ -63,7 +63,7 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
 void GeoGridConfig::SetData(const string& householdsFileName)
 {
         if (filesys::path(householdsFileName).extension().string() == ".xml") {
-                ptree configFile = FileSys::ReadPtreeFile(FileSys::GetConfigDir() /= householdsFileName);
+                ptree configFile = FileSys::ReadPtreeFile(FileSys::GetDataDir() /= householdsFileName);
                 for (const auto& file : configFile.get_child("household_file")) {
                         auto id = configFile.get<unsigned int>("household_file." + file.first + ".<xmlattr>.id");
                         auto householdsReader = ReaderFactory::CreateHouseholdReader(configFile.get<string>("household_file." + file.first));
