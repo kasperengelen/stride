@@ -295,18 +295,24 @@ $$ [73.561\%, 78.839\%] $$
 
 \subsection{Vaccinating on campus}
 
-\paragraph{} By vaccinating the students, quickly after infected individuals appear in the population, we want to test whether so called 'catch-up' campaigns have a noticeable impact on an outbreak. \\
-For these simulations, we generated a population where 60\% of people between the age of 18 and 26 attend high education. We then simulate scenarios where all students are either vaccinated on day 7 or not vaccinated at all. When looking at Figure \ref{VaccinePlot}, the amount of new cases is the same in both scenarios on day 5 and 6. As the students are not vaccinated in both scenarios, some of them become infected and can spread the disease. Starting from day 7, where in one of the scenarios the susceptible students are vaccinated, the amount of new cases is lower than when not vaccinating.
+\paragraph{} By vaccinating the students, quickly after infected individuals appear in the population,
+we want to test whether so called 'catch-up' campaigns have a noticeable impact on an outbreak. \\
+For these simulations, we generated a population where 60\% of people between the age of 18 and 26 attend higher education. We then simulate scenarios where all students are either vaccinated on the seventh day in the simulation or not vaccinated at all.
+\\
+When looking at Figure \ref{VaccinePlot}, the amount of new cases is the same in both scenarios on day 5 and 6 in the simulation. As the students are not vaccinated in both scenarios, some of them become infected and can spread the disease. Starting from day 7, where in one of the scenarios the susceptible students are vaccinated, the amount of new cases is lower than when not vaccinating.\\
+The difference in the peaks around simulation day 10 is 6 new infected cases when no vaccination occurred and 4 in the other case. After this peak the spread decreases in both cases but with on average 20 more infected people when no vaccination occurred. Afterwards the new amount of infected people is lower when vaccinating measures are taken.
+\\
+We can conclude that vaccinating a substantial part of the population can reduce the spread of a disease.
 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{vaccinating_cases_cum_20runs.eps}
-		\caption{Plot showing the amount of infected student per day.} 	
+		\includegraphics[width=\textwidth]{2_2_Vaccinating/vaccinating_cases_cum_20runs.eps}
+		\caption{Plot showing the amount of infected people per day.} 	
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{vaccinating_cases_per_day_20runs.eps}
-		\caption{Plot showing the amount of newly infected student per day.} 
+		\includegraphics[width=\textwidth]{2_2_Vaccinating/vaccinating_cases_per_day_20runs.eps}
+		\caption{Plot showing the amount of newly infected people per day.} 
 	\end{subfigure}
 	\caption{Plots showing the impact of vaccinating students. Averages from 20 simulations.}
 	\label{VaccinePlot}
@@ -330,7 +336,7 @@ In this simulation, we generate different populations, depending on different fr
 		\caption{New cases per day.} 
 	\end{subfigure}
 	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. }
-	\label{VaccinePlot}
+	\label{CommutingPlot1}
 \end{figure}
 
 \begin{figure}[h!]
@@ -340,7 +346,7 @@ In this simulation, we generate different populations, depending on different fr
 		\caption{New cases per day.} 
 	\end{subfigure}
 	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. 200 days.}
-	\label{VaccinePlot}
+	\label{CommutingPlot2}
 \end{figure}
 
 \newpage
@@ -357,21 +363,23 @@ When we increase the population size, we don't see many differences.
 		\caption{Plots showing the impact of Commuting to work on a population of size 600000. 100 runs for each fraction. } 
 	\end{subfigure}
 	\caption{Plots showing the impact of Commuting to work on a population of size 500000}
-	\label{VaccinePlot}
+	\label{CommutingPlot3}
 \end{figure}
 
 \clearpage
 \section{Performance profiling}
 
-\paragraph{} Using GProf, we will look at the performance in different scenarios. By varying parameters, we try to see which parts of the code they have an influence on, and which parts take up the most time. 
+\paragraph{} Using GProf, a performance analysis tool, we will look at the impact of the following parameters:
+\begin{itemize}
+	\item Number of days
+	\item Population size
+	\item Immunity rate
+	\item Seeding rate
+	\item Contact log mode
+\end{itemize}
+on the performance of the stride software
 \\
 For the first 4 parameters
-\begin{itemize}
-	\item amount of days
-	\item population size
-	\item immunity rate
-	\item seeding rate
-\end{itemize}
 the actual sorting and analyzing of the population takes up most of the time.
 
 \subsection{Number of days}
@@ -379,7 +387,7 @@ the actual sorting and analyzing of the population takes up most of the time.
 \paragraph{} By increasing the number of days to be simulated, the total execution time gets longer as well. This should be expected as more days means more times we simulate what goes on in a day.
 \begin{figure}[h!]
 \centering
-	\includegraphics[width=0.8\textwidth]{3_GProf_numdays.eps}
+	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_numdays.eps}
 	\caption{Plot showing run time of simulations by varying the number of days.} 
 	\label{Gprof_numdays}
 \end{figure}
@@ -387,19 +395,26 @@ the actual sorting and analyzing of the population takes up most of the time.
 \subsection{Population size}
 
 \paragraph{} Generating a new population depends on the given size, which was expected. The generation however is very fast.
+
 \begin{figure}[h!]
-\centering
-	\includegraphics[width=0.8\textwidth]{3_GProf_popsize.eps}
-	\caption{Plot showing run time of simulations by varying the size of the population.} 
+	\centering
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{3_Performance_Profiling/3_genpop_popsize.eps}
+		\caption{Run time of population generation} 
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\linewidth}
+		\includegraphics[width=\textwidth]{3_Performance_Profiling/3_sim_popsize.eps}
+		\caption{Run time of generating a population and then performing the simulation.} 
+	\end{subfigure}
+	\caption{Plots showing run time when varying the size of the population.}
 	\label{Gprof_popsize}
 \end{figure}
-
 \subsection{Immunity rate}
 
 \paragraph{} Varying the immunity rate does not seem to affect the total execution time.
 \begin{figure}[h!]
 \centering
-	\includegraphics[width=0.8\textwidth]{3_GProf_immunityrate.eps}
+	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_immunityrate.eps}
 	\caption{Plot showing run time of simulations by varying the immunity rate.} 
 	\label{Gprof_immunityrate}
 \end{figure}
@@ -409,7 +424,7 @@ the actual sorting and analyzing of the population takes up most of the time.
 \paragraph{} A bigger seeding rate slightly increases the time of the execution. This happens as more people have to be initially infected.
 \begin{figure}[h!]
 \centering
-	\includegraphics[width=0.8\textwidth]{3_GProf_seedingrate.eps}
+	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_seedingrate.eps}
 	\caption{Plot showing run time of simulations by varying the seeding rate.} 
 	\label{Gprof_seedingrate}
 \end{figure}
@@ -421,7 +436,7 @@ At day 50 in the simulation, only 20000 people out of 600000 where infected. Whe
 
 \begin{figure}[h!]
 \centering
-	\includegraphics[width=0.8\textwidth]{3_GProf_contactlogmode.eps}
+	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_contactlogmode.eps}
 	\caption{Plot showing run time of simulations using different logging methods.} 
 	\label{Gprof_contactlogmode}
 \end{figure}
