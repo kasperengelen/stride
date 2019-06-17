@@ -377,10 +377,7 @@ When we increase the population size, we don't see many differences.
 	\item Seeding rate
 	\item Contact log mode
 \end{itemize}
-on the performance of the stride software
-\\
-For the first 4 parameters
-the actual sorting and analyzing of the population takes up most of the time.
+on the performance of the Stride software.
 
 \subsection{Number of days}
 
@@ -388,51 +385,59 @@ the actual sorting and analyzing of the population takes up most of the time.
 \begin{figure}[h!]
 \centering
 	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_numdays.eps}
-	\caption{Plot showing run time of simulations by varying the number of days.} 
+	\caption{Plot showing run time of simulations by varying the number of days.
+			Average from 20 runs.} 
 	\label{Gprof_numdays}
 \end{figure}
 
 \subsection{Population size}
-
-\paragraph{} Generating a new population depends on the given size, which was expected. The generation however is very fast.
+\paragraph{} The time needed to generate a population scales linearly with the size of said population. And the same can be said about running the simulations. In figure \ref{Gprof_popsize} we can see that the simulation itself takes up more than half of the execution time.
 
 \begin{figure}[h!]
 	\centering
-	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{3_Performance_Profiling/3_genpop_popsize.eps}
-		\caption{Run time of population generation} 
-	\end{subfigure}
-	\begin{subfigure}[b]{0.7\linewidth}
-		\includegraphics[width=\textwidth]{3_Performance_Profiling/3_sim_popsize.eps}
-		\caption{Run time of generating a population and then performing the simulation.} 
-	\end{subfigure}
-	\caption{Plots showing run time when varying the size of the population.}
+	\includegraphics[width=\textwidth]{3_Performance_Profiling/3_popsize.eps}
+	\caption{Plot showing run time when varying the size of the population.
+			Average from 20 runs for each population size. Simulated over 50 days.}
 	\label{Gprof_popsize}
 \end{figure}
-\subsection{Immunity rate}
 
+\subsection{Immunity rate}
 \paragraph{} Varying the immunity rate does not seem to affect the total execution time.
+In the case of generating a population this happens as for each person you need to determine whether they are immune to the disease, regardless of the immunity rate.
+
 \begin{figure}[h!]
 \centering
 	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_immunityrate.eps}
-	\caption{Plot showing run time of simulations by varying the immunity rate.} 
+	\caption{Plot showing run time of simulations by varying the immunity rate.
+			Average from 20 runs for each immunity rate. Simulated over 50 days.
+	Averages of 20 runs.} 
 	\label{Gprof_immunityrate}
 \end{figure}
 
 \subsection{Seeding rate}
 
-\paragraph{} A bigger seeding rate slightly increases the time of the execution. This happens as more people have to be initially infected.
+\paragraph{} The seeding rate does not seem impact the time needed to generate the population. When you simulate however a larger seeding rate slightly increases the time of the execution. This happens as if a substantial amount of people is initially infected, more infections will happen in the subsequent timesteps.
+We were unable to find results for seeding rates > 0.2 due to the limitations of the simulator.
 \begin{figure}[h!]
 \centering
 	\includegraphics[width=0.8\textwidth]{3_Performance_Profiling/3_seedingrate.eps}
-	\caption{Plot showing run time of simulations by varying the seeding rate.} 
+	\caption{Plot showing run time of simulations by varying the seeding rate.
+	Averages from 20 runs for each seeding rate. Simulated over 50 days.} 
 	\label{Gprof_seedingrate}
 \end{figure}
 
 \subsection{Contact log mode}
 
-\paragraph{} The mode of the contact log has a very large impact on the execution time. Logging every contact between people takes a long time.\\
-At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person. The logging modes 'All' and 'Susceptibles' use a less efficient algorithm, hence the big difference in run time between them and the modes 'Transmissions' and 'None'.\\
+\paragraph{} The different contact logging modes are:
+\begin{itemize}
+	\item None
+	\item Transmissions
+	\item All
+	\item Susceptibles
+\end{itemize}
+
+The mode of the contact log has a very large impact on the execution time
+At day 50 in the simulation, only 20000 people out of 600000 where infected. When logging the susceptible people, you actually log almost 580000 people at each day which is very close to logging all people. This is very fast when the mode is set to Transmissions as you would only log once for each newly infected person. The logging modes 'All' and 'Susceptibles' use a less efficient algorithm, hence the big difference in run time between them and the modes 'Transmissions' and 'None'.
 
 \begin{figure}[h!]
 \centering
@@ -440,5 +445,16 @@ At day 50 in the simulation, only 20000 people out of 600000 where infected. Whe
 	\caption{Plot showing run time of simulations using different logging methods.} 
 	\label{Gprof_contactlogmode}
 \end{figure}
+
+\subsection{Impact on the code}
+For the first 4 parameters
+\begin{itemize}
+	\item Number of days
+	\item Population size
+	\item Immunity rate
+	\item Seeding rate
+\end{itemize}
+the actual sorting and analyzing of the population takes up most of the time.
+
 
 \end{document}

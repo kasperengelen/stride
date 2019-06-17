@@ -23,6 +23,7 @@ def time_to_datetime(times, format, n=20):
 
 
 # Day plot
+fig = plt.figure()
 times = ["00:59:322",
          "01:52:714",
          "02:34:824",
@@ -31,106 +32,117 @@ times = ["00:59:322",
 dates = time_to_datetime(times, "%M:%S:%f")
 days = [50, 100, 150, 200, 500]
 
-fig = plt.figure()
-
 ax = plt.gca()
 xfmt = md.DateFormatter('%-S')
 ax.yaxis.set_major_formatter(xfmt)
 
 plt.xlabel("Days in simulation")
-plt.ylabel("Time in seconds")
+plt.ylabel("Wall clock time in seconds")
 plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("30", "%S")])
 
 plt.plot(days, dates, marker='o')
 fig.savefig(os.path.join("plots", "3_numdays.eps"))
 
 # Population size
+fig = plt.figure()
 times = ["04:093",
          "04:533",
          "05:615",
          "08:298",
-         "16:479"]
+         "16:479",
+         "34:616"]
 dates = time_to_datetime(times, "%S:%f")
-pops = [10000, 50000, 100000, 200000, 500000]
-
-fig = plt.figure()
+pops = [10000, 50000, 100000, 200000, 500000, 1000000]
 
 ax = plt.gca()
 xfmt = md.DateFormatter('%-S')
 ax.yaxis.set_major_formatter(xfmt)
 
 plt.xlabel("Population size")
-plt.ylabel("Time in seconds")
-plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("5", "%S")])
-
+plt.ylabel("Wall clock time in seconds")
+plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("7", "%S")])
 plt.plot(pops, dates, marker='o')
-fig.savefig(os.path.join("plots", "3_genpop_popsize.eps"))
 
 # Population size
-times = ["06:923",
-         "10:203",
-         "15:210",
-         "25:015",
-         "52:985"]
-dates = time_to_datetime(times, "%S:%f")
-pops = [10000, 50000, 100000, 200000, 500000]
-
-fig = plt.figure()
-
-ax = plt.gca()
-xfmt = md.DateFormatter('%-S')
-ax.yaxis.set_major_formatter(xfmt)
-
-plt.xlabel("Population size")
-plt.ylabel("Time in seconds")
-plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("5", "%S")])
-
+times = ["00:06:923",
+         "00:10:203",
+         "00:15:210",
+         "00:25:015",
+         "00:52:985",
+         "01:39:400"]
+dates = time_to_datetime(times, "%M:%S:%f")
+pops = [10000, 50000, 100000, 200000, 500000, 1000000]
 plt.plot(pops, dates, marker='o')
-fig.savefig(os.path.join("plots", "3_sim_popsize.eps"))
+plt.legend(["Generating a population", "Generating and simulating"])
+fig.savefig(os.path.join("plots", "3_popsize.eps"))
 
 # Immunity rate
-times = ["01:04:794",
+fig = plt.figure()
+times = ["00:21:220",
+         "00:20:534",
+         "00:20:362",
+         "00:20:746",
+         "00:20:816",
+         "00:20:758"]
+dates = time_to_datetime(times, "%M:%S:%f")
+imm = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+plt.plot(imm, dates, marker='o')
+
+times = ["01:04:848",
+         "01:04:794",
          "01:03:841",
          "01:03:329",
          "01:01:007",
          "01:02:708"]
 dates = time_to_datetime(times, "%M:%S:%f")
-imm = [0.2, 0.4, 0.6, 0.8, 1.0]
-
-fig = plt.figure()
+imm = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
 ax = plt.gca()
 xfmt = md.DateFormatter('%-S')
 ax.yaxis.set_major_formatter(xfmt)
 
 plt.xlabel("Immunity rate")
-plt.ylabel("Time in seconds")
+plt.ylabel("Wall clock time in seconds")
 plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("5", "%S")])
 
 plt.plot(imm, dates, marker='o')
+plt.legend(["Generating a population", "Generating and simulating"])
 fig.savefig(os.path.join("plots", "3_immunityrate.eps"))
 
 # Seeding rate
-times = ["01:16:650",
+fig = plt.figure()
+times = ["00:20:759",
+         "00:21:389",
+         "00:20:681",
+         "00:20:268",
+         "00:20:704",
+         "00:20:984",
+         "00:20:806"]
+dates = time_to_datetime(times, "%M:%S:%f")
+seed = [0.1973234, 0.1, 0.06, 0.02, 0.006, 0.002, 0.0002]
+
+plt.plot(seed, dates, marker='o')
+
+times = ["01:13:849",
+         "01:16:650",
          "01:16:384",
          "01:16:063",
          "01:10:787",
          "01:00:997",
-         "00:52:866",]
+         "00:52:866"]
 dates = time_to_datetime(times, "%M:%S:%f")
-seed = [0.1, 0.06, 0.02, 0.006, 0.002, 0.0002]
-
-fig = plt.figure()
+seed = [0.1973234, 0.1, 0.06, 0.02, 0.006, 0.002, 0.0002]
 
 ax = plt.gca()
 xfmt = md.DateFormatter('%-S')
 ax.yaxis.set_major_formatter(xfmt)
 
 plt.xlabel("Seeding rate")
-plt.ylabel("Time in seconds")
+plt.ylabel("Wall clock time in seconds")
 plt.ylim([datetime.strptime("0", "%S"), datetime.strptime("7", "%S")])
 
 plt.plot(seed, dates, marker='o')
+plt.legend(["Generating a population", "Generating and simulating"])
 fig.savefig(os.path.join("plots", "3_seedingrate.eps"))
 
 # Contact log mode
@@ -149,7 +161,7 @@ x = [1, 2, 3, 4]
 ax = plt.subplot()
 
 plt.xlabel("Contact log modes")
-plt.ylabel("Time in minutes")
+plt.ylabel("Wall clock time in minutes")
 
 ax.bar(x, [27.48, 26.48, 0.6, 0.5], tick_label=labels)
 
