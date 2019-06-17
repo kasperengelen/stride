@@ -10,20 +10,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2019, Meyer J
+ *  Copyright 2019, ACED
  */
 
 /**
- * @file
- * Header for the EpiOutputFile class.
+ * @file Header for the EpiOutputFile class.
  */
 
 #pragma once
 
+#include "contact/ContactType.h"
 #include "geopop/Location.h"
-#include "json.hpp"
 
-#include <H5Cpp.h>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -35,7 +33,7 @@ class Population;
 namespace output {
 
 /**
- * Produces a file that gives the epidemiological status per timestep .
+ * Base class for viewers that produce a file that gives the epidemiological status per timestep.
  */
 class EpiOutputFile
 {
@@ -58,55 +56,6 @@ private:
 
 protected:
         std::fstream m_fstream;
-};
-
-/**
- *  Implementation of JSON EpiOutputFile
- */
-
-class EpiOutputJSON : public EpiOutputFile
-{
-public:
-        explicit EpiOutputJSON(const std::string& output_dir = "output");
-
-        /// Overridden update method.
-        virtual void Update(std::shared_ptr<const Population> population) override;
-
-        /// Dump json data to file.
-        virtual void Finish() override;
-
-private:
-        /// Initialize json object and open file stream.
-        virtual void Initialize(const std::string& output_dir) override;
-
-private:
-        nlohmann::json m_data;
-};
-
-class EpiOutputHDF5 : public EpiOutputFile
-{
-public:
-        explicit EpiOutputHDF5(const std::string& output_dir = "output");
-
-        /// Overridden update method.
-        virtual void Update(std::shared_ptr<const Population> population) override;
-
-        /// Close H5 file.
-        virtual void Finish() override;
-
-private:
-        /// Initialize H5 file.
-        virtual void Initialize(const std::string& output_dir) override;
-
-        /// Write attribute to H5Object
-        void WriteAttribute(H5::H5Object& object, const std::string& name, unsigned int data);
-
-        /// Write coordinate to H5Object
-        void WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate);
-
-private:
-        H5::H5File m_data;
-        int m_timestep;
 };
 
 } // namespace output

@@ -92,7 +92,7 @@ set(SRC
     visualiser/TestEpiOutputHDF5Reader.cpp
     visualiser/TestEpiOutputJSONReader.cpp
     visualiser/TestEpiOutputProtobufReader.cpp
-    visualiser/TestPopDataView.cpp
+    visualiser/TestEpiOutputPopDataView.cpp
     #---
     main.cpp
 )

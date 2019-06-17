@@ -32,7 +32,23 @@ namespace visualiser {
 class HDF5EpiReader : public EpiReader
 {
 public:
-private:
+	    /**
+         * Constructor.
+ 	     *
+ 	     * @param path An std::string that contains the path to the JSON file.
+         */
+        explicit HDF5EpiReader(const std::string& path) : EpiReader(path) {}
+
+        /**
+         * Default destructor.
+         */
+        virtual ~HDF5EpiReader() = default;
+
+        /**
+         * Read the epidemiological information contained in the file and add it to the
+         * specified model.
+         */
+        virtual void ReadIntoModel(Model& datamodel) const override;
 };
 
 } // namespace visualiser

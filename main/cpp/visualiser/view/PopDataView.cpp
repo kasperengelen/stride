@@ -25,19 +25,14 @@ namespace visualiser {
 
 PopDataView::PopDataView(const PopData& popData) : m_pop_data{}
 {
-        // TODO find a way to use this!
-        // m_pop_data.insert("name", QString::fromStdString(loc.GetName()));
-        // m_pop_data.insert("lon", loc.GetCoordinate().get<0>());
-        // m_pop_data.insert("lat", loc.GetCoordinate().get<1>());
-
-        m_pop_data.insert("total", this->CreatePopSectionView(popData.total));
-        m_pop_data.insert("household", this->CreatePopSectionView(popData.household));
-        m_pop_data.insert("k12school", this->CreatePopSectionView(popData.k12school));
-        m_pop_data.insert("college", this->CreatePopSectionView(popData.college));
-        m_pop_data.insert("workplace", this->CreatePopSectionView(popData.workplace));
-        m_pop_data.insert("primCom", this->CreatePopSectionView(popData.primCom));
-        m_pop_data.insert("secCom", this->CreatePopSectionView(popData.secCom));
-        m_pop_data.insert("daycare", this->CreatePopSectionView(popData.daycare));
+		m_pop_data.insert("total",     this->CreatePopSectionView(popData.total));
+		m_pop_data.insert("household", this->CreatePopSectionView(popData.household));
+		m_pop_data.insert("k12school", this->CreatePopSectionView(popData.k12school));
+		m_pop_data.insert("college",   this->CreatePopSectionView(popData.college));
+		m_pop_data.insert("workplace", this->CreatePopSectionView(popData.workplace));
+		m_pop_data.insert("primCom",   this->CreatePopSectionView(popData.primCom));
+		m_pop_data.insert("secCom",    this->CreatePopSectionView(popData.secCom));
+        m_pop_data.insert("daycare",   this->CreatePopSectionView(popData.daycare));
         m_pop_data.insert("preschool", this->CreatePopSectionView(popData.preschool));
 }
 

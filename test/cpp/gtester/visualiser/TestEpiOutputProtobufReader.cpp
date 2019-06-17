@@ -20,4 +20,17 @@
 
 #include <gtest/gtest.h>
 
-TEST(TestEpiOutputProtobufReader, test1) {}
+#include "ModelPopDataChecker.h"
+#include "ModelTimestepOrderChecker.h"
+
+#include "visualiser/readers/ProtobufEpiReader.h"
+
+TEST(TestEpiOutputProtobufReader, testPopdata)
+{
+    TestPopData<stride::visualiser::ProtobufEpiReader>();
+}
+
+TEST(TestEpiOutputProtobufReader, testTimestepOrder)
+{
+    TestTimestepOrder<stride::visualiser::ProtobufEpiReader>();
+}
