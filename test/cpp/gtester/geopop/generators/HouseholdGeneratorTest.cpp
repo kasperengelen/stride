@@ -17,7 +17,7 @@
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/RnMan.h"
 
@@ -50,12 +50,12 @@ protected:
         unsigned int           m_pph = m_gg_config.pools[Id::Household];
 };
 
-// Check that generator can handle situation with a single Location.
+// Check that generator can handle situation with a single SimLocation.
 TEST_F(HouseholdGeneratorTest, OneLocationTest)
 {
         m_gg_config.info.count_households = 4;
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_geo_grid.AddLocation(loc1);
 
         m_household_generator.Apply(m_geo_grid, m_gg_config);
@@ -79,11 +79,11 @@ TEST_F(HouseholdGeneratorTest, FiveLocationsTest)
         m_gg_config.info.count_households = 4000;
         m_gg_config.param.pop_size        = 37542 * 100;
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 10150 * 100);
-        auto loc2 = make_shared<Location>(2, 4, Coordinate(0, 0), "Vlaams-Brabant", 10040 * 100);
-        auto loc3 = make_shared<Location>(3, 4, Coordinate(0, 0), "Henegouwen", 7460 * 100);
-        auto loc4 = make_shared<Location>(4, 4, Coordinate(0, 0), "Limburg", 3269 * 100);
-        auto loc5 = make_shared<Location>(5, 4, Coordinate(0, 0), "Luxemburg", 4123 * 100);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 10150 * 100);
+        auto loc2 = make_shared<SimLocation>(2, 4, Coordinate(0, 0), "Vlaams-Brabant", 10040 * 100);
+        auto loc3 = make_shared<SimLocation>(3, 4, Coordinate(0, 0), "Henegouwen", 7460 * 100);
+        auto loc4 = make_shared<SimLocation>(4, 4, Coordinate(0, 0), "Limburg", 3269 * 100);
+        auto loc5 = make_shared<SimLocation>(5, 4, Coordinate(0, 0), "Luxemburg", 4123 * 100);
 
         m_geo_grid.AddLocation(loc1);
         m_geo_grid.AddLocation(loc2);

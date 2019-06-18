@@ -14,6 +14,8 @@ As the project progresses, more data will become available here. Contact info is
  * [Test Plan](https://kasperengelen.github.io/stride/testplan) (deadline: 31/03)
  * [Documentation Plan](https://kasperengelen.github.io/stride/documentatieplan) (deadline: 31/03)
  * [Alpha](https://github.com/kasperengelen/stride/releases/tag/Alpha)
+ * [Beta](https://github.com/kasperengelen/stride/releases/tag/Beta)
+ * [Project Verslag](https://github.com/kasperengelen/stride/blob/Beta/Projectverslag/Verslag.pdf)
 
 
 ### Contact

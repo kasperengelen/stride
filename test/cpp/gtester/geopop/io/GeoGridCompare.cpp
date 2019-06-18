@@ -24,7 +24,7 @@ void GeoGridCompare::CompareGeoGrid(const GeoGrid& geoGrid1, const GeoGrid& geoG
         m_persons_found2.clear();
 }
 
-void GeoGridCompare::CompareLocation(Location& location1, Location& location2)
+void GeoGridCompare::CompareLocation(SimLocation& location1, SimLocation& location2)
 {
         EXPECT_EQ(location1.GetName(), location2.GetName());
         EXPECT_EQ(location1.GetProvince(), location2.GetProvince());

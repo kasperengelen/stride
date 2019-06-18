@@ -101,8 +101,8 @@ find_package(Threads)
 #----------------------------------------------------------------------------
 # ProtoBuf
 #----------------------------------------------------------------------------
+
 set(Protobuf_USE_STATIC_LIBS ON)
-set(STRIDE_FORCE_NO_PROTOC TRUE)
 if(NOT STRIDE_FORCE_NO_PROTOC)
     include(FindProtobuf)
     find_package(Protobuf)
@@ -118,10 +118,8 @@ endif()
 #
 if(Protobuf_FOUND)
     set(Protobuf_PBS_DIR ${CMAKE_BINARY_DIR}/main/cpp)
-    #set(Protobuf_PBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/main/cpp/protobuf/)
     include_directories(SYSTEM ${Protobuf_INCLUDE_DIRS})
 else()
-    #set(Protobuf_PBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/main/cpp/geopop/io/proto_pb)
     set(Protobuf_PBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/main/cpp/protobuf)
     include_directories(SYSTEM ${CMAKE_HOME_DIRECTORY}/main/resources/lib/protobuf)
 endif()
@@ -195,6 +193,7 @@ endif()
 #----------------------------------------------------------------------------
 # Qt5
 #----------------------------------------------------------------------------
+
 if(NOT STRIDE_FORCE_NO_QT5)
 	if(APPLE)
 	    set(CMAKE_PREFIX_PATH /usr/local/opt/qt)

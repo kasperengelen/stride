@@ -74,7 +74,7 @@ Person* GeoGridJSONReader::ParsePerson(const json& person)
         return m_population->CreatePerson(id, age, hhId, ksId, coId, wpId, pcId, scId, dcId, psId);
 }
 
-shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
+shared_ptr<SimLocation> GeoGridJSONReader::ParseLocation(const json& location)
 {
         const auto   id         = json_cast<unsigned int>(location["id"]);
         const string name       = location["name"];
@@ -82,7 +82,7 @@ shared_ptr<Location> GeoGridJSONReader::ParseLocation(const json& location)
         const auto   population = json_cast<unsigned int>(location["population"]);
         const auto   coordinate = ParseCoordinate(location["coordinate"]);
 
-        auto result = make_shared<Location>(id, province, coordinate, name, population);
+        auto result = make_shared<SimLocation>(id, province, coordinate, name, population);
 
         for (const auto& pools : location["contactPools"]) {
                 const string type_str = pools["type"];

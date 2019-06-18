@@ -20,7 +20,7 @@
 #include "contact/AgeBrackets.h"
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/LogUtils.h"
 #include "util/RnMan.h"
@@ -57,7 +57,7 @@ protected:
 
 TEST_F(PreSchoolPopulatorTest, NoPopulation)
 {
-        m_geo_grid.AddLocation(make_shared<Location>(0, 0, Coordinate(0.0, 0.0), "", 0));
+        m_geo_grid.AddLocation(make_shared<SimLocation>(0, 0, Coordinate(0.0, 0.0), "", 0));
         m_geo_grid.Finalize();
 
         EXPECT_NO_THROW(m_preschool_populator.Apply(m_geo_grid, m_gg_config));

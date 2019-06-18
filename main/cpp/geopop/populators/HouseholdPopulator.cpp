@@ -18,7 +18,7 @@
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include <map>
 
@@ -41,7 +41,7 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
         }
         auto pop = geoGrid.GetPopulation();
 
-        for (const shared_ptr<Location>& loc : geoGrid) {
+        for (const shared_ptr<SimLocation>& loc : geoGrid) {
                 for (auto& pool : loc->RefPools(Id::Household)) {
                         auto id = 0U;
                         if (geoGridConfig.refHH.multiHH) {

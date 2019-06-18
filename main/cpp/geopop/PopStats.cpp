@@ -17,20 +17,25 @@
  * @file Implementation of the LocationPopData class.
  */
 
-#include "LocationPopStats.h"
+#include "PopStats.h"
 
 #include "contact/ContactType.h"
 #include "pop/Population.h"
 
-namespace stride {
-namespace output {
+namespace geopop {
 
-LocationPopData::LocationPopData(const geopop::Location& loc)
-    : m_household{}, m_k12_school{}, m_college{}, m_workplace{}, m_prim_com{}, m_sec_com{}, m_daycare{}, m_preschool{}
+PopStats::PopStats()
+        : m_household{}, m_k12_school{}, m_college{}, m_workplace{},
+          m_prim_com{}, m_sec_com{}, m_daycare{}, m_preschool{}
+{}
+
+PopStats::PopStats(const geopop::SimLocation &loc)
+    : m_household{}, m_k12_school{}, m_college{}, m_workplace{},
+      m_prim_com{}, m_sec_com{}, m_daycare{}, m_preschool{}
 {
-        for (const auto& pool_type : ContactType::IdList) {
-                // retrieve reference to current pool stats
-                PoolStats& pool_stats = this->GetPool(pool_type);
+    for (const auto &pool_type : stride::ContactType::IdList) {
+        // retrieve reference to current pool stats
+        PoolStats &pool_stats = this->GetPool(pool_type);
 
                 // retrieve pools of this type.
                 const auto& pools = loc.CRefPools(pool_type);
@@ -86,28 +91,64 @@ LocationPopData::LocationPopData(const geopop::Location& loc)
         }
 }
 
-const PoolStats& LocationPopData::GetPool(const ContactType::Id& poolId) const
-{
-        switch (poolId) {
-        case ContactType::Id::Household: return this->m_household;
-        case ContactType::Id::K12School: return this->m_k12_school;
-        case ContactType::Id::College: return this->m_college;
-        case ContactType::Id::Workplace: return this->m_workplace;
-        case ContactType::Id::PrimaryCommunity: return this->m_prim_com;
-        case ContactType::Id::SecondaryCommunity: return this->m_sec_com;
-        case ContactType::Id::Daycare: return this->m_daycare;
-        case ContactType::Id::PreSchool: return this->m_preschool;
-        }
+const PoolStats& PopStats::GetPool(const stride::ContactType::Id &poolId) const {
+    switch (poolId) {
+        case stride::ContactType::Id::Household:
+            return this->m_household;
+        case stride::ContactType::Id::K12School:
+            return this->m_k12_school;
+        case stride::ContactType::Id::College:
+            return this->m_college;
+        case stride::ContactType::Id::Workplace:
+            return this->m_workplace;
+        case stride::ContactType::Id::PrimaryCommunity:
+            return this->m_prim_com;
+        case stride::ContactType::Id::SecondaryCommunity:
+            return this->m_sec_com;
+        case stride::ContactType::Id::Daycare:
+            return this->m_daycare;
+        case stride::ContactType::Id::PreSchool:
+            return this->m_preschool;
+    }
 
-        throw std::runtime_error{"Error: GetPool called on unknown pool type '" + ContactType::ToString(poolId) +
-                                 "' which is not handled "};
+    throw std::runtime_error{"Error: GetPool called on unknown pool type '" + stride::ContactType::ToString(poolId) +
+                             "' which is not handled "};
 }
 
-PoolStats& LocationPopData::GetPool(const ContactType::Id& poolId)
-{
-        // do const cast to prevent code duplication.
-        return const_cast<PoolStats&>(const_cast<const LocationPopData&>(*this).GetPool(poolId));
+PoolStats& PopStats::GetPool(const stride::ContactType::Id &poolId) {
+    // do const cast to prevent code duplication.
+    return const_cast<PoolStats &>(const_cast<const PopStats &>(*this).GetPool(poolId));
 }
 
-} // namespace output
-} // namespace stride
+void PopStats::SetPool(const stride::ContactType::Id& poolId, PoolStats poolStats)
+{
+    switch (poolId) {
+        case stride::ContactType::Id::Household:
+            m_household = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::K12School:
+            m_k12_school = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::College:
+            m_college = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::Workplace:
+            m_workplace = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::PrimaryCommunity:
+            m_prim_com = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::SecondaryCommunity:
+            m_sec_com = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::Daycare:
+            m_daycare = std::move(poolStats);
+            break;
+        case stride::ContactType::Id::PreSchool:
+            m_preschool = std::move(poolStats);
+            break;
+    }
+}
+
+
+} // namespace geopop
