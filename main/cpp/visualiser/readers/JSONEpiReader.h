@@ -35,8 +35,8 @@ class JSONEpiReader : public EpiReader
 public:
         /**
          * Constructor.
- 	     * 
- 	     * @param path An std::string that contains the path to the JSON file.
+         *
+         * @param path An std::string that contains the path to the JSON file.
          */
         explicit JSONEpiReader(const std::string& path) : EpiReader(path) {}
 
@@ -54,4 +54,3 @@ public:
 
 } // namespace visualiser
 } // namespace stride
-

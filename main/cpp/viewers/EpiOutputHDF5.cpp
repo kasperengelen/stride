@@ -23,8 +23,8 @@
 #include "viewers/LocationPopStats.h"
 
 #include "contact/ContactType.h"
-#include "pop/Population.h"
 #include "geopop/Location.h"
+#include "pop/Population.h"
 #include "util/FileSys.h"
 
 namespace stride {
@@ -32,36 +32,38 @@ namespace output {
 
 void WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate)
 {
-    hsize_t   dim[2] = {1, 2};
-    H5::DataSpace dataspace{2, dim};
-    H5::Attribute attribute         = loc.createAttribute("coordinate", H5::PredType::NATIVE_DOUBLE, dataspace);
-    double    attribute_data[2] = {boost::geometry::get<0>(coordinate), boost::geometry::get<1>(coordinate)};
-    attribute.write(H5::PredType::NATIVE_DOUBLE, attribute_data);
+        hsize_t       dim[2] = {1, 2};
+        H5::DataSpace dataspace{2, dim};
+        H5::Attribute attribute         = loc.createAttribute("coordinate", H5::PredType::NATIVE_DOUBLE, dataspace);
+        double        attribute_data[2] = {boost::geometry::get<0>(coordinate), boost::geometry::get<1>(coordinate)};
+        attribute.write(H5::PredType::NATIVE_DOUBLE, attribute_data);
 }
 
 EpiOutputHDF5::EpiOutputHDF5(const std::string& output_dir) : EpiOutputFile{}, m_data{}, m_timestep{0}
 {
-    Initialize(output_dir);
+        Initialize(output_dir);
 }
 
 void EpiOutputHDF5::Initialize(const std::string& output_prefix)
 {
-    const auto p     = util::FileSys::BuildPath(output_prefix, "EpiOutput.h5");
-    H5::Exception::dontPrint();
-    m_data = H5::H5File{p.c_str(), H5F_ACC_TRUNC};
+        const auto p = util::FileSys::BuildPath(output_prefix, "EpiOutput.h5");
+        H5::Exception::dontPrint();
+        m_data = H5::H5File{p.c_str(), H5F_ACC_TRUNC};
 }
 
-void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
+void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
+{
         // data layout
         H5::CompType comp_type(sizeof(PoolStats));
 
-        comp_type.insertMember("population",  HOFFSET(PoolStats, population),  H5::PredType::NATIVE_UINT);
-        comp_type.insertMember("immune",      HOFFSET(PoolStats, immune),      H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("infected",    HOFFSET(PoolStats, infected),    H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("infectious",  HOFFSET(PoolStats, infectious),  H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("recovered",   HOFFSET(PoolStats, recovered),   H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("population", HOFFSET(PoolStats, population), H5::PredType::NATIVE_UINT);
+        comp_type.insertMember("immune", HOFFSET(PoolStats, immune), H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("infected", HOFFSET(PoolStats, infected), H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("infectious", HOFFSET(PoolStats, infectious), H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("recovered", HOFFSET(PoolStats, recovered), H5::PredType::NATIVE_DOUBLE);
         comp_type.insertMember("susceptible", HOFFSET(PoolStats, susceptible), H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("symptomatic", HOFFSET(PoolStats, symptomatic), H5::PredType::NATIVE_DOUBLE);;
+        comp_type.insertMember("symptomatic", HOFFSET(PoolStats, symptomatic), H5::PredType::NATIVE_DOUBLE);
+        ;
 
         // Create timestep info
         const std::string timestep_name = std::to_string(m_timestep);
@@ -69,17 +71,17 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
         H5::Group timestep = m_data.createGroup(timestep_name);
         m_timestep++;
 
-        int loc_ctr = 0;
+        int                    loc_ctr = 0;
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
-        for(const auto& location : geogrid) {
+        for (const auto& location : geogrid) {
                 try {
                         // init group that contains location data
-                        const std::string loc_name = "loc" + std::to_string(loc_ctr++);
-                        H5::Group loc_group = timestep.createGroup(loc_name);
+                        const std::string loc_name  = "loc" + std::to_string(loc_ctr++);
+                        H5::Group         loc_group = timestep.createGroup(loc_name);
 
                         // add location name
                         H5::DataSpace attr_ds = H5::DataSpace(H5S_SCALAR);
-                        H5::StrType str_dt(H5::PredType::C_S1, 256);
+                        H5::StrType   str_dt(H5::PredType::C_S1, 256);
                         H5::Attribute name_attr = loc_group.createAttribute("name", str_dt, attr_ds);
                         name_attr.write(str_dt, location->GetName());
 
@@ -88,12 +90,13 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
 
                         // add population data
                         const LocationPopData popdata{*location};
-                        for(const auto& pool_type : ContactType::IdList) {
+                        for (const auto& pool_type : ContactType::IdList) {
                                 const PoolStats& pool_stats = popdata.GetPool(pool_type);
 
-                                hsize_t   dim = 1;
+                                hsize_t       dim = 1;
                                 H5::DataSpace pool_ds(1, &dim);
-                                H5::DataSet pool = loc_group.createDataSet(ContactType::ToString(pool_type), comp_type, pool_ds);
+                                H5::DataSet   pool =
+                                    loc_group.createDataSet(ContactType::ToString(pool_type), comp_type, pool_ds);
                                 pool.write(&pool_stats, comp_type);
                         }
                 } catch (...) {
@@ -103,10 +106,7 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population) {
         }
 }
 
-void EpiOutputHDF5::Finish()
-{
-        m_data.close();
-}
+void EpiOutputHDF5::Finish() { m_data.close(); }
 
-}
-}
+} // namespace output
+} // namespace stride

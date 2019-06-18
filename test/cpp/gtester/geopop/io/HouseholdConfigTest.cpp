@@ -13,8 +13,8 @@
  *  Copyright 2019, ACED.
  */
 
-#include "geopop/io/HouseholdJSONReader.h"
 #include "geopop/GeoGridConfig.h"
+#include "geopop/io/HouseholdJSONReader.h"
 #include "util/FileSys.h"
 
 #include <fstream>
@@ -34,7 +34,6 @@ TEST(HouseholdConfig, test1)
         GeoGridConfig geoConfig{};
 
         geoConfig.SetData(FileSys::GetTestsDir().string() + "/testdata/io/householdConfig.xml", false);
-
 
         EXPECT_EQ(geoConfig.refHH.person_count[1], 11U);
         EXPECT_EQ(geoConfig.refHH.person_count[2], 3U);
@@ -63,7 +62,7 @@ TEST(HouseholdConfig, test1)
 
         EXPECT_EQ(HHages2.size(), 1U);
         EXPECT_EQ(HHages2[0].size(), 3U);
-        
+
         EXPECT_EQ(HHages2[0][0], 32U);
         EXPECT_EQ(HHages2[0][1], 3U);
         EXPECT_EQ(HHages2[0][2], 26U);

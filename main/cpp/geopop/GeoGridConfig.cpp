@@ -18,8 +18,8 @@
 #include "contact/AgeBrackets.h"
 #include "geopop/io/HouseholdReader.h"
 #include "geopop/io/ReaderFactory.h"
-#include "util/StringUtils.h"
 #include "util/FileSys.h"
+#include "util/StringUtils.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <cmath>
@@ -63,36 +63,40 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
 void GeoGridConfig::SetData(const string& householdsFileName, bool use_install_dirs)
 {
         if (filesys::path(householdsFileName).extension().string() == ".xml") {
-                ptree configFile = FileSys::ReadPtreeFile(use_install_dirs ? FileSys::GetDataDir() /= householdsFileName : householdsFileName);
+                ptree configFile = FileSys::ReadPtreeFile(use_install_dirs ? FileSys::GetDataDir() /= householdsFileName
+                                                                           : householdsFileName);
                 for (const auto& file : configFile.get_child("household_file")) {
                         auto id = configFile.get<unsigned int>("household_file." + file.first + ".<xmlattr>.id");
                         auto householdsReader = ReaderFactory::CreateHouseholdReader(
-                                use_install_dirs ? configFile.get<string>("household_file." + file.first) : filesys::path(householdsFileName).parent_path().string() + "/" + configFile.get<string>("household_file." + file.first), false);
+                            use_install_dirs ? configFile.get<string>("household_file." + file.first)
+                                             : filesys::path(householdsFileName).parent_path().string() + "/" +
+                                                   configFile.get<string>("household_file." + file.first),
+                            false);
                         householdsReader->SetReferenceHouseholds(refHH.person_count[id], refHH.ages[id]);
                         refHH.multiHH = true;
                 }
-        }
-        else {
+        } else {
                 auto householdsReader = ReaderFactory::CreateHouseholdReader(householdsFileName);
                 householdsReader->SetReferenceHouseholds(refHH.person_count[0], refHH.ages[0]);
                 refHH.multiHH = false;
-
         }
         const auto popSize = param.pop_size;
 
         //----------------------------------------------------------------
         // Determine age makeup of reference houshold population.
         //----------------------------------------------------------------
-        const auto ref_p_count = accumulate(refHH.person_count.begin(), refHH.person_count.end(), 0,
-                [](const unsigned int prev, const auto& elem) { return prev + elem.second; });
-        const auto ref_ages_size = accumulate(refHH.ages.begin(), refHH.ages.end(), 0,
-                                            [](const unsigned int prev, const auto& elem) { return prev + elem.second.size(); });
+        const auto ref_p_count =
+            accumulate(refHH.person_count.begin(), refHH.person_count.end(), 0,
+                       [](const unsigned int prev, const auto& elem) { return prev + elem.second; });
+        const auto ref_ages_size =
+            accumulate(refHH.ages.begin(), refHH.ages.end(), 0,
+                       [](const unsigned int prev, const auto& elem) { return prev + elem.second.size(); });
         const auto averageHhSize = static_cast<double>(ref_p_count) / static_cast<double>(ref_ages_size);
-        auto ref_preschool = 0U;
-        auto ref_daycare   = 0U;
-        auto ref_k12school = 0U;
-        auto ref_college   = 0U;
-        auto ref_workplace = 0U;
+        auto       ref_preschool = 0U;
+        auto       ref_daycare   = 0U;
+        auto       ref_k12school = 0U;
+        auto       ref_college   = 0U;
+        auto       ref_workplace = 0U;
         for (const auto& hhAgeProfile : refHH.ages) {
                 for (const auto& refAges : hhAgeProfile.second) {
                         for (const auto& age : refAges) {

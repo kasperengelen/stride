@@ -52,9 +52,11 @@ shared_ptr<CommutesReader> ReaderFactory::CreateCommutesReader(const filesys::pa
         return make_shared<CommutesCSVReader>(OpenFile(path));
 }
 
-std::shared_ptr<HouseholdReader> ReaderFactory::CreateHouseholdReader(const std::string& filename, bool use_install_dirs)
+std::shared_ptr<HouseholdReader> ReaderFactory::CreateHouseholdReader(const std::string& filename,
+                                                                      bool               use_install_dirs)
 {
-        return CreateHouseholdReader(use_install_dirs ? FileSys::GetDataDir() / filesys::path(filename) : filesys::path(filename));
+        return CreateHouseholdReader(use_install_dirs ? FileSys::GetDataDir() / filesys::path(filename)
+                                                      : filesys::path(filename));
 }
 
 shared_ptr<HouseholdReader> ReaderFactory::CreateHouseholdReader(const filesys::path& path)

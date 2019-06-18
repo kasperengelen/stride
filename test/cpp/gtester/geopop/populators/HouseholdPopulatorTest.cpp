@@ -116,7 +116,7 @@ TEST_F(HouseholdPopulatorTest, OneHouseholdMultiDrawTest)
 {
         m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{8U}};
         m_gg_config.refHH.multiHH = true;
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1                 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
 
         m_geo_grid.AddLocation(loc1);
@@ -186,12 +186,12 @@ TEST_F(HouseholdPopulatorTest, MultiDrawTest)
         m_geo_grid.AddLocation(loc2);
         m_household_populator.Apply(m_geo_grid, m_gg_config);
 
-        const auto& hPools = loc1->RefPools(Id::Household);
+        const auto& hPools  = loc1->RefPools(Id::Household);
         const auto& hPools2 = loc2->RefPools(Id::Household);
         ASSERT_EQ(hPools.size(), 1);
         ASSERT_EQ(hPools2.size(), 1);
-        const auto& pool1  = *hPools[0];
-        const auto& pool2  = *hPools2[0];
+        const auto& pool1 = *hPools[0];
+        const auto& pool2 = *hPools2[0];
 
         ASSERT_EQ(pool1.size(), 2);
         EXPECT_EQ(pool1[0]->GetAge(), 12);
@@ -200,5 +200,4 @@ TEST_F(HouseholdPopulatorTest, MultiDrawTest)
         EXPECT_EQ(pool2[0]->GetAge(), 19);
         EXPECT_EQ(pool2[1]->GetAge(), 15);
         EXPECT_EQ(pool2[2]->GetAge(), 40);
-
 }

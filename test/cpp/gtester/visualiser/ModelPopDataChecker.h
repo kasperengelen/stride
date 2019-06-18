@@ -35,13 +35,13 @@ using stride::visualiser::PopSection;
  */
 inline void TestPopSection(const unsigned int pool_id, const PopSection popsection)
 {
-    EXPECT_EQ(pool_id, popsection.pop);
-    EXPECT_DOUBLE_EQ(pool_id + 0.1, popsection.immune);
-    EXPECT_DOUBLE_EQ(pool_id + 0.2, popsection.infected);
-    EXPECT_DOUBLE_EQ(pool_id + 0.3, popsection.infectious);
-    EXPECT_DOUBLE_EQ(pool_id + 0.4, popsection.recovered);
-    EXPECT_DOUBLE_EQ(pool_id + 0.5, popsection.susceptible);
-    EXPECT_DOUBLE_EQ(pool_id + 0.6, popsection.symptomatic);
+        EXPECT_EQ(pool_id, popsection.pop);
+        EXPECT_DOUBLE_EQ(pool_id + 0.1, popsection.immune);
+        EXPECT_DOUBLE_EQ(pool_id + 0.2, popsection.infected);
+        EXPECT_DOUBLE_EQ(pool_id + 0.3, popsection.infectious);
+        EXPECT_DOUBLE_EQ(pool_id + 0.4, popsection.recovered);
+        EXPECT_DOUBLE_EQ(pool_id + 0.5, popsection.susceptible);
+        EXPECT_DOUBLE_EQ(pool_id + 0.6, popsection.symptomatic);
 }
 
 /**
@@ -51,22 +51,21 @@ inline void TestPopSection(const unsigned int pool_id, const PopSection popsecti
 template <typename ReaderType>
 inline void TestPopData()
 {
-    // read file into model
-    Model model{};
-    ReaderType reader{GetPopdataTestfile<ReaderType>()};
-    reader.ReadIntoModel(model);
+        // read file into model
+        Model      model{};
+        ReaderType reader{GetPopdataTestfile<ReaderType>()};
+        reader.ReadIntoModel(model);
 
-    // take first loc: model[0][0]
-    const auto& loc = model.GetEpiData().at(0).at(0);
-    const auto& pop = loc.GetPopData();
+        // take first loc: model[0][0]
+        const auto& loc = model.GetEpiData().at(0).at(0);
+        const auto& pop = loc.GetPopData();
 
-    TestPopSection(1, pop.household);
-    TestPopSection(2, pop.k12school);
-    TestPopSection(3, pop.college);
-    TestPopSection(4, pop.workplace);
-    TestPopSection(5, pop.primCom);
-    TestPopSection(6, pop.secCom);
-    TestPopSection(7, pop.daycare);
-    TestPopSection(8, pop.preschool);
+        TestPopSection(1, pop.household);
+        TestPopSection(2, pop.k12school);
+        TestPopSection(3, pop.college);
+        TestPopSection(4, pop.workplace);
+        TestPopSection(5, pop.primCom);
+        TestPopSection(6, pop.secCom);
+        TestPopSection(7, pop.daycare);
+        TestPopSection(8, pop.preschool);
 }
-

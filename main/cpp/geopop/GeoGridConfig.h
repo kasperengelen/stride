@@ -20,8 +20,8 @@
 
 #include <boost/property_tree/ptree_fwd.hpp>
 
-#include <memory>
 #include <map>
+#include <memory>
 #include <ostream>
 
 namespace geopop {
@@ -134,7 +134,7 @@ public:
         // -----------------------------------------------------------------------------------------
         // Read the househould data file, parse it and set data.
         // -----------------------------------------------------------------------------------------
-        void SetData(const std::string& householdsFileName, bool use_install_dirs=true);
+        void SetData(const std::string& householdsFileName, bool use_install_dirs = true);
 
         // -----------------------------------------------------------------------------------------
         // Read the workplace size distribution file, parse it and set data.

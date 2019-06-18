@@ -13,8 +13,8 @@
  *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
  */
 
-#include <geopop/GeoGridConfig.h>
 #include "Populator.h"
+#include <geopop/GeoGridConfig.h>
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
@@ -32,10 +32,12 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
 {
         m_logger->trace("Starting to populate Households");
 
-        auto person_id = 0U;
+        auto                                    person_id = 0U;
         map<unsigned int, std::function<int()>> hh_dist;
         for (const auto& id : geoGridConfig.refHH.ages) {
-                hh_dist.insert(pair<unsigned int, std::function<int()>>(id.first, m_rn_man.GetUniformIntGenerator(0, static_cast<int>(geoGridConfig.refHH.ages.at(id.first).size()), 0U)));
+                hh_dist.insert(pair<unsigned int, std::function<int()>>(
+                    id.first, m_rn_man.GetUniformIntGenerator(
+                                  0, static_cast<int>(geoGridConfig.refHH.ages.at(id.first).size()), 0U)));
         }
         auto pop = geoGrid.GetPopulation();
 
@@ -45,8 +47,7 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
                         if (geoGridConfig.refHH.multiHH) {
                                 if (geoGridConfig.refHH.ages.count(loc->GetID())) {
                                         id = loc->GetID();
-                                }
-                                else if (geoGridConfig.refHH.ages.count(loc->GetProvince())) {
+                                } else if (geoGridConfig.refHH.ages.count(loc->GetProvince())) {
                                         id = loc->GetProvince();
                                 }
                         }

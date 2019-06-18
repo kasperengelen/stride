@@ -39,23 +39,20 @@ const QVariant View::GetEpiData() const
 
                         // add some location info to the map.
                         pop_data.insert("name", QString::fromStdString(loc.GetName()));
-						pop_data.insert("lon", loc.GetCoordinate().get<0>());
+                        pop_data.insert("lon", loc.GetCoordinate().get<0>());
                         pop_data.insert("lat", loc.GetCoordinate().get<1>());
 
                         loc_list.push_back(pop_data);
                 }
 
-                std::sort(loc_list.begin(), loc_list.end(),
-                	[](const QVariant& a, const QVariant& b) -> bool
-				{
-                	// determine whether or not "a" should go before "b"
+                std::sort(loc_list.begin(), loc_list.end(), [](const QVariant& a, const QVariant& b) -> bool {
+                        // determine whether or not "a" should go before "b"
 
-                	const QVariantMap& a_total = a.toMap()["total"].toMap();
-                	const QVariantMap& b_total = b.toMap()["total"].toMap();
+                        const QVariantMap& a_total = a.toMap()["total"].toMap();
+                        const QVariantMap& b_total = b.toMap()["total"].toMap();
 
-                	return a_total["pop"] > b_total["pop"];
-
-				});
+                        return a_total["pop"] > b_total["pop"];
+                });
 
                 retval.push_back(loc_list);
         }
@@ -65,7 +62,7 @@ const QVariant View::GetEpiData() const
 
 void View::DisplayPopDataInSidebar(const PopData& popData)
 {
-	emit this->sidebarDataAvailble(PopDataView(popData).GetQVariantMap());
+        emit this->sidebarDataAvailble(PopDataView(popData).GetQVariantMap());
 }
 
 } // namespace visualiser
