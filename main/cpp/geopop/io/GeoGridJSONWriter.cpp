@@ -55,7 +55,7 @@ void GeoGridJSONWriter::Write(GeoGrid& geoGrid)
         *m_outputStream << root;
 }
 
-json GeoGridJSONWriter::WriteLocation(const Location& location)
+json GeoGridJSONWriter::WriteLocation(const SimLocation& location)
 {
         json location_root;
         location_root["id"]                      = location.GetID();

@@ -5,7 +5,7 @@ var searchData=
   ['geoaggregator',['GeoAggregator',['../classgeopop_1_1_geo_aggregator.html',1,'geopop']]],
   ['geoaggregator_3c_20policy_20_3e',['GeoAggregator&lt; Policy &gt;',['../classgeopop_1_1_geo_aggregator_3_01_policy_01_4.html',1,'geopop']]],
   ['geoaggregator_3c_20policy_2c_20f_20_3e',['GeoAggregator&lt; Policy, F &gt;',['../classgeopop_1_1_geo_aggregator_3_01_policy_00_01_f_01_4.html',1,'geopop']]],
-  ['geogrid',['GeoGrid',['../classgeopop_1_1_geo_grid.html',1,'geopop::GeoGrid'],['../classproto_1_1_geo_grid.html',1,'proto::GeoGrid']]],
+  ['geogrid',['GeoGrid',['../classproto_1_1_geo_grid.html',1,'proto::GeoGrid'],['../classgeopop_1_1_geo_grid.html',1,'geopop::GeoGrid']]],
   ['geogrid_5flocation',['GeoGrid_Location',['../classproto_1_1_geo_grid___location.html',1,'proto']]],
   ['geogrid_5flocation_5fcommute',['GeoGrid_Location_Commute',['../classproto_1_1_geo_grid___location___commute.html',1,'proto']]],
   ['geogrid_5flocation_5fcommutedefaulttypeinternal',['GeoGrid_Location_CommuteDefaultTypeInternal',['../classproto_1_1_geo_grid___location___commute_default_type_internal.html',1,'proto']]],

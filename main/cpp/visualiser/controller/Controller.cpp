@@ -24,6 +24,8 @@
 #include "visualiser/readers/HDF5EpiReader.h"
 #include "visualiser/readers/JSONEpiReader.h"
 #include "visualiser/readers/ProtobufEpiReader.h"
+#include "visualiser/readers/EpiReaderException.h"
+#include "visualiser/readers/JSONEpiReader.h"
 
 #include <iostream>
 #include <sstream>
@@ -95,9 +97,9 @@ void Controller::SelectRadius(QGeoCoordinate coord, float radius, unsigned int d
 {
         const geopop::Coordinate stride_coord = {coord.longitude(), coord.latitude()};
 
-        const PopData popdata = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
+        const geopop::PopStats popstats = m_model_ptr->GetPopulationInRadius(stride_coord, radius, day);
 
-        m_view_ptr->DisplayPopDataInSidebar(popdata);
+        m_view_ptr->DisplayPopStatsInSidebar(popstats);
 }
 
 void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB, unsigned int day)
@@ -105,9 +107,9 @@ void Controller::SelectRectangular(QGeoCoordinate pointA, QGeoCoordinate pointB,
         const geopop::Coordinate stride_pointA = {pointA.longitude(), pointA.latitude()};
         const geopop::Coordinate stride_pointB = {pointB.longitude(), pointB.latitude()};
 
-        const PopData popdata = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
+        const geopop::PopStats popstats = m_model_ptr->GetPopulationInBox(stride_pointA, stride_pointB, day);
 
-        m_view_ptr->DisplayPopDataInSidebar(popdata);
+        m_view_ptr->DisplayPopStatsInSidebar(popstats);
 }
 
 } // namespace visualiser

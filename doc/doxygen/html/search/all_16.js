@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['what',['what',['../classstride_1_1datavis_1_1_epi_reader_exception.html#ab4ca1abbf6b985c6de7d72f668840e42',1,'stride::datavis::EpiReaderException::what()'],['../classstride_1_1util_1_1_exception.html#ad35bd4cf2974b86acf29d48eb5cdc34f',1,'stride::util::Exception::what()']]],
-  ['workplace',['Workplace',['../structstride_1_1_age_brackets_1_1_workplace.html',1,'stride::AgeBrackets']]],
+  ['what',['what',['../classstride_1_1util_1_1_exception.html#ad35bd4cf2974b86acf29d48eb5cdc34f',1,'stride::util::Exception::what()'],['../classstride_1_1visualiser_1_1_epi_reader_exception.html#ab3d847c4fb7acef5f9bb2f0e145c98ef',1,'stride::visualiser::EpiReaderException::what()']]],
+  ['workplace',['Workplace',['../structstride_1_1_age_brackets_1_1_workplace.html',1,'stride::AgeBrackets::Workplace'],['../structstride_1_1visualiser_1_1_pop_data.html#ab966e691ff760f98ab7f51261d803b8a',1,'stride::visualiser::PopData::workplace()']]],
   ['workplacecsvreader',['WorkplaceCSVReader',['../classgeopop_1_1_workplace_c_s_v_reader.html',1,'geopop::WorkplaceCSVReader'],['../classgeopop_1_1_workplace_c_s_v_reader.html#a36cce0d2064a1e65520c72d4c474c73b',1,'geopop::WorkplaceCSVReader::WorkplaceCSVReader()']]],
   ['workplaceinfo',['WorkplaceInfo',['../structgeopop_1_1_workplace_info.html',1,'geopop']]],
   ['workplacereader',['WorkplaceReader',['../classgeopop_1_1_workplace_reader.html',1,'geopop::WorkplaceReader'],['../classgeopop_1_1_workplace_reader.html#a802052bcc5388a3b344efc67fd32c535',1,'geopop::WorkplaceReader::WorkplaceReader()']]],

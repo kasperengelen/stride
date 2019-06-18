@@ -21,7 +21,7 @@ var searchData=
   ['makeweightedcoinflip',['MakeWeightedCoinFlip',['../classstride_1_1util_1_1_rn_man.html#a5c25836b66b554daafc1d56dfb036353',1,'stride::util::RnMan']]],
   ['maximumage',['MaximumAge',['../_age_8h.html#ae2682ff4058ec78d0809d073dcdea2d1',1,'stride']]],
   ['minadultage',['MinAdultAge',['../_age_8h.html#a2b354a18a7f6986d363385ff46c9a473',1,'stride']]],
-  ['model',['Model',['../classstride_1_1datavis_1_1_model.html',1,'stride::datavis::Model'],['../classstride_1_1datavis_1_1_model.html#ae4c73e1578ec03b5268021e32f392e93',1,'stride::datavis::Model::Model()'],['../classstride_1_1datavis_1_1_model.html#a9e9dd46c0c9a7622c05761ede888dd2d',1,'stride::datavis::Model::Model(const Model &amp;)=delete']]],
+  ['model',['Model',['../classstride_1_1visualiser_1_1_model.html',1,'stride::visualiser::Model'],['../classstride_1_1visualiser_1_1_model.html#a47d383135c1df8077c21022f1b720f96',1,'stride::visualiser::Model::Model()'],['../classstride_1_1visualiser_1_1_model.html#ab3c255ba0cdff9a31c6587b8d8b594de',1,'stride::visualiser::Model::Model(const Model &amp;)=delete']]],
   ['model_2ecpp',['Model.cpp',['../_model_8cpp.html',1,'']]],
   ['model_2eh',['Model.h',['../_model_8h.html',1,'']]]
 ];

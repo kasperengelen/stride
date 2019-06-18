@@ -13,15 +13,6 @@
  *  Copyright 2019, ACED.
  */
 
-/**
- * @file
- * Implementation file for the Locality class.
- */
+#include "GeoGridBase.h"
 
-#include "Locality.h"
 
-namespace stride {
-namespace visualiser {
-
-} // namespace visualiser
-} // namespace stride

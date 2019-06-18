@@ -20,7 +20,7 @@
 
 #include "ScenarioData.h"
 #include "execs/SimController.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "sim/Sim.h"
 #include "sim/SimRunner.h"

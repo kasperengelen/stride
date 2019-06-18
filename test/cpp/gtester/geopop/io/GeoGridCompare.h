@@ -2,7 +2,7 @@
 
 #include "contact/ContactType.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Person.h"
 #include <map>
 
@@ -14,7 +14,7 @@ public:
         void CompareGeoGrid(const geopop::GeoGrid& geoGrid1, const geopop::GeoGrid& geoGrid2);
 
 private:
-        void CompareLocation(geopop::Location& location1, geopop::Location& location2);
+        void CompareLocation(geopop::SimLocation& location1, geopop::SimLocation& location2);
 
         void CompareCoordinate(const geopop::Coordinate& coordinate1, const geopop::Coordinate& coordinate2);
 

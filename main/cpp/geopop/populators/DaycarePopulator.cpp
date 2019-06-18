@@ -18,7 +18,7 @@
 #include "contact/AgeBrackets.h"
 #include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Person.h"
 
 namespace geopop {
