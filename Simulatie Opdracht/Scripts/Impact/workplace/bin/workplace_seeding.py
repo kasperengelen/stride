@@ -118,7 +118,6 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
     control.runConfig.setParameter("geopop_gen.population_size", "600000")
     control.runConfig.setParameter("geopop_gen.workplace_distribution_file", "data/" + workplace)
 
-    print("config done")
     control.registerCallback(trackCases, EventType.Stepped)
     # Run simulation
     control.control()
@@ -126,7 +125,7 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
 def main():
     iterations = 20
     days = 50
-    outputPrefix = os.path.join("workplace", f"seeding_runs{iterations}_r03_days{days}_imm0.4")
+    outputPrefix = os.path.join("workplace", f"seeding_runs{iterations}_r02_days{days}_imm0.4")
     fractions = [0.002, 0.0002]
     workplace_files = ["workplace_size_distribution2.csv", "workplace_size_distribution.csv"]
 

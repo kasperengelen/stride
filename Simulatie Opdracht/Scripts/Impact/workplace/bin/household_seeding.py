@@ -59,7 +59,7 @@ def plotNewCases(outputPrefix, iterations, fractions, workplace_files, day, lege
     
     plt.xlabel("Simulation day")
     plt.ylabel("New cases per day")
-    plt.legend(legend, title="Fraction commuters", loc="best")
+    plt.legend(legend, title="Seeding rate")
     #plt.show()
     fig.savefig(os.path.join(outputPrefix, 'cases_per_day_{}runs.eps'.format(iterations)))
 
@@ -96,7 +96,7 @@ def plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, da
     
     plt.xlabel("Simulation day")
     plt.ylabel("Cumulative cases per day")
-    plt.legend(legend, title="Fraction commuters", loc="best")
+    plt.legend(legend, title="Seeding rate")
     #plt.show()
     fig.savefig(os.path.join(outputPrefix, 'cumulative_cases_{}runs.eps'.format(iterations)))
 
@@ -109,7 +109,7 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
 
     outputPrefix = os.path.join(outputPrefix, workplace + str(fraction) + "_" + str(iteration))
 
-    control.runConfig.setParameter("geopop_gen.fraction_workplace_commuters", fraction)
+    control.runConfig.setParameter("seeding_rate", fraction)
     control.runConfig.setParameter("disease_config_file", "disease_influenza.xml")
     control.runConfig.setParameter("output_prefix", outputPrefix)
     control.runConfig.setParameter("rng_seed", rng_seed)
@@ -125,8 +125,8 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
 def main():
     iterations = 20
     days = 50
-    outputPrefix = os.path.join("workplace", f"commuting_runs{iterations}_r02_days{days}_imm0.4")
-    fractions = [0.0, 0.5, 1.0]
+    outputPrefix = os.path.join("workplace", f"seeding_runs{iterations}_r03_days{days}_imm0.4")
+    fractions = [0.002, 0.0002]
     workplace_files = ["workplace_size_distribution2.csv", "workplace_size_distribution.csv"]
 
     # Run simulations
@@ -134,7 +134,7 @@ def main():
         for workplace in workplace_files:
             for iteration in range(iterations):
                 rng_seed = random.randint(0, 10000000)
-                #runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days)
+                runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days)
 
     legend = list()
     for fraction in fractions:

@@ -59,7 +59,7 @@ def plotNewCases(outputPrefix, iterations, fractions, workplace_files, day, lege
     
     plt.xlabel("Simulation day")
     plt.ylabel("New cases per day")
-    plt.legend(legend, title="Fraction commuters", loc="best")
+    plt.legend(legend, title="Immunity rate")
     #plt.show()
     fig.savefig(os.path.join(outputPrefix, 'cases_per_day_{}runs.eps'.format(iterations)))
 
@@ -96,11 +96,11 @@ def plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, da
     
     plt.xlabel("Simulation day")
     plt.ylabel("Cumulative cases per day")
-    plt.legend(legend, title="Fraction commuters", loc="best")
+    plt.legend(legend, title="Immunity rate")
     #plt.show()
     fig.savefig(os.path.join(outputPrefix, 'cumulative_cases_{}runs.eps'.format(iterations)))
 
-def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
+def runSimulation(outputPrefix, fraction, household, iteration, rng_seed, days):
     # Set up simulator
     control = PyController(data_dir="data")
     # Load configuration from file
@@ -109,25 +109,25 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
 
     outputPrefix = os.path.join(outputPrefix, workplace + str(fraction) + "_" + str(iteration))
 
-    control.runConfig.setParameter("geopop_gen.fraction_workplace_commuters", fraction)
+    control.runConfig.setParameter("immunity_rate", fraction)
     control.runConfig.setParameter("disease_config_file", "disease_influenza.xml")
     control.runConfig.setParameter("output_prefix", outputPrefix)
     control.runConfig.setParameter("rng_seed", rng_seed)
 
     control.runConfig.setParameter("num_days", str(days))
     control.runConfig.setParameter("geopop_gen.population_size", "600000")
-    control.runConfig.setParameter("geopop_gen.workplace_distribution_file", "data/" + workplace)
+    control.runConfig.setParameter("geopop_gen.household_file", "data/" + household)
 
     control.registerCallback(trackCases, EventType.Stepped)
     # Run simulation
     control.control()
 
 def main():
-    iterations = 20
+    iterations = 10
     days = 50
-    outputPrefix = os.path.join("workplace", f"commuting_runs{iterations}_r02_days{days}_imm0.4")
-    fractions = [0.0, 0.5, 1.0]
-    workplace_files = ["workplace_size_distribution2.csv", "workplace_size_distribution.csv"]
+    outputPrefix = os.path.join("household", f"immunity_runs{iterations}_r011_days{days}_seeding0.002")
+    fractions = [0.0, 0.2, 0.4, 0.6, 0.8, 0.99]
+    household_files = ["households_flanders.csv", "household_config_flanders.xml"]
 
     # Run simulations
     for fraction in fractions:
@@ -138,8 +138,7 @@ def main():
 
     legend = list()
     for fraction in fractions:
-        for alg in ["OG", "New"]:
-            legend.append(alg + ": " + str(fraction))
+        legend.append(str(fraction))
     # Post-processing
     plotNewCases(outputPrefix, iterations, fractions, workplace_files, days, legend)
     plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, days, legend)
