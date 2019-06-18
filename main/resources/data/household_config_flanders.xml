@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<household_file>
+    <antwerpen id=11002>household_city_Antwerpen.csv</antwerpen>
+    <turnhout id=13040>household_city_Turnhout.csv</turnhout>
+    <mechelen id=12025>household_city_Mechelen.csv</mechelen>
+    <aalst id=41002>household_city_Aalst.csv</aalst>
+    <gent id=44021>household_city_Gent.csv</gent>
+    <sint_niklaas id=46021>household_city_Sint-Niklaas.csv</sint_niklaas>
+    <brugge id=31005>household_city_Brugge.csv</brugge>
+    <kortrijk id=34022>household_city_Kortrijk.csv</kortrijk>
+    <oostende id=35013>household_city_Oostende.csv</oostende>
+    <roeselare id=36015>household_city_Roeselare.csv</roeselare>
+    <genk id=71016>household_city_Genk.csv</genk>
+    <hasselt id=71022>household_city_Hasselt.csv</hasselt>
+    <leuven id=24062>household_city_Leuven.csv</leuven>
+    <prov_antwerpen id=1>household_province_antwerp.csv</prov_antwerpen>
+    <prov_oost_vlaanderen id=4>household_province_east_flanders.csv</prov_oost_vlaanderen>
+    <prov_west_vlaanderen id=3>household_province_west_flanders.csv</prov_west_vlaanderen>
+    <prov_limburg id=7>household_province_limburg.csv</prov_limburg>
+    <vlaams_brabant id=2>household_province_flemish_brabant.csv</prov_vlaams_brabant>
+</household_file>

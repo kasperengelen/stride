@@ -25,14 +25,14 @@ namespace visualiser {
 
 PopDataView::PopDataView(const PopData& popData) : m_pop_data{}
 {
-		m_pop_data.insert("total",     this->CreatePopSectionView(popData.total));
-		m_pop_data.insert("household", this->CreatePopSectionView(popData.household));
-		m_pop_data.insert("k12school", this->CreatePopSectionView(popData.k12school));
-		m_pop_data.insert("college",   this->CreatePopSectionView(popData.college));
-		m_pop_data.insert("workplace", this->CreatePopSectionView(popData.workplace));
-		m_pop_data.insert("primCom",   this->CreatePopSectionView(popData.primCom));
-		m_pop_data.insert("secCom",    this->CreatePopSectionView(popData.secCom));
-        m_pop_data.insert("daycare",   this->CreatePopSectionView(popData.daycare));
+        m_pop_data.insert("total", this->CreatePopSectionView(popData.total));
+        m_pop_data.insert("household", this->CreatePopSectionView(popData.household));
+        m_pop_data.insert("k12school", this->CreatePopSectionView(popData.k12school));
+        m_pop_data.insert("college", this->CreatePopSectionView(popData.college));
+        m_pop_data.insert("workplace", this->CreatePopSectionView(popData.workplace));
+        m_pop_data.insert("primCom", this->CreatePopSectionView(popData.primCom));
+        m_pop_data.insert("secCom", this->CreatePopSectionView(popData.secCom));
+        m_pop_data.insert("daycare", this->CreatePopSectionView(popData.daycare));
         m_pop_data.insert("preschool", this->CreatePopSectionView(popData.preschool));
 }
 
@@ -40,11 +40,11 @@ const QVariantMap PopDataView::CreatePopSectionView(const PopSection& popSection
 {
         QVariantMap retval{};
 
-        retval.insert("pop",         popSection.pop);
-        retval.insert("immune",      popSection.immune);
-        retval.insert("infected",    popSection.infected);
-        retval.insert("infectious",  popSection.infectious);
-        retval.insert("recovered",   popSection.recovered);
+        retval.insert("pop", popSection.pop);
+        retval.insert("immune", popSection.immune);
+        retval.insert("infected", popSection.infected);
+        retval.insert("infectious", popSection.infectious);
+        retval.insert("recovered", popSection.recovered);
         retval.insert("susceptible", popSection.susceptible);
         retval.insert("symptomatic", popSection.symptomatic);
 

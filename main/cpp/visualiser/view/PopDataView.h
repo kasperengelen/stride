@@ -78,4 +78,3 @@ private:
 
 } // namespace visualiser
 } // namespace stride
-

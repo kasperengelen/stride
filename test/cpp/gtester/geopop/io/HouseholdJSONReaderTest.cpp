@@ -10,7 +10,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2018, 2019, Jan Broeckhove and Bistromatics group.
+ *  Copyright 2019, ACED.
  */
 
 #include "geopop/io/HouseholdJSONReader.h"
@@ -36,11 +36,11 @@ TEST(HouseholdJSONReader, test1)
         file->open(FileSys::GetTestsDir().string() + "/testdata/io/household.json");
         HouseholdJSONReader reader(move(file));
 
-        reader.SetReferenceHouseholds(geoConfig.refHH.person_count, geoConfig.refHH.ages);
+        reader.SetReferenceHouseholds(geoConfig.refHH.person_count[0], geoConfig.refHH.ages[0]);
 
-        EXPECT_EQ(geoConfig.refHH.person_count, 23U);
+        EXPECT_EQ(geoConfig.refHH.person_count[0], 23U);
 
-        const vector<vector<unsigned int>>& HHages = geoConfig.refHH.ages;
+        const vector<vector<unsigned int>>& HHages = geoConfig.refHH.ages[0];
 
         EXPECT_EQ(HHages.size(), 8U);
         EXPECT_EQ(HHages[0].size(), 3U);

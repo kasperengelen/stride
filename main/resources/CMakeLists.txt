@@ -37,7 +37,7 @@ unset(UNZIP_FOLDER)
 #============================================================================
 # Copy all non-zipped files from data/* to ${DATA_INSTALL_LOCATION}
 #============================================================================
-file(GLOB DEPLOY_FILES "data/*")
+file(GLOB_RECURSE DEPLOY_FILES "data/*")
 list(REMOVE_ITEM DEPLOY_FILES ${ZIP_FILES})
 INSTALL(FILES ${DEPLOY_FILES} DESTINATION ${DATA_INSTALL_LOCATION})
 unset(ZIP_FILES)

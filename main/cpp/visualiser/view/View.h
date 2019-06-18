@@ -85,15 +85,15 @@ public:
         const QVariant GetEpiData() const;
 
 signals:
-		/**
-		 * Indicates that there is data ready to be displayed in the sidebar.
-		 *
-		 * The specified QVariantMap contains information about a population. See PopDataView
-		 * class for the format of the map.
-		 *
-		 * @param sidebarData The data that is to be sent to the QML side.
-		 */
-		void sidebarDataAvailble(const QVariantMap& sidebarData);
+        /**
+         * Indicates that there is data ready to be displayed in the sidebar.
+         *
+         * The specified QVariantMap contains information about a population. See PopDataView
+         * class for the format of the map.
+         *
+         * @param sidebarData The data that is to be sent to the QML side.
+         */
+        void sidebarDataAvailble(const QVariantMap& sidebarData);
 
 private:
         ///> Pointer to model object.
@@ -102,4 +102,3 @@ private:
 
 } // namespace visualiser
 } // namespace stride
-

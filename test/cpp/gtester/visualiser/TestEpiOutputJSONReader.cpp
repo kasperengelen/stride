@@ -25,12 +25,6 @@
 
 #include "visualiser/readers/JSONEpiReader.h"
 
-TEST(TestEpiOutputJSONReader, testPopdata)
-{
-    TestPopData<stride::visualiser::JSONEpiReader>();
-}
+TEST(TestEpiOutputJSONReader, testPopdata) { TestPopData<stride::visualiser::JSONEpiReader>(); }
 
-TEST(TestEpiOutputJSONReader, testTimestepOrder)
-{
-    TestTimestepOrder<stride::visualiser::JSONEpiReader>();
-}
+TEST(TestEpiOutputJSONReader, testTimestepOrder) { TestTimestepOrder<stride::visualiser::JSONEpiReader>(); }

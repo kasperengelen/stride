@@ -19,18 +19,16 @@
  */
 
 #include "JSONEpiReader.h"
-#include "visualiser/model/PopData.h"
-#include "visualiser/model/Locality.h"
-#include "visualiser/readers/EpiReaderException.h"
 #include "contact/ContactType.h"
-
-
+#include "visualiser/model/Locality.h"
+#include "visualiser/model/PopData.h"
+#include "visualiser/readers/EpiReaderException.h"
 
 namespace stride {
 namespace visualiser {
 
 const PopSection ReadPopSection(const nlohmann::json& localityData, const ContactType::Id& poolType);
-const Locality ReadLocality(const nlohmann::json& localityData);
+const Locality   ReadLocality(const nlohmann::json& localityData);
 
 void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 {
@@ -73,7 +71,8 @@ const Locality ReadLocality(const nlohmann::json& localityData)
         const std::string name = localityData.at("name");
 
         // retrieve populations
-        const PopSection total      = ReadPopSection(localityData, ContactType::Id::Household); // Note: households contain the total, so we just copy it
+        const PopSection total = ReadPopSection(
+            localityData, ContactType::Id::Household); // Note: households contain the total, so we just copy it
         const PopSection household  = ReadPopSection(localityData, ContactType::Id::Household);
         const PopSection k12_school = ReadPopSection(localityData, ContactType::Id::K12School);
         const PopSection college    = ReadPopSection(localityData, ContactType::Id::College);
@@ -83,17 +82,8 @@ const Locality ReadLocality(const nlohmann::json& localityData)
         const PopSection daycare    = ReadPopSection(localityData, ContactType::Id::Daycare);
         const PopSection preschool  = ReadPopSection(localityData, ContactType::Id::PreSchool);
 
-        const PopData population = {
-        		total,
-				household,
-				k12_school,
-				college,
-				workplace,
-				prim_com,
-				sec_com,
-				daycare,
-				preschool
-        };
+        const PopData population = {total,    household, k12_school, college,  workplace,
+                                    prim_com, sec_com,   daycare,    preschool};
 
         return Locality(name, coord, population);
 }

@@ -56,7 +56,8 @@ public:
         static std::shared_ptr<CommutesReader> CreateCommutesReader(const filesys::path& path);
 
         /// Create a HouseholdReader based on the filename relative to the data directory.
-        static std::shared_ptr<HouseholdReader> CreateHouseholdReader(const std::string& filename);
+        static std::shared_ptr<HouseholdReader> CreateHouseholdReader(const std::string& filename,
+                                                                      bool               use_install_dirs = true);
 
         /// Create a HouseholdReader based on the absolute filesystem path the input file.
         static std::shared_ptr<HouseholdReader> CreateHouseholdReader(const filesys::path& path);

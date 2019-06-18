@@ -14,11 +14,13 @@
  */
 
 #include "Populator.h"
+#include <geopop/GeoGridConfig.h>
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
 #include "geopop/Location.h"
 #include "pop/Population.h"
+#include <map>
 
 namespace geopop {
 
@@ -30,14 +32,27 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
 {
         m_logger->trace("Starting to populate Households");
 
-        auto person_id = 0U;
-        auto hh_dist   = m_rn_man.GetUniformIntGenerator(0, static_cast<int>(geoGridConfig.refHH.ages.size()), 0U);
-        auto pop       = geoGrid.GetPopulation();
+        auto                                    person_id = 0U;
+        map<unsigned int, std::function<int()>> hh_dist;
+        for (const auto& id : geoGridConfig.refHH.ages) {
+                hh_dist.insert(pair<unsigned int, std::function<int()>>(
+                    id.first, m_rn_man.GetUniformIntGenerator(
+                                  0, static_cast<int>(geoGridConfig.refHH.ages.at(id.first).size()), 0U)));
+        }
+        auto pop = geoGrid.GetPopulation();
 
         for (const shared_ptr<Location>& loc : geoGrid) {
                 for (auto& pool : loc->RefPools(Id::Household)) {
-                        const auto hDraw = static_cast<unsigned int>(hh_dist());
-                        for (const auto& age : geoGridConfig.refHH.ages[hDraw]) {
+                        auto id = 0U;
+                        if (geoGridConfig.refHH.multiHH) {
+                                if (geoGridConfig.refHH.ages.count(loc->GetID())) {
+                                        id = loc->GetID();
+                                } else if (geoGridConfig.refHH.ages.count(loc->GetProvince())) {
+                                        id = loc->GetProvince();
+                                }
+                        }
+                        const auto hDraw = static_cast<unsigned int>(hh_dist[id]());
+                        for (const auto& age : geoGridConfig.refHH.ages.at(id)[hDraw]) {
                                 const auto p = pop->CreatePerson(person_id++, age, pool->GetId(), 0, 0, 0, 0, 0, 0, 0);
                                 pool->AddMember(p);
                         }

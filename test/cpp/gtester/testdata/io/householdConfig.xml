@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<household_file>
+    <hh1 id="1">household1.csv</hh1>
+    <hh2 id="2">household2.csv</hh2>
+</household_file>

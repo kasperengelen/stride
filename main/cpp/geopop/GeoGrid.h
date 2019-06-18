@@ -110,7 +110,7 @@ public:
 
         const_iterator begin() const { return this->cbegin(); }
 
-        const_iterator end() const   { return this->cend(); }
+        const_iterator end() const { return this->cend(); }
 
         /// Const Iterator to first Location.
         const_iterator cbegin() const { return m_locations.cbegin(); }

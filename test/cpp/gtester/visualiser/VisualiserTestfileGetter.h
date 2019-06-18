@@ -36,38 +36,38 @@ const std::string GetPopdataTestfile();
 template <>
 inline const std::string GetPopdataTestfile<HDF5EpiReader>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_popdata.h5";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_popdata.h5";
 }
 
 template <>
 inline const std::string GetPopdataTestfile<JSONEpiReader>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_popdata.json";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_popdata.json";
 }
 
 template <>
 inline const std::string GetPopdataTestfile<ProtobufEpiReader>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_popdata.proto";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_popdata.proto";
 }
 
 template <typename ReaderType>
 const std::string GetTimestepTestfile();
 
-template<>
+template <>
 inline const std::string GetTimestepTestfile<HDF5EpiReader>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.h5";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.h5";
 }
 
-template<>
+template <>
 inline const std::string GetTimestepTestfile<JSONEpiReader>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.json";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.json";
 }
 
-template<>
+template <>
 inline const std::string GetTimestepTestfile<ProtobufEpiReader>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.proto";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.proto";
 }

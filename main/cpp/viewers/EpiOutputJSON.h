@@ -29,22 +29,21 @@ namespace output {
 class EpiOutputJSON : public EpiOutputFile
 {
 public:
-    explicit EpiOutputJSON(const std::string& output_dir = "output");
+        explicit EpiOutputJSON(const std::string& output_dir = "output");
 
-    /// Overridden update method.
-    virtual void Update(std::shared_ptr<const Population> population) override;
+        /// Overridden update method.
+        virtual void Update(std::shared_ptr<const Population> population) override;
 
-    /// Dump json data to file.
-    virtual void Finish() override;
-
-private:
-    /// Initialize json object and open file stream.
-    virtual void Initialize(const std::string& output_dir) override;
+        /// Dump json data to file.
+        virtual void Finish() override;
 
 private:
-    nlohmann::json m_data;
+        /// Initialize json object and open file stream.
+        virtual void Initialize(const std::string& output_dir) override;
+
+private:
+        nlohmann::json m_data;
 };
 
 } // namespace output
 } // namespace stride
-

@@ -21,14 +21,14 @@
 #include "visualiser/model/Model.h"
 #include "visualiser/view/View.h"
 
-#include <QObject>
 #include <QGeoCoordinate>
+#include <QObject>
 
 namespace stride {
 namespace visualiser {
 
 /**
- * @class Controller 
+ * @class Controller
  * Class that represents the controller component of the data visualiser MVC structure.
  * This class will take commands from the Qt5 interface and relay them to the Model.
  */
@@ -37,12 +37,10 @@ class Controller : public QObject
         Q_OBJECT
 
 public:
-		/**
-		 * Constructor based on a QObject parent.
-		 */
-        explicit Controller(QObject* parent = nullptr)
-        	: QObject(parent), m_model_ptr(nullptr), m_view_ptr(nullptr)
-        {}
+        /**
+         * Constructor based on a QObject parent.
+         */
+        explicit Controller(QObject* parent = nullptr) : QObject(parent), m_model_ptr(nullptr), m_view_ptr(nullptr) {}
 
         /**
          * Deleted copy CTOR.

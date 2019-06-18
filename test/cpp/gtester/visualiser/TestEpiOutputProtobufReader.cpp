@@ -25,12 +25,6 @@
 
 #include "visualiser/readers/ProtobufEpiReader.h"
 
-TEST(TestEpiOutputProtobufReader, testPopdata)
-{
-    TestPopData<stride::visualiser::ProtobufEpiReader>();
-}
+TEST(TestEpiOutputProtobufReader, testPopdata) { TestPopData<stride::visualiser::ProtobufEpiReader>(); }
 
-TEST(TestEpiOutputProtobufReader, testTimestepOrder)
-{
-    TestTimestepOrder<stride::visualiser::ProtobufEpiReader>();
-}
+TEST(TestEpiOutputProtobufReader, testTimestepOrder) { TestTimestepOrder<stride::visualiser::ProtobufEpiReader>(); }

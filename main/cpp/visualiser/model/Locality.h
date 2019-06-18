@@ -26,9 +26,9 @@
 
 #include "PopData.h"
 
+#include <algorithm>
 #include <map>
 #include <string>
-#include <algorithm>
 
 namespace stride {
 namespace visualiser {
@@ -45,8 +45,9 @@ public:
          * Constructor based on a name, coordinate and population.
          */
         explicit Locality(const std::string& name, const geopop::Coordinate& coord, const PopData& popData)
-        	: m_name{name}, m_coordinate{coord}, m_popdata{popData}
-        {}
+            : m_name{name}, m_coordinate{coord}, m_popdata{popData}
+        {
+        }
 
         /**
          * Retrieve the place name of the locality.
