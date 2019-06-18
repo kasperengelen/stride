@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <household_file>
-    <antwerpen id="11002">   household_city_Antwerpen.csv</antwerpen>
+    <antwerpen id="11002">household_city_Antwerpen.csv</antwerpen>
     <turnhout id="13040">household_city_Turnhout.csv</turnhout>
     <mechelen id="12025">household_city_Mechelen.csv</mechelen>
     <aalst id="41002">household_city_Aalst.csv</aalst>
