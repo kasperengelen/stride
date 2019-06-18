@@ -73,10 +73,10 @@ public:
      *  |       |     |       |
      *  +-------p2    p2------+
      */
-    std::set<const LocationBase*> LocationsInBox(double long1, double lat1, double long2, double lat2) const;
+    std::vector<const LocationBase*> LocationsInBox(double long1, double lat1, double long2, double lat2) const;
 
     /// Gets the location in a rectangle defined by the two Locations.
-    std::set<const LocationBase*> LocationsInBox(LocationBase* loc1, LocationBase* loc2) const;
+    std::vector<const LocationBase*> LocationsInBox(LocationBase* loc1, LocationBase* loc2) const;
 
 public:
     /// Build a GeoAggregator with a predefined functor and given args for the Policy.
@@ -182,14 +182,14 @@ GeoAggregator<Policy> GeoGridBase<LocationType>::BuildAggregator(typename Policy
 }
 
 template <typename LocationType>
-std::set<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(double long1, double lat1, double long2, double lat2) const
+std::vector<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(double long1, double lat1, double long2, double lat2) const
 {
     CheckFinalized(__func__);
 
-    std::set<const LocationBase*> result;
+    std::vector<const LocationBase*> result;
 
     auto agg = BuildAggregator<BoxPolicy>(
-            MakeCollector(inserter(result, result.begin())),
+            MakeCollector(back_inserter(result)),
             std::make_tuple(std::min(long1, long2), std::min(lat1, lat2), std::max(long1, long2), std::max(lat1, lat2)));
     agg();
 
@@ -197,7 +197,7 @@ std::set<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(double l
 }
 
 template <typename LocationType>
-std::set<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(LocationBase* loc1, LocationBase* loc2) const
+std::vector<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(LocationBase* loc1, LocationBase* loc2) const
 {
     using boost::geometry::get;
     return LocationsInBox(get<0>(loc1->GetCoordinate()), get<1>(loc1->GetCoordinate()),
