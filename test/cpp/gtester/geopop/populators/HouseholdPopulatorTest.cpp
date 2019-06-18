@@ -22,6 +22,7 @@
 #include "geopop/Location.h"
 #include "pop/Population.h"
 #include "util/RnMan.h"
+#include "util/Exception.h"
 
 #include <gtest/gtest.h>
 #include <map>
@@ -171,14 +172,14 @@ TEST_F(HouseholdPopulatorTest, MultipleHouseholdTypesMultiDrawTest)
         EXPECT_EQ(pool2[1]->GetAge(), 56);
 }
 
-TEST_F(HouseholdPopulatorTest, MultiDrawTest)
+TEST_F(HouseholdPopulatorTest, MultiDrawCityTest)
 {
         m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{12U, 56U}};
         m_gg_config.refHH.ages[2] = vector<vector<unsigned int>>{{19U, 15U, 40U}};
         m_gg_config.refHH.multiHH = true;
 
         const auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
-        const auto loc2 = make_shared<Location>(2, 1, Coordinate(0, 0), "Leuven", 5000);
+        const auto loc2 = make_shared<Location>(2, 5, Coordinate(0, 0), "Leuven", 5000);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
         m_household_generator.AddPools(*loc2, m_pop.get(), m_gg_config);
 
@@ -200,4 +201,78 @@ TEST_F(HouseholdPopulatorTest, MultiDrawTest)
         EXPECT_EQ(pool2[0]->GetAge(), 19);
         EXPECT_EQ(pool2[1]->GetAge(), 15);
         EXPECT_EQ(pool2[2]->GetAge(), 40);
+}
+
+TEST_F(HouseholdPopulatorTest, MultiDrawProvinceTest)
+{
+        m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{12U, 56U}};
+        m_gg_config.refHH.ages[2] = vector<vector<unsigned int>>{{19U, 15U, 40U}};
+        m_gg_config.refHH.multiHH = true;
+
+        const auto loc1 = make_shared<Location>(4, 1, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc2 = make_shared<Location>(5, 2, Coordinate(0, 0), "Leuven", 5000);
+        m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
+        m_household_generator.AddPools(*loc2, m_pop.get(), m_gg_config);
+
+        m_geo_grid.AddLocation(loc1);
+        m_geo_grid.AddLocation(loc2);
+        m_household_populator.Apply(m_geo_grid, m_gg_config);
+
+        const auto& hPools  = loc1->RefPools(Id::Household);
+        const auto& hPools2 = loc2->RefPools(Id::Household);
+        ASSERT_EQ(hPools.size(), 1);
+        ASSERT_EQ(hPools2.size(), 1);
+        const auto& pool1 = *hPools[0];
+        const auto& pool2 = *hPools2[0];
+
+        ASSERT_EQ(pool1.size(), 2);
+        EXPECT_EQ(pool1[0]->GetAge(), 12);
+        EXPECT_EQ(pool1[1]->GetAge(), 56);
+        ASSERT_EQ(pool2.size(), 3);
+        EXPECT_EQ(pool2[0]->GetAge(), 19);
+        EXPECT_EQ(pool2[1]->GetAge(), 15);
+        EXPECT_EQ(pool2[2]->GetAge(), 40);
+}
+
+TEST_F(HouseholdPopulatorTest, MultiDrawDefaultTest)
+{
+        m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{12U, 56U}};
+        m_gg_config.refHH.ages[0] = vector<vector<unsigned int>>{{19U, 15U, 40U}};
+        m_gg_config.refHH.multiHH = true;
+
+        const auto loc1 = make_shared<Location>(4, 2, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc2 = make_shared<Location>(5, 2, Coordinate(0, 0), "Leuven", 5000);
+        m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
+        m_household_generator.AddPools(*loc2, m_pop.get(), m_gg_config);
+
+        m_geo_grid.AddLocation(loc1);
+        m_geo_grid.AddLocation(loc2);
+        m_household_populator.Apply(m_geo_grid, m_gg_config);
+
+        const auto& hPools  = loc1->RefPools(Id::Household);
+        const auto& hPools2 = loc2->RefPools(Id::Household);
+        ASSERT_EQ(hPools.size(), 1);
+        ASSERT_EQ(hPools2.size(), 1);
+        const auto& pool1 = *hPools[0];
+        const auto& pool2 = *hPools2[0];
+
+        ASSERT_EQ(pool1.size(), 3);
+        EXPECT_EQ(pool1[0]->GetAge(), 19);
+        EXPECT_EQ(pool1[1]->GetAge(), 15);
+        EXPECT_EQ(pool1[2]->GetAge(), 40);
+        ASSERT_EQ(pool2.size(), 3);
+        EXPECT_EQ(pool2[0]->GetAge(), 19);
+        EXPECT_EQ(pool2[1]->GetAge(), 15);
+        EXPECT_EQ(pool2[2]->GetAge(), 40);
+}
+
+TEST_F(HouseholdPopulatorTest, MultiDrawErrorTest)
+{
+        m_gg_config.refHH.multiHH = true;
+
+        const auto loc = make_shared<Location>(5, 3, Coordinate(0, 0), "Leuven", 5000);
+        m_household_generator.AddPools(*loc, m_pop.get(), m_gg_config);
+
+        m_geo_grid.AddLocation(loc);
+        EXPECT_THROW(m_household_populator.Apply(m_geo_grid, m_gg_config), stride::util::Exception);
 }

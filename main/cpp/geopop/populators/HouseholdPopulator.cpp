@@ -20,6 +20,7 @@
 #include "geopop/GeoGridConfig.h"
 #include "geopop/Location.h"
 #include "pop/Population.h"
+#include "util/Exception.h"
 #include <map>
 
 namespace geopop {
@@ -50,6 +51,10 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
                                 } else if (geoGridConfig.refHH.ages.count(loc->GetProvince())) {
                                         id = loc->GetProvince();
                                 }
+                        }
+                        if (geoGridConfig.refHH.ages.count(id) == 0) {
+                                throw stride::util::Exception("HouseholdPopulator::Apply> id's not found: " +
+                                to_string(loc->GetID()) + ", " + to_string(loc->GetProvince()) + " or 0 (default).");
                         }
                         const auto hDraw = static_cast<unsigned int>(hh_dist[id]());
                         for (const auto& age : geoGridConfig.refHH.ages.at(id)[hDraw]) {
