@@ -90,6 +90,11 @@ set(SRC
     myhayai/class_delivery.cpp
     myhayai/flex_delivery.cpp
     #---
+    visualiser/TestEpiOutputHDF5Reader.cpp
+    visualiser/TestEpiOutputJSONReader.cpp
+    visualiser/TestEpiOutputProtobufReader.cpp
+    visualiser/TestEpiOutputPopDataView.cpp
+    #---
     main.cpp
 )
 
@@ -100,6 +105,15 @@ set(SRC
 include_directories(${CMAKE_SOURCE_DIR}/test/cpp)
 add_executable(${EXEC} ${SRC})
 target_link_libraries(${EXEC} gtest libmyhayai libstride ${CMAKE_THREAD_LIBS_INIT})
+
+# link QT5
+target_link_libraries(${EXEC} Qt5::Core)
+target_link_libraries(${EXEC} Qt5::Widgets)
+target_link_libraries(${EXEC} Qt5::Location)
+set_property(TARGET Qt5::Core PROPERTY INTERFACE_COMPILE_FEATURES "")
+
+target_link_libraries(${EXEC} libvis)
+
 install(TARGETS ${EXEC}  DESTINATION   ${BIN_INSTALL_LOCATION})
 install(DIRECTORY testdata/ DESTINATION ${TESTS_INSTALL_LOCATION}/testdata/)
 

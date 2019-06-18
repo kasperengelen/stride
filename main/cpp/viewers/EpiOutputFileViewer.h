@@ -11,12 +11,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with the software. If not, see <http://www.gnu.org/licenses/>.
  *
- *  Copyright 2019, Meyer J
+ *  Copyright 2019, ACED
  */
 
 /**
- * @file
- * Observer for Epi-output.
+ * @file Header file for the Epi output file viewer.
  */
 
 #include "EpiOutputFile.h"

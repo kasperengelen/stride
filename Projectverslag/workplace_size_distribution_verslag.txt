@@ -1,0 +1,23 @@
+WorkplaceSizeDistribution - verwijzingen naar componenten
+=========================================================
+
+De WorkplaceGenerator en WorkplacePopulator zijn aangepast om rekening te houden
+met verschillende grootteklassen van personeel van bederijven.
+
+- De aangepaste/betrokken bestanden in de code zijn:
+
+    -main/cpp/geopop/generators/WorkplaceGenerator.cpp
+    -main/cpp/geopop/populators/WorkplacePopulator.cpp
+    -main/cpp/geopop/io/WorkplaceCSVReader [.h\.cpp]
+    -main/cpp/geopop/io/WorkplaceReader.h
+    -main/cpp/geopop/GeoGridConfig [.h\.cpp]
+    
+    -test/cpp/gtester/geopop/generators/WorkplaceGeneratorTest.cpp
+    -test/cpp/gtester/geopop/populators/WorkplacePopulatorTest.cpp
+    -test/cpp/gtester/geopop/io/WorkplaceCSVReaderTest.cpp
+    
+    
+- Gebruikersinformatie wordt beschreven in:
+    - user manual:
+        - Simulator
+        - Concepts

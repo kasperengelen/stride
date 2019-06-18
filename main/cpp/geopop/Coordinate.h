@@ -20,6 +20,9 @@
 
 namespace geopop {
 
+/**
+ * Geographical coordinate of the format (longitude, latitude).
+ */
 using Coordinate = boost::geometry::model::point<double, 2, boost::geometry::cs::geographic<boost::geometry::degree>>;
 
 } // namespace geopop

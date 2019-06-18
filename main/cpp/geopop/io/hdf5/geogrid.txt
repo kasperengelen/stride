@@ -1,0 +1,73 @@
+/*
+ *  This is free software: you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  any later version.
+ *  The software is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *  along with the software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Copyright 2019, ACED.
+ */
+
+
+// GeoGrid consists of a Group with multiple Locations and a Dataset with multiple Persons.
+Group GeoGrid {
+
+    // Locations consists of multiple Locations
+    Group Locations {
+
+        // Location of UUID, name, province and population count, coordinate,
+        // a Group with multiple ContactPools and (outgoing) Commute data.
+        repeated Group Loc[X] {
+
+            //Commute with destination and proportion.
+            DataSet Commute {
+                int to;
+                double proportion;
+                Attribute int size; //< rows in Commute
+            }
+
+            // ContactPools consist of multiple ContactPools
+            Group ContactPools {
+
+                // ContactPool with UUID, type and a people's ID's.
+                repeated DataSet Pool[X] {
+                    int people;
+                    Attribute id;
+                    Attribute string type;
+                    Attribute int size; //< rows in Pool[X]
+                }
+
+                Attribute int size; //< amount of Pools
+            }
+            Attribute double[2] Coordinate;
+            Attribute int id;
+            Attribute string name;
+            Attribute int population;
+            Attribute int province;
+        }
+        Attribute int size; //< amount of Locations
+    }
+
+
+
+    // Persons with UUID, age, DaycareId, PreSchoolId, K12SchoolId, HouseholdId, WorkplaceId, PrimaryCommunityId,
+    // SecondaryCommunityId and CollageId.
+    DataSet Persons {
+        int id;
+        float age;
+        int daycare;
+        int preschool;
+        int k12school;
+        int household;
+        int workplace;
+        int primarycommunity;
+        int secondarycommunity;
+        int collage;
+        Attribute int size; //< rows in Persons
+    }
+}

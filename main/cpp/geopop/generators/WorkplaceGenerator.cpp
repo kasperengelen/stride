@@ -35,7 +35,7 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
 
         const auto EmployeeCount = ggConfig.info.popcount_workplace;
 
-        // Calculate the average amount of people in th workplace pool with respect to the workplace ratio's and sizes
+        // Calculate the average amount of people in the workplace pool with respect to the workplace ratio's and sizes
         double avgPplPerWorkplace = 0;
 
         for (auto i = 0; i < (int)ggConfig.workplaceSD.ratios.size(); i++) {
@@ -45,7 +45,7 @@ void Generator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 avgPplPerWorkplace += ggConfig.workplaceSD.ratios[i] * (min_size + max_size) / 2;
         }
 
-        const auto WorkplacesCount = static_cast<unsigned int>(ceil(EmployeeCount / (avgPplPerWorkplace * 1.0858333)));
+        const auto WorkplacesCount = static_cast<unsigned int>(ceil(EmployeeCount / avgPplPerWorkplace));
 
         // = for each location #residents + #incoming commuting people - #outgoing commuting people
         vector<double> weights;
