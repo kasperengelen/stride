@@ -60,13 +60,14 @@ GeoGridConfig::GeoGridConfig(const ptree& configPt) : GeoGridConfig()
         pools[Id::College]   = pt.get<unsigned int>("pools_per_College", 20U);
 }
 
-void GeoGridConfig::SetData(const string& householdsFileName)
+void GeoGridConfig::SetData(const string& householdsFileName, bool use_install_dirs)
 {
         if (filesys::path(householdsFileName).extension().string() == ".xml") {
-                ptree configFile = FileSys::ReadPtreeFile(FileSys::GetDataDir() /= householdsFileName);
+                ptree configFile = FileSys::ReadPtreeFile(use_install_dirs ? FileSys::GetDataDir() /= householdsFileName : householdsFileName);
                 for (const auto& file : configFile.get_child("household_file")) {
                         auto id = configFile.get<unsigned int>("household_file." + file.first + ".<xmlattr>.id");
-                        auto householdsReader = ReaderFactory::CreateHouseholdReader(configFile.get<string>("household_file." + file.first));
+                        auto householdsReader = ReaderFactory::CreateHouseholdReader(
+                                use_install_dirs ? configFile.get<string>("household_file." + file.first) : filesys::path(householdsFileName).parent_path().string() + "/" + configFile.get<string>("household_file." + file.first), false);
                         householdsReader->SetReferenceHouseholds(refHH.person_count[id], refHH.ages[id]);
                         refHH.multiHH = true;
                 }
