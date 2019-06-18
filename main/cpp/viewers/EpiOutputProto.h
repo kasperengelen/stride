@@ -49,4 +49,3 @@ private:
 
 } // namespace output
 } // namespace stride
-

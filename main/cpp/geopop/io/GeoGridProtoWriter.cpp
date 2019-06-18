@@ -93,7 +93,7 @@ void GeoGridProtoWriter::WriteCoordinate(const Coordinate&                   coo
         protoCoordinate->set_latitude(boost::geometry::get<1>(coordinate));
 }
 
-void GeoGridProtoWriter::WriteLocation(Location& location, proto::GeoGrid_Location* protoLocation)
+void GeoGridProtoWriter::WriteLocation(SimLocation& location, proto::GeoGrid_Location* protoLocation)
 {
         protoLocation->set_id(location.GetID());
         protoLocation->set_name(location.GetName());

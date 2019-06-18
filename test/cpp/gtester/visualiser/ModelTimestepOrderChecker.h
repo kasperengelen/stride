@@ -31,20 +31,20 @@
 template <typename ReaderType>
 void TestTimestepOrder()
 {
-    // read file into model
-    Model model{};
-    ReaderType reader{GetTimestepTestfile<ReaderType>()};
-    reader.ReadIntoModel(model);
+        // read file into model
+        Model      model{};
+        ReaderType reader{GetTimestepTestfile<ReaderType>()};
+        reader.ReadIntoModel(model);
 
-    // check the amount of timesteps
-    EXPECT_EQ(5, model.GetEpiData().size());
+        // check the amount of timesteps
+        EXPECT_EQ(5, model.GetEpiData().size());
 
-    // check if the first timestep has 4 locations
-    EXPECT_EQ(4, model.GetEpiData().at(0).size());
+        // check if the first timestep has 4 locations
+        EXPECT_EQ(4, model.GetEpiData().at(0)->size());
 
-    // check if the second timestep has 8 locations
-    EXPECT_EQ(8, model.GetEpiData().at(1).size());
+        // check if the second timestep has 8 locations
+        EXPECT_EQ(8, model.GetEpiData().at(1)->size());
 
-    // check if the third timestep has 6 locations
-    EXPECT_EQ(6, model.GetEpiData().at(2).size());
+        // check if the third timestep has 6 locations
+        EXPECT_EQ(6, model.GetEpiData().at(2)->size());
 }

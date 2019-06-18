@@ -54,9 +54,9 @@ TEST(GeoGridJSONWriterTest, locationTest)
 {
         const auto pop     = Population::Create();
         auto&      geoGrid = pop->RefGeoGrid();
-        geoGrid.AddLocation(make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500));
-        geoGrid.AddLocation(make_shared<Location>(2, 3, Coordinate(0, 0), "Gent", 5000));
-        geoGrid.AddLocation(make_shared<Location>(3, 2, Coordinate(0, 0), "Mons", 2500));
+        geoGrid.AddLocation(make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Bavikhove", 2500));
+        geoGrid.AddLocation(make_shared<SimLocation>(2, 3, Coordinate(0, 0), "Gent", 5000));
+        geoGrid.AddLocation(make_shared<SimLocation>(3, 2, Coordinate(0, 0), "Mons", 2500));
 
         EXPECT_TRUE(compareGeoGrid(geoGrid, "test0.json"));
 }
@@ -65,7 +65,7 @@ TEST(GeoGridJSONWriterTest, contactPoolsTest)
 {
         auto  pop     = Population::Create();
         auto& geoGrid = pop->RefGeoGrid();
-        auto  loc     = make_shared<Location>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
+        auto  loc     = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
         loc->RefPools(Id::K12School).emplace_back(pop->RefPoolSys().CreateContactPool(Id::K12School));
         loc->RefPools(Id::PrimaryCommunity).emplace_back(pop->RefPoolSys().CreateContactPool(Id::PrimaryCommunity));
         loc->RefPools(Id::College).emplace_back(pop->RefPoolSys().CreateContactPool(Id::College));

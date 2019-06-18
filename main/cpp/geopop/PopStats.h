@@ -20,46 +20,59 @@
 #pragma once
 
 #include "contact/ContactType.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 
-namespace stride {
-namespace output {
+namespace geopop {
 
 /**
-* Struct that contains information about the population that belongs to one type of contact pool.
-*/
-struct PoolStats {
-        unsigned int population = 0;
-        double immune = 0;
-        double infected = 0;
-        double infectious = 0;
-        double recovered = 0;
-        double susceptible = 0;
-        double symptomatic = 0;
+ * Struct that contains information about the population that belongs to one type of contact pool.
+ */
+struct PoolStats
+{
+        unsigned int population  = 0;
+        double       immune      = 0;
+        double       infected    = 0;
+        double       infectious  = 0;
+        double       recovered   = 0;
+        double       susceptible = 0;
+        double       symptomatic = 0;
 };
 
 /**
-* Class that calculates stats about the disease status of the population within a location.
+* Class that keeps track of stats about the health status of a population.
 */
-class LocationPopData {
+class PopStats {
 public:
+        /**
+         * Default constructor. This is useful when the PopStats object needs to be constructed
+         * manually.
+         */
+        PopStats();
+
         /**
          * Constructor. Process the specified location and determine information about
          * the population.
          */
-        LocationPopData(const geopop::Location &loc);
+        PopStats(const geopop::SimLocation &loc);
+
 
         /**
          * Retrieve a const reference to the PoolTypeData object that keeps track of the
          * contact pools of the specified type.
          */
-        const PoolStats &GetPool(const ContactType::Id &poolId) const;
+        const PoolStats &GetPool(const stride::ContactType::Id &poolId) const;
 
         /**
          * Retrieve a non-const reference to the PoolTypeData object that keeps track of the
          * contact pools of the specified type.
          */
-        PoolStats &GetPool(const ContactType::Id &poolId);
+        PoolStats &GetPool(const stride::ContactType::Id &poolId);
+
+        /**
+         * Set the information stored about the specified type of pool to
+         * the specified geopop::PoolStats object.
+         */
+        void SetPool(const stride::ContactType::Id& poolId, PoolStats poolStats);
 
 private:
         PoolStats m_household;
@@ -72,5 +85,4 @@ private:
         PoolStats m_preschool;
 };
 
-}
-}
+} // namespace geopop

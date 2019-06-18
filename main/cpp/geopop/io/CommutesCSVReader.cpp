@@ -16,7 +16,7 @@
 #include "CommutesCSVReader.h"
 
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "util/CSV.h"
 #include "util/Exception.h"
 

@@ -19,11 +19,10 @@
 
 #include "EpiOutputProto.h"
 
-#include "viewers/LocationPopStats.h"
-
 #include "contact/ContactType.h"
 #include "pop/Population.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
+#include "geopop/PopStats.h"
 #include "util/FileSys.h"
 
 #include <iostream>
@@ -35,7 +34,7 @@ namespace output {
  * Given a PoolStats object, this will return a pointer to a proto::PopSection object
  * that contains the same information in protobuf format.
  */
-proto::PopSection* SerializePopSection(const PoolStats& pool_stats)
+proto::PopSection* SerializePopSection(const geopop::PoolStats& pool_stats)
 {
         proto::PopSection* retval = new proto::PopSection{};
 
@@ -50,20 +49,23 @@ proto::PopSection* SerializePopSection(const PoolStats& pool_stats)
         return retval;
 }
 
-EpiOutputProto::EpiOutputProto(const std::string &output_prefix) : EpiOutputFile(), m_proto_file{} {
+EpiOutputProto::EpiOutputProto(const std::string& output_prefix) : EpiOutputFile(), m_proto_file{}
+{
         Initialize(output_prefix);
 }
 
-void EpiOutputProto::Initialize(const std::string &output_prefix) {
+void EpiOutputProto::Initialize(const std::string& output_prefix)
+{
         const auto p = util::FileSys::BuildPath(output_prefix, "EpiOutput.proto");
         m_fstream.open(p.c_str(), std::ios::trunc | std::ios::out);
 }
 
-void EpiOutputProto::Update(std::shared_ptr<const Population> population) {
+void EpiOutputProto::Update(std::shared_ptr<const Population> population)
+{
         proto::Timestep* timestep = m_proto_file.add_timesteps();
 
-        const geopop::GeoGrid &geogrid = population->CRefGeoGrid();
-        for (const auto& location: geogrid) {
+        const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
+        for (const auto& location : geogrid) {
                 // add location to timestep
                 proto::Location* proto_loc = timestep->add_locations();
 
@@ -78,24 +80,25 @@ void EpiOutputProto::Update(std::shared_ptr<const Population> population) {
                 proto_loc->set_allocated_coord(coord);
 
                 // determine population stats
-                const LocationPopData popdata{*location};
+                const geopop::PopStats popdata{*location};
 
                 // set pool stats
                 proto_loc->set_allocated_household(SerializePopSection(popdata.GetPool(ContactType::Id::Household)));
-                proto_loc->set_allocated_college(  SerializePopSection(popdata.GetPool(ContactType::Id::College)));
-                proto_loc->set_allocated_daycare(  SerializePopSection(popdata.GetPool(ContactType::Id::Daycare)));
+                proto_loc->set_allocated_college(SerializePopSection(popdata.GetPool(ContactType::Id::College)));
+                proto_loc->set_allocated_daycare(SerializePopSection(popdata.GetPool(ContactType::Id::Daycare)));
                 proto_loc->set_allocated_k12school(SerializePopSection(popdata.GetPool(ContactType::Id::K12School)));
                 proto_loc->set_allocated_preschool(SerializePopSection(popdata.GetPool(ContactType::Id::PreSchool)));
-                proto_loc->set_allocated_primcom(  SerializePopSection(popdata.GetPool(ContactType::Id::PrimaryCommunity)));
-                proto_loc->set_allocated_seccom(   SerializePopSection(popdata.GetPool(ContactType::Id::SecondaryCommunity)));
+                proto_loc->set_allocated_primcom(
+                    SerializePopSection(popdata.GetPool(ContactType::Id::PrimaryCommunity)));
+                proto_loc->set_allocated_seccom(
+                    SerializePopSection(popdata.GetPool(ContactType::Id::SecondaryCommunity)));
                 proto_loc->set_allocated_workplace(SerializePopSection(popdata.GetPool(ContactType::Id::Workplace)));
         }
 }
 
 void EpiOutputProto::Finish()
 {
-        if(!m_proto_file.SerializeToOstream(&m_fstream))
-        {
+        if (!m_proto_file.SerializeToOstream(&m_fstream)) {
                 throw std::runtime_error{"Cannot serialize protobuf output to file."};
         }
 }

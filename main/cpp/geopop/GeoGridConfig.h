@@ -20,6 +20,7 @@
 
 #include <boost/property_tree/ptree_fwd.hpp>
 
+#include <map>
 #include <memory>
 #include <ostream>
 
@@ -84,10 +85,13 @@ public:
         struct
         {
                 /// Number of persons in the reference household set.
-                unsigned int person_count = 0U;
+                std::map<unsigned int, unsigned int> person_count{};
 
                 /// Age profile per reference household.
-                std::vector<std::vector<unsigned int>> ages{};
+                std::map<unsigned int, std::vector<std::vector<unsigned int>>> ages{};
+
+                /// indicator for multiple householdfiles.
+                bool multiHH = false;
         } refHH;
 
         // -----------------------------------------------------------------------------------------
@@ -130,7 +134,7 @@ public:
         // -----------------------------------------------------------------------------------------
         // Read the househould data file, parse it and set data.
         // -----------------------------------------------------------------------------------------
-        void SetData(const std::string& householdsFileName);
+        void SetData(const std::string& householdsFileName, bool use_install_dirs = true);
 
         // -----------------------------------------------------------------------------------------
         // Read the workplace size distribution file, parse it and set data.

@@ -25,12 +25,6 @@
 
 #include "visualiser/readers/HDF5EpiReader.h"
 
-TEST(TestEpiOutputHDF5Reader, testPopdata)
-{
-    TestPopData<stride::visualiser::HDF5EpiReader>();
-}
+TEST(TestEpiOutputHDF5Reader, testPopdata) { TestPopData<stride::visualiser::HDF5EpiReader>(); }
 
-TEST(TestEpiOutputHDF5Reader, testTimestepOrder)
-{
-    TestTimestepOrder<stride::visualiser::HDF5EpiReader>();
-}
+TEST(TestEpiOutputHDF5Reader, testTimestepOrder) { TestTimestepOrder<stride::visualiser::HDF5EpiReader>(); }

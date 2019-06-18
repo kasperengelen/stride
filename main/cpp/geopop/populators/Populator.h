@@ -27,7 +27,7 @@ namespace geopop {
 
 class GeoGrid;
 class GeoGridConfig;
-class Location;
+class SimLocation;
 
 /**
  * Populator uses geo & pop data to populate ContactPools in the GeoGrid.

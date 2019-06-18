@@ -1,0 +1,15 @@
+{
+    "Brackets": [17, 18, 64, 65],
+    "Provincies": 
+    {
+        "Provincie": 1,
+        "Centrumsteden": ["A", "B", "C"],
+        "Ratios_centrumsteden": 
+                                {   
+                                    "A": [0.4, 0.2, 0.4],
+                                    "B": [],
+                                    "C": []
+                                },
+        "Ratios_default": [0.1, 0.5, 0.4]
+    }
+}

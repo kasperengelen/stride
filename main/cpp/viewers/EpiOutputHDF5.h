@@ -29,21 +29,21 @@ namespace output {
 class EpiOutputHDF5 : public EpiOutputFile
 {
 public:
-    explicit EpiOutputHDF5(const std::string& output_dir = "output");
+        explicit EpiOutputHDF5(const std::string& output_dir = "output");
 
-    /// Overridden update method.
-    virtual void Update(std::shared_ptr<const Population> population) override;
+        /// Overridden update method.
+        virtual void Update(std::shared_ptr<const Population> population) override;
 
-    /// Close H5 file.
-    virtual void Finish() override;
-
-private:
-    /// Initialize H5 file.
-    virtual void Initialize(const std::string& output_dir) override;
+        /// Close H5 file.
+        virtual void Finish() override;
 
 private:
-    H5::H5File m_data;
-    int m_timestep;
+        /// Initialize H5 file.
+        virtual void Initialize(const std::string& output_dir) override;
+
+private:
+        H5::H5File m_data;
+        int        m_timestep;
 };
 
 } // namespace output

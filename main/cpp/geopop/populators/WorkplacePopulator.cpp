@@ -19,7 +19,7 @@
 #include "contact/ContactPool.h"
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "util/Assert.h"
 
 #include <geopop/GeoGridConfig.h>
@@ -181,7 +181,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         auto genWorkplaceComDistr{function<int()>()};
 
         vector<ContactPool*> nearbyWp{};
-        vector<Location*>    commuteLocations{};
+        vector<SimLocation*>    commuteLocations{};
 
         const auto participWorkplace    = geoGridConfig.param.particpation_workplace;
         const auto popCollege           = geoGridConfig.info.popcount_college;
@@ -219,7 +219,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                 genCommute = function<int()>();
 
                 vector<double> commutingWeights;
-                for (const pair<Location*, double>& commute : loc->CRefOutgoingCommutes()) {
+                for (const pair<SimLocation*, double>& commute : loc->CRefOutgoingCommutes()) {
                         const auto& workplaces = commute.first->RefPools(Id::Workplace);
                         if (!workplaces.empty()) {
                                 commuteLocations.push_back(commute.first);
@@ -273,7 +273,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
                                         const auto isCommuter = m_rn_man.MakeWeightedCoinFlip(fracWorkplaceCommute);
                                         if (!commuteLocations.empty() && isCommuter) {
                                                 // --------------------------------------------------------------
-                                                // this person commutes to the Location and in particular to Pool
+                                                // this person commutes to the SimLocation and in particular to Pool
                                                 // --------------------------------------------------------------
                                                 auto& pools = commuteLocations[genCommute()]->RefPools(Id::Workplace);
 

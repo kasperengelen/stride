@@ -18,7 +18,7 @@
 #include "contact/ContactType.h"
 
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/LogUtils.h"
 #include "util/RnMan.h"
@@ -51,7 +51,7 @@ public:
         void Apply(GeoGrid&, const GeoGridConfig&) {}
 
         /// Create a given number ContactPools in the GeoGrid.
-        void AddPools(Location& loc, stride::Population* pop, const GeoGridConfig& ggConfig)
+        void AddPools(SimLocation& loc, stride::Population* pop, const GeoGridConfig& ggConfig)
         {
                 auto& poolSys = pop->RefPoolSys();
                 for (auto i = 0U; i < ggConfig.pools[ID]; ++i) {
