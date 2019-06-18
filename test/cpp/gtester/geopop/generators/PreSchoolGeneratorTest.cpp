@@ -17,7 +17,7 @@
 
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/RnMan.h"
 
@@ -49,13 +49,13 @@ protected:
         unsigned int           m_ppps = m_gg_config.pools[Id::PreSchool];
 };
 
-// Check that generator can handle one Location.
+// Check that generator can handle one SimLocation.
 TEST_F(PreSchoolGeneratorTest, OneLocationTest)
 {
         m_gg_config.param.pop_size          = 10000;
         m_gg_config.info.popcount_preschool = 300;
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_geo_grid.AddLocation(loc1);
 
         m_preschool_generator.Apply(m_geo_grid, m_gg_config);
@@ -81,11 +81,11 @@ TEST_F(PreSchoolGeneratorTest, FiveLocationsTest)
         m_gg_config.param.pop_size          = 37542 * 100;
         m_gg_config.info.popcount_preschool = 125140;
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 10150 * 100);
-        auto loc2 = make_shared<Location>(1, 4, Coordinate(0, 0), "Vlaams-Brabant", 10040 * 100);
-        auto loc3 = make_shared<Location>(1, 4, Coordinate(0, 0), "Henegouwen", 7460 * 100);
-        auto loc4 = make_shared<Location>(1, 4, Coordinate(0, 0), "Limburg", 3269 * 100);
-        auto loc5 = make_shared<Location>(1, 4, Coordinate(0, 0), "Luxemburg", 4123 * 100);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 10150 * 100);
+        auto loc2 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Vlaams-Brabant", 10040 * 100);
+        auto loc3 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Henegouwen", 7460 * 100);
+        auto loc4 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Limburg", 3269 * 100);
+        auto loc5 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Luxemburg", 4123 * 100);
 
         m_geo_grid.AddLocation(loc1);
         m_geo_grid.AddLocation(loc2);

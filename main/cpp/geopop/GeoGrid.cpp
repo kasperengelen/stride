@@ -16,9 +16,7 @@
 #include "GeoGrid.h"
 
 #include "contact/ContactPool.h"
-#include "geopop/Location.h"
-#include "geopop/geo/GeoAggregator.h"
-#include "geopop/geo/GeoGridKdTree.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 
 #include <queue>
@@ -31,91 +29,25 @@ using namespace std;
 using stride::ContactPool;
 using stride::ContactType::Id;
 
-GeoGrid::GeoGrid(stride::Population* population)
-    : m_locations(), m_id_to_index(), m_population(population), m_finalized(false), m_tree()
+GeoGrid::GeoGrid(stride::Population* population) : m_population{population}, m_id_to_index{}
+{}
+
+void GeoGrid::AddLocation(std::shared_ptr<SimLocation> location)
 {
+    GeoGridBase::AddLocation(location);
+
+    m_id_to_index[location->GetID()] = static_cast<unsigned int>(size() - 1);
 }
 
-void GeoGrid::AddLocation(shared_ptr<Location> location)
-{
-        if (m_finalized) {
-                throw std::runtime_error("Calling addLocation while GeoGrid is finalized not supported!");
-        }
-        m_locations.emplace_back(location);
-        m_id_to_index[location->GetID()] = static_cast<unsigned int>(m_locations.size() - 1);
-}
-
-template <typename Policy, typename F>
-GeoAggregator<Policy, F> GeoGrid::BuildAggregator(F functor, typename Policy::Args&& args) const
-{
-        return GeoAggregator<Policy, F>(m_tree, functor, std::forward<typename Policy::Args>(args));
-}
-
-template <typename Policy>
-GeoAggregator<Policy> GeoGrid::BuildAggregator(typename Policy::Args&& args) const
-{
-        return GeoAggregator<Policy>(m_tree, std::forward<typename Policy::Args>(args));
-}
-
-void GeoGrid::CheckFinalized(const string& functionName) const
-{
-        if (!m_finalized) {
-                throw std::runtime_error("Calling \"" + functionName + "\" with GeoGrid not finalized not supported!");
-        }
-}
-
-void GeoGrid::Finalize()
-{
-        vector<geogrid_detail::KdTree2DPoint> points;
-        for (const auto& loc : m_locations) {
-                points.emplace_back(geogrid_detail::KdTree2DPoint(loc.get()));
-        }
-        m_tree      = GeoGridKdTree::Build(points);
-        m_finalized = true;
-}
-
-set<const Location*> GeoGrid::LocationsInBox(double long1, double lat1, double long2, double lat2) const
-{
-        CheckFinalized(__func__);
-
-        set<const Location*> result;
-
-        auto agg = BuildAggregator<BoxPolicy>(
-            MakeCollector(inserter(result, result.begin())),
-            make_tuple(min(long1, long2), min(lat1, lat2), max(long1, long2), max(lat1, lat2)));
-        agg();
-
-        return result;
-}
-
-set<const Location*> GeoGrid::LocationsInBox(Location* loc1, Location* loc2) const
-{
-        using boost::geometry::get;
-        return LocationsInBox(get<0>(loc1->GetCoordinate()), get<1>(loc1->GetCoordinate()),
-                              get<0>(loc2->GetCoordinate()), get<1>(loc2->GetCoordinate()));
-}
-
-vector<const Location*> GeoGrid::LocationsInRadius(const Location& start, double radius) const
-{
-        CheckFinalized(__func__);
-
-        geogrid_detail::KdTree2DPoint startPt(&start);
-        vector<const Location*>       result;
-
-        auto agg = BuildAggregator<RadiusPolicy>(MakeCollector(back_inserter(result)), make_tuple(startPt, radius));
-        agg();
-
-        return result;
-}
-
-vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const Location& start, double startRadius) const
+vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const SimLocation& start, double startRadius) const
 {
         double               currentRadius = startRadius;
         vector<ContactPool*> pools;
 
         while (pools.empty()) {
-                for (const Location* nearLoc : LocationsInRadius(start, currentRadius)) {
-                        const auto& locPool = nearLoc->CRefPools(id);
+                for (const auto* nearLoc : LocationsInRadius(start, currentRadius)) {
+                        const auto& locPool = static_cast<const SimLocation*>(nearLoc)->CRefPools(id);
+
                         pools.insert(pools.end(), locPool.begin(), locPool.end());
                 }
                 currentRadius *= 2;
@@ -126,19 +58,19 @@ vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const Location& start, doubl
         return pools;
 }
 
-vector<Location*> GeoGrid::TopK(size_t k) const
+vector<SimLocation*> GeoGrid::TopK(size_t k) const
 {
-        auto cmp = [](Location* rhs, Location* lhs) { return rhs->GetPopCount() > lhs->GetPopCount(); };
+        auto cmp = [](SimLocation* rhs, SimLocation* lhs) { return rhs->GetPopCount() > lhs->GetPopCount(); };
 
-        priority_queue<Location*, vector<Location*>, decltype(cmp)> queue(cmp);
-        for (const auto& loc : m_locations) {
+        priority_queue<SimLocation*, vector<SimLocation*>, decltype(cmp)> queue(cmp);
+        for (const auto& loc : *this) {
                 queue.push(loc.get());
                 if (queue.size() > k) {
                         queue.pop();
                 }
         }
 
-        vector<Location*> topLocations;
+        vector<SimLocation*> topLocations;
         while (!queue.empty()) {
                 auto loc = queue.top();
                 topLocations.push_back(loc);

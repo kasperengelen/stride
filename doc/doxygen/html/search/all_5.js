@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['filereadsuccessful',['fileReadSuccessful',['../classstride_1_1datavis_1_1_controller.html#aac508929645ad8c92b89b684ca4b73ba',1,'stride::datavis::Controller']]],
+  ['filereadsuccessful',['fileReadSuccessful',['../classstride_1_1visualiser_1_1_controller.html#ad3e58586abb2331c5fefce3e1f7aafcb',1,'stride::visualiser::Controller']]],
   ['filesys',['FileSys',['../classstride_1_1util_1_1_file_sys.html',1,'stride::util']]],
   ['filesys_2ecpp',['FileSys.cpp',['../_file_sys_8cpp.html',1,'']]],
   ['filesys_2eh',['FileSys.h',['../_file_sys_8h.html',1,'']]],

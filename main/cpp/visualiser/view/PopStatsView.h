@@ -20,25 +20,27 @@
 
 #pragma once
 
-#include "visualiser/model/Locality.h"
+#include "geopop/PopStats.h"
 
 #include <QVariant>
 
 namespace stride {
 namespace visualiser {
 
+using geopop::PopStats;
+
 /**
- * Class that provides a view for PopData objects. This class
+ * Class that provides a view for PopStats objects. This class
  * can produce a QML-compatible QVariantMap that contains all the
  * information in the PopData object.
  */
-class PopDataView
+class PopStatsView
 {
 public:
         /**
          * Constructor that creates a view for a Locality object.
          */
-        explicit PopDataView(const PopData& popData);
+        explicit PopStatsView(const PopStats& popData);
 
         /**
          * Retrieve a QVariantMap that contains information
@@ -69,11 +71,16 @@ public:
         const QVariantMap& GetQVariantMap() const { return m_pop_data; }
 
 private:
-        /// Create a QVariantMap that contains information about the specified PopSection.
-        const QVariantMap CreatePopSectionView(const PopSection& popSection);
-
         /// Stores information about the population.
         QVariantMap m_pop_data;
+
+        /**
+         * Add information about the specified type of pool, stored in the specified PopStats object
+         * to the view.
+         *
+         * @param mapKey The key that will be used to store the stats in the map.
+         */
+        void AddPoolToView(const QString& mapKey, const PopStats& popStats, ContactType::Id poolType);
 };
 
 } // namespace visualiser

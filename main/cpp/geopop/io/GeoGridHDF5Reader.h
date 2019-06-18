@@ -17,7 +17,7 @@
 
 #include "GeoGridReader.h"
 #include "contact/ContactPool.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 
 #include <H5Cpp.h>
 
@@ -50,7 +50,7 @@ private:
         Coordinate ParseCoordinate(const H5::Group& loc);
 
         /// Create a Location based on the information stored in the provided HDF5 Group.
-        std::shared_ptr<geopop::Location> ParseLocation(const H5::Group& loc);
+        std::shared_ptr<geopop::SimLocation> ParseLocation(const H5::Group& loc);
 
         /// Create the Persons based on the information stored in the provided HDF5 DataSet.
         void ParsePersons(const H5::DataSet& loc);

@@ -5,6 +5,7 @@ var searchData=
   ['personsfile',['PersonsFile',['../classstride_1_1output_1_1_persons_file.html#ab2c1e70237152817647dded0f5906c6b',1,'stride::output::PersonsFile']]],
   ['personsfileviewer',['PersonsFileViewer',['../classstride_1_1viewers_1_1_persons_file_viewer.html#a3a0f69649baabe6b4403195283d860bb',1,'stride::viewers::PersonsFileViewer']]],
   ['pop_5fback',['pop_back',['../classstride_1_1util_1_1_segmented_vector.html#a4e0b15a5f6a72420feedc9a006d17fa7',1,'stride::util::SegmentedVector']]],
+  ['popdataview',['PopDataView',['../classstride_1_1visualiser_1_1_pop_data_view.html#ac12d4a445ef2f005b41a1d964060bd8e',1,'stride::visualiser::PopDataView']]],
   ['populator',['Populator',['../classgeopop_1_1_populator.html#acd520f78994929ac5489ecd1f2e5c96f',1,'geopop::Populator']]],
   ['print',['Print',['../classstride_1_1output_1_1_infected_file.html#ae42038f7696374e29aef434de61d386d',1,'stride::output::InfectedFile::Print()'],['../classstride_1_1output_1_1_persons_file.html#ac72a90d142c34ca2137bdf09760ba2c4',1,'stride::output::PersonsFile::Print()'],['../classstride_1_1output_1_1_summary_file.html#a9b4fb82839ddf6a7c8d10fc119bf22fb',1,'stride::output::SummaryFile::Print()']]],
   ['processorcount',['ProcessorCount',['../classstride_1_1util_1_1_config_info.html#a9b191149cb109105f73c84df61bebbb6',1,'stride::util::ConfigInfo']]],

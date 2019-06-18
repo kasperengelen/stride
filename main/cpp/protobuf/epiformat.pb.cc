@@ -16,10 +16,10 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 
-extern PROTOBUF_INTERNAL_EXPORT_ProtobufEpiFormat_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Coordinate_ProtobufEpiFormat_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_ProtobufEpiFormat_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_PopSection_ProtobufEpiFormat_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_ProtobufEpiFormat_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_Timestep_ProtobufEpiFormat_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_ProtobufEpiFormat_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_Location_ProtobufEpiFormat_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_epiformat_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Coordinate_epiformat_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_epiformat_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_PopSection_epiformat_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_epiformat_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_Timestep_epiformat_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_epiformat_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_Location_epiformat_2eproto;
 namespace proto {
 class EpiFileDefaultTypeInternal {
  public:
@@ -42,7 +42,7 @@ class PopSectionDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<PopSection> _instance;
 } _PopSection_default_instance_;
 }  // namespace proto
-static void InitDefaultsEpiFile_ProtobufEpiFormat_2eproto() {
+static void InitDefaultsEpiFile_epiformat_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
@@ -53,11 +53,11 @@ static void InitDefaultsEpiFile_ProtobufEpiFormat_2eproto() {
   ::proto::EpiFile::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_EpiFile_ProtobufEpiFormat_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsEpiFile_ProtobufEpiFormat_2eproto}, {
-      &scc_info_Timestep_ProtobufEpiFormat_2eproto.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_EpiFile_epiformat_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsEpiFile_epiformat_2eproto}, {
+      &scc_info_Timestep_epiformat_2eproto.base,}};
 
-static void InitDefaultsTimestep_ProtobufEpiFormat_2eproto() {
+static void InitDefaultsTimestep_epiformat_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
@@ -68,11 +68,11 @@ static void InitDefaultsTimestep_ProtobufEpiFormat_2eproto() {
   ::proto::Timestep::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_Timestep_ProtobufEpiFormat_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsTimestep_ProtobufEpiFormat_2eproto}, {
-      &scc_info_Location_ProtobufEpiFormat_2eproto.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_Timestep_epiformat_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsTimestep_epiformat_2eproto}, {
+      &scc_info_Location_epiformat_2eproto.base,}};
 
-static void InitDefaultsLocation_ProtobufEpiFormat_2eproto() {
+static void InitDefaultsLocation_epiformat_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
@@ -83,12 +83,12 @@ static void InitDefaultsLocation_ProtobufEpiFormat_2eproto() {
   ::proto::Location::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<2> scc_info_Location_ProtobufEpiFormat_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsLocation_ProtobufEpiFormat_2eproto}, {
-      &scc_info_Coordinate_ProtobufEpiFormat_2eproto.base,
-      &scc_info_PopSection_ProtobufEpiFormat_2eproto.base,}};
+::google::protobuf::internal::SCCInfo<2> scc_info_Location_epiformat_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsLocation_epiformat_2eproto}, {
+      &scc_info_Coordinate_epiformat_2eproto.base,
+      &scc_info_PopSection_epiformat_2eproto.base,}};
 
-static void InitDefaultsCoordinate_ProtobufEpiFormat_2eproto() {
+static void InitDefaultsCoordinate_epiformat_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
@@ -99,10 +99,10 @@ static void InitDefaultsCoordinate_ProtobufEpiFormat_2eproto() {
   ::proto::Coordinate::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_Coordinate_ProtobufEpiFormat_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCoordinate_ProtobufEpiFormat_2eproto}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_Coordinate_epiformat_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCoordinate_epiformat_2eproto}, {}};
 
-static void InitDefaultsPopSection_ProtobufEpiFormat_2eproto() {
+static void InitDefaultsPopSection_epiformat_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
@@ -113,22 +113,22 @@ static void InitDefaultsPopSection_ProtobufEpiFormat_2eproto() {
   ::proto::PopSection::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_PopSection_ProtobufEpiFormat_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPopSection_ProtobufEpiFormat_2eproto}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_PopSection_epiformat_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPopSection_epiformat_2eproto}, {}};
 
-void InitDefaults_ProtobufEpiFormat_2eproto() {
-  ::google::protobuf::internal::InitSCC(&scc_info_EpiFile_ProtobufEpiFormat_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_Timestep_ProtobufEpiFormat_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_Location_ProtobufEpiFormat_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_Coordinate_ProtobufEpiFormat_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_PopSection_ProtobufEpiFormat_2eproto.base);
+void InitDefaults_epiformat_2eproto() {
+  ::google::protobuf::internal::InitSCC(&scc_info_EpiFile_epiformat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Timestep_epiformat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Location_epiformat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Coordinate_epiformat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_PopSection_epiformat_2eproto.base);
 }
 
-::google::protobuf::Metadata file_level_metadata_ProtobufEpiFormat_2eproto[5];
-constexpr ::google::protobuf::EnumDescriptor const** file_level_enum_descriptors_ProtobufEpiFormat_2eproto = nullptr;
-constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_ProtobufEpiFormat_2eproto = nullptr;
+::google::protobuf::Metadata file_level_metadata_epiformat_2eproto[5];
+constexpr ::google::protobuf::EnumDescriptor const** file_level_enum_descriptors_epiformat_2eproto = nullptr;
+constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_epiformat_2eproto = nullptr;
 
-const ::google::protobuf::uint32 TableStruct_ProtobufEpiFormat_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+const ::google::protobuf::uint32 TableStruct_epiformat_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::proto::EpiFile, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -192,47 +192,47 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_PopSection_default_instance_),
 };
 
-::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_ProtobufEpiFormat_2eproto = {
-  {}, AddDescriptors_ProtobufEpiFormat_2eproto, "epiformat.proto", schemas,
-  file_default_instances, TableStruct_ProtobufEpiFormat_2eproto::offsets,
-  file_level_metadata_ProtobufEpiFormat_2eproto, 5, file_level_enum_descriptors_ProtobufEpiFormat_2eproto, file_level_service_descriptors_ProtobufEpiFormat_2eproto,
+::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_epiformat_2eproto = {
+  {}, AddDescriptors_epiformat_2eproto, "epiformat.proto", schemas,
+  file_default_instances, TableStruct_epiformat_2eproto::offsets,
+  file_level_metadata_epiformat_2eproto, 5, file_level_enum_descriptors_epiformat_2eproto, file_level_service_descriptors_epiformat_2eproto,
 };
 
-const char descriptor_table_protodef_ProtobufEpiFormat_2eproto[] =
-  "\n\027ProtobufEpiFormat.proto\022\005proto\"-\n\007EpiF"
-  "ile\022\"\n\ttimesteps\030\001 \003(\0132\017.proto.Timestep\""
-  ".\n\010Timestep\022\"\n\tlocations\030\001 \003(\0132\017.proto.L"
-  "ocation\"\341\002\n\010Location\022\014\n\004name\030\001 \001(\t\022 \n\005co"
-  "ord\030\002 \001(\0132\021.proto.Coordinate\022$\n\thousehol"
-  "d\030\003 \001(\0132\021.proto.PopSection\022$\n\tk12school\030"
-  "\004 \001(\0132\021.proto.PopSection\022\"\n\007college\030\005 \001("
-  "\0132\021.proto.PopSection\022$\n\tworkplace\030\006 \001(\0132"
-  "\021.proto.PopSection\022\"\n\007primCom\030\007 \001(\0132\021.pr"
-  "oto.PopSection\022!\n\006secCom\030\010 \001(\0132\021.proto.P"
-  "opSection\022\"\n\007daycare\030\t \001(\0132\021.proto.PopSe"
-  "ction\022$\n\tpreschool\030\n \001(\0132\021.proto.PopSect"
-  "ion\"1\n\nCoordinate\022\021\n\tlongitude\030\001 \001(\001\022\020\n\010"
-  "latitude\030\002 \001(\001\"\223\001\n\nPopSection\022\022\n\npopulat"
-  "ion\030\001 \001(\r\022\016\n\006immune\030\002 \001(\001\022\020\n\010infected\030\003 "
-  "\001(\001\022\022\n\ninfectious\030\004 \001(\001\022\021\n\trecovered\030\005 \001"
-  "(\001\022\023\n\013susceptible\030\006 \001(\001\022\023\n\013symptomatic\030\007"
-  " \001(\001b\006proto3"
+const char descriptor_table_protodef_epiformat_2eproto[] =
+  "\n\017epiformat.proto\022\005proto\"-\n\007EpiFile\022\"\n\tt"
+  "imesteps\030\001 \003(\0132\017.proto.Timestep\".\n\010Times"
+  "tep\022\"\n\tlocations\030\001 \003(\0132\017.proto.Location\""
+  "\341\002\n\010Location\022\014\n\004name\030\001 \001(\t\022 \n\005coord\030\002 \001("
+  "\0132\021.proto.Coordinate\022$\n\thousehold\030\003 \001(\0132"
+  "\021.proto.PopSection\022$\n\tk12school\030\004 \001(\0132\021."
+  "proto.PopSection\022\"\n\007college\030\005 \001(\0132\021.prot"
+  "o.PopSection\022$\n\tworkplace\030\006 \001(\0132\021.proto."
+  "PopSection\022\"\n\007primCom\030\007 \001(\0132\021.proto.PopS"
+  "ection\022!\n\006secCom\030\010 \001(\0132\021.proto.PopSectio"
+  "n\022\"\n\007daycare\030\t \001(\0132\021.proto.PopSection\022$\n"
+  "\tpreschool\030\n \001(\0132\021.proto.PopSection\"1\n\nC"
+  "oordinate\022\021\n\tlongitude\030\001 \001(\001\022\020\n\010latitude"
+  "\030\002 \001(\001\"\223\001\n\nPopSection\022\022\n\npopulation\030\001 \001("
+  "\r\022\016\n\006immune\030\002 \001(\001\022\020\n\010infected\030\003 \001(\001\022\022\n\ni"
+  "nfectious\030\004 \001(\001\022\021\n\trecovered\030\005 \001(\001\022\023\n\013su"
+  "sceptible\030\006 \001(\001\022\023\n\013symptomatic\030\007 \001(\001b\006pr"
+  "oto3"
   ;
-::google::protobuf::internal::DescriptorTable descriptor_table_ProtobufEpiFormat_2eproto = {
-  false, InitDefaults_ProtobufEpiFormat_2eproto, 
-  descriptor_table_protodef_ProtobufEpiFormat_2eproto,
-  "epiformat.proto", &assign_descriptors_table_ProtobufEpiFormat_2eproto, 692,
+::google::protobuf::internal::DescriptorTable descriptor_table_epiformat_2eproto = {
+  false, InitDefaults_epiformat_2eproto, 
+  descriptor_table_protodef_epiformat_2eproto,
+  "epiformat.proto", &assign_descriptors_table_epiformat_2eproto, 684,
 };
 
-void AddDescriptors_ProtobufEpiFormat_2eproto() {
+void AddDescriptors_epiformat_2eproto() {
   static constexpr ::google::protobuf::internal::InitFunc deps[1] =
   {
   };
- ::google::protobuf::internal::AddDescriptors(&descriptor_table_ProtobufEpiFormat_2eproto, deps, 0);
+ ::google::protobuf::internal::AddDescriptors(&descriptor_table_epiformat_2eproto, deps, 0);
 }
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_ProtobufEpiFormat_2eproto = []() { AddDescriptors_ProtobufEpiFormat_2eproto(); return true; }();
+static bool dynamic_init_dummy_epiformat_2eproto = []() { AddDescriptors_epiformat_2eproto(); return true; }();
 namespace proto {
 
 // ===================================================================
@@ -262,7 +262,7 @@ EpiFile::EpiFile(const EpiFile& from)
 
 void EpiFile::SharedCtor() {
   ::google::protobuf::internal::InitSCC(
-      &scc_info_EpiFile_ProtobufEpiFormat_2eproto.base);
+      &scc_info_EpiFile_epiformat_2eproto.base);
 }
 
 EpiFile::~EpiFile() {
@@ -277,7 +277,7 @@ void EpiFile::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const EpiFile& EpiFile::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_EpiFile_ProtobufEpiFormat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&::scc_info_EpiFile_epiformat_2eproto.base);
   return *internal_default_instance();
 }
 
@@ -510,8 +510,8 @@ void EpiFile::InternalSwap(EpiFile* other) {
 }
 
 ::google::protobuf::Metadata EpiFile::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_ProtobufEpiFormat_2eproto);
-  return ::file_level_metadata_ProtobufEpiFormat_2eproto[kIndexInFileMessages];
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_epiformat_2eproto);
+  return ::file_level_metadata_epiformat_2eproto[kIndexInFileMessages];
 }
 
 
@@ -542,7 +542,7 @@ Timestep::Timestep(const Timestep& from)
 
 void Timestep::SharedCtor() {
   ::google::protobuf::internal::InitSCC(
-      &scc_info_Timestep_ProtobufEpiFormat_2eproto.base);
+      &scc_info_Timestep_epiformat_2eproto.base);
 }
 
 Timestep::~Timestep() {
@@ -557,7 +557,7 @@ void Timestep::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const Timestep& Timestep::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_Timestep_ProtobufEpiFormat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&::scc_info_Timestep_epiformat_2eproto.base);
   return *internal_default_instance();
 }
 
@@ -790,8 +790,8 @@ void Timestep::InternalSwap(Timestep* other) {
 }
 
 ::google::protobuf::Metadata Timestep::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_ProtobufEpiFormat_2eproto);
-  return ::file_level_metadata_ProtobufEpiFormat_2eproto[kIndexInFileMessages];
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_epiformat_2eproto);
+  return ::file_level_metadata_epiformat_2eproto[kIndexInFileMessages];
 }
 
 
@@ -942,7 +942,7 @@ Location::Location(const Location& from)
 
 void Location::SharedCtor() {
   ::google::protobuf::internal::InitSCC(
-      &scc_info_Location_ProtobufEpiFormat_2eproto.base);
+      &scc_info_Location_epiformat_2eproto.base);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&coord_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&preschool_) -
@@ -971,7 +971,7 @@ void Location::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const Location& Location::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_Location_ProtobufEpiFormat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&::scc_info_Location_epiformat_2eproto.base);
   return *internal_default_instance();
 }
 
@@ -1684,8 +1684,8 @@ void Location::InternalSwap(Location* other) {
 }
 
 ::google::protobuf::Metadata Location::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_ProtobufEpiFormat_2eproto);
-  return ::file_level_metadata_ProtobufEpiFormat_2eproto[kIndexInFileMessages];
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_epiformat_2eproto);
+  return ::file_level_metadata_epiformat_2eproto[kIndexInFileMessages];
 }
 
 
@@ -1735,7 +1735,7 @@ void Coordinate::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const Coordinate& Coordinate::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_Coordinate_ProtobufEpiFormat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&::scc_info_Coordinate_epiformat_2eproto.base);
   return *internal_default_instance();
 }
 
@@ -1988,8 +1988,8 @@ void Coordinate::InternalSwap(Coordinate* other) {
 }
 
 ::google::protobuf::Metadata Coordinate::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_ProtobufEpiFormat_2eproto);
-  return ::file_level_metadata_ProtobufEpiFormat_2eproto[kIndexInFileMessages];
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_epiformat_2eproto);
+  return ::file_level_metadata_epiformat_2eproto[kIndexInFileMessages];
 }
 
 
@@ -2044,7 +2044,7 @@ void PopSection::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const PopSection& PopSection::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_PopSection_ProtobufEpiFormat_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&::scc_info_PopSection_epiformat_2eproto.base);
   return *internal_default_instance();
 }
 
@@ -2494,8 +2494,8 @@ void PopSection::InternalSwap(PopSection* other) {
 }
 
 ::google::protobuf::Metadata PopSection::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_ProtobufEpiFormat_2eproto);
-  return ::file_level_metadata_ProtobufEpiFormat_2eproto[kIndexInFileMessages];
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_epiformat_2eproto);
+  return ::file_level_metadata_epiformat_2eproto[kIndexInFileMessages];
 }
 
 

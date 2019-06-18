@@ -62,11 +62,11 @@ public:
         void SetModelPointer(Model* modelPtr) { m_model_ptr = modelPtr; }
 
         /**
-         * Command the View to display the specified population data in the sidebar.
+         * Command the View to display the specified population stats in the sidebar.
          *
-         * @param popData A PopData object that contains the information that is to be displayed.
+         * @param popStats A geopop::PopStats object that contains the information that is to be displayed.
          */
-        void DisplayPopDataInSidebar(const PopData& popData);
+        void DisplayPopStatsInSidebar(const geopop::PopStats& popStats);
 
 public:
         /**

@@ -19,7 +19,7 @@
 #include "geopop/Coordinate.h"
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/RnMan.h"
 #include "util/Exception.h"
@@ -55,7 +55,7 @@ TEST_F(HouseholdPopulatorTest, OneHouseholdTest)
 {
         m_gg_config.refHH.ages[0] = vector<vector<unsigned int>>{{8U}};
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
 
         m_geo_grid.AddLocation(loc1);
@@ -75,7 +75,7 @@ TEST_F(HouseholdPopulatorTest, FiveHouseholdsTest)
 {
         m_gg_config.refHH.ages[0] = vector<vector<unsigned int>>{{18U}};
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
 
         for (unsigned int i = 0U; i < 5U; ++i) {
                 m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
@@ -94,7 +94,7 @@ TEST_F(HouseholdPopulatorTest, MultipleHouseholdTypesTest)
 {
         m_gg_config.refHH.ages[0] = vector<vector<unsigned int>>{{18U}, {12U, 56U}};
 
-        const auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
 
@@ -117,7 +117,7 @@ TEST_F(HouseholdPopulatorTest, OneHouseholdMultiDrawTest)
 {
         m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{8U}};
         m_gg_config.refHH.multiHH = true;
-        auto loc1                 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1                 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
 
         m_geo_grid.AddLocation(loc1);
@@ -133,7 +133,7 @@ TEST_F(HouseholdPopulatorTest, FiveHouseholdsMultiDrawTest)
         m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{18U}};
         m_gg_config.refHH.multiHH = true;
 
-        auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
 
         for (unsigned int i = 0U; i < 5U; ++i) {
                 m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
@@ -153,7 +153,7 @@ TEST_F(HouseholdPopulatorTest, MultipleHouseholdTypesMultiDrawTest)
         m_gg_config.refHH.ages[1] = vector<vector<unsigned int>>{{18U}, {12U, 56U}};
         m_gg_config.refHH.multiHH = true;
 
-        const auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
 
@@ -178,8 +178,8 @@ TEST_F(HouseholdPopulatorTest, MultiDrawCityTest)
         m_gg_config.refHH.ages[2] = vector<vector<unsigned int>>{{19U, 15U, 40U}};
         m_gg_config.refHH.multiHH = true;
 
-        const auto loc1 = make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
-        const auto loc2 = make_shared<Location>(2, 5, Coordinate(0, 0), "Leuven", 5000);
+        const auto loc1 = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc2 = make_shared<SimLocation>(2, 1, Coordinate(0, 0), "Leuven", 5000);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
         m_household_generator.AddPools(*loc2, m_pop.get(), m_gg_config);
 
@@ -209,8 +209,8 @@ TEST_F(HouseholdPopulatorTest, MultiDrawProvinceTest)
         m_gg_config.refHH.ages[2] = vector<vector<unsigned int>>{{19U, 15U, 40U}};
         m_gg_config.refHH.multiHH = true;
 
-        const auto loc1 = make_shared<Location>(4, 1, Coordinate(0, 0), "Antwerpen", 2500);
-        const auto loc2 = make_shared<Location>(5, 2, Coordinate(0, 0), "Leuven", 5000);
+        const auto loc1 = make_shared<SimLocation>(4, 1, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc2 = make_shared<SimLocation>(5, 2, Coordinate(0, 0), "Leuven", 5000);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
         m_household_generator.AddPools(*loc2, m_pop.get(), m_gg_config);
 
@@ -240,8 +240,8 @@ TEST_F(HouseholdPopulatorTest, MultiDrawDefaultTest)
         m_gg_config.refHH.ages[0] = vector<vector<unsigned int>>{{19U, 15U, 40U}};
         m_gg_config.refHH.multiHH = true;
 
-        const auto loc1 = make_shared<Location>(4, 2, Coordinate(0, 0), "Antwerpen", 2500);
-        const auto loc2 = make_shared<Location>(5, 2, Coordinate(0, 0), "Leuven", 5000);
+        const auto loc1 = make_shared<SimLocation>(4, 2, Coordinate(0, 0), "Antwerpen", 2500);
+        const auto loc2 = make_shared<SimLocation>(5, 2, Coordinate(0, 0), "Leuven", 5000);
         m_household_generator.AddPools(*loc1, m_pop.get(), m_gg_config);
         m_household_generator.AddPools(*loc2, m_pop.get(), m_gg_config);
 
@@ -270,7 +270,7 @@ TEST_F(HouseholdPopulatorTest, MultiDrawErrorTest)
 {
         m_gg_config.refHH.multiHH = true;
 
-        const auto loc = make_shared<Location>(5, 3, Coordinate(0, 0), "Leuven", 5000);
+        const auto loc = make_shared<SimLocation>(5, 3, Coordinate(0, 0), "Leuven", 5000);
         m_household_generator.AddPools(*loc, m_pop.get(), m_gg_config);
 
         m_geo_grid.AddLocation(loc);

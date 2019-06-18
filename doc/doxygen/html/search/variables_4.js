@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lower',['lower',['../structgeopop_1_1_a_a_b_box.html#a28aa15fc4d556f895e09befcdabf5017',1,'geopop::AABBox']]]
+  ['household',['household',['../structstride_1_1visualiser_1_1_pop_data.html#af16a1aa02383519e3e58bd93c991e8e0',1,'stride::visualiser::PopData']]]
 ];

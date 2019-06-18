@@ -18,7 +18,7 @@
 #include "GeoGridReader.h"
 #include "contact/ContactPool.h"
 #include "contact/ContactType.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "json.hpp"
 #include "pop/Person.h"
 
@@ -53,7 +53,7 @@ private:
         Coordinate ParseCoordinate(const nlohmann::json& coordinate);
 
         /// Create a Location based on the information stored in the provided nlohmann::json.
-        std::shared_ptr<Location> ParseLocation(const nlohmann::json& location);
+        std::shared_ptr<SimLocation> ParseLocation(const nlohmann::json& location);
 
         /// Create a Person based on the information stored in the provided nlohmann::json.
         stride::Person* ParsePerson(const nlohmann::json& person);

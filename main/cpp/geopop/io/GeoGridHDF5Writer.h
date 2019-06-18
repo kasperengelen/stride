@@ -17,7 +17,7 @@
 
 #include "GeoGridFileWriter.h"
 #include "contact/ContactPool.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Person.h"
 #include <H5Cpp.h>
 #include <set>
@@ -47,7 +47,7 @@ private:
         void WriteContactPool(H5::Group& contact_pools, const stride::ContactPool* pool, unsigned int count);
 
         /// Create a H5::Group in the H5::Group containing all info needed to reconstruct a Location.
-        void WriteLocation(H5::Group& locations, const Location& location, unsigned int count);
+        void WriteLocation(H5::Group& locations, const SimLocation& location, unsigned int count);
 
         /// Create a H5::DataSet in the H5::H5File containing all info needed to reconstruct the Persons.
         void WritePersons(H5::H5File& file);
