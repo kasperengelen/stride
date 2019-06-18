@@ -201,3 +201,8 @@ each populates ia type of ContactPool:
         In secondary communities however, we assign complete households to the 
         ContactPools instead of each person in the household separately.
 \end{description}
+\section{Demographic Profiles}
+\label{section:demographicprofiles}
+There are two ways to populate a household from a file. When the population is constant, it is possible to load in one csv or json file containing the different households. This can be done by entering the csv filename into the \texttt{geopop\_gen.household\_file} in the cofnig file. As explained in \ref{subsection:genpop}, we randomly draw a household from this list for each household in the GeoGrid. \\
+It is also possible to load in multiple csv or json files at once, to make a difference in population between different cities and provinces. For example if one city or province contains a lot of old people, you can have householdfile for that city or province representing those quotations. This can be done by setting up a configuration xml file. Under the tag \textless household\_file\textgreater, you can put the different tags containing the csv or json file. In those different tags you also need to specify the id of the city or province. Id 0 is reserved as a default, and will be used if there are cities or provinces that are not covered by the other files. \\
+To use this setup, enter the xml filename into the \texttt{geopop\_gen.household\_file} in the config file. We now randomly draw a household from the list corresponding to the location for each household in the GeoGrid. 
