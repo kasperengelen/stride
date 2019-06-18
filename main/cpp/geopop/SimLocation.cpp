@@ -27,18 +27,18 @@ namespace geopop {
 using namespace std;
 using namespace stride::ContactType;
 
-SimLocation::SimLocation(unsigned int id, unsigned int province, Coordinate coordinate, string name, unsigned int popCount)
-    : LocationBase{coordinate, name}, m_id{id}, m_province{province}, m_pop_count{popCount},
-      m_pop_fraction{0.0}, m_inCommutes{}, m_outCommutes{}, /* m_cc(),*/ m_pool_index{}
+SimLocation::SimLocation(unsigned int id, unsigned int province, Coordinate coordinate, string name,
+                         unsigned int popCount)
+    : LocationBase{coordinate, name}, m_id{id}, m_province{province}, m_pop_count{popCount}, m_pop_fraction{0.0},
+      m_inCommutes{}, m_outCommutes{}, /* m_cc(),*/ m_pool_index{}
 {
 }
 
 bool SimLocation::operator==(const SimLocation& other) const
 {
         // check base class equality
-        if(not LocationBase::operator==(other))
-        {
-            return false;
+        if (not LocationBase::operator==(other)) {
+                return false;
         }
 
         // check equality for the derived class
@@ -48,12 +48,9 @@ bool SimLocation::operator==(const SimLocation& other) const
         for (Id typ : IdList) {
                 temp = temp && (CRefPools(typ) == other.CRefPools(typ));
         }
-        return temp
-                && GetID() == other.GetID()
-                && GetProvince() == other.GetProvince()
-                && GetPopCount() == other.GetPopCount()
-                && CRefIncomingCommutes() == other.CRefIncomingCommutes()
-                && CRefOutgoingCommutes() == other.CRefOutgoingCommutes();
+        return temp && GetID() == other.GetID() && GetProvince() == other.GetProvince() &&
+               GetPopCount() == other.GetPopCount() && CRefIncomingCommutes() == other.CRefIncomingCommutes() &&
+               CRefOutgoingCommutes() == other.CRefOutgoingCommutes();
 }
 
 void SimLocation::AddIncomingCommute(shared_ptr<SimLocation> otherLocation, double fraction)

@@ -58,7 +58,7 @@ void GeoGridProtoReader::Read()
         m_commutes.clear();
 }
 
-void GeoGridProtoReader::ParseContactPools(shared_ptr<SimLocation>                        loc,
+void GeoGridProtoReader::ParseContactPools(shared_ptr<SimLocation>                     loc,
                                            const proto::GeoGrid_Location_ContactPools& protoContactPools)
 {
         const auto protoType = protoContactPools.type();
@@ -86,7 +86,7 @@ Coordinate GeoGridProtoReader::ParseCoordinate(const proto::GeoGrid_Location_Coo
         return {protoCoordinate.longitude(), protoCoordinate.latitude()};
 }
 
-void GeoGridProtoReader::ParseContactPool(shared_ptr<SimLocation>                                    loc,
+void GeoGridProtoReader::ParseContactPool(shared_ptr<SimLocation>                                 loc,
                                           const proto::GeoGrid_Location_ContactPools_ContactPool& protoContactPool,
                                           Id                                                      type)
 {

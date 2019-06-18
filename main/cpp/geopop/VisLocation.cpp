@@ -24,6 +24,7 @@ namespace geopop {
 
 VisLocation::VisLocation(Coordinate coordinate, std::string name, PopStats stats)
     : LocationBase{coordinate, name}, m_popstats{stats}
-{}
+{
+}
 
 } // namespace geopop

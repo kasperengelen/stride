@@ -21,18 +21,18 @@
 #pragma once
 
 #include "geopop/Coordinate.h"
-#include "geopop/VisLocation.h"
 #include "geopop/VisGeoGrid.h"
+#include "geopop/VisLocation.h"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace stride {
 namespace visualiser {
 
-using geopop::VisGeoGrid;
-using geopop::PopStats;
 using geopop::Coordinate;
+using geopop::PopStats;
+using geopop::VisGeoGrid;
 
 /**
  * @class Model
@@ -71,14 +71,16 @@ public:
          * the specified radius of the specified coordinates (in meters). The selection is based
          * on what the locations looked like on the specified day.
          */
-        const PopStats GetPopulationInRadius(const Coordinate& center, const double radius, const unsigned int day) const;
+        const PopStats GetPopulationInRadius(const Coordinate& center, const double radius,
+                                             const unsigned int day) const;
 
         /**
          * Retrieve information about the part of the population that is within
          * a rectangle that spans between the two specified points. The selection is based
          * on what the locations looked like on the specified day.
          */
-        const PopStats GetPopulationInBox(const Coordinate& pointA, const Coordinate& pointB, const unsigned int day) const;
+        const PopStats GetPopulationInBox(const Coordinate& pointA, const Coordinate& pointB,
+                                          const unsigned int day) const;
 
 private:
         /// Contains the currently stored simulation timesteps.

@@ -53,8 +53,9 @@ void Populator<stride::ContactType::Id::Household>::Apply(GeoGrid& geoGrid, cons
                                 }
                         }
                         if (geoGridConfig.refHH.ages.count(id) == 0) {
-                                throw stride::util::Exception("HouseholdPopulator::Apply> id's not found: " +
-                                to_string(loc->GetID()) + ", " + to_string(loc->GetProvince()) + " or 0 (default).");
+                                throw stride::util::Exception(
+                                    "HouseholdPopulator::Apply> id's not found: " + to_string(loc->GetID()) + ", " +
+                                    to_string(loc->GetProvince()) + " or 0 (default).");
                         }
                         const auto hDraw = static_cast<unsigned int>(hh_dist[id]());
                         for (const auto& age : geoGridConfig.refHH.ages.at(id)[hDraw]) {

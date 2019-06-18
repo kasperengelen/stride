@@ -38,8 +38,8 @@ void LocationsCSVReader::FillGeoGrid(GeoGrid& geoGrid) const
                 // Ignore x and y, we do not use them,
                 // In Coordinate constructor switch order of latitude and longitude
                 const auto loc = make_shared<SimLocation>(row.GetValue<int>(0), row.GetValue<int>(1),
-                                                       Coordinate(row.GetValue<double>(6), row.GetValue<double>(5)),
-                                                       row.GetValue(7));
+                                                          Coordinate(row.GetValue<double>(6), row.GetValue<double>(5)),
+                                                          row.GetValue(7));
                 geoGrid.AddLocation(loc);
                 locations.emplace_back(loc, row.GetValue<int>(2));
                 totalPopulation += row.GetValue<int>(2);

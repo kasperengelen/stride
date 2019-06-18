@@ -28,9 +28,9 @@
 namespace stride {
 namespace visualiser {
 
-using geopop::VisLocation;
 using geopop::PoolStats;
 using geopop::PopStats;
+using geopop::VisLocation;
 
 const VisLocation ParseLocation(const proto::Location& protoLocation);
 
@@ -39,25 +39,24 @@ void ProtobufEpiReader::ReadIntoModel(stride::visualiser::Model& model) const
         try {
                 // open epi file
                 proto::EpiFile epi_file;
-                if(!epi_file.ParseFromIstream(this->GetInStream().get()))
-                {
-                    throw EpiReaderException("Error while parsing protobuf file.");
+                if (!epi_file.ParseFromIstream(this->GetInStream().get())) {
+                        throw EpiReaderException("Error while parsing protobuf file.");
                 }
 
                 std::vector<std::shared_ptr<VisGeoGrid>> timesteps;
 
                 // iterate over timesteps
-                for(const auto& proto_timestep : epi_file.timesteps()) {
-                    std::shared_ptr<VisGeoGrid> locations = std::make_shared<VisGeoGrid>();
+                for (const auto& proto_timestep : epi_file.timesteps()) {
+                        std::shared_ptr<VisGeoGrid> locations = std::make_shared<VisGeoGrid>();
 
-                    for (const auto &proto_location : proto_timestep.locations()) {
-                        const VisLocation loc = ParseLocation(proto_location);
+                        for (const auto& proto_location : proto_timestep.locations()) {
+                                const VisLocation loc = ParseLocation(proto_location);
 
-                        locations->AddLocation(std::make_shared<VisLocation>(loc));
-                    }
+                                locations->AddLocation(std::make_shared<VisLocation>(loc));
+                        }
 
-                    locations->Finalize();
-                    timesteps.push_back(locations);
+                        locations->Finalize();
+                        timesteps.push_back(locations);
                 }
 
                 model.SetTimesteps(timesteps);
@@ -74,40 +73,40 @@ const geopop::Coordinate ParseCoordinate(const proto::Coordinate& protoCoord)
 
 void ReadPoolIntoPopStats(PopStats& popStats, const proto::PopSection& protoPool, const ContactType::Id& poolType)
 {
-    PoolStats poolstats;
+        PoolStats poolstats;
 
-    poolstats.population  = protoPool.population();
-    poolstats.immune      = protoPool.immune();
-    poolstats.infected    = protoPool.infected();
-    poolstats.infectious  = protoPool.infectious();
-    poolstats.recovered   = protoPool.recovered();
-    poolstats.susceptible = protoPool.susceptible();
-    poolstats.symptomatic = protoPool.symptomatic();
+        poolstats.population  = protoPool.population();
+        poolstats.immune      = protoPool.immune();
+        poolstats.infected    = protoPool.infected();
+        poolstats.infectious  = protoPool.infectious();
+        poolstats.recovered   = protoPool.recovered();
+        poolstats.susceptible = protoPool.susceptible();
+        poolstats.symptomatic = protoPool.symptomatic();
 
-    popStats.SetPool(poolType, poolstats);
+        popStats.SetPool(poolType, poolstats);
 }
 
 const VisLocation ParseLocation(const proto::Location& protoLocation)
 {
-    // name
-    const std::string& name = protoLocation.name();
+        // name
+        const std::string& name = protoLocation.name();
 
-    // coordinate
-    const geopop::Coordinate coord = ParseCoordinate(protoLocation.coord());
+        // coordinate
+        const geopop::Coordinate coord = ParseCoordinate(protoLocation.coord());
 
-    // population
-    PopStats popstats;
+        // population
+        PopStats popstats;
 
-    ReadPoolIntoPopStats(popstats, protoLocation.household(), ContactType::Id::Household);
-    ReadPoolIntoPopStats(popstats, protoLocation.k12school(), ContactType::Id::K12School);
-    ReadPoolIntoPopStats(popstats, protoLocation.college(),   ContactType::Id::College);
-    ReadPoolIntoPopStats(popstats, protoLocation.workplace(), ContactType::Id::Workplace);
-    ReadPoolIntoPopStats(popstats, protoLocation.primcom(),   ContactType::Id::PrimaryCommunity);
-    ReadPoolIntoPopStats(popstats, protoLocation.seccom(),    ContactType::Id::SecondaryCommunity);
-    ReadPoolIntoPopStats(popstats, protoLocation.daycare(),   ContactType::Id::Daycare);
-    ReadPoolIntoPopStats(popstats, protoLocation.preschool(), ContactType::Id::PreSchool);
+        ReadPoolIntoPopStats(popstats, protoLocation.household(), ContactType::Id::Household);
+        ReadPoolIntoPopStats(popstats, protoLocation.k12school(), ContactType::Id::K12School);
+        ReadPoolIntoPopStats(popstats, protoLocation.college(), ContactType::Id::College);
+        ReadPoolIntoPopStats(popstats, protoLocation.workplace(), ContactType::Id::Workplace);
+        ReadPoolIntoPopStats(popstats, protoLocation.primcom(), ContactType::Id::PrimaryCommunity);
+        ReadPoolIntoPopStats(popstats, protoLocation.seccom(), ContactType::Id::SecondaryCommunity);
+        ReadPoolIntoPopStats(popstats, protoLocation.daycare(), ContactType::Id::Daycare);
+        ReadPoolIntoPopStats(popstats, protoLocation.preschool(), ContactType::Id::PreSchool);
 
-    return VisLocation{coord, name, popstats};
+        return VisLocation{coord, name, popstats};
 }
 
 } // namespace visualiser

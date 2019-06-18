@@ -78,7 +78,7 @@ public:
         bool InRadius(const KdTree2DPoint& start, double radius) const;
 
 private:
-        Coordinate      m_pt;       ///< Shortcut for access without dereferencing.
+        Coordinate          m_pt;       ///< Shortcut for access without dereferencing.
         const LocationBase* m_location; ///< The underlying location.
 };
 

@@ -46,14 +46,14 @@ TEST(TestEpiOutputPopDataView, test1)
         // create view
         QVariantMap qml_map = stride::visualiser::PopStatsView{popstats}.GetQVariantMap();
 
-        EXPECT_EQ(popstats.GetPool(Id::College).population,    qml_map["college"].toMap()["pop"]);
-        EXPECT_EQ(popstats.GetPool(Id::Daycare).immune,        qml_map["daycare"].toMap()["immune"]);
+        EXPECT_EQ(popstats.GetPool(Id::College).population, qml_map["college"].toMap()["pop"]);
+        EXPECT_EQ(popstats.GetPool(Id::Daycare).immune, qml_map["daycare"].toMap()["immune"]);
         EXPECT_EQ(popstats.GetPool(Id::Household).symptomatic, qml_map["household"].toMap()["symptomatic"]);
 
-        EXPECT_EQ(popstats.GetPool(Id::K12School).recovered,       qml_map["k12school"].toMap()["recovered"]);
-        EXPECT_EQ(popstats.GetPool(Id::PreSchool).susceptible,     qml_map["preschool"].toMap()["susceptible"]);
+        EXPECT_EQ(popstats.GetPool(Id::K12School).recovered, qml_map["k12school"].toMap()["recovered"]);
+        EXPECT_EQ(popstats.GetPool(Id::PreSchool).susceptible, qml_map["preschool"].toMap()["susceptible"]);
         EXPECT_EQ(popstats.GetPool(Id::PrimaryCommunity).infected, qml_map["primCom"].toMap()["infected"]);
 
         EXPECT_EQ(popstats.GetPool(Id::SecondaryCommunity).infectious, qml_map["secCom"].toMap()["infectious"]);
-        EXPECT_EQ(popstats.GetPool(Id::Workplace).recovered,           qml_map["workplace"].toMap()["recovered"]);
+        EXPECT_EQ(popstats.GetPool(Id::Workplace).recovered, qml_map["workplace"].toMap()["recovered"]);
 }

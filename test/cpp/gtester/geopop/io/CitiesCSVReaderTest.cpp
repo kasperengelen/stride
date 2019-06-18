@@ -33,7 +33,7 @@ shared_ptr<GeoGrid> getExpectedGeoGrid()
         auto loc4    = make_shared<SimLocation>(11009, 1, Coordinate(4.6376322, 51.3495775), "BRECHT");
         auto loc5    = make_shared<SimLocation>(11016, 1, Coordinate(4.47518, 51.38298), "ESSEN");
         auto loc6    = make_shared<SimLocation>(73107, 7, Coordinate(5.70979219, 50.96991794), "MAASMECHELEN");
-        auto loc7    = make_shared<SimLocation>(73109, 7, Coordinate(5.806343076, 50.74921941), "VOEREN-'S GRAVENVOEREN");
+        auto loc7 = make_shared<SimLocation>(73109, 7, Coordinate(5.806343076, 50.74921941), "VOEREN-'S GRAVENVOEREN");
 
         loc1->SetPopFraction(0.76599210042448873);
         loc2->SetPopFraction(0.018849454066692393);

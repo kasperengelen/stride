@@ -21,9 +21,9 @@
 #include "EpiOutputHDF5.h"
 
 #include "contact/ContactType.h"
-#include "pop/Population.h"
 #include "geopop/PopStats.h"
 #include "geopop/SimLocation.h"
+#include "pop/Population.h"
 #include "util/FileSys.h"
 
 namespace stride {
@@ -57,13 +57,14 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
         // data layout
         H5::CompType comp_type(sizeof(geopop::PoolStats));
 
-        comp_type.insertMember("population",  HOFFSET(PoolStats, population),  H5::PredType::NATIVE_UINT);
-        comp_type.insertMember("immune",      HOFFSET(PoolStats, immune),      H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("infected",    HOFFSET(PoolStats, infected),    H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("infectious",  HOFFSET(PoolStats, infectious),  H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("recovered",   HOFFSET(PoolStats, recovered),   H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("population", HOFFSET(PoolStats, population), H5::PredType::NATIVE_UINT);
+        comp_type.insertMember("immune", HOFFSET(PoolStats, immune), H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("infected", HOFFSET(PoolStats, infected), H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("infectious", HOFFSET(PoolStats, infectious), H5::PredType::NATIVE_DOUBLE);
+        comp_type.insertMember("recovered", HOFFSET(PoolStats, recovered), H5::PredType::NATIVE_DOUBLE);
         comp_type.insertMember("susceptible", HOFFSET(PoolStats, susceptible), H5::PredType::NATIVE_DOUBLE);
-        comp_type.insertMember("symptomatic", HOFFSET(PoolStats, symptomatic), H5::PredType::NATIVE_DOUBLE);;
+        comp_type.insertMember("symptomatic", HOFFSET(PoolStats, symptomatic), H5::PredType::NATIVE_DOUBLE);
+        ;
 
         // Create timestep info
         const std::string timestep_name = std::to_string(m_timestep);
@@ -90,7 +91,7 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
 
                         // add population data
                         const geopop::PopStats popdata{*location};
-                        for(const auto& pool_type : ContactType::IdList) {
+                        for (const auto& pool_type : ContactType::IdList) {
                                 const geopop::PoolStats& pool_stats = popdata.GetPool(pool_type);
 
                                 hsize_t       dim = 1;

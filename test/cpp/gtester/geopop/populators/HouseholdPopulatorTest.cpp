@@ -21,8 +21,8 @@
 #include "geopop/GeoGridConfig.h"
 #include "geopop/SimLocation.h"
 #include "pop/Population.h"
-#include "util/RnMan.h"
 #include "util/Exception.h"
+#include "util/RnMan.h"
 
 #include <gtest/gtest.h>
 #include <map>

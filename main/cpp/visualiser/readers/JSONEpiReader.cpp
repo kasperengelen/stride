@@ -26,13 +26,13 @@
 namespace stride {
 namespace visualiser {
 
-using geopop::PopStats;
 using geopop::PoolStats;
+using geopop::PopStats;
 using geopop::VisLocation;
 using nlohmann::json;
 
 const VisLocation ReadLocation(const json& locationData);
-void ReadPoolIntoPopStats(PopStats& popStats, const json& locationData, const ContactType::Id& poolType);
+void              ReadPoolIntoPopStats(PopStats& popStats, const json& locationData, const ContactType::Id& poolType);
 
 void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 {
@@ -68,46 +68,44 @@ void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 
 const VisLocation ReadLocation(const json& locationData)
 {
-    // coord
-    const std::vector<double> coord_vec = locationData.at("coordinates");     // long, lat
-    const geopop::Coordinate  coord     = {coord_vec.at(0), coord_vec.at(1)}; // long, lat
+        // coord
+        const std::vector<double> coord_vec = locationData.at("coordinates");     // long, lat
+        const geopop::Coordinate  coord     = {coord_vec.at(0), coord_vec.at(1)}; // long, lat
 
-    // name
-    const std::string name = locationData.at("name");
+        // name
+        const std::string name = locationData.at("name");
 
+        // population
+        PopStats popstats;
 
-    // population
-    PopStats popstats;
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Household);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::K12School);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::College);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Workplace);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::PrimaryCommunity);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::SecondaryCommunity);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Daycare);
+        ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::PreSchool);
 
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Household);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::K12School);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::College);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Workplace);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::PrimaryCommunity);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::SecondaryCommunity);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::Daycare);
-    ReadPoolIntoPopStats(popstats, locationData, ContactType::Id::PreSchool);
-
-    return VisLocation{coord, name, popstats};
+        return VisLocation{coord, name, popstats};
 }
 
 void ReadPoolIntoPopStats(PopStats& popStats, const json& locationData, const ContactType::Id& poolType)
 {
-    const nlohmann::json& popsection_data = locationData.at(ContactType::ToString(poolType));
+        const nlohmann::json& popsection_data = locationData.at(ContactType::ToString(poolType));
 
-    PoolStats poolstats;
+        PoolStats poolstats;
 
-    poolstats.population  = popsection_data.at("population");
-    poolstats.immune      = popsection_data.at("immune");
-    poolstats.infected    = popsection_data.at("infected");
-    poolstats.infectious  = popsection_data.at("infectious");
-    poolstats.recovered   = popsection_data.at("recovered");
-    poolstats.susceptible = popsection_data.at("susceptible");
-    poolstats.symptomatic = popsection_data.at("symptomatic");
+        poolstats.population  = popsection_data.at("population");
+        poolstats.immune      = popsection_data.at("immune");
+        poolstats.infected    = popsection_data.at("infected");
+        poolstats.infectious  = popsection_data.at("infectious");
+        poolstats.recovered   = popsection_data.at("recovered");
+        poolstats.susceptible = popsection_data.at("susceptible");
+        poolstats.symptomatic = popsection_data.at("symptomatic");
 
-    popStats.SetPool(poolType, poolstats);
+        popStats.SetPool(poolType, poolstats);
 }
-
 
 } // namespace visualiser
 } // namespace stride

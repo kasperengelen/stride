@@ -23,9 +23,9 @@
 namespace stride {
 namespace visualiser {
 
-using geopop::VisLocation;
-using geopop::PoolStats;
 using geopop::LocationBase;
+using geopop::PoolStats;
+using geopop::VisLocation;
 
 using std::vector;
 
@@ -36,53 +36,53 @@ using std::vector;
  */
 struct PoolTotals
 {
-    // totals
-    unsigned int population = 0;
-    unsigned int immune = 0;
-    unsigned int infected = 0;
-    unsigned int infectious = 0;
-    unsigned int recovered = 0;
-    unsigned int susceptible = 0;
-    unsigned int symptomatic = 0;
+        // totals
+        unsigned int population  = 0;
+        unsigned int immune      = 0;
+        unsigned int infected    = 0;
+        unsigned int infectious  = 0;
+        unsigned int recovered   = 0;
+        unsigned int susceptible = 0;
+        unsigned int symptomatic = 0;
 
-    /**
-     * Add a PoolStats object to the current totals.
-     */
-    void AugmentWithPoolStats(const PoolStats& poolStats)
-    {
-        population  += poolStats.population;
-        immune      += (unsigned int) (poolStats.population * poolStats.immune);
-        infected    += (unsigned int) (poolStats.population * poolStats.infected);
-        infectious  += (unsigned int) (poolStats.population * poolStats.infectious);
-        recovered   += (unsigned int) (poolStats.population * poolStats.recovered);
-        susceptible += (unsigned int) (poolStats.population * poolStats.susceptible);
-        symptomatic += (unsigned int) (poolStats.population * poolStats.symptomatic);
-    }
+        /**
+         * Add a PoolStats object to the current totals.
+         */
+        void AugmentWithPoolStats(const PoolStats& poolStats)
+        {
+                population += poolStats.population;
+                immune += (unsigned int)(poolStats.population * poolStats.immune);
+                infected += (unsigned int)(poolStats.population * poolStats.infected);
+                infectious += (unsigned int)(poolStats.population * poolStats.infectious);
+                recovered += (unsigned int)(poolStats.population * poolStats.recovered);
+                susceptible += (unsigned int)(poolStats.population * poolStats.susceptible);
+                symptomatic += (unsigned int)(poolStats.population * poolStats.symptomatic);
+        }
 
-    /**
-     * Convert the PoolTotals object that contains absolute population numbers
-     * to a PoolStats object that contains fractions.
-     */
-    const PoolStats ToPoolStats() const
-    {
-        PoolStats retval{};
+        /**
+         * Convert the PoolTotals object that contains absolute population numbers
+         * to a PoolStats object that contains fractions.
+         */
+        const PoolStats ToPoolStats() const
+        {
+                PoolStats retval{};
 
-        unsigned int population = this->population;
+                unsigned int population = this->population;
 
-        retval.population  = population;
+                retval.population = population;
 
-        if(population == 0)
-            population = 1;
+                if (population == 0)
+                        population = 1;
 
-        retval.immune      = (double) immune      / (double) population;
-        retval.infected    = (double) infected    / (double) population;
-        retval.infectious  = (double) infectious  / (double) population;
-        retval.recovered   = (double) recovered   / (double) population;
-        retval.susceptible = (double) susceptible / (double) population;
-        retval.symptomatic = (double) symptomatic / (double) population;
+                retval.immune      = (double)immune / (double)population;
+                retval.infected    = (double)infected / (double)population;
+                retval.infectious  = (double)infectious / (double)population;
+                retval.recovered   = (double)recovered / (double)population;
+                retval.susceptible = (double)susceptible / (double)population;
+                retval.symptomatic = (double)symptomatic / (double)population;
 
-        return retval;
-    }
+                return retval;
+        }
 };
 
 /**
@@ -91,40 +91,33 @@ struct PoolTotals
  */
 const PopStats SummarizeLocations(const std::vector<const VisLocation*>& locations)
 {
-    // totals per pool
-    std::map<ContactType::Id, PoolTotals> pool_totals = {
-        {ContactType::Id::Household,          PoolTotals{}},
-        {ContactType::Id::K12School,          PoolTotals{}},
-        {ContactType::Id::College,            PoolTotals{}},
-        {ContactType::Id::Workplace,          PoolTotals{}},
-        {ContactType::Id::PrimaryCommunity,   PoolTotals{}},
-        {ContactType::Id::SecondaryCommunity, PoolTotals{}},
-        {ContactType::Id::Daycare,            PoolTotals{}},
-        {ContactType::Id::PreSchool,          PoolTotals{}},
-    };
+        // totals per pool
+        std::map<ContactType::Id, PoolTotals> pool_totals = {
+            {ContactType::Id::Household, PoolTotals{}},        {ContactType::Id::K12School, PoolTotals{}},
+            {ContactType::Id::College, PoolTotals{}},          {ContactType::Id::Workplace, PoolTotals{}},
+            {ContactType::Id::PrimaryCommunity, PoolTotals{}}, {ContactType::Id::SecondaryCommunity, PoolTotals{}},
+            {ContactType::Id::Daycare, PoolTotals{}},          {ContactType::Id::PreSchool, PoolTotals{}},
+        };
 
-    // go over locations
-    for(const auto* loc : locations)
-    {
-        // retrieve population information
-        const auto& popstats = loc->GetPopStats();
+        // go over locations
+        for (const auto* loc : locations) {
+                // retrieve population information
+                const auto& popstats = loc->GetPopStats();
 
-        // update totals for each type of contact pool
-        for(const auto& pool_type : ContactType::IdList)
-        {
-            pool_totals.at(pool_type).AugmentWithPoolStats(popstats.GetPool(pool_type));
+                // update totals for each type of contact pool
+                for (const auto& pool_type : ContactType::IdList) {
+                        pool_totals.at(pool_type).AugmentWithPoolStats(popstats.GetPool(pool_type));
+                }
         }
-    }
 
-    // convert pool totals back to PopStats object
-    PopStats retval{};
+        // convert pool totals back to PopStats object
+        PopStats retval{};
 
-    for(const auto& pool_type : ContactType::IdList)
-    {
-        retval.SetPool(pool_type, pool_totals.at(pool_type).ToPoolStats());
-    }
+        for (const auto& pool_type : ContactType::IdList) {
+                retval.SetPool(pool_type, pool_totals.at(pool_type).ToPoolStats());
+        }
 
-    return retval;
+        return retval;
 }
 
 /**
@@ -132,14 +125,13 @@ const PopStats SummarizeLocations(const std::vector<const VisLocation*>& locatio
  */
 const vector<const VisLocation*> UpcastLocPtrVector(const vector<const LocationBase*>& locPtrVec)
 {
-    std::vector<const VisLocation*> retval;
+        std::vector<const VisLocation*> retval;
 
-    for(const auto* locBasePtr : locPtrVec)
-    {
-        retval.push_back(static_cast<const VisLocation*>(locBasePtr));
-    }
+        for (const auto* locBasePtr : locPtrVec) {
+                retval.push_back(static_cast<const VisLocation*>(locBasePtr));
+        }
 
-    return retval;
+        return retval;
 }
 
 const PopStats Model::GetPopulationInRadius(const Coordinate& center, const double radius, const unsigned int day) const
@@ -157,13 +149,15 @@ const PopStats Model::GetPopulationInRadius(const Coordinate& center, const doub
         return SummarizeLocations(UpcastLocPtrVector(loc_list));
 }
 
-const PopStats Model::GetPopulationInBox(const Coordinate& pointA, const Coordinate& pointB, const unsigned int day) const
+const PopStats Model::GetPopulationInBox(const Coordinate& pointA, const Coordinate& pointB,
+                                         const unsigned int day) const
 {
         // get timestep
         const VisGeoGrid& day_locs = *m_timesteps.at(day);
 
         // filter locations
-        const auto loc_list = day_locs.LocationsInBox(pointA.get<0>(), pointA.get<1>(), pointB.get<0>(), pointB.get<1>());
+        const auto loc_list =
+            day_locs.LocationsInBox(pointA.get<0>(), pointA.get<1>(), pointB.get<0>(), pointB.get<1>());
 
         // summarize selection and return
         return SummarizeLocations(UpcastLocPtrVector(loc_list));

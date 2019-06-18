@@ -49,7 +49,7 @@ void Populator<stride::ContactType::Id::College>::Apply(GeoGrid& geoGrid, const 
 
                 // 2. find all colleges where students from this location commute to
                 vector<SimLocation*> commutingCollege;
-                vector<double>    commutingWeights;
+                vector<double>       commutingWeights;
                 for (const auto& commute : loc->CRefOutgoingCommutes()) {
                         const auto& cpools = commute.first->CRefPools(Id::College);
                         if (!cpools.empty()) {
