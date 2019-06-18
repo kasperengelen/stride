@@ -69,7 +69,7 @@ TEST(GeoGridHDF5WriterTest, contactPoolsTest)
 TEST(GeoGridHDF5WriterTest, peopleTest)
 {
         auto pop = Population::Create();
-        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get()), "test2.h5"));
+        EXPECT_TRUE(compareGeoGrid(GetPopulatedGeoGrid(pop.get()), "test2.h5"));
 }
 
 TEST(GeoGridHDF5WriterTest, commutesTest)
