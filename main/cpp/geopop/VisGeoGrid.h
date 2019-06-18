@@ -15,13 +15,21 @@
 
 /**
  * @file
- * Implementation file for the Locality class.
+ * Header file for the Model class.
  */
 
-#include "Locality.h"
+#pragma once
 
-namespace stride {
-namespace visualiser {
+#include "geopop/GeoGridBase.h"
+#include "geopop/VisLocation.h"
 
-} // namespace visualiser
-} // namespace stride
+namespace geopop {
+
+/**
+* GeoGrid to be used in the visualiser.
+*/
+class VisGeoGrid : public GeoGridBase<VisLocation>
+{};
+
+}
+

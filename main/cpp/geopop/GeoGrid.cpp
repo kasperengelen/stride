@@ -46,7 +46,8 @@ vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const SimLocation& start, do
 
         while (pools.empty()) {
                 for (const auto* nearLoc : LocationsInRadius(start, currentRadius)) {
-                        const auto& locPool = nearLoc->CRefPools(id);
+                        const auto& locPool = static_cast<const SimLocation*>(nearLoc)->CRefPools(id);
+
                         pools.insert(pools.end(), locPool.begin(), locPool.end());
                 }
                 currentRadius *= 2;

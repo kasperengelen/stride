@@ -22,11 +22,17 @@
 
 #include "geopop/Coordinate.h"
 #include "geopop/VisLocation.h"
+#include "geopop/VisGeoGrid.h"
 
 #include <vector>
+#include <memory>
 
 namespace stride {
 namespace visualiser {
+
+using geopop::VisGeoGrid;
+using geopop::PopStats;
+using geopop::Coordinate;
 
 /**
  * @class Model
@@ -38,7 +44,7 @@ public:
         /**
          * Constructor.
          */
-        explicit Model() : m_timesteps() {}
+        explicit Model() : m_timesteps{} {}
 
         /**
          * Deleted copy CTOR.
@@ -53,32 +59,30 @@ public:
         /**
          * Set the timesteps contained in the model to the specified timesteps.
          */
-        void SetTimesteps(const std::vector<std::vector<geopop::VisLocation>>& timesteps) { m_timesteps = timesteps; }
+        void SetTimesteps(const std::vector<std::shared_ptr<VisGeoGrid>>& timesteps) { m_timesteps = timesteps; }
 
         /**
          * Retrieve simulation data from the model.
          */
-        const std::vector<std::vector<geopop::VisLocation>>& GetEpiData() const { return m_timesteps; }
+        const std::vector<std::shared_ptr<VisGeoGrid>>& GetEpiData() const { return m_timesteps; }
 
         /**
          * Retrieve information about the part of the population that is within
-         * the specified radius of the specified coordinates. The selection is based
+         * the specified radius of the specified coordinates (in meters). The selection is based
          * on what the locations looked like on the specified day.
          */
-        const geopop::PopStats GetPopulationInRadius(const geopop::Coordinate& center, const double radius,
-                                            const unsigned int day) const;
+        const PopStats GetPopulationInRadius(const Coordinate& center, const double radius, const unsigned int day) const;
 
         /**
          * Retrieve information about the part of the population that is within
          * a rectangle that spans between the two specified points. The selection is based
          * on what the locations looked like on the specified day.
          */
-        const geopop::PopStats GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB,
-                                         const unsigned int day) const;
+        const PopStats GetPopulationInBox(const Coordinate& pointA, const Coordinate& pointB, const unsigned int day) const;
 
 private:
         /// Contains the currently stored simulation timesteps.
-        std::vector<std::vector<geopop::VisLocation>> m_timesteps;
+        std::vector<std::shared_ptr<VisGeoGrid>> m_timesteps;
 };
 
 } // namespace visualiser

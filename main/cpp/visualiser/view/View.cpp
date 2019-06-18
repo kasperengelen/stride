@@ -34,13 +34,13 @@ const QVariant View::GetEpiData() const
         for (const auto& timestep : timesteps) {
                 QVariantList loc_list;
 
-                for (const auto& loc : timestep) {
-                        QVariantMap pop_data = PopStatsView{loc.GetPopStats()}.GetQVariantMap();
+                for (const auto& loc_ptr : *timestep) {
+                        QVariantMap pop_data = PopStatsView{loc_ptr->GetPopStats()}.GetQVariantMap();
 
                         // add some location info to the map.
-                        pop_data.insert("name", QString::fromStdString(loc.GetName()));
-                        pop_data.insert("lon", loc.GetCoordinate().get<0>());
-                        pop_data.insert("lat", loc.GetCoordinate().get<1>());
+                        pop_data.insert("name", QString::fromStdString(loc_ptr->GetName()));
+                        pop_data.insert("lon", loc_ptr->GetCoordinate().get<0>());
+                        pop_data.insert("lat", loc_ptr->GetCoordinate().get<1>());
 
                         loc_list.push_back(pop_data);
                 }

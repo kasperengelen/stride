@@ -44,20 +44,21 @@ void ProtobufEpiReader::ReadIntoModel(stride::visualiser::Model& model) const
             throw EpiReaderException("Error while parsing protobuf file.");
         }
 
-        std::vector<std::vector<VisLocation>> timesteps;
+        std::vector<std::shared_ptr<VisGeoGrid>> timesteps;
 
         // iterate over timesteps
         for(const auto& proto_timestep : epi_file.timesteps())
         {
-            std::vector<VisLocation> locations{};
+            std::shared_ptr<VisGeoGrid> locations = std::make_shared<VisGeoGrid>();
 
             for(const auto& proto_location : proto_timestep.locations())
             {
                 const VisLocation loc = ParseLocation(proto_location);
 
-                locations.push_back(loc);
+                locations->AddLocation(std::make_shared<VisLocation>(loc));
             }
 
+            locations->Finalize();
             timesteps.push_back(locations);
 
         }

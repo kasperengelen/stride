@@ -59,8 +59,8 @@ inline void TestPopData()
     reader.ReadIntoModel(model);
 
     // take first loc: model[0][0]
-    const auto& loc = model.GetEpiData().at(0).at(0);
-    const auto& pop = loc.GetPopStats();
+    const auto& loc = model.GetEpiData().at(0)->operator[](0);
+    const auto& pop = loc->GetPopStats();
 
     TestPoolStats(1, pop.GetPool(ContactType::Id::Household));
     TestPoolStats(2, pop.GetPool(ContactType::Id::K12School));

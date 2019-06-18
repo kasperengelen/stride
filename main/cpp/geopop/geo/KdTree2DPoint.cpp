@@ -27,7 +27,7 @@ namespace geopop {
 
 namespace geogrid_detail {
 
-KdTree2DPoint::KdTree2DPoint(const SimLocation* loc) : m_pt(loc->GetCoordinate()), m_location(loc) {}
+KdTree2DPoint::KdTree2DPoint(const LocationBase* loc) : m_pt(loc->GetCoordinate()), m_location(loc) {}
 
 bool KdTree2DPoint::operator==(const KdTree2DPoint& other) const { return Distance(other) < 0.001; }
 

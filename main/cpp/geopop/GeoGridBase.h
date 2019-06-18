@@ -35,8 +35,7 @@ class GeoAggregator;
 
 /**
  * @brief
- * Class that serves as a generalized base class for GeoGrid. This class can also
- * be used in the visualiser.
+ * Class that serves as a generalized base class for GeoGrid and VisGeoGrid.
  */
 template <typename LocationType>
 class GeoGridBase {
@@ -58,8 +57,11 @@ public:
     /// Disables the addLocation method and builds the kdtree.
     void Finalize();
 
+    /// Search for locations in \p radius (in km) around \p start = (start_long, start_lat).
+    std::vector<const LocationBase*> LocationsInRadius(double start_long, double start_lat, double radius) const;
+
     /// Search for locations in \p radius (in km) around \p start.
-    std::vector<const LocationType*> LocationsInRadius(const LocationType& start, double radius) const;
+    std::vector<const LocationBase*> LocationsInRadius(const LocationBase& start, double radius) const;
 
     /**
      * Gets the locations in a rectangle determined by the two coordinates (long1, lat1) and (long2, lat2).
@@ -71,10 +73,10 @@ public:
      *  |       |     |       |
      *  +-------p2    p2------+
      */
-    std::set<const LocationType*> LocationsInBox(double long1, double lat1, double long2, double lat2) const;
+    std::set<const LocationBase*> LocationsInBox(double long1, double lat1, double long2, double lat2) const;
 
     /// Gets the location in a rectangle defined by the two Locations.
-    std::set<const LocationType*> LocationsInBox(LocationType* loc1, LocationType* loc2) const;
+    std::set<const LocationBase*> LocationsInBox(LocationBase* loc1, LocationBase* loc2) const;
 
 public:
     /// Build a GeoAggregator with a predefined functor and given args for the Policy.
@@ -180,11 +182,11 @@ GeoAggregator<Policy> GeoGridBase<LocationType>::BuildAggregator(typename Policy
 }
 
 template <typename LocationType>
-std::set<const LocationType*> GeoGridBase<LocationType>::LocationsInBox(double long1, double lat1, double long2, double lat2) const
+std::set<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(double long1, double lat1, double long2, double lat2) const
 {
     CheckFinalized(__func__);
 
-    std::set<const LocationType*> result;
+    std::set<const LocationBase*> result;
 
     auto agg = BuildAggregator<BoxPolicy>(
             MakeCollector(inserter(result, result.begin())),
@@ -195,7 +197,7 @@ std::set<const LocationType*> GeoGridBase<LocationType>::LocationsInBox(double l
 }
 
 template <typename LocationType>
-std::set<const LocationType*> GeoGridBase<LocationType>::LocationsInBox(LocationType* loc1, LocationType* loc2) const
+std::set<const LocationBase*> GeoGridBase<LocationType>::LocationsInBox(LocationBase* loc1, LocationBase* loc2) const
 {
     using boost::geometry::get;
     return LocationsInBox(get<0>(loc1->GetCoordinate()), get<1>(loc1->GetCoordinate()),
@@ -203,17 +205,35 @@ std::set<const LocationType*> GeoGridBase<LocationType>::LocationsInBox(Location
 }
 
 template <typename LocationType>
-std::vector<const LocationType*> GeoGridBase<LocationType>::LocationsInRadius(const LocationType& start, double radius) const
+std::vector<const LocationBase*> GeoGridBase<LocationType>::LocationsInRadius(double start_long, double start_lat, double radius) const
 {
     CheckFinalized(__func__);
 
-    geogrid_detail::KdTree2DPoint startPt(&start);
-    std::vector<const LocationType*>  result;
+    geogrid_detail::KdTree2DPoint startPt{start_long, start_lat};
+    std::vector<const LocationBase*>  result;
 
     auto agg = BuildAggregator<RadiusPolicy>(MakeCollector(back_inserter(result)), std::make_tuple(startPt, radius));
     agg();
 
     return result;
+}
+
+template <typename LocationType>
+std::vector<const LocationBase*> GeoGridBase<LocationType>::LocationsInRadius(const LocationBase& start, double radius) const
+{
+//    CheckFinalized(__func__);
+//
+//    geogrid_detail::KdTree2DPoint startPt{&start};
+//    std::vector<const LocationBase*>  result;
+//
+//    auto agg = BuildAggregator<RadiusPolicy>(MakeCollector(back_inserter(result)), std::make_tuple(startPt, radius));
+//    agg();
+
+//    return result;
+
+    geogrid_detail::KdTree2DPoint startPt{&start};
+
+    return LocationsInRadius(startPt.Get<0>(), startPt.Get<1>(), radius);
 }
 
 } // namespace geopop

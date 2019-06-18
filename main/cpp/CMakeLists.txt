@@ -220,7 +220,7 @@ set(VISUALISER_SOURCE
     # model
     geopop/PopStats.cpp
     geopop/VisLocation.cpp
-    visualiser/model/Locality.cpp
+    geopop/VisGeoGrid.cpp
     visualiser/model/Model.cpp
     # epi output readers
     visualiser/readers/EpiReader.cpp

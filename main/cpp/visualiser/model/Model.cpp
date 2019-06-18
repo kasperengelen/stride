@@ -26,15 +26,39 @@ namespace visualiser {
 const geopop::PopStats Model::GetPopulationInRadius(const geopop::Coordinate& center, const double radius,
                                            const unsigned int day) const
 {
+
+        const VisGeoGrid& day_locs = *m_timesteps.at(day);
+
+        PopStats retval{};
+
+        // convert to km
+        const double radius_km = radius / 1000.0;
+
+
+        const auto loc_list = day_locs.LocationsInRadius(center.get<0>(), center.get<1>(), radius_km);
+
+        std::cout << "SELECTED " << loc_list.size() << " LOCATIONS." << std::endl;
+
+
+
         // TODO fill with selection
-        return geopop::PopStats{};
+        return retval;
 }
 
 const geopop::PopStats Model::GetPopulationInBox(const geopop::Coordinate& pointA, const geopop::Coordinate& pointB,
                                         const unsigned int day) const
 {
+        const VisGeoGrid& day_locs = *m_timesteps.at(day);
+
+
+        const auto loc_list = day_locs.LocationsInBox(pointA.get<0>(), pointA.get<1>(), pointB.get<0>(), pointB.get<1>());
+
+        std::cout << "SELECTED " << loc_list.size() << " LOCATIONS." << std::endl;
+
+        PopStats retval{};
+
         // TODO fill with selection
-        return geopop::PopStats{};
+        return retval;
 }
 
 } // namespace visualiser

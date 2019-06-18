@@ -31,6 +31,8 @@ namespace visualiser {
 
 using geopop::PopStats;
 using geopop::PoolStats;
+using geopop::VisLocation;
+using geopop::VisGeoGrid;
 
 void ReadPoolIntoPopStats(PopStats& popStats, const H5::Group& location, const ContactType::Id& poolType);
 
@@ -40,11 +42,11 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
         H5::Exception::dontPrint();
         const H5::H5File& file{this->GetPath(), H5F_ACC_RDONLY};
 
-        std::vector<std::vector<geopop::VisLocation>> timesteps;
+        std::vector<std::shared_ptr<VisGeoGrid>> timesteps;
 
         for(unsigned int timestep_nr = 0; timestep_nr < file.getNumObjs(); timestep_nr++)
         {
-        	std::vector<geopop::VisLocation> locations{};
+        	std::shared_ptr<VisGeoGrid> locations = std::make_shared<VisGeoGrid>();
 
         	const std::string timestep_label = std::to_string(timestep_nr);
 
@@ -82,8 +84,10 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
                 ReadPoolIntoPopStats(popstats, location, ContactType::Id::Daycare);
                 ReadPoolIntoPopStats(popstats, location, ContactType::Id::PreSchool);
 
-                locations.push_back(geopop::VisLocation{coord, name, popstats});
+                locations->AddLocation(std::make_shared<VisLocation>(coord, name, popstats));
         	}
+
+        	locations->Finalize();
 
         	// add timestep
         	timesteps.push_back(locations);

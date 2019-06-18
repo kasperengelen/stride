@@ -19,7 +19,6 @@
  */
 
 #include "JSONEpiReader.h"
-#include "visualiser/model/Locality.h"
 #include "visualiser/model/PopData.h"
 #include "visualiser/readers/EpiReaderException.h"
 #include "contact/ContactType.h"
@@ -42,7 +41,7 @@ void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 
         try {
 
-                std::vector<std::vector<VisLocation>> timesteps;
+                std::vector<std::shared_ptr<VisGeoGrid>> timesteps;
 
                 // read data from JSON
                 json js;
@@ -50,14 +49,15 @@ void JSONEpiReader::ReadIntoModel(Model& datamodel) const
 
                 // add timesteps
                 for (const auto& timestep_data : js.at("Timesteps")) {
-                        std::vector<VisLocation> timestep{};
+                        std::shared_ptr<VisGeoGrid> locations = std::make_shared<VisGeoGrid>();
 
                         for (const auto& locality_data : timestep_data) {
-                                const VisLocation location = ReadLocation(locality_data);
-                                timestep.push_back(location);
+                                const VisLocation loc = ReadLocation(locality_data);
+                                locations->AddLocation(std::make_shared<VisLocation>(loc));
                         }
 
-                        timesteps.push_back(timestep);
+                        locations->Finalize();
+                        timesteps.push_back(locations);
                 }
 
                 datamodel.SetTimesteps(timesteps);
