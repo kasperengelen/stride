@@ -115,4 +115,23 @@ The average size of workplaces in the new algorithm does not seem to be an impor
 
 While running a simulation using the original algorithm and having results of the new algorithm seems possible, finding the correct size of the workplaces is difficult. Each different size of the workplace has their own impact on the spread of the disease, so we can conclude that a combination of those sizes result in a more realistic spread.
 
+\newpage
+\section{Data Formats}
+A GeoGrid can be written to and read from three types of data formats: json, hdf5 and protobuf. Although these three formats are used for the same purpose, are there major differences in storrage capacity and between the time it takes to read from and write to a file. \\
+To compare those times and storage capacity, we generate a default GeoGrid, write it out and read it back in. 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		         & Write time & Read time & Storage capacity \\ \hline
+		Protobuf & 7.427s     & 2.021s    & 14 MB             \\ \hline
+		HDF5     & 34.515s    & 23.370s   & 159.8 MB          \\ \hline
+		Json     & 23.238s    & 7.946s    & 119.2 MB          \\ \hline
+	\end{tabular}
+\end{table}
+
+\noindent
+It is clearly visible that Protobuf is the overall best dataformat, followed by Json. HDF5 is the worst of the three. 
+
 \end{document}
