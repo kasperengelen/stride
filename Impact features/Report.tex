@@ -38,20 +38,36 @@
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-This document reports our findings regarding the final dissertation. The sections and subsections correspond to the assignments given to us. In this project we worked with a simulator called Stride, developed at the University of Antwerp. We explore various concepts within computational epidemiology through the use of this program. 
+In this document we will examine the impact the changes to the Stride simulator have on the actual simulations. This is done by simulating various set scenarios in the old version of Stride as well as the updated one, and compare the results. The general aim was to achieve higher simulation realism through adding more detail to the simulator. 
 
-\keywords{Computational Epidemiology  \and Dissertation}
+\keywords{Computational Epidemiology  \and Dissertation \and Impact Paper}
 \end{abstract}
 %
 %
 %
 
 \section{Introduction}
+The Stride simulator was expanded upon in various aspects, detailed in the sections below. Generally, the changes did not introduce massive differences in simulation results. This was largely to be expected, as the functionality of the simulator has not been radically changed.
 
 
 \section{Daycare \& PreSchool}
 \paragraph{}
-The first feature is the addition of two new ContactTypes, namely the Daycare and PreSchool. Here children from ages 0 to 3 can participate in a Daycare, whereas children from ages 3 to 6 can go to a PreSchool. Both ContactTypes make use of a participation parameter to determine how many of these children actually will go to these ContactTypes.
+The first feature is the addition of two new ContactTypes, namely the Daycare and PreSchool. Children from ages 0 to 3 can attend Daycare, whereas children from ages 3 to 6 can go to a PreSchool. Both ContactTypes make use of a participation parameter to determine how many of these children actually will go to these ContactTypes. \\
+The scenario used to test the impact of this addition is a simulation of the measles disease using $R_0 = 15$, a seeding rate of 0.2\% and an immunity rate of 70\%, in accordance with results found in the simulation paper. We compare the result of the original Stride (i.e. no daycare and preschool ContactTypes) to results found by introducing varying degrees of attendance for  DayCare and PreSchool. The results are visualised in Figure \ref{daycare-preschool}. From this figure no significant impact on the simulation can be deduced. Further testing using a fixed attendancy for DayCare while varying PreSchool attendance or vice versa yields no different result. This is likely because despite a potentially high degree of attendance, the fraction of the population that qualifies for these ContactTypes (persons between ages 0 and 6) is too small to have a significant impact on the simulation results.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.6\linewidth}
+		\includegraphics[width=\linewidth]{Daycare-Preschool/cases_per_day_20runs.eps}
+		\caption{Average new cases per day.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.6\linewidth}
+		\includegraphics[width=\linewidth]{Daycare-Preschool/cumulative_cases_20runs.eps}
+		\caption{Average cumulative cases.}
+	\end{subfigure}
+	\caption{Simulation results using different degrees of Daycare/Preschool attendance. Averages over 20 runs, seeding rate = 0.2\%, immunity rate = 70\%, $R_0$ = 15. Simulated for a population of 600,000 over 50 days.}
+	\label{daycare-preschool}
+\end{figure}
 
 
 \section{Demographic profile}
