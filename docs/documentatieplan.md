@@ -28,10 +28,23 @@ Each team member writes the documentation for his own code. Afterwards, the docu
 ### Manuals
 Each team member writes parts of the manual for the features he implemented.
 
-### Paper
+### Simulation Paper
 The introduction and the abstract will be written by the entire team.
 The team member that is responsible for a section of the paper, is also responsible for the conclusions and the introduction of that section.
-Section 2.1 of the paper prepared before the implementation of the new features was performed by Kasper Engelen.
+ * Section 1 of the paper: Jonathan, Dawid
+ * Section 2.1 of the paper: Kasper
+ * Section 2.2: Dawid
+ * Section 2.3: Igor
+ * Section 3: Dawid
 
+### Impact Paper
+ * Section 1: Jonathan
+ * Section 2: Jonathan
+ * Section 3: Dawid
+ * Section 4: Dawid
+ * Section 5: Igor
+
+### Simulation of Belgium
+Simulations were thought out and ran by Igor and Kasper. The paper itself was written by Jonathan.
 
 
