@@ -183,6 +183,16 @@
                 0.6116254591105171,
                 0.18247399472289094
             ]
+        },
+        "0": {
+            "province": "flanders",
+            "centrumsteden": [],
+            "ratios_centrumsteden": {},
+            "ratios_default": [
+                0.194,
+                0.606,
+                0.2
+            ]
         }
     }
 }

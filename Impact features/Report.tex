@@ -71,6 +71,38 @@ The scenario used to test the impact of this addition is a simulation of the mea
 
 
 \section{Demographic profile}
+\paragraph{}
+The simulator originally only makes use of one household sample. When doing simulations for Flanders, each province and city will have the same ratio of young to old people. This is not indicative of the real ratio in each of these locations.
+
+The algorithm for creating populations is expanded to allow the use of different household samples. Sample files have to be defined for each province, whereas they are not mandatory for the cities. When for a given city, there is no existing household sample file the algorithm will use the file defined for the entire province.
+
+The simulations here have been done using different demographic profiles. The first profile is represents the original algorithm where only one sample file is used. The second profile uses a sample file for each province in Flanders and a file for each city that is defined as a \emph{centrumstad}.
+These cities are ones with a relatively large population compared to their surroundings with a central function in the area of employment, care, education, culture and entertainment.
+
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.6\linewidth}
+		\includegraphics[width=\linewidth]{Demographic/figs/plot_compSize_CASE_PER_DAY_AVG.eps}
+		\caption{Average new cases per day.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.6\linewidth}
+		\includegraphics[width=\linewidth]{Demographic/figs/plot_compSize_FINALDAY_HIST.eps}
+		\caption{Amount of infected people at the end of the simulation.}
+	\end{subfigure}
+	\caption{Results of 400 different simulations for the 2 different demographic profiles. Seeding rate = $0.2\%$, immunity rate = $80\%$, $R_0$ = 11. Simulated for a population of 600,000 over 200 days.}
+	\label{demographic_profile}
+\end{figure}
+
+By visually inspecting figure \ref{demographic_profile} we can see a clear difference in the amount of infected people at the end of the simulation. The outbreaks are larger when using only 1 sample file.
+
+We determined a 95\% confidence interval for the outbreak size for the demographic coming from 1 file:
+\[[97673.912, 97714.508]\]
+
+And for the demographic coming from multiple files:
+\[[95258.962, 95302.443]\]
+
+These intervals are disjoint and lie apart quite significantly, we can conclude that using multiple household samples instead of only one has an impact on the simulation results.
 
 \section{Workplace Size Distribution}
 \paragraph{}
