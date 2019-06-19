@@ -24,5 +24,5 @@
 
 TEST(TestEpiOutputJSONWriter, test1)
 {
-    //CheckWriterReaderPair<EpiOutputJSON, JSONEpiReader>();
+        // CheckWriterReaderPair<EpiOutputJSON, JSONEpiReader>();
 }

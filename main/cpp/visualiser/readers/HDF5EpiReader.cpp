@@ -66,8 +66,7 @@ void HDF5EpiReader::ReadIntoModel(Model& datamodel) const
                                 name_attr.read(str_type, name);
 
                                 // get coordinate
-                                const H5::Attribute& coord_attr = location.openAttribute("coordinate");
-                                double               coordinate[2];
+                                double coordinate[2];
                                 location.openAttribute("coordinate").read(H5::PredType::NATIVE_DOUBLE, coordinate);
                                 const geopop::Coordinate coord = {coordinate[0], coordinate[1]};
 

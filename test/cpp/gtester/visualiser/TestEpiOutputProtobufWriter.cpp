@@ -24,5 +24,5 @@
 
 TEST(TestEpiOutputProtoWriter, test1)
 {
-    //CheckWriterReaderPair<EpiOutputProto, ProtobufEpiReader>();
+        // CheckWriterReaderPair<EpiOutputProto, ProtobufEpiReader>();
 }
