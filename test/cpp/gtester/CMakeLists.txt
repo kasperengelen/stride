@@ -27,6 +27,12 @@ add_definitions(-DGTEST_LANG_CXX11)
 set_source_files_properties(
     geopop/io/GeoGridIOUtils.cpp
     geopop/io/GeoGridProtoReaderTest.cpp
+    visualiser/TestEpiOutputProtobufReader.cpp
+    visualiser/TestEpiOutputProtobufWriter.cpp
+    visualiser/TestEpiOutputHDF5Reader.cpp
+    visualiser/TestEpiOutputHDF5Writer.cpp
+    visualiser/TestEpiOutputJSONReader.cpp
+    visualiser/TestEpiOutputJSONWriter.cpp
     PROPERTIES
     COMPILE_FLAGS "-I${Protobuf_PBS_DIR}"
 )
@@ -93,6 +99,11 @@ set(SRC
     visualiser/TestEpiOutputHDF5Reader.cpp
     visualiser/TestEpiOutputJSONReader.cpp
     visualiser/TestEpiOutputProtobufReader.cpp
+    #---
+    visualiser/TestEpiOutputHDF5Writer.cpp
+    visualiser/TestEpiOutputJSONWriter.cpp
+    visualiser/TestEpiOutputProtobufWriter.cpp
+    #---
     visualiser/TestEpiOutputPopDataView.cpp
     #---
     main.cpp
