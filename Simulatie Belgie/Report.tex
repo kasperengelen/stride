@@ -30,10 +30,20 @@ The sections below will detail the results.
 
 
 \section{Comparison}
-\subsection{Plots}
+From the plots for the outbreaks, it would seem there is no large difference in results between simulations for Flanders and simulations for Belgium. The magnitude of the outbreak (measuring in new cases per day) and the speed seem virtually identical. This is likely because we're generating a population using the same conditions in both cases, so the geographical layout has minimal impact on the actual simulation. Figures \ref{AVG_Belgium} and \ref{AVG_Flanders} show the average new cases per day for Belgium and Flanders respectively.
 
-\subsection{Stats}
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./Belgie/AVG_SR=02.eps}
+	\caption{Average new cases per day simulated for Belgium. Using measles profile, $R_0$ = 11, immunity rate = 80\%, seeding rate = 0.2\%, for a population of 600,000 over 300 days.}
+	\label{AVG_Belgium}
+\end{figure}
 
-\subsection{Conclusions}
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./Vlaanderen/AVG_SR=02.eps}
+	\caption{Average new cases per day simulated for Flanders. Using measles profile, $R_0$ = 11, immunity rate = 80\%, seeding rate = 0.2\%, for a population of 600,000 over 300 days.}
+	\label{AVG_Flanders}
+\end{figure}
 
 \end{document}
