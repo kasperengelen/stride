@@ -64,7 +64,7 @@ protected:
         PrimaryCommunityPopulator m_populator;
         GeoGridConfig             m_gg_config;
         shared_ptr<Population>    m_pop;
-        shared_ptr<SimLocation>      m_location;
+        shared_ptr<SimLocation>   m_location;
         GeoGrid&                  m_geo_grid;
         shared_ptr<Person>        m_person;
         PrimaryCommunityGenerator m_community_generator;

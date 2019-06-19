@@ -28,17 +28,18 @@ namespace geopop {
 /**
  * Class that represents a location for use in the visualiser.
  */
-class VisLocation : public LocationBase {
+class VisLocation : public LocationBase
+{
 public:
-    /// Parametrized constructor
-    VisLocation(Coordinate coord, std::string name, PopStats stats);
+        /// Parametrized constructor
+        VisLocation(Coordinate coord, std::string name, PopStats stats);
 
-    /// Gets the stored population statistics.
-    const PopStats& GetPopStats() const { return m_popstats; }
+        /// Gets the stored population statistics.
+        const PopStats& GetPopStats() const { return m_popstats; }
 
 private:
-    ///< Statistics about the population inside the location.
-    PopStats m_popstats;
+        ///< Statistics about the population inside the location.
+        PopStats m_popstats;
 };
 
 } // namespace geopop

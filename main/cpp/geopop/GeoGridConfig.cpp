@@ -71,7 +71,7 @@ void GeoGridConfig::SetData(const string& householdsFileName, bool use_install_d
                             use_install_dirs ? configFile.get<string>("household_file." + file.first)
                                              : filesys::path(householdsFileName).parent_path().string() + "/" +
                                                    configFile.get<string>("household_file." + file.first),
-                            false);
+                            use_install_dirs);
                         householdsReader->SetReferenceHouseholds(refHH.person_count[id], refHH.ages[id]);
                         refHH.multiHH = true;
                 }

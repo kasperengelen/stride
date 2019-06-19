@@ -29,7 +29,7 @@ using namespace stride::util;
 
 namespace {
 
-TEST(HouseholdJSONReader, test1)
+TEST(HouseholdJSONReaderTest, test1)
 {
         GeoGridConfig geoConfig{};
         auto          file = make_unique<ifstream>();

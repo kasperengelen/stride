@@ -54,11 +54,11 @@ public:
 
 private:
         /// Create ContactPools based on protobuf ContactPools info.
-        void ParseContactPools(std::shared_ptr<SimLocation>                   loc,
+        void ParseContactPools(std::shared_ptr<SimLocation>                loc,
                                const proto::GeoGrid_Location_ContactPools& protoContactPools);
 
         /// Create a ContactPool based on the provided protobuf ContactPool.
-        void ParseContactPool(std::shared_ptr<SimLocation>                               loc,
+        void ParseContactPool(std::shared_ptr<SimLocation>                            loc,
                               const proto::GeoGrid_Location_ContactPools_ContactPool& protoContactPool,
                               stride::ContactType::Id                                 typeId);
 

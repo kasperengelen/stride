@@ -35,14 +35,44 @@
     
 ### Data formats
 
-* TestGeoGridJSONWriteRead:
-    Writes a GeoGrid to JSON, then reads it back and tests whether the two GeoGrids are the same.
+* GeoGridJSONReaderTest:
+    Reads a JSON file in and tests whether the GeoGrid corresponds with the one in the file.
+    * locationTest
+    * contactPoolsTest
+    * peopleTest
+    * commutesTest
+    * emptyStreamTest
+    * invalidTypeTest
+    * invalidPersonTest
+    * invalidJSONTest
+    * unexistingFileTest
+
+* GeoGridJSONWriterTest:
+    Writes a GeoGrid to a JSON stream, then reads it back and tests whether the two GeoGrids are the same.
+    * locationTest
+    * contactPoolsTest
+    * peopleTest
+    * commutesTest
     
-* TestJSONHouseHoldReader:
-    Reads a household file from JSON and tests whether the data corresponds with the file.
-    
-* TestGeoGridHDF5WriteRead:
+* GeoGridHDF5ReaderTest:
+    Reads a HDF5 file in and tests whether the GeoGrid corresponds with the one in the file.
+    * locationTest
+    * contactPoolsTest
+    * peopleTest
+    * commutesTest
+    * emptyFileTest
+    * unexistingFileTest
+    * invalidTypeTest
+
+* GeoGridHDF5WriterTest:
     Writes a GeoGrid to HDF5, then reads it back and tests whether the two GeoGrids are the same.
+    * locationTest
+    * contactPoolsTest
+    * peopleTest
+    * commutesTest
+
+* HouseholdJSONReaderTest:
+    Reads a household file from JSON and tests whether the data corresponds with the file.
     
 
 ### Data visualisation
@@ -65,8 +95,19 @@
 
 ### Demographic profile
 
-* TestReferenceSetSampling:
+* HouseholdPopulatorTest:
     Using several testing sets, create a population and test whether it has been properly sampled (wrt locations)
+    * OneHouseholdMultiDrawTest
+    * FiveHouseholdsMultiDrawTest
+    * MultipleHouseholdTypesMultiDrawTest
+    * MultiDrawCityTest
+    * MultiDrawProvinceTest
+    * MultiDrawDefaultTest
+    * MultiDrawErrorTest
+
+* HouseholdConfigTest:
+    Reads a household configuration file from xml, parses it to GeoGridConfig and tests whether the data corresponds with the files represented in the xml.
+
     
     
 ### Workplace size distribution

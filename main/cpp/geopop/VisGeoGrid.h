@@ -26,10 +26,10 @@
 namespace geopop {
 
 /**
-* GeoGrid to be used in the visualiser.
-*/
+ * GeoGrid to be used in the visualiser.
+ */
 class VisGeoGrid : public GeoGridBase<VisLocation>
-{};
+{
+};
 
-}
-
+} // namespace geopop

@@ -23,11 +23,11 @@
 #include <gtest/gtest.h>
 
 #include "VisualiserTestfileGetter.h"
-#include "geopop/VisLocation.h"
 #include "geopop/PopStats.h"
+#include "geopop/VisLocation.h"
 
-using stride::visualiser::Model;
 using geopop::PoolStats;
+using stride::visualiser::Model;
 using namespace stride;
 
 /**
@@ -59,8 +59,8 @@ inline void TestPopData()
         reader.ReadIntoModel(model);
 
         // take first loc: model[0][0]
-        const auto& loc = model.GetEpiData().at(0)->operator[](0);
-        const auto& pop = loc->GetPopStats();
+        const auto& loc                                 = model.GetEpiData().at(0)->operator[](0);
+        const auto&                                 pop = loc->GetPopStats();
 
         TestPoolStats(1, pop.GetPool(ContactType::Id::Household));
         TestPoolStats(2, pop.GetPool(ContactType::Id::K12School));

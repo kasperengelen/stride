@@ -20,9 +20,9 @@
 #include "EpiOutputProto.h"
 
 #include "contact/ContactType.h"
-#include "pop/Population.h"
-#include "geopop/SimLocation.h"
 #include "geopop/PopStats.h"
+#include "geopop/SimLocation.h"
+#include "pop/Population.h"
 #include "util/FileSys.h"
 
 #include <iostream>

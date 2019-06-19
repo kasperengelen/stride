@@ -17,15 +17,12 @@
 
 namespace geopop {
 
-LocationBase::LocationBase(Coordinate coordinate, std::string name)
-    : m_coordinate{coordinate}, m_name{move(name)}
-{}
+LocationBase::LocationBase(Coordinate coordinate, std::string name) : m_coordinate{coordinate}, m_name{move(name)} {}
 
 bool LocationBase::operator==(const LocationBase& other) const
 {
-    return GetName() == other.GetName()
-            && GetCoordinate().get<0>() == other.GetCoordinate().get<0>()
-            && GetCoordinate().get<1>() == other.GetCoordinate().get<1>();
+        return GetName() == other.GetName() && GetCoordinate().get<0>() == other.GetCoordinate().get<0>() &&
+               GetCoordinate().get<1>() == other.GetCoordinate().get<1>();
 }
 
 } // namespace geopop

@@ -49,7 +49,7 @@ class SimLocation : public LocationBase
 public:
         /// Parametrized constructor with population count.
         SimLocation(unsigned int id, unsigned int province, Coordinate coordinate = Coordinate{0.0, 0.0},
-                 std::string name = "", unsigned int popCount = 0U);
+                    std::string name = "", unsigned int popCount = 0U);
 
         /// Perform a full comparison with the other location.
         bool operator==(const SimLocation& other) const;

@@ -31,7 +31,8 @@ namespace geopop {
  * This class serves as a base class for the SimLocation and VisLocation classes and will
  * be used by GeoGridBase.
  */
-class LocationBase {
+class LocationBase
+{
 public:
         /// Parametrized constructor.
         explicit LocationBase(Coordinate coordinate = Coordinate{0.0, 0.0}, std::string name = "");
@@ -49,8 +50,8 @@ public:
         void SetCoordinate(const Coordinate& coordinate) { m_coordinate = coordinate; }
 
 private:
-        Coordinate   m_coordinate;   ///< Coordinate of the Location.
-        std::string  m_name;         ///< Name.
+        Coordinate  m_coordinate; ///< Coordinate of the Location.
+        std::string m_name;       ///< Name.
 };
 
 } // namespace geopop

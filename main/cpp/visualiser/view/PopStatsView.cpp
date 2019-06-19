@@ -23,33 +23,34 @@
 namespace stride {
 namespace visualiser {
 
-PopStatsView::PopStatsView(const geopop::PopStats& popStats) : m_pop_data{} {
-    this->AddPoolToView("total",     popStats, ContactType::Id::Household);
-    this->AddPoolToView("household", popStats, ContactType::Id::Household);
-    this->AddPoolToView("k12school", popStats, ContactType::Id::K12School);
-    this->AddPoolToView("college",   popStats, ContactType::Id::College);
-    this->AddPoolToView("workplace", popStats, ContactType::Id::Workplace);
-    this->AddPoolToView("primCom",   popStats, ContactType::Id::PrimaryCommunity);
-    this->AddPoolToView("secCom",    popStats, ContactType::Id::SecondaryCommunity);
-    this->AddPoolToView("daycare",   popStats, ContactType::Id::Daycare);
-    this->AddPoolToView("preschool", popStats, ContactType::Id::PreSchool);
+PopStatsView::PopStatsView(const geopop::PopStats& popStats) : m_pop_data{}
+{
+        this->AddPoolToView("total", popStats, ContactType::Id::Household);
+        this->AddPoolToView("household", popStats, ContactType::Id::Household);
+        this->AddPoolToView("k12school", popStats, ContactType::Id::K12School);
+        this->AddPoolToView("college", popStats, ContactType::Id::College);
+        this->AddPoolToView("workplace", popStats, ContactType::Id::Workplace);
+        this->AddPoolToView("primCom", popStats, ContactType::Id::PrimaryCommunity);
+        this->AddPoolToView("secCom", popStats, ContactType::Id::SecondaryCommunity);
+        this->AddPoolToView("daycare", popStats, ContactType::Id::Daycare);
+        this->AddPoolToView("preschool", popStats, ContactType::Id::PreSchool);
 }
 
 void PopStatsView::AddPoolToView(const QString& mapKey, const PopStats& popStats, ContactType::Id poolType)
 {
-    const geopop::PoolStats& pool_stats = popStats.GetPool(poolType);
+        const geopop::PoolStats& pool_stats = popStats.GetPool(poolType);
 
-    QVariantMap pool_view{};
+        QVariantMap pool_view{};
 
-    pool_view.insert("pop",         pool_stats.population);
-    pool_view.insert("immune",      pool_stats.immune);
-    pool_view.insert("infected",    pool_stats.infected);
-    pool_view.insert("infectious",  pool_stats.infectious);
-    pool_view.insert("recovered",   pool_stats.recovered);
-    pool_view.insert("susceptible", pool_stats.susceptible);
-    pool_view.insert("symptomatic", pool_stats.symptomatic);
+        pool_view.insert("pop", pool_stats.population);
+        pool_view.insert("immune", pool_stats.immune);
+        pool_view.insert("infected", pool_stats.infected);
+        pool_view.insert("infectious", pool_stats.infectious);
+        pool_view.insert("recovered", pool_stats.recovered);
+        pool_view.insert("susceptible", pool_stats.susceptible);
+        pool_view.insert("symptomatic", pool_stats.symptomatic);
 
-    m_pop_data.insert(mapKey, pool_view);
+        m_pop_data.insert(mapKey, pool_view);
 }
 
 } // namespace visualiser

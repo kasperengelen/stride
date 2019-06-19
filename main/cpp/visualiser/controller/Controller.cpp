@@ -24,8 +24,6 @@
 #include "visualiser/readers/HDF5EpiReader.h"
 #include "visualiser/readers/JSONEpiReader.h"
 #include "visualiser/readers/ProtobufEpiReader.h"
-#include "visualiser/readers/EpiReaderException.h"
-#include "visualiser/readers/JSONEpiReader.h"
 
 #include <iostream>
 #include <sstream>

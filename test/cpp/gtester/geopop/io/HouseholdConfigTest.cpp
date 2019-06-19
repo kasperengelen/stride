@@ -29,7 +29,7 @@ using namespace stride::util;
 
 namespace {
 
-TEST(HouseholdConfig, test1)
+TEST(HouseholdConfigTest, test1)
 {
         GeoGridConfig geoConfig{};
 

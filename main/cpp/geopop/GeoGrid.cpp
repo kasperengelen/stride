@@ -29,14 +29,13 @@ using namespace std;
 using stride::ContactPool;
 using stride::ContactType::Id;
 
-GeoGrid::GeoGrid(stride::Population* population) : m_population{population}, m_id_to_index{}
-{}
+GeoGrid::GeoGrid(stride::Population* population) : m_population{population}, m_id_to_index{} {}
 
 void GeoGrid::AddLocation(std::shared_ptr<SimLocation> location)
 {
-    GeoGridBase::AddLocation(location);
+        GeoGridBase::AddLocation(location);
 
-    m_id_to_index[location->GetID()] = static_cast<unsigned int>(size() - 1);
+        m_id_to_index[location->GetID()] = static_cast<unsigned int>(size() - 1);
 }
 
 vector<ContactPool*> GeoGrid::GetNearbyPools(Id id, const SimLocation& start, double startRadius) const

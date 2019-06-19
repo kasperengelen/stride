@@ -39,9 +39,10 @@ struct PoolStats
 };
 
 /**
-* Class that keeps track of stats about the health status of a population.
-*/
-class PopStats {
+ * Class that keeps track of stats about the health status of a population.
+ */
+class PopStats
+{
 public:
         /**
          * Default constructor. This is useful when the PopStats object needs to be constructed
@@ -53,20 +54,19 @@ public:
          * Constructor. Process the specified location and determine information about
          * the population.
          */
-        PopStats(const geopop::SimLocation &loc);
-
+        PopStats(const geopop::SimLocation& loc);
 
         /**
          * Retrieve a const reference to the PoolTypeData object that keeps track of the
          * contact pools of the specified type.
          */
-        const PoolStats &GetPool(const stride::ContactType::Id &poolId) const;
+        const PoolStats& GetPool(const stride::ContactType::Id& poolId) const;
 
         /**
          * Retrieve a non-const reference to the PoolTypeData object that keeps track of the
          * contact pools of the specified type.
          */
-        PoolStats &GetPool(const stride::ContactType::Id &poolId);
+        PoolStats& GetPool(const stride::ContactType::Id& poolId);
 
         /**
          * Set the information stored about the specified type of pool to

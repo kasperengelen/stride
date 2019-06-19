@@ -154,9 +154,10 @@ TEST(GeoGridJSONReaderTest, commutesTest)
         auto location3 = locations[3];
 
         auto sortLoc = [](vector<pair<SimLocation*, double>> loc) {
-                sort(begin(loc), end(loc), [](const pair<SimLocation*, double>& a, const pair<SimLocation*, double>& b) {
-                        return a.first->GetID() < b.first->GetID();
-                });
+                sort(begin(loc), end(loc),
+                     [](const pair<SimLocation*, double>& a, const pair<SimLocation*, double>& b) {
+                             return a.first->GetID() < b.first->GetID();
+                     });
                 return loc;
         };
 

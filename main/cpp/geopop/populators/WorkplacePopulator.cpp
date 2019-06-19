@@ -181,7 +181,7 @@ void Populator<stride::ContactType::Id::Workplace>::Apply(GeoGrid& geoGrid, cons
         auto genWorkplaceComDistr{function<int()>()};
 
         vector<ContactPool*> nearbyWp{};
-        vector<SimLocation*>    commuteLocations{};
+        vector<SimLocation*> commuteLocations{};
 
         const auto participWorkplace    = geoGridConfig.param.particpation_workplace;
         const auto popCollege           = geoGridConfig.info.popcount_college;
