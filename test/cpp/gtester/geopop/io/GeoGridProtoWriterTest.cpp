@@ -59,7 +59,7 @@ TEST(GeoGridProtoWriterTest, contactPoolsTest)
 TEST(GeoGridProtoWriterTest, peopleTest)
 {
         auto pop = Population::Create();
-        CompareGeoGrid(*GetPopulatedGeoGrid(pop.get()));
+        CompareGeoGrid(GetPopulatedGeoGrid(pop.get()));
 }
 
 TEST(GeoGridProtoWriterTest, commutesTest)

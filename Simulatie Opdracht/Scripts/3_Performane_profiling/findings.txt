@@ -3,12 +3,19 @@
 ==============================
     50, 100, 150, 200, 500
 run time: 
-    - 00:00:04:540:636
+    - 00:00:04:540:636  
     - 00:00:09:489:445
     - 00:00:14:142:280
     - 00:00:18:007:674
     - 00:00:38:496:440
     
+  20 runs:
+    00:00:59:322:954
+    00:01:52:714:426
+    00:02:34:824:509
+    00:03:09:711:554
+    00:06:51:445:194
+
 scales linearly with SortMembers taking most of the time
     - 1.63s
     - 3.52s
@@ -27,6 +34,22 @@ run time:
     - 00:00:04:926:754
 SortMembers and GetInfectedCount take up most of the time (linear again?)
    with SortMembers #1
+   
+20 runs
+genpop
+00:04:093
+00:04:533
+00:05:615
+00:08:298
+00:16:479
+
+sim
+06:923
+10:203
+15:210
+25:015
+52:985
+
 ==============================
 ========immunity rate=========
 ==============================
@@ -40,6 +63,12 @@ run time:
 SortMembers and GetInfectedCount take up most of the time with SortMembers #1
 immunity rate doesn't affect the run time
 
+20 runs
+    01:04:794
+    01:03:841
+    01:03:329
+    01:01:007
+    01:02:708
     
 ==============================
 =========seeding rate=========
@@ -52,6 +81,14 @@ run time:
     - 00:00:04:865:063
 SortMembers and GetInfectedCount take up most of the time with SortMembers #1
 weird things (not much) do happen above 0.1976
+     0.1, 0.02, 0.002, 0.0002, 0.00002
+     20 runs
+     somewhere above 0.1 it BREAKS
+     01:10:434
+     01:16:063
+     01:00:997
+     00:52:866
+     0:53:108
      
 ==============================
 =======contact log mode=======

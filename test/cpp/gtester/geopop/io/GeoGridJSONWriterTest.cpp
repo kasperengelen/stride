@@ -81,7 +81,7 @@ TEST(GeoGridJSONWriterTest, contactPoolsTest)
 TEST(GeoGridJSONWriterTest, peopleTest)
 {
         auto pop = Population::Create();
-        EXPECT_TRUE(compareGeoGrid(*GetPopulatedGeoGrid(pop.get()), "test2.json"));
+        EXPECT_TRUE(compareGeoGrid(GetPopulatedGeoGrid(pop.get()), "test2.json"));
 }
 
 TEST(GeoGridJSONWriterTest, commutesTest)
