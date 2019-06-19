@@ -1,6 +1,6 @@
-# Simulation assignment 1
+# Impact of implemented features
 
-This page contains all the information regarding the first part of the dissertation. 
+This page contains all the information regarding the impact of the features implemented in the second part of the dissertation. 
 
 [The report](https://github.com/kasperengelen/stride/blob/master/docs/ImpactPaper/ImpactPaper.pdf)
 This file contains a report on our findings. It provides brief conclusions on the impact of the implemented features and the graphs used to draw those conclusions.
