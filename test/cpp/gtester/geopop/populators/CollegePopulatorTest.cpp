@@ -18,7 +18,7 @@
 #include "MakeGeoGrid.h"
 #include "contact/AgeBrackets.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "geopop/generators/Generator.h"
 #include "pop/Population.h"
 #include "util/LogUtils.h"
@@ -56,7 +56,7 @@ protected:
 
 TEST_F(CollegePopulatorTest, NoPopulation)
 {
-        m_geo_grid.AddLocation(make_shared<Location>(0, 0, Coordinate(0.0, 0.0), "", 0));
+        m_geo_grid.AddLocation(make_shared<SimLocation>(0, 0, Coordinate(0.0, 0.0), "", 0));
         m_geo_grid.Finalize();
 
         EXPECT_NO_THROW(m_college_populator.Apply(m_geo_grid, m_gg_config));

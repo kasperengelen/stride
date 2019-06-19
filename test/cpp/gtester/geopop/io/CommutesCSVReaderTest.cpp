@@ -15,7 +15,7 @@
 
 #include "geopop/io/CommutesCSVReader.h"
 #include "geopop/GeoGrid.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "geopop/io/HouseholdCSVReader.h"
 #include "pop/Population.h"
 
@@ -32,10 +32,10 @@ shared_ptr<Population> getExpectedGeoGrid()
 {
         auto  pop     = Population::Create();
         auto& geoGrid = pop->RefGeoGrid();
-        geoGrid.AddLocation(make_shared<Location>(21, 0, Coordinate(0.0, 0.0), "", 1000));
-        geoGrid.AddLocation(make_shared<Location>(22, 0, Coordinate(0.0, 0.0), "", 800));
-        geoGrid.AddLocation(make_shared<Location>(23, 0, Coordinate(0.0, 0.0), "", 900));
-        geoGrid.AddLocation(make_shared<Location>(24, 0, Coordinate(0.0, 0.0), "", 1300));
+        geoGrid.AddLocation(make_shared<SimLocation>(21, 0, Coordinate(0.0, 0.0), "", 1000));
+        geoGrid.AddLocation(make_shared<SimLocation>(22, 0, Coordinate(0.0, 0.0), "", 800));
+        geoGrid.AddLocation(make_shared<SimLocation>(23, 0, Coordinate(0.0, 0.0), "", 900));
+        geoGrid.AddLocation(make_shared<SimLocation>(24, 0, Coordinate(0.0, 0.0), "", 1300));
 
         // to 21
         geoGrid.GetById(21)->AddIncomingCommute(geoGrid.GetById(22), 0.15012305168170631);
@@ -81,10 +81,10 @@ TEST(CommutesCSVReaderTest, test1)
         const auto pop             = Population::Create();
         auto&      geoGrid         = pop->RefGeoGrid();
 
-        geoGrid.AddLocation(make_shared<Location>(21, 0, Coordinate(0.0, 0.0), "", 1000));
-        geoGrid.AddLocation(make_shared<Location>(22, 0, Coordinate(0.0, 0.0), "", 800));
-        geoGrid.AddLocation(make_shared<Location>(23, 0, Coordinate(0.0, 0.0), "", 900));
-        geoGrid.AddLocation(make_shared<Location>(24, 0, Coordinate(0.0, 0.0), "", 1300));
+        geoGrid.AddLocation(make_shared<SimLocation>(21, 0, Coordinate(0.0, 0.0), "", 1000));
+        geoGrid.AddLocation(make_shared<SimLocation>(22, 0, Coordinate(0.0, 0.0), "", 800));
+        geoGrid.AddLocation(make_shared<SimLocation>(23, 0, Coordinate(0.0, 0.0), "", 900));
+        geoGrid.AddLocation(make_shared<SimLocation>(24, 0, Coordinate(0.0, 0.0), "", 1300));
 
         auto              instream = make_unique<istringstream>(csvString);
         CommutesCSVReader reader(move(instream));

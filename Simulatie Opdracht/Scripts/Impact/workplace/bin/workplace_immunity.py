@@ -31,8 +31,8 @@ def plotNewCases(outputPrefix, iterations, fractions, workplace_files, day, lege
     """
     fig = plt.figure()
     days = range(0, day)
-    for fraction in fractions:
-        for workplace in workplace_files:
+    for workplace in workplace_files:
+        for fraction in fractions:
             totalNewCases = [0]*day
             for i in range(0, iterations):
                 cumulativeCasesPerDay = []
@@ -59,9 +59,9 @@ def plotNewCases(outputPrefix, iterations, fractions, workplace_files, day, lege
     
     plt.xlabel("Simulation day")
     plt.ylabel("New cases per day")
-    plt.legend(legend, title="Immunity rate")
+    plt.legend(legend, title="Algorithm & workplace size")
     #plt.show()
-    fig.savefig(os.path.join(outputPrefix, 'cases_per_day_{}runs.eps'.format(iterations)))
+    fig.savefig(os.path.join(outputPrefix, "workplace_sizes_ncpd.eps"))
 
 
 def plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, day, legend):
@@ -70,8 +70,8 @@ def plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, da
     """
     fig = plt.figure()
     days = range(0, day)
-    for fraction in fractions:
-        for workplace in workplace_files:
+    for workplace in workplace_files:
+        for fraction in fractions:    
             totalNewCases = [0]*day
             for i in range(0, iterations):
                 cumulativeCasesPerDay = []
@@ -96,9 +96,9 @@ def plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, da
     
     plt.xlabel("Simulation day")
     plt.ylabel("Cumulative cases per day")
-    plt.legend(legend, title="Immunity rate")
+    plt.legend(legend, title="Algorithm & workplace size")
     #plt.show()
-    fig.savefig(os.path.join(outputPrefix, 'cumulative_cases_{}runs.eps'.format(iterations)))
+    fig.savefig(os.path.join(outputPrefix, "workplace_sizes_ccpd.eps"))
 
 def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
     # Set up simulator
@@ -118,7 +118,6 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
     control.runConfig.setParameter("geopop_gen.population_size", "600000")
     control.runConfig.setParameter("geopop_gen.workplace_distribution_file", "data/" + workplace)
 
-    print("config done")
     control.registerCallback(trackCases, EventType.Stepped)
     # Run simulation
     control.control()
@@ -126,21 +125,24 @@ def runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days):
 def main():
     iterations = 20
     days = 50
-    outputPrefix = os.path.join("workplace", f"immunity_runs{iterations}_r03_days{days}_seeding0.002")
-    fractions = [0.4, 0.6, 0.8]
-    workplace_files = ["workplace_size_distribution2.csv", "workplace_size_distribution.csv"]
+    outputPrefix = os.path.join("workplace", f"immunity_runs{iterations}_r02_days{days}_seeding0.002")
+    fractions = [0.4]
+    workplace_files = ["workplace_size_distribution400.csv", "workplace_size_distribution5.csv",       
+                       "workplace_size_distribution2.csv","workplace_size_distribution3.csv",
+                       "workplace_size_distribution4.csv", "workplace_size_distribution.csv"]
 
     # Run simulations
     for fraction in fractions:
         for workplace in workplace_files:
             for iteration in range(iterations):
                 rng_seed = random.randint(0, 10000000)
-                runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days)
+                #runSimulation(outputPrefix, fraction, workplace, iteration, rng_seed, days)
 
     legend = list()
-    for fraction in fractions:
-        for alg in ["OG", "New"]:
-            legend.append(alg + ": " + str(fraction))
+    
+    for alg in ["Orignal: size 10", "Orignal: size 17", "Original: size 20", "Original: size 50", "Original: size 200", "New"]:
+        for fraction in fractions:
+            legend.append(alg)
     # Post-processing
     plotNewCases(outputPrefix, iterations, fractions, workplace_files, days, legend)
     plotCumulativeCases(outputPrefix, iterations, fractions, workplace_files, days, legend)

@@ -23,19 +23,21 @@
 #include <gtest/gtest.h>
 
 #include "VisualiserTestfileGetter.h"
-#include "visualiser/model/PopData.h"
+#include "geopop/PopStats.h"
+#include "geopop/VisLocation.h"
 
+using geopop::PoolStats;
 using stride::visualiser::Model;
-using stride::visualiser::PopSection;
+using namespace stride;
 
 /**
  * Check if the values within a population section are correct.
  * @param pool_id The index that the pool type has inside the ContractType::IdList has.
  * @param popsection The population that will be checked.
  */
-inline void TestPopSection(const unsigned int pool_id, const PopSection popsection)
+inline void TestPoolStats(const unsigned int pool_id, const PoolStats popsection)
 {
-        EXPECT_EQ(pool_id, popsection.pop);
+        EXPECT_EQ(pool_id, popsection.population);
         EXPECT_DOUBLE_EQ(pool_id + 0.1, popsection.immune);
         EXPECT_DOUBLE_EQ(pool_id + 0.2, popsection.infected);
         EXPECT_DOUBLE_EQ(pool_id + 0.3, popsection.infectious);
@@ -57,15 +59,15 @@ inline void TestPopData()
         reader.ReadIntoModel(model);
 
         // take first loc: model[0][0]
-        const auto& loc = model.GetEpiData().at(0).at(0);
-        const auto& pop = loc.GetPopData();
+        const auto& loc                                 = model.GetEpiData().at(0)->operator[](0);
+        const auto&                                 pop = loc->GetPopStats();
 
-        TestPopSection(1, pop.household);
-        TestPopSection(2, pop.k12school);
-        TestPopSection(3, pop.college);
-        TestPopSection(4, pop.workplace);
-        TestPopSection(5, pop.primCom);
-        TestPopSection(6, pop.secCom);
-        TestPopSection(7, pop.daycare);
-        TestPopSection(8, pop.preschool);
+        TestPoolStats(1, pop.GetPool(ContactType::Id::Household));
+        TestPoolStats(2, pop.GetPool(ContactType::Id::K12School));
+        TestPoolStats(3, pop.GetPool(ContactType::Id::College));
+        TestPoolStats(4, pop.GetPool(ContactType::Id::Workplace));
+        TestPoolStats(5, pop.GetPool(ContactType::Id::PrimaryCommunity));
+        TestPoolStats(6, pop.GetPool(ContactType::Id::SecondaryCommunity));
+        TestPoolStats(7, pop.GetPool(ContactType::Id::Daycare));
+        TestPoolStats(8, pop.GetPool(ContactType::Id::PreSchool));
 }

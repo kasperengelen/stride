@@ -17,7 +17,7 @@
 
 #include "GeoGridStreamWriter.h"
 #include "contact/ContactPool.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "json.hpp"
 #include "pop/Person.h"
 #include <set>
@@ -38,7 +38,7 @@ public:
 
 private:
         /// Create a nlohmann::json containing all info needed to reconstruct a Location.
-        nlohmann::json WriteLocation(const Location& location);
+        nlohmann::json WriteLocation(const SimLocation& location);
 
         /// Create a nlohmann::json containing all info needed to reconstruct a ContactPool.
         nlohmann::json WriteContactPool(stride::ContactPool* contactPool);

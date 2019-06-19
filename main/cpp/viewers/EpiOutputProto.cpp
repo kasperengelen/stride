@@ -19,10 +19,9 @@
 
 #include "EpiOutputProto.h"
 
-#include "viewers/LocationPopStats.h"
-
 #include "contact/ContactType.h"
-#include "geopop/Location.h"
+#include "geopop/PopStats.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
@@ -35,7 +34,7 @@ namespace output {
  * Given a PoolStats object, this will return a pointer to a proto::PopSection object
  * that contains the same information in protobuf format.
  */
-proto::PopSection* SerializePopSection(const PoolStats& pool_stats)
+proto::PopSection* SerializePopSection(const geopop::PoolStats& pool_stats)
 {
         proto::PopSection* retval = new proto::PopSection{};
 
@@ -81,7 +80,7 @@ void EpiOutputProto::Update(std::shared_ptr<const Population> population)
                 proto_loc->set_allocated_coord(coord);
 
                 // determine population stats
-                const LocationPopData popdata{*location};
+                const geopop::PopStats popdata{*location};
 
                 // set pool stats
                 proto_loc->set_allocated_household(SerializePopSection(popdata.GetPool(ContactType::Id::Household)));

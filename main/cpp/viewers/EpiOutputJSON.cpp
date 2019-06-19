@@ -20,10 +20,9 @@
 
 #include "EpiOutputJSON.h"
 
-#include "viewers/LocationPopStats.h"
-
 #include "contact/ContactType.h"
-#include "geopop/Location.h"
+#include "geopop/PopStats.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
@@ -55,7 +54,7 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
 
         const geopop::GeoGrid& geogrid = population->CRefGeoGrid();
         for (const auto& location : geogrid) {
-                const LocationPopData popdata{*location};
+                const geopop::PopStats popdata{*location};
 
                 json loc_json    = json::object();
                 loc_json["name"] = location->GetName();
@@ -66,7 +65,7 @@ void EpiOutputJSON::Update(std::shared_ptr<const Population> population)
                 loc_json["coordinates"].push_back(coordinate.get<1>());
 
                 for (const auto& pool_type : ContactType::IdList) {
-                        const PoolStats& pool_stats = popdata.GetPool(pool_type);
+                        const geopop::PoolStats& pool_stats = popdata.GetPool(pool_type);
 
                         json pool_json = json::object();
 

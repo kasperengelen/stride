@@ -1,0 +1,175 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "strideGeogrid",
+  "type": "object",
+  "properties": {
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "province": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "population": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "coordinate": {
+            "type": "object",
+            "properties": {
+              "latitude": { "type": "number" },
+              "longitude": { "type": "number" }
+            },
+            "required": [ "longitude", "latitude" ]
+          },
+          "commute": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "to": {
+                  "type": "number",
+                  "minimum": 1,
+                  "multipleOf": 1.0
+                },
+                "proportion": { "type": "number" }
+              },
+              "required": [ "to", "proportion" ]
+            }
+          },
+          "contactPools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "pools": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "minimum": 1,
+                        "multipleOf": 1.0
+                      },
+                      "people": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 1,
+                          "multipleOf": 1.0
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [ "class", "pools" ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "province",
+          "population",
+          "coordinate",
+          "commute",
+          "contactPools"
+        ]
+      }
+    },
+    "persons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "age": {
+            "type": "number",
+            "minimum": 0,
+            "multipleOf": 1.0
+          },
+          "daycare": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "preSchool": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "k12School": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "household": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "workplace": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "primaryCommunity": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "secondaryCommunity": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          },
+          "college": {
+            "type": "number",
+            "minimum": 1,
+            "multipleOf": 1.0
+          }
+        },
+        "required": [
+          "id",
+          "age",
+          "daycare",
+          "preSchool",
+          "k12School",
+          "household",
+          "workplace",
+          "primaryCommunity",
+          "secondaryCommunity",
+          "college"
+        ]
+      }
+    }
+  },
+  "required": [
+    "geogridName",
+    "locations",
+    "persons"
+  ]
+}

@@ -20,7 +20,7 @@
 #pragma once
 
 #include "contact/ContactType.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 
 #include <fstream>
 #include <memory>

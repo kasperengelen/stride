@@ -19,7 +19,7 @@
 #include "geopop/Coordinate.h"
 #include "geopop/GeoGrid.h"
 #include "geopop/GeoGridConfig.h"
-#include "geopop/Location.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/LogUtils.h"
 #include "util/RnMan.h"
@@ -37,14 +37,14 @@ class SecondaryCommunityPopulatorTest : public testing::Test
 public:
         SecondaryCommunityPopulatorTest()
             : m_rn_man(RnInfo{}), m_populator(m_rn_man), m_gg_config(), m_pop(Population::Create()),
-              m_location(make_shared<Location>(1, 4, Coordinate(0, 0), "Antwerpen", 2500)),
+              m_location(make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Antwerpen", 2500)),
               m_geo_grid(m_pop->RefGeoGrid()), m_person(), m_community_generator(m_rn_man),
               m_household_generator(m_rn_man)
         {
         }
 
 protected:
-        // Set initial situation: a one-person (with Id 42) household at Location 'm_location' registered
+        // Set initial situation: a one-person (with Id 42) household at SimLocation 'm_location' registered
         // in the population/geogrid and one SecondaryCommunity 'm_community_cc' constructed but having no
         // members and not yet registered in the GeoGrid.
         void SetUp() override
@@ -64,7 +64,7 @@ protected:
         SecondaryCommunityPopulator m_populator;
         GeoGridConfig               m_gg_config;
         shared_ptr<Population>      m_pop;
-        shared_ptr<Location>        m_location;
+        shared_ptr<SimLocation>     m_location;
         GeoGrid&                    m_geo_grid;
         shared_ptr<Person>          m_person;
         SecondaryCommunityGenerator m_community_generator;
@@ -89,7 +89,7 @@ TEST_F(SecondaryCommunityPopulatorTest, EmptyCommunityTest)
         EXPECT_NO_THROW(m_populator.Apply(m_geo_grid, m_gg_config));
 }
 
-// At this Location a two-person household, both get assigned to the same SecondaryCommunity.
+// At this SimLocation a two-person household, both get assigned to the same SecondaryCommunity.
 TEST_F(SecondaryCommunityPopulatorTest, HouseholdTest)
 {
         auto person2 = make_shared<Person>();
@@ -113,10 +113,10 @@ TEST_F(SecondaryCommunityPopulatorTest, HouseholdTest)
 }
 
 // Two Locations each with a SecondaryCommunity, a one-person household at the first location
-// and that person gets assigned to the SecondaryCommunity at the first Location.
+// and that person gets assigned to the SecondaryCommunity at the first SimLocation.
 TEST_F(SecondaryCommunityPopulatorTest, TwoLocationsTest)
 {
-        auto location2 = make_shared<Location>(2, 5, Coordinate(1, 1), "Brussel", 1500);
+        auto location2 = make_shared<SimLocation>(2, 5, Coordinate(1, 1), "Brussel", 1500);
         m_community_generator.AddPools(*location2, m_pop.get(), m_gg_config);
 
         m_geo_grid.AddLocation(location2);

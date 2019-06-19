@@ -20,15 +20,16 @@
 
 #include "EpiOutputHDF5.h"
 
-#include "viewers/LocationPopStats.h"
-
 #include "contact/ContactType.h"
-#include "geopop/Location.h"
+#include "geopop/PopStats.h"
+#include "geopop/SimLocation.h"
 #include "pop/Population.h"
 #include "util/FileSys.h"
 
 namespace stride {
 namespace output {
+
+using geopop::PoolStats;
 
 void WriteCoordinate(H5::Group& loc, const geopop::Coordinate& coordinate)
 {
@@ -54,7 +55,7 @@ void EpiOutputHDF5::Initialize(const std::string& output_prefix)
 void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
 {
         // data layout
-        H5::CompType comp_type(sizeof(PoolStats));
+        H5::CompType comp_type(sizeof(geopop::PoolStats));
 
         comp_type.insertMember("population", HOFFSET(PoolStats, population), H5::PredType::NATIVE_UINT);
         comp_type.insertMember("immune", HOFFSET(PoolStats, immune), H5::PredType::NATIVE_DOUBLE);
@@ -89,9 +90,9 @@ void EpiOutputHDF5::Update(std::shared_ptr<const Population> population)
                         WriteCoordinate(loc_group, location->GetCoordinate());
 
                         // add population data
-                        const LocationPopData popdata{*location};
+                        const geopop::PopStats popdata{*location};
                         for (const auto& pool_type : ContactType::IdList) {
-                                const PoolStats& pool_stats = popdata.GetPool(pool_type);
+                                const geopop::PoolStats& pool_stats = popdata.GetPool(pool_type);
 
                                 hsize_t       dim = 1;
                                 H5::DataSpace pool_ds(1, &dim);
