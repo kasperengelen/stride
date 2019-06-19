@@ -23,11 +23,11 @@
 
 #include "VisualiserTestfileGetter.h"
 
-#include "pop/Population.h"
 #include "gtester/geopop/io/GeoGridIOUtils.h"
+#include "pop/Population.h"
 
-using stride::util::FileSys;
 using stride::Population;
+using stride::util::FileSys;
 using stride::visualiser::Model;
 
 /**
@@ -37,44 +37,42 @@ using stride::visualiser::Model;
 template <typename WriterType, typename ReaderType>
 void CheckWriterReaderPair()
 {
-    constexpr unsigned int num_timesteps = 5;
+        constexpr unsigned int num_timesteps = 5;
 
-    std::vector<unsigned int> timestep_sizes{};
+        std::vector<unsigned int> timestep_sizes{};
 
-    // create writer
-    WriterType writer{GetWriterTestDir<WriterType>()};
+        // create writer
+        WriterType writer{GetWriterTestDir<WriterType>()};
 
-    // for i = 0..4 (size=5)
-    //      Create population
-    //      Writer pop
-    for(unsigned int i = 0; i < num_timesteps; i++)
-    {
-        auto pop = Population::Create();
-        const auto& geogrid = GetPopulatedGeoGrid(pop.get());
+        // for i = 0..4 (size=5)
+        //      Create population
+        //      Writer pop
+        for (unsigned int i = 0; i < num_timesteps; i++) {
+                auto        pop     = Population::Create();
+                const auto& geogrid = GetPopulatedGeoGrid(pop.get());
 
-        timestep_sizes.push_back(geogrid.size());
+                timestep_sizes.push_back(geogrid.size());
 
-        writer.Update(pop);
-    }
+                writer.Update(pop);
+        }
 
-    // write file
-    writer.Finish();
+        // write file
+        writer.Finish();
 
-    // create reader
-    //ReaderType reader{GetWriterTestFile<WriterType>()};
-    ReaderType reader{GetWriterTestFile<WriterType>()};
+        // create reader
+        // ReaderType reader{GetWriterTestFile<WriterType>()};
+        ReaderType reader{GetWriterTestFile<WriterType>()};
 
-    // create model
-    Model model{};
+        // create model
+        Model model{};
 
-    // read into model
-    reader.ReadIntoModel(model);
+        // read into model
+        reader.ReadIntoModel(model);
 
-    // check that the number of timesteps is correct
-    EXPECT_EQ(num_timesteps, model.GetEpiData().size());
+        // check that the number of timesteps is correct
+        EXPECT_EQ(num_timesteps, model.GetEpiData().size());
 
-    for(unsigned int i = 0; i < num_timesteps; i++)
-    {
-        EXPECT_EQ(timestep_sizes.at(i), model.GetEpiData().at(i)->size());
-    }
+        for (unsigned int i = 0; i < num_timesteps; i++) {
+                EXPECT_EQ(timestep_sizes.at(i), model.GetEpiData().at(i)->size());
+        }
 }

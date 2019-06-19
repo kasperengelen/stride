@@ -172,8 +172,8 @@ void CompareGeoGrid(proto::GeoGrid& protoGrid)
 
 GeoGrid& GetPopulatedGeoGrid(Population* pop)
 {
-        //const auto geoGrid = make_shared<GeoGrid>(pop);
-        auto& geoGrid = pop->RefGeoGrid();
+        // const auto geoGrid = make_shared<GeoGrid>(pop);
+        auto&      geoGrid = pop->RefGeoGrid();
         const auto loc     = make_shared<SimLocation>(1, 4, Coordinate(0, 0), "Bavikhove", 2500);
 
         auto k12Pool = pop->RefPoolSys().CreateContactPool(Id::K12School);
@@ -195,8 +195,8 @@ GeoGrid& GetPopulatedGeoGrid(Population* pop)
 
         geoGrid.AddLocation(loc);
         const auto person = geoGrid.GetPopulation()->CreatePerson(0, 18, hPool->GetId(), k12Pool->GetId(),
-                                                                   cPool->GetId(), wPool->GetId(), pcPool->GetId(),
-                                                                   scPool->GetId(), dPool->GetId(), psPool->GetId());
+                                                                  cPool->GetId(), wPool->GetId(), pcPool->GetId(),
+                                                                  scPool->GetId(), dPool->GetId(), psPool->GetId());
         k12Pool->AddMember(person);
         pcPool->AddMember(person);
         scPool->AddMember(person);

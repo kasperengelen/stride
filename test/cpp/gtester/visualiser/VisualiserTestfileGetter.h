@@ -88,19 +88,19 @@ const std::string GetWriterTestDir();
 template <>
 inline const std::string GetWriterTestDir<EpiOutputHDF5>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
 }
 
 template <>
 inline const std::string GetWriterTestDir<EpiOutputJSON>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
 }
 
 template <>
 inline const std::string GetWriterTestDir<EpiOutputProto>()
 {
-    return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
+        return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
 }
 
 template <typename WriterType>
@@ -123,5 +123,3 @@ inline const std::string GetWriterTestFile<EpiOutputProto>()
 {
         return GetWriterTestDir<EpiOutputProto>() + "EpiOutput.proto";
 }
-
-
