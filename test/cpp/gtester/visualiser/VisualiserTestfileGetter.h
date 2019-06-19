@@ -15,20 +15,30 @@
 
 /**
  * @file
- * Header file for functions that retrieve testfile filenames for the epi-output reader tests.
+ * Header file for functions that retrieve testfile filenames for the epi-output tests.
  */
 
 #pragma once
 
 #include "util/FileSys.h"
+
 #include "visualiser/readers/HDF5EpiReader.h"
 #include "visualiser/readers/JSONEpiReader.h"
 #include "visualiser/readers/ProtobufEpiReader.h"
 
+#include "viewers/EpiOutputHDF5.h"
+#include "viewers/EpiOutputJSON.h"
+#include "viewers/EpiOutputProto.h"
+
 using stride::util::FileSys;
+
 using stride::visualiser::HDF5EpiReader;
 using stride::visualiser::JSONEpiReader;
 using stride::visualiser::ProtobufEpiReader;
+
+using stride::output::EpiOutputHDF5;
+using stride::output::EpiOutputJSON;
+using stride::output::EpiOutputProto;
 
 template <typename ReaderType>
 const std::string GetPopdataTestfile();
@@ -71,3 +81,47 @@ inline const std::string GetTimestepTestfile<ProtobufEpiReader>()
 {
         return FileSys::GetTestsDir().string() + "/testdata/EpiReader/test_timestep_order.proto";
 }
+
+template <typename WriterType>
+const std::string GetWriterTestDir();
+
+template <>
+inline const std::string GetWriterTestDir<EpiOutputHDF5>()
+{
+    return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
+}
+
+template <>
+inline const std::string GetWriterTestDir<EpiOutputJSON>()
+{
+    return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
+}
+
+template <>
+inline const std::string GetWriterTestDir<EpiOutputProto>()
+{
+    return FileSys::GetTestsDir().string() + "/testdata/EpiWriter/";
+}
+
+template <typename WriterType>
+const std::string GetWriterTestFile();
+
+template <>
+inline const std::string GetWriterTestFile<EpiOutputHDF5>()
+{
+        return GetWriterTestDir<EpiOutputHDF5>() + "EpiOutput.h5";
+}
+
+template <>
+inline const std::string GetWriterTestFile<EpiOutputJSON>()
+{
+        return GetWriterTestDir<EpiOutputJSON>() + "EpiOutput.json";
+}
+
+template <>
+inline const std::string GetWriterTestFile<EpiOutputProto>()
+{
+        return GetWriterTestDir<EpiOutputProto>() + "EpiOutput.proto";
+}
+
+

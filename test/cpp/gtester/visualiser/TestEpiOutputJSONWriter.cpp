@@ -15,14 +15,14 @@
 
 /**
  * @file
- * Test file for the HDF5 EPI output writer.
+ * Test file for the JSON EPI output writer.
  */
 
 #include <gtest/gtest.h>
 
 #include "WriterReaderChecker.h"
 
-TEST(TestEpiOutputHDF5Writer, test1)
+TEST(TestEpiOutputJSONWriter, test1)
 {
-    CheckWriterReaderPair<EpiOutputHDF5, HDF5EpiReader>();
+    CheckWriterReaderPair<EpiOutputJSON, JSONEpiReader>();
 }
