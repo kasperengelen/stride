@@ -119,6 +119,7 @@ def calc_pct_interval(data, success_func, confidence):
 
 csv_list = [
     ["./Vlaanderen_1000sim_300day_SR=0.00000167.csv",91000],
+    ["./Vlaanderen_1000sim_300day_SR=0.002.csv",     5000 ]
 ]
 
 for csv in csv_list:
