@@ -322,7 +322,7 @@ For these simulations, we generated a population where 60\% of people between th
 \subsection{Commuting to work}
 
 \paragraph{} Another factor that is interesting to examine is the impact of commuting on disease spread. \\
-In this simulation, we generate different populations, depending on different fractions of commuters. The expectation we have is that if more people commute to work, more people gets infected in the end. But when we run the simulation, we see that there isn't a difference between the fraction of commuters. We can also see that there is a peak between day 40 and 50. This peak doesn't change much when we increase the amount of commuters. If we increase the amount of days to 200, the peak is around 70-75, but still no difference between the fractions of commuters. 
+In this simulation, we generate different populations, depending on different fractions of commuters. The expectation we have is that if more people commute to work, more people get infected in the end. But when we run the simulation, we see that there isn't a difference between the number of infected people when we run with different fractions of commuting. We can also see that there is a peak between day 40 and 50 (Figure \ref{fig:WorkCommuting0}). This peak doesn't change much when we increase the amount of commuters. If we increase the amount of days to 200 (Figure \ref{fig:WorkCommuting1}), the total peak is around 70-75 days, but still no difference between the number of infected people for the different fractions of commuters. 
 
 \begin{figure}[h!]
 	\centering
@@ -334,8 +334,8 @@ In this simulation, we generate different populations, depending on different fr
 		\includegraphics[width=\textwidth]{work_cases_per_day_1.eps}
 		\caption{New cases per day.} 
 	\end{subfigure}
-	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. }
-	\label{VaccinePlot}
+	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 simulation runs for each fraction (so 5000 in total). }
+	\label{fig:WorkCommuting0}
 \end{figure}
 
 \begin{figure}[h!]
@@ -344,12 +344,12 @@ In this simulation, we generate different populations, depending on different fr
 		\includegraphics[width=\textwidth]{work_cases_per_day_3.eps}
 		\caption{New cases per day.} 
 	\end{subfigure}
-	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 runs for each fraction. 200 days.}
-	\label{VaccinePlot}
+	\caption{Plots showing the impact of Commuting to work on a population of size 10000. 1000 simulation runs for each fraction (so 5000 in total). 200 days.}
+	\label{fig:WorkCommuting1}
 \end{figure}
 
-\newpage
-When we increase the population size, we don't see many differences. 
+\noindent
+When we increase the population size from 10000 to 600000 (Figure \ref{fig:WorkCommuting2}), we don't see a differences in the shape of the graph. This means that the population size has no impact om the spread of this desease for this simulation. 
 
 \begin{figure}[h!]
 	\centering
@@ -359,10 +359,10 @@ When we increase the population size, we don't see many differences.
 	\end{subfigure}
 	\begin{subfigure}[b]{0.7\linewidth}
 		\includegraphics[width=\textwidth]{work_cases_per_day_2.eps}
-		\caption{Plots showing the impact of Commuting to work on a population of size 600000. 100 runs for each fraction. } 
+		\caption{New cases per day.} 
 	\end{subfigure}
-	\caption{Plots showing the impact of Commuting to work on a population of size 500000}
-	\label{VaccinePlot}
+	\caption{Plots showing the impact of Commuting to work on a population of size 600000. 100 simulation runs for each fraction (so 500 in total).}
+	\label{fig:WorkCommuting2}
 \end{figure}
 
 \clearpage
