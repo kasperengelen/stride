@@ -86,9 +86,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_config.html#a808a145911801f2194703fb4815f6763">GeoGridConfig</a> (const boost::property_tree::ptree &amp;configPt)</td></tr>
 <tr class="memdesc:a808a145911801f2194703fb4815f6763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that configures input data. <br /></td></tr>
 <tr class="separator:a808a145911801f2194703fb4815f6763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea2742355e7e5bd756a3204fa0dfb160"><td class="memItemLeft" align="right" valign="top"><a id="aea2742355e7e5bd756a3204fa0dfb160"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetData</b> (const std::string &amp;householdsFileName)</td></tr>
-<tr class="separator:aea2742355e7e5bd756a3204fa0dfb160"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af659e126be3c0c65e3c3e8d56a96f4bd"><td class="memItemLeft" align="right" valign="top"><a id="af659e126be3c0c65e3c3e8d56a96f4bd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetData</b> (const std::string &amp;householdsFileName, bool use_install_dirs=true)</td></tr>
+<tr class="separator:af659e126be3c0c65e3c3e8d56a96f4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f2903d2b63b4746e439cc4e66095270"><td class="memItemLeft" align="right" valign="top"><a id="a4f2903d2b63b4746e439cc4e66095270"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetWorkplaceData</b> (const std::string &amp;workplaceFileName)</td></tr>
 <tr class="separator:a4f2903d2b63b4746e439cc4e66095270"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,14 +131,18 @@ struct {</td></tr>
 <tr class="separator:a94643f701d8a4359bf23a937ce33ee1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9662b39487348642124af214d4c6ca82"><td class="memItemLeft" ><a id="a9662b39487348642124af214d4c6ca82"></a>
 struct {</td></tr>
-<tr class="memitem:adf49b314f5a2b38f432f4785686a4e16"><td class="memItemLeft" >
-&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="classgeopop_1_1_geo_grid_config.html#a517eacc33e89307a10ec3108996a9b67">person_count</a> = 0U</td></tr>
-<tr class="memdesc:adf49b314f5a2b38f432f4785686a4e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of persons in the reference household set. <br /></td></tr>
-<tr class="separator:adf49b314f5a2b38f432f4785686a4e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d5600f56ae9f1d3a9415af438fc79e6"><td class="memItemLeft" >
-&#160;&#160;&#160;std::vector&lt; std::vector&lt; unsigned int &gt; &gt;&#160;&#160;&#160;<a class="el" href="classgeopop_1_1_geo_grid_config.html#a8e91e65111dbf2eb5cc4902b136b33c1">ages</a> {}</td></tr>
-<tr class="memdesc:a4d5600f56ae9f1d3a9415af438fc79e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Age profile per reference household. <br /></td></tr>
-<tr class="separator:a4d5600f56ae9f1d3a9415af438fc79e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e384c850f5b99d9862180ea50399495"><td class="memItemLeft" >
+&#160;&#160;&#160;std::map&lt; unsigned int, unsigned int &gt;&#160;&#160;&#160;<a class="el" href="classgeopop_1_1_geo_grid_config.html#a8b1527b39186143f5c0208257ebdc526">person_count</a> {}</td></tr>
+<tr class="memdesc:a2e384c850f5b99d9862180ea50399495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of persons in the reference household set. <br /></td></tr>
+<tr class="separator:a2e384c850f5b99d9862180ea50399495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a0867dbba181e3a9e27ecb3bdd10652"><td class="memItemLeft" >
+&#160;&#160;&#160;std::map&lt; unsigned int, std::vector&lt; std::vector&lt; unsigned int &gt; &gt; &gt;&#160;&#160;&#160;<a class="el" href="classgeopop_1_1_geo_grid_config.html#af12f1903606222fa6dde4063e7b6fbd6">ages</a> {}</td></tr>
+<tr class="memdesc:a2a0867dbba181e3a9e27ecb3bdd10652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Age profile per reference household. <br /></td></tr>
+<tr class="separator:a2a0867dbba181e3a9e27ecb3bdd10652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57074ac3c09202aa89864ec69a0e610b"><td class="memItemLeft" >
+&#160;&#160;&#160;bool&#160;&#160;&#160;<a class="el" href="classgeopop_1_1_geo_grid_config.html#ad418cf95b820029533fc52bda94ae81c">multiHH</a> = false</td></tr>
+<tr class="memdesc:a57074ac3c09202aa89864ec69a0e610b"><td class="mdescLeft">&#160;</td><td class="mdescRight">indicator for multiple householdfiles. <br /></td></tr>
+<tr class="separator:a57074ac3c09202aa89864ec69a0e610b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9662b39487348642124af214d4c6ca82"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><b>refHH</b></td></tr>
 <tr class="separator:a9662b39487348642124af214d4c6ca82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10331216ea395afc95a872ad10025e3b"><td class="memItemLeft" ><a id="a10331216ea395afc95a872ad10025e3b"></a>

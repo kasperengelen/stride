@@ -66,7 +66,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classgeopop_1_1_geo_grid-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -75,16 +74,16 @@ $(function() {
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_geo_grid_8h_source.html">GeoGrid.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for geopop::GeoGrid:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classgeopop_1_1_geo_grid.png" usemap="#geopop::GeoGrid_map" alt=""/>
+  <map id="geopop::GeoGrid_map" name="geopop::GeoGrid_map">
+<area href="classgeopop_1_1_geo_grid_base.html" alt="geopop::GeoGridBase&lt; SimLocation &gt;" shape="rect" coords="0,0,227,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a4edfd5aa613b017ee8a67b0cf33cc75d"><td class="memItemLeft" align="right" valign="top"><a id="a4edfd5aa613b017ee8a67b0cf33cc75d"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> = std::vector&lt; std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> &gt; &gt;::iterator</td></tr>
-<tr class="separator:a4edfd5aa613b017ee8a67b0cf33cc75d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7320ae37e3f4b784fa86d0051fdd4a02"><td class="memItemLeft" align="right" valign="top"><a id="a7320ae37e3f4b784fa86d0051fdd4a02"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b> = std::vector&lt; std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> &gt; &gt;::const_iterator</td></tr>
-<tr class="separator:a7320ae37e3f4b784fa86d0051fdd4a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3334478e97e8c417b211001b1fd13d54"><td class="memItemLeft" align="right" valign="top"><a id="a3334478e97e8c417b211001b1fd13d54"></a>
@@ -99,82 +98,113 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a5231bf75d48ce20cffcc71bce1034303">operator=</a> (const <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a5231bf75d48ce20cffcc71bce1034303"><td class="mdescLeft">&#160;</td><td class="mdescRight">No copy assignment. <br /></td></tr>
 <tr class="separator:a5231bf75d48ce20cffcc71bce1034303"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09389b1d8662b100e02bd0cca2271a5c"><td class="memItemLeft" align="right" valign="top"><a id="a09389b1d8662b100e02bd0cca2271a5c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a09389b1d8662b100e02bd0cca2271a5c">AddLocation</a> (std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> &gt; location)</td></tr>
-<tr class="memdesc:a09389b1d8662b100e02bd0cca2271a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a location to this <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a>. <br /></td></tr>
-<tr class="separator:a09389b1d8662b100e02bd0cca2271a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab86caf0a636c9f81b61e8d0cf947ec5"><td class="memItemLeft" align="right" valign="top"><a id="aab86caf0a636c9f81b61e8d0cf947ec5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#aab86caf0a636c9f81b61e8d0cf947ec5">Finalize</a> ()</td></tr>
-<tr class="memdesc:aab86caf0a636c9f81b61e8d0cf947ec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the addLocation method and builds the kdtree. <br /></td></tr>
-<tr class="separator:aab86caf0a636c9f81b61e8d0cf947ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8429d4b4a9d2c0bd5da22c695dae2c"><td class="memItemLeft" align="right" valign="top"><a id="a0d8429d4b4a9d2c0bd5da22c695dae2c"></a>
-std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a0d8429d4b4a9d2c0bd5da22c695dae2c">GetById</a> (unsigned int id) const</td></tr>
-<tr class="memdesc:a0d8429d4b4a9d2c0bd5da22c695dae2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a <a class="el" href="classgeopop_1_1_location.html">Location</a> by Id and check if the Id exists. <br /></td></tr>
-<tr class="separator:a0d8429d4b4a9d2c0bd5da22c695dae2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c2861bb1b11f3c571de70830211aab1"><td class="memItemLeft" align="right" valign="top"><a id="a1c2861bb1b11f3c571de70830211aab1"></a>
 <a class="el" href="classstride_1_1_population.html">stride::Population</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a1c2861bb1b11f3c571de70830211aab1">GetPopulation</a> () const</td></tr>
 <tr class="memdesc:a1c2861bb1b11f3c571de70830211aab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Population associated with this <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a>. <br /></td></tr>
 <tr class="separator:a1c2861bb1b11f3c571de70830211aab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace472a21dca18173004e071b259feb1e"><td class="memItemLeft" align="right" valign="top"><a id="ace472a21dca18173004e071b259feb1e"></a>
-std::vector&lt; const <a class="el" href="classgeopop_1_1_location.html">Location</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#ace472a21dca18173004e071b259feb1e">LocationsInRadius</a> (const <a class="el" href="classgeopop_1_1_location.html">Location</a> &amp;start, double radius) const</td></tr>
-<tr class="memdesc:ace472a21dca18173004e071b259feb1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search for locations in <code>radius</code> (in km) around <code>start</code>. <br /></td></tr>
-<tr class="separator:ace472a21dca18173004e071b259feb1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adde1bd7cdd314dbdeb7762aea324c7af"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classstride_1_1_contact_pool.html">stride::ContactPool</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#adde1bd7cdd314dbdeb7762aea324c7af">GetNearbyPools</a> (<a class="el" href="_contact_type_8h.html#a61a32e88a50c57e6f5c49f0996b6b462">stride::ContactType::Id</a> id, const <a class="el" href="classgeopop_1_1_location.html">Location</a> &amp;start, double startRadius=10.0) const</td></tr>
-<tr class="separator:adde1bd7cdd314dbdeb7762aea324c7af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a0b271dc42f69662f8b91923b96ffc2"><td class="memItemLeft" align="right" valign="top">std::set&lt; const <a class="el" href="classgeopop_1_1_location.html">Location</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a7a0b271dc42f69662f8b91923b96ffc2">LocationsInBox</a> (double long1, double lat1, double long2, double lat2) const</td></tr>
-<tr class="separator:a7a0b271dc42f69662f8b91923b96ffc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b9e218d52fe8777ccb349201cc7dd06"><td class="memItemLeft" align="right" valign="top"><a id="a0b9e218d52fe8777ccb349201cc7dd06"></a>
-std::set&lt; const <a class="el" href="classgeopop_1_1_location.html">Location</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a0b9e218d52fe8777ccb349201cc7dd06">LocationsInBox</a> (<a class="el" href="classgeopop_1_1_location.html">Location</a> *loc1, <a class="el" href="classgeopop_1_1_location.html">Location</a> *loc2) const</td></tr>
-<tr class="memdesc:a0b9e218d52fe8777ccb349201cc7dd06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the location in a rectangle defined by the two Locations. <br /></td></tr>
-<tr class="separator:a0b9e218d52fe8777ccb349201cc7dd06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6af7b09f8c358e74cce2690968183c1e"><td class="memItemLeft" align="right" valign="top"><a id="a6af7b09f8c358e74cce2690968183c1e"></a>
-std::vector&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a6af7b09f8c358e74cce2690968183c1e">TopK</a> (size_t k) const</td></tr>
-<tr class="memdesc:a6af7b09f8c358e74cce2690968183c1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the K biggest (in population count) locations of this <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a>. <br /></td></tr>
-<tr class="separator:a6af7b09f8c358e74cce2690968183c1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b5a372da5927a38d0122a2f57d0c0a8"><td class="memTemplParams" colspan="2"><a id="a5b5a372da5927a38d0122a2f57d0c0a8"></a>
-template&lt;typename Policy , typename F &gt; </td></tr>
-<tr class="memitem:a5b5a372da5927a38d0122a2f57d0c0a8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classgeopop_1_1_geo_aggregator.html">GeoAggregator</a>&lt; Policy, F &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a5b5a372da5927a38d0122a2f57d0c0a8">BuildAggregator</a> (F functor, typename Policy::Args &amp;&amp;args) const</td></tr>
-<tr class="memdesc:a5b5a372da5927a38d0122a2f57d0c0a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a <a class="el" href="classgeopop_1_1_geo_aggregator.html">GeoAggregator</a> with a predefined functor and given args for the Policy. <br /></td></tr>
-<tr class="separator:a5b5a372da5927a38d0122a2f57d0c0a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade77f329b74661bf78274ee422e5666b"><td class="memTemplParams" colspan="2"><a id="ade77f329b74661bf78274ee422e5666b"></a>
-template&lt;typename Policy &gt; </td></tr>
-<tr class="memitem:ade77f329b74661bf78274ee422e5666b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classgeopop_1_1_geo_aggregator.html">GeoAggregator</a>&lt; Policy &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#ade77f329b74661bf78274ee422e5666b">BuildAggregator</a> (typename Policy::Args &amp;&amp;args) const</td></tr>
-<tr class="memdesc:ade77f329b74661bf78274ee422e5666b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a <a class="el" href="classgeopop_1_1_geo_aggregator.html">GeoAggregator</a> that gets its functor when calling, with given args for the Policy. <br /></td></tr>
-<tr class="separator:ade77f329b74661bf78274ee422e5666b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbc926a9bbc496fc71c310ece394e8b9"><td class="memItemLeft" align="right" valign="top"><a id="afbc926a9bbc496fc71c310ece394e8b9"></a>
-iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#afbc926a9bbc496fc71c310ece394e8b9">begin</a> ()</td></tr>
-<tr class="memdesc:afbc926a9bbc496fc71c310ece394e8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator to first <a class="el" href="classgeopop_1_1_location.html">Location</a>. <br /></td></tr>
-<tr class="separator:afbc926a9bbc496fc71c310ece394e8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93555874d435b056f60f42d1d2b69c96"><td class="memItemLeft" align="right" valign="top"><a id="a93555874d435b056f60f42d1d2b69c96"></a>
-iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a93555874d435b056f60f42d1d2b69c96">end</a> ()</td></tr>
-<tr class="memdesc:a93555874d435b056f60f42d1d2b69c96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator to the end of the <a class="el" href="classgeopop_1_1_location.html">Location</a> storage. <br /></td></tr>
-<tr class="separator:a93555874d435b056f60f42d1d2b69c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab63fab5a2546af3397671f16beeb2f0c"><td class="memItemLeft" align="right" valign="top"><a id="ab63fab5a2546af3397671f16beeb2f0c"></a>
-const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#ab63fab5a2546af3397671f16beeb2f0c">cbegin</a> () const</td></tr>
-<tr class="memdesc:ab63fab5a2546af3397671f16beeb2f0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const Iterator to first <a class="el" href="classgeopop_1_1_location.html">Location</a>. <br /></td></tr>
-<tr class="separator:ab63fab5a2546af3397671f16beeb2f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a180044a29aae045a27a06f7a6aefdd7d"><td class="memItemLeft" align="right" valign="top"><a id="a180044a29aae045a27a06f7a6aefdd7d"></a>
-const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a180044a29aae045a27a06f7a6aefdd7d">cend</a> () const</td></tr>
-<tr class="memdesc:a180044a29aae045a27a06f7a6aefdd7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const iterator to the end of the <a class="el" href="classgeopop_1_1_location.html">Location</a> storage. <br /></td></tr>
-<tr class="separator:a180044a29aae045a27a06f7a6aefdd7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac44d52c16f9014fe97a03cdc5c9c5d2a"><td class="memItemLeft" align="right" valign="top"><a id="ac44d52c16f9014fe97a03cdc5c9c5d2a"></a>
-std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#ac44d52c16f9014fe97a03cdc5c9c5d2a">operator[]</a> (size_t index)</td></tr>
-<tr class="memdesc:ac44d52c16f9014fe97a03cdc5c9c5d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a <a class="el" href="classgeopop_1_1_location.html">Location</a> by index, doesn't performs a range check. <br /></td></tr>
-<tr class="separator:ac44d52c16f9014fe97a03cdc5c9c5d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69d59e16e407529ffde9886dc07801df"><td class="memItemLeft" align="right" valign="top"><a id="a69d59e16e407529ffde9886dc07801df"></a>
-const std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_location.html">Location</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a69d59e16e407529ffde9886dc07801df">operator[]</a> (size_t index) const</td></tr>
-<tr class="memdesc:a69d59e16e407529ffde9886dc07801df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a <a class="el" href="classgeopop_1_1_location.html">Location</a> by index, doesn't performs a range check. <br /></td></tr>
-<tr class="separator:a69d59e16e407529ffde9886dc07801df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e6acd8ce2f188127372e5e046d3522e"><td class="memItemLeft" align="right" valign="top"><a id="a1e6acd8ce2f188127372e5e046d3522e"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a1e6acd8ce2f188127372e5e046d3522e">size</a> () const</td></tr>
-<tr class="memdesc:a1e6acd8ce2f188127372e5e046d3522e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current size of <a class="el" href="classgeopop_1_1_location.html">Location</a> storage. <br /></td></tr>
-<tr class="separator:a1e6acd8ce2f188127372e5e046d3522e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff24719ff3e8b31465faef580ae5f061"><td class="memItemLeft" align="right" valign="top"><a id="aff24719ff3e8b31465faef580ae5f061"></a>
+std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#aff24719ff3e8b31465faef580ae5f061">GetById</a> (unsigned int id) const</td></tr>
+<tr class="memdesc:aff24719ff3e8b31465faef580ae5f061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a Location by Id and check if the Id exists. <br /></td></tr>
+<tr class="separator:aff24719ff3e8b31465faef580ae5f061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5072d5963a64902e280b2822a96c8084"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classstride_1_1_contact_pool.html">stride::ContactPool</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a5072d5963a64902e280b2822a96c8084">GetNearbyPools</a> (<a class="el" href="_contact_type_8h.html#a61a32e88a50c57e6f5c49f0996b6b462">stride::ContactType::Id</a> id, const <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &amp;start, double startRadius=10.0) const</td></tr>
+<tr class="separator:a5072d5963a64902e280b2822a96c8084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273f4a013317ad18dcc16216ca258578"><td class="memItemLeft" align="right" valign="top"><a id="a273f4a013317ad18dcc16216ca258578"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#a273f4a013317ad18dcc16216ca258578">AddLocation</a> (std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &gt; location) override</td></tr>
+<tr class="memdesc:a273f4a013317ad18dcc16216ca258578"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a location to this <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a>. <br /></td></tr>
+<tr class="separator:a273f4a013317ad18dcc16216ca258578"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadd742aab989314361f477fdf8108707"><td class="memItemLeft" align="right" valign="top"><a id="aadd742aab989314361f477fdf8108707"></a>
+std::vector&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid.html#aadd742aab989314361f477fdf8108707">TopK</a> (size_t k) const</td></tr>
+<tr class="memdesc:aadd742aab989314361f477fdf8108707"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the K biggest (in population count) locations of this <a class="el" href="classgeopop_1_1_geo_grid.html">GeoGrid</a>. <br /></td></tr>
+<tr class="separator:aadd742aab989314361f477fdf8108707"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classgeopop_1_1_geo_grid_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classgeopop_1_1_geo_grid_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classgeopop_1_1_geo_grid_base.html">geopop::GeoGridBase&lt; SimLocation &gt;</a></td></tr>
+<tr class="memitem:a23505d669d4e78314716eb7d7222a026 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a23505d669d4e78314716eb7d7222a026"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a23505d669d4e78314716eb7d7222a026">GeoGridBase</a> ()</td></tr>
+<tr class="memdesc:a23505d669d4e78314716eb7d7222a026 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="separator:a23505d669d4e78314716eb7d7222a026 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc497a356138b4c48eab75cb6540635b inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="afc497a356138b4c48eab75cb6540635b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#afc497a356138b4c48eab75cb6540635b">GeoGridBase</a> (const <a class="el" href="classgeopop_1_1_geo_grid_base.html">GeoGridBase</a> &amp;)=delete</td></tr>
+<tr class="memdesc:afc497a356138b4c48eab75cb6540635b inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">No copy constructor. <br /></td></tr>
+<tr class="separator:afc497a356138b4c48eab75cb6540635b inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaccc90700a81613ad64858c154474ee inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="adaccc90700a81613ad64858c154474ee"></a>
+<a class="el" href="classgeopop_1_1_geo_grid_base.html">GeoGridBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#adaccc90700a81613ad64858c154474ee">operator=</a> (const <a class="el" href="classgeopop_1_1_geo_grid_base.html">GeoGridBase</a> &amp;)=delete</td></tr>
+<tr class="memdesc:adaccc90700a81613ad64858c154474ee inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">No copy assignment. <br /></td></tr>
+<tr class="separator:adaccc90700a81613ad64858c154474ee inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a767591a8a723ce76459c7b95efd0d7b0 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a767591a8a723ce76459c7b95efd0d7b0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a767591a8a723ce76459c7b95efd0d7b0">Finalize</a> ()</td></tr>
+<tr class="memdesc:a767591a8a723ce76459c7b95efd0d7b0 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the addLocation method and builds the kdtree. <br /></td></tr>
+<tr class="separator:a767591a8a723ce76459c7b95efd0d7b0 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889533ee70bd74e665598a144e2adcc8 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a889533ee70bd74e665598a144e2adcc8"></a>
+std::vector&lt; const <a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> *&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a889533ee70bd74e665598a144e2adcc8">LocationsInRadius</a> (double start_long, double start_lat, double radius) const</td></tr>
+<tr class="memdesc:a889533ee70bd74e665598a144e2adcc8 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search for locations in <code>radius</code> (in km) around <code>start</code> = (start_long, start_lat). <br /></td></tr>
+<tr class="separator:a889533ee70bd74e665598a144e2adcc8 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3b746f17d889d9b66e6225e8ba1eb2b inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="af3b746f17d889d9b66e6225e8ba1eb2b"></a>
+std::vector&lt; const <a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> *&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#af3b746f17d889d9b66e6225e8ba1eb2b">LocationsInRadius</a> (const <a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> &amp;start, double radius) const</td></tr>
+<tr class="memdesc:af3b746f17d889d9b66e6225e8ba1eb2b inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search for locations in <code>radius</code> (in km) around <code>start</code>. <br /></td></tr>
+<tr class="separator:af3b746f17d889d9b66e6225e8ba1eb2b inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9551d8157547e858314dcba8741931a inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> *&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#ae9551d8157547e858314dcba8741931a">LocationsInBox</a> (double long1, double lat1, double long2, double lat2) const</td></tr>
+<tr class="separator:ae9551d8157547e858314dcba8741931a inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf42727cc1c73c9bd3e230594ba6e8b5 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="adf42727cc1c73c9bd3e230594ba6e8b5"></a>
+std::vector&lt; const <a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> *&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#adf42727cc1c73c9bd3e230594ba6e8b5">LocationsInBox</a> (<a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> *loc1, <a class="el" href="classgeopop_1_1_location_base.html">LocationBase</a> *loc2) const</td></tr>
+<tr class="memdesc:adf42727cc1c73c9bd3e230594ba6e8b5 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the location in a rectangle defined by the two Locations. <br /></td></tr>
+<tr class="separator:adf42727cc1c73c9bd3e230594ba6e8b5 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1d49a9f07f2fda3705831fe07c02a1 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a4c1d49a9f07f2fda3705831fe07c02a1"></a>
+<a class="el" href="classgeopop_1_1_geo_aggregator.html">GeoAggregator</a>&lt; Policy, F &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a4c1d49a9f07f2fda3705831fe07c02a1">BuildAggregator</a> (F functor, typename Policy::Args &amp;&amp;args) const</td></tr>
+<tr class="memdesc:a4c1d49a9f07f2fda3705831fe07c02a1 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a GeoAggregator with a predefined functor and given args for the Policy. <br /></td></tr>
+<tr class="separator:a4c1d49a9f07f2fda3705831fe07c02a1 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927c83b42e822d3a28f0bf89ffa212dd inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a927c83b42e822d3a28f0bf89ffa212dd"></a>
+<a class="el" href="classgeopop_1_1_geo_aggregator.html">GeoAggregator</a>&lt; Policy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a927c83b42e822d3a28f0bf89ffa212dd">BuildAggregator</a> (typename Policy::Args &amp;&amp;args) const</td></tr>
+<tr class="memdesc:a927c83b42e822d3a28f0bf89ffa212dd inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a GeoAggregator that gets its functor when calling, with given args for the Policy. <br /></td></tr>
+<tr class="separator:a927c83b42e822d3a28f0bf89ffa212dd inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c3917e8d41e61d365393697706c81ad inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a9c3917e8d41e61d365393697706c81ad"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a9c3917e8d41e61d365393697706c81ad">begin</a> ()</td></tr>
+<tr class="memdesc:a9c3917e8d41e61d365393697706c81ad inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator to first Location. <br /></td></tr>
+<tr class="separator:a9c3917e8d41e61d365393697706c81ad inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ba55bcb31deaa414a6466da2fa6318 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a07ba55bcb31deaa414a6466da2fa6318"></a>
+const_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const</td></tr>
+<tr class="separator:a07ba55bcb31deaa414a6466da2fa6318 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab56bb831990ef2e75b7187a23e58251 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="aab56bb831990ef2e75b7187a23e58251"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#aab56bb831990ef2e75b7187a23e58251">end</a> ()</td></tr>
+<tr class="memdesc:aab56bb831990ef2e75b7187a23e58251 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator to the end of the Location storage. <br /></td></tr>
+<tr class="separator:aab56bb831990ef2e75b7187a23e58251 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a461e30e17b45bb5fbc0cd894042d78eb inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a461e30e17b45bb5fbc0cd894042d78eb"></a>
+const_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () const</td></tr>
+<tr class="separator:a461e30e17b45bb5fbc0cd894042d78eb inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34c4f48fc615f25f967532a3c5a14117 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a34c4f48fc615f25f967532a3c5a14117"></a>
+const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a34c4f48fc615f25f967532a3c5a14117">cbegin</a> () const</td></tr>
+<tr class="memdesc:a34c4f48fc615f25f967532a3c5a14117 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const Iterator to first Location. <br /></td></tr>
+<tr class="separator:a34c4f48fc615f25f967532a3c5a14117 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac68efcd26106199e7348af699dacf55c inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="ac68efcd26106199e7348af699dacf55c"></a>
+const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#ac68efcd26106199e7348af699dacf55c">cend</a> () const</td></tr>
+<tr class="memdesc:ac68efcd26106199e7348af699dacf55c inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const iterator to the end of the Location storage. <br /></td></tr>
+<tr class="separator:ac68efcd26106199e7348af699dacf55c inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb88d2e837b71785048c0a6aeab2ca1 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a0eb88d2e837b71785048c0a6aeab2ca1"></a>
+std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a0eb88d2e837b71785048c0a6aeab2ca1">operator[]</a> (size_t index)</td></tr>
+<tr class="memdesc:a0eb88d2e837b71785048c0a6aeab2ca1 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a Location by index, doesn't performs a range check. <br /></td></tr>
+<tr class="separator:a0eb88d2e837b71785048c0a6aeab2ca1 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39184032cc576934b16a6736c3c2520a inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a39184032cc576934b16a6736c3c2520a"></a>
+const std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a39184032cc576934b16a6736c3c2520a">operator[]</a> (size_t index) const</td></tr>
+<tr class="memdesc:a39184032cc576934b16a6736c3c2520a inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a Location by index, doesn't performs a range check. <br /></td></tr>
+<tr class="separator:a39184032cc576934b16a6736c3c2520a inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6835d8050ceeaed1d48cac6f71d0a597 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a6835d8050ceeaed1d48cac6f71d0a597"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgeopop_1_1_geo_grid_base.html#a6835d8050ceeaed1d48cac6f71d0a597">size</a> () const</td></tr>
+<tr class="memdesc:a6835d8050ceeaed1d48cac6f71d0a597 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current size of Location storage. <br /></td></tr>
+<tr class="separator:a6835d8050ceeaed1d48cac6f71d0a597 inherit pub_methods_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classgeopop_1_1_geo_grid_base"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classgeopop_1_1_geo_grid_base')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classgeopop_1_1_geo_grid_base.html">geopop::GeoGridBase&lt; SimLocation &gt;</a></td></tr>
+<tr class="memitem:a4f720fc47f0457f2c1b4da291e70ca41 inherit pub_types_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a4f720fc47f0457f2c1b4da291e70ca41"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> = typename std::vector&lt; std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &gt; &gt;::iterator</td></tr>
+<tr class="separator:a4f720fc47f0457f2c1b4da291e70ca41 inherit pub_types_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a696215f2d1aac0ae7a81b75312685370 inherit pub_types_classgeopop_1_1_geo_grid_base"><td class="memItemLeft" align="right" valign="top"><a id="a696215f2d1aac0ae7a81b75312685370"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b> = typename std::vector&lt; std::shared_ptr&lt; <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &gt; &gt;::const_iterator</td></tr>
+<tr class="separator:a696215f2d1aac0ae7a81b75312685370 inherit pub_types_classgeopop_1_1_geo_grid_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p class="">A Geographic grid of simulation region contains Locations that in turn contain an index to the ContactPools situated at that <a class="el" href="classgeopop_1_1_location.html">Location</a>. </p>
+<div class="textblock"><p class="">A Geographic grid of simulation region contains Locations that in turn contain an index to the ContactPools situated at that Location. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="adde1bd7cdd314dbdeb7762aea324c7af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adde1bd7cdd314dbdeb7762aea324c7af">&#9670;&nbsp;</a></span>GetNearbyPools()</h2>
+<a id="a5072d5963a64902e280b2822a96c8084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5072d5963a64902e280b2822a96c8084">&#9670;&nbsp;</a></span>GetNearbyPools()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +218,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classgeopop_1_1_location.html">Location</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classgeopop_1_1_sim_location.html">SimLocation</a> &amp;&#160;</td>
           <td class="paramname"><em>start</em>, </td>
         </tr>
         <tr>
@@ -205,48 +235,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div><div class="memdoc">
 <p class="">Find contactpools in startRadius (in km) around start and, if none are found, double the radius and search again until the radius gets infinite. May return an empty vector when there are really no pools to be found (empty grid). </p>
-
-</div>
-</div>
-<a id="a7a0b271dc42f69662f8b91923b96ffc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a0b271dc42f69662f8b91923b96ffc2">&#9670;&nbsp;</a></span>LocationsInBox()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">set&lt; const <a class="el" href="classgeopop_1_1_location.html">Location</a> * &gt; geopop::GeoGrid::LocationsInBox </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>long1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lat1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>long2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lat2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p class="">Gets the locations in a rectangle determined by the two coordinates (long1, lat1) and (long2, lat2). The coordinates must be positioned on the diagonal, i.e:</p>
-<p class="">p1 --&mdash;+ +----&mdash;p1 | | | | | | or | | | | | | +----&mdash;p2 p2---&mdash;+ </p>
 
 </div>
 </div>

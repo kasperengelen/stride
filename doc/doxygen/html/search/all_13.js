@@ -1,10 +1,12 @@
 var searchData=
 [
+  ['tablestruct_5fepiformat_5f2eproto',['TableStruct_epiformat_2eproto',['../struct_table_struct__epiformat__2eproto.html',1,'']]],
   ['tablestruct_5fgeogrid_5f2eproto',['TableStruct_geogrid_2eproto',['../struct_table_struct__geogrid__2eproto.html',1,'']]],
   ['timestamp',['TimeStamp',['../classstride_1_1util_1_1_time_stamp.html',1,'stride::util::TimeStamp'],['../classstride_1_1util_1_1_time_stamp.html#a13a61188e51c4e05d05a91e459c33ffc',1,'stride::util::TimeStamp::TimeStamp()']]],
   ['timestamp_2ecpp',['TimeStamp.cpp',['../_time_stamp_8cpp.html',1,'']]],
   ['timestamp_2eh',['TimeStamp.h',['../_time_stamp_8h.html',1,'']]],
-  ['timestep',['TimeStep',['../classstride_1_1_sim.html#a032911d7270c91e0a6a9c55f68800096',1,'stride::Sim']]],
+  ['timestep',['Timestep',['../classproto_1_1_timestep.html',1,'proto::Timestep'],['../classstride_1_1_sim.html#a032911d7270c91e0a6a9c55f68800096',1,'stride::Sim::TimeStep()']]],
+  ['timestepdefaulttypeinternal',['TimestepDefaultTypeInternal',['../classproto_1_1_timestep_default_type_internal.html',1,'proto']]],
   ['timetostring',['TimeToString',['../structstride_1_1util_1_1_time_to_string.html',1,'stride::util']]],
   ['timetostring_2ecpp',['TimeToString.cpp',['../_time_to_string_8cpp.html',1,'']]],
   ['timetostring_2eh',['TimeToString.h',['../_time_to_string_8h.html',1,'']]],
@@ -13,7 +15,8 @@ var searchData=
   ['tokenize',['Tokenize',['../_string_utils_8h.html#a919ad6efcd17eb2bda30b1c6e044bc3c',1,'stride::util']]],
   ['tolower',['ToLower',['../_string_utils_8h.html#aa45ab4a5a30f65dcd1bf25c3d095825b',1,'stride::util']]],
   ['tomode',['ToMode',['../namespacestride_1_1_contact_log_mode.html#a12707c23b43baa1a0f5bed51db72756d',1,'stride::ContactLogMode']]],
-  ['topk',['TopK',['../classgeopop_1_1_geo_grid.html#a6af7b09f8c358e74cce2690968183c1e',1,'geopop::GeoGrid']]],
+  ['topk',['TopK',['../classgeopop_1_1_geo_grid.html#aadd742aab989314361f477fdf8108707',1,'geopop::GeoGrid']]],
+  ['topoolstats',['ToPoolStats',['../structstride_1_1visualiser_1_1_pool_totals.html#ae0836b8cc85f49a8f4e0d79f418a09d2',1,'stride::visualiser::PoolTotals']]],
   ['tosha1',['ToSha1',['../classstride_1_1util_1_1_run_config_manager.html#a32ec1961852a81d4873a519f6bea1e36',1,'stride::util::RunConfigManager']]],
   ['toshortsha1',['ToShortSha1',['../classstride_1_1util_1_1_run_config_manager.html#ad91f6d29e307567fdb3b0a2e7c7772c0',1,'stride::util::RunConfigManager']]],
   ['tosizet',['ToSizeT',['../_contact_type_8h.html#a98633b04f7d121e0621c00b6fb9af132',1,'stride::ContactType::ToSizeT()'],['../_id_8h.html#acdde1acea1c3f4536af74bb4b126a739',1,'stride::sim_event::ToSizeT()']]],

@@ -100,8 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af3d9e0dd0ad146939a2a489cc539b564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2333328f0e8962a6a229430b3c23d106"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstride_1_1visualiser_1_1_view.html#a2333328f0e8962a6a229430b3c23d106">SetModelPointer</a> (<a class="el" href="classstride_1_1visualiser_1_1_model.html">Model</a> *modelPtr)</td></tr>
 <tr class="separator:a2333328f0e8962a6a229430b3c23d106"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e99d0446c26600f4983929915477985"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstride_1_1visualiser_1_1_view.html#a5e99d0446c26600f4983929915477985">DisplayPopDataInSidebar</a> (const <a class="el" href="structstride_1_1visualiser_1_1_pop_data.html">PopData</a> &amp;popData)</td></tr>
-<tr class="separator:a5e99d0446c26600f4983929915477985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf71e2a341e1b2a5b8c2e609ab9a8f89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstride_1_1visualiser_1_1_view.html#abf71e2a341e1b2a5b8c2e609ab9a8f89">DisplayPopStatsInSidebar</a> (const <a class="el" href="classgeopop_1_1_pop_stats.html">geopop::PopStats</a> &amp;popStats)</td></tr>
+<tr class="separator:abf71e2a341e1b2a5b8c2e609ab9a8f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac40ba4102fbbb0b80676e232a7c3ac36"><td class="memItemLeft" align="right" valign="top">const QVariant&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstride_1_1visualiser_1_1_view.html#ac40ba4102fbbb0b80676e232a7c3ac36">GetEpiData</a> () const</td></tr>
 <tr class="separator:ac40ba4102fbbb0b80676e232a7c3ac36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -175,25 +175,25 @@ QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>epi_data</b></td>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5e99d0446c26600f4983929915477985"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e99d0446c26600f4983929915477985">&#9670;&nbsp;</a></span>DisplayPopDataInSidebar()</h2>
+<a id="abf71e2a341e1b2a5b8c2e609ab9a8f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf71e2a341e1b2a5b8c2e609ab9a8f89">&#9670;&nbsp;</a></span>DisplayPopStatsInSidebar()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void stride::visualiser::View::DisplayPopDataInSidebar </td>
+          <td class="memname">void stride::visualiser::View::DisplayPopStatsInSidebar </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structstride_1_1visualiser_1_1_pop_data.html">PopData</a> &amp;&#160;</td>
-          <td class="paramname"><em>popData</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classgeopop_1_1_pop_stats.html">geopop::PopStats</a> &amp;&#160;</td>
+          <td class="paramname"><em>popStats</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p class="">Command the <a class="el" href="classstride_1_1visualiser_1_1_view.html">View</a> to display the specified population data in the sidebar.</p>
+<p class="">Command the <a class="el" href="classstride_1_1visualiser_1_1_view.html">View</a> to display the specified population stats in the sidebar.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">popData</td><td>A <a class="el" href="structstride_1_1visualiser_1_1_pop_data.html">PopData</a> object that contains the information that is to be displayed. </td></tr>
+    <tr><td class="paramname">popStats</td><td>A <a class="el" href="classgeopop_1_1_pop_stats.html">geopop::PopStats</a> object that contains the information that is to be displayed. </td></tr>
   </table>
   </dd>
 </dl>
@@ -216,7 +216,7 @@ QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>epi_data</b></td>
 </div><div class="memdoc">
 <p class="">Retrieve simulation data from the model.</p>
 <p class="">The format of the QVariant is an array of locations. Each location is a QVariantMap.</p>
-<p class="">See <a class="el" href="classstride_1_1visualiser_1_1_pop_data_view.html">PopDataView</a> class for the format of the map. Note that in addition to the map keys specified in the <a class="el" href="classstride_1_1visualiser_1_1_pop_data_view.html">PopDataView</a> class, the returned map also has the following extra keys:</p><ul>
+<p class="">See PopDataView class for the format of the map. Note that in addition to the map keys specified in the PopDataView class, the returned map also has the following extra keys:</p><ul>
 <li>name: a QString that contains the name of the location.</li>
 <li>lon: a double that specifies the longitude of the location.</li>
 <li>lat: a double that specifies the latitude of the location. </li>
@@ -302,7 +302,7 @@ QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>epi_data</b></td>
 </table>
 </div><div class="memdoc">
 <p class="">Indicates that there is data ready to be displayed in the sidebar.</p>
-<p class="">The specified QVariantMap contains information about a population. See <a class="el" href="classstride_1_1visualiser_1_1_pop_data_view.html">PopDataView</a> class for the format of the map.</p>
+<p class="">The specified QVariantMap contains information about a population. See PopDataView class for the format of the map.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sidebarData</td><td>The data that is to be sent to the QML side. </td></tr>

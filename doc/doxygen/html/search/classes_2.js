@@ -12,6 +12,8 @@ var searchData=
   ['contactpoolsys',['ContactPoolSys',['../classstride_1_1_contact_pool_sys.html',1,'stride']]],
   ['controlhelper',['ControlHelper',['../classstride_1_1_control_helper.html',1,'stride']]],
   ['controller',['Controller',['../classstride_1_1visualiser_1_1_controller.html',1,'stride::visualiser']]],
+  ['coordinate',['Coordinate',['../classproto_1_1_coordinate.html',1,'proto']]],
+  ['coordinatedefaulttypeinternal',['CoordinateDefaultTypeInternal',['../classproto_1_1_coordinate_default_type_internal.html',1,'proto']]],
   ['csv',['CSV',['../classstride_1_1util_1_1_c_s_v.html',1,'stride::util']]],
   ['csvrow',['CSVRow',['../classstride_1_1util_1_1_c_s_v_row.html',1,'stride::util']]]
 ];

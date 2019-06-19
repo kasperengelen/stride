@@ -5,6 +5,7 @@ var searchData=
   ['sim',['Sim',['../classstride_1_1_sim.html',1,'stride']]],
   ['simbuilder',['SimBuilder',['../classstride_1_1_sim_builder.html',1,'stride']]],
   ['simcontroller',['SimController',['../classstride_1_1_sim_controller.html',1,'stride']]],
+  ['simlocation',['SimLocation',['../classgeopop_1_1_sim_location.html',1,'geopop']]],
   ['simrunner',['SimRunner',['../classstride_1_1_sim_runner.html',1,'stride']]],
   ['sliceindexer',['SliceIndexer',['../classstride_1_1util_1_1_slice_indexer.html',1,'stride::util']]],
   ['stancontroller',['StanController',['../classstride_1_1_stan_controller.html',1,'stride']]],

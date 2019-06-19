@@ -65,12 +65,29 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ProtobufEpiReader.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_protobuf_epi_reader_8h_source.html">ProtobufEpiReader.h</a>&quot;</code><br />
-</div><a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<code>#include &quot;epiformat.pb.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_epi_reader_exception_8h_source.html">visualiser/readers/EpiReaderException.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a52ca72dbce00383727df89536f732de9"><td class="memItemLeft" align="right" valign="top"><a id="a52ca72dbce00383727df89536f732de9"></a>
+const VisLocation&#160;</td><td class="memItemRight" valign="bottom"><b>stride::visualiser::ParseLocation</b> (const <a class="el" href="classproto_1_1_location.html">proto::Location</a> &amp;protoLocation)</td></tr>
+<tr class="separator:a52ca72dbce00383727df89536f732de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48c07103286421557491ad90d7740baa"><td class="memItemLeft" align="right" valign="top"><a id="a48c07103286421557491ad90d7740baa"></a>
+const geopop::Coordinate&#160;</td><td class="memItemRight" valign="bottom"><b>stride::visualiser::ParseCoordinate</b> (const <a class="el" href="classproto_1_1_coordinate.html">proto::Coordinate</a> &amp;protoCoord)</td></tr>
+<tr class="separator:a48c07103286421557491ad90d7740baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac564b4d4b0fa02c941f8d5c046a81bc4"><td class="memItemLeft" align="right" valign="top"><a id="ac564b4d4b0fa02c941f8d5c046a81bc4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>stride::visualiser::ReadPoolIntoPopStats</b> (PopStats &amp;popStats, const <a class="el" href="classproto_1_1_pop_section.html">proto::PopSection</a> &amp;protoPool, const ContactType::Id &amp;poolType)</td></tr>
+<tr class="separator:ac564b4d4b0fa02c941f8d5c046a81bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p class="">Implementation file for the ProtobufReader class. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
