@@ -16,7 +16,7 @@ As the project progresses, more data will become available here. Contact info is
  * [Alpha](https://github.com/kasperengelen/stride/releases/tag/Alpha)
  * [Beta](https://github.com/kasperengelen/stride/releases/tag/Beta)
  * [Project Verslag](https://github.com/kasperengelen/stride/blob/Beta/Projectverslag/Verslag.pdf)
-
+ * [Impact Paper](https://kasperengelen.github.io/stride/impact_1)
 
 ### Contact
 
