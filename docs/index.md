@@ -18,6 +18,7 @@ As the project progresses, more data will become available here. Contact info is
  * [Project Verslag](https://github.com/kasperengelen/stride/blob/Beta/Projectverslag/Verslag.pdf)
  * [Impact Paper](https://kasperengelen.github.io/stride/impact_1)
  * [Simulation Belgium](https://kasperengelen.github.io/stride/simulation_belgium)
+ * [Final](https://github.com/kasperengelen/stride/releases/tag/Final)
 
 ### Contact
 
