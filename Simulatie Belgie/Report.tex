@@ -30,7 +30,15 @@ The sections below will detail the results.
 
 
 \section{Comparison}
-From the plots for the outbreaks, it would seem there is no large difference in results between simulations for Flanders and simulations for Belgium. The magnitude of the outbreak (measuring in new cases per day) and the speed seem virtually identical. This is likely because we're generating a population using the same conditions in both cases, so the geographical layout has minimal impact on the actual simulation. Figures \ref{AVG_Belgium} and \ref{AVG_Flanders} show the average new cases per day for Belgium and Flanders respectively.
+From the plots for the outbreaks, it would seem there is no large difference in results between simulations for Flanders and simulations for Belgium. The magnitude of the outbreak (measuring in new cases per day) and the speed seem virtually identical. This is likely because we're generating a population using the same conditions in both cases, so the geographical layout has minimal impact on the actual simulation. Figures \ref{AVG_Belgium} and \ref{AVG_Flanders} show the average new cases per day for Belgium and Flanders respectively. When looking at Figures \ref{HIST_Belgium} and \ref{HIST_Flanders} we notice a slight difference in the positions and magnitude of the peaks. When calculating the probability and size of outbreaks with a seeding rate of 0.2\%, we found that in both cases the chance of an outbreak is 100\% (within a 95\% confidence interval). For Belgium, the 95\% confidence interval for the magnitude of the outbreak (i.e. the amount of people infected) is 
+\[
+	[93332.39401168362, 93361.91598831638]
+\]
+and for Flanders we found
+\[
+	[93366.29480070298, 93397.10719929702]
+\]
+these are quite similar, further confirming that the simulation of Belgium does not significantly affect the results.
 
 \begin{figure}
 	\centering
@@ -44,6 +52,20 @@ From the plots for the outbreaks, it would seem there is no large difference in 
 	\includegraphics[width=\linewidth]{./Vlaanderen/AVG_SR=02.eps}
 	\caption{Average new cases per day simulated for Flanders. Using measles profile, $R_0$ = 11, immunity rate = 80\%, seeding rate = 0.2\%, for a population of 600,000 over 300 days.}
 	\label{AVG_Flanders}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./Belgie/HIST_SR=02.eps}
+	\caption{Histogram showing total infected in function of amount of simulations in Belgium. Using measles profile, $R_0$ = 11, immunity rate = 80\%, seeding rate = 0.2\%, for a population of 600,000 over 300 days.}
+	\label{HIST_Belgium}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./Vlaanderen/HIST_SR=02.eps}
+	\caption{Histogram showing total infected in function of amount of simulations in Flanders. Using measles profile, $R_0$ = 11, immunity rate = 80\%, seeding rate = 0.2\%, for a population of 600,000 over 300 days.}
+	\label{HIST_Flanders}
 \end{figure}
 
 \end{document}
