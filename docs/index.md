@@ -13,13 +13,13 @@ As the project progresses, more data will become available here. Contact info is
  * [Simulation assignments](https://kasperengelen.github.io/stride/simulation_1) (deadline: 07/04)
  * [Test Plan](https://kasperengelen.github.io/stride/testplan) (deadline: 31/03)
  * [Documentation Plan](https://kasperengelen.github.io/stride/documentatieplan) (deadline: 31/03)
- * [Alpha](https://github.com/kasperengelen/stride/releases/tag/Alpha)
- * [Beta](https://github.com/kasperengelen/stride/releases/tag/Beta)
+ * [Alpha Version](https://github.com/kasperengelen/stride/releases/tag/Alpha)
+ * [Beta Version](https://github.com/kasperengelen/stride/releases/tag/Beta)
  * [Project Verslag](https://github.com/kasperengelen/stride/blob/Beta/Projectverslag/Verslag.pdf)
  * [Impact Paper](https://kasperengelen.github.io/stride/impact_1)
  * [Simulation Belgium](https://kasperengelen.github.io/stride/simulation_belgium)
- * [Final](https://github.com/kasperengelen/stride/releases/tag/Final)
-
+ * [Final Version](https://github.com/kasperengelen/stride/releases/tag/Final)
+ * [Final Presentation](https://kasperengelen.github.io/stride/final_presentation)
 ### Contact
 
 
